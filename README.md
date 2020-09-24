@@ -47,7 +47,7 @@ For local development, it often helps to prettify logging to stdout and save
 JSON logs to a `.logs` folder at the root of your project directory. To enable
 this behavior, set the following environment variable:
 ```bash
-CI_ENVIRONMENT_SLUG=dev_local
+CI_ENVIRONMENT_SLUG=dev-local
 ```
 
 Summary

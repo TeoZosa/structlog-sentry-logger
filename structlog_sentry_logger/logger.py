@@ -138,7 +138,7 @@ def _set_logging_config(module_name, timestamper):
                 "stream": "ext://sys.stdout",
             }
         }
-        if os.environ.get("CI_ENVIRONMENT_SLUG") == "dev_local":
+        if os.environ.get("CI_ENVIRONMENT_SLUG") == "dev-local":
             # Prettify stdout/stderr streams
             base_handlers[default_key]["formatter"] = "colored"
             # Add filename handler
