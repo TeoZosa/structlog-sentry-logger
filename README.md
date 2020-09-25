@@ -25,6 +25,7 @@ Now anytime you want to print anything, don't. Instead do this:
 ```python
 LOGGER.info("Information that's useful for future me and others", extra_field="extra_value")
 ```
+###### Note: all the regular [Python logging levels](https://docs.python.org/3/library/logging.html#levels) are supported.
 ```
 {
     "event": "Information that's useful for future me and others",
@@ -34,7 +35,6 @@ LOGGER.info("Information that's useful for future me and others", extra_field="e
     "timestamp": "2020-09-25 17:21:26",
 }
 ```
-###### Note: all the regular [Python logging levels](https://docs.python.org/3/library/logging.html#levels) are supported.
 
 You can even incorporate custom messages in your exception handling:
 ```python
