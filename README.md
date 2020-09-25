@@ -25,6 +25,15 @@ Now anytime you want to print anything, don't. Instead do this:
 ```python
 LOGGER.info("Information that's useful for future me and others", extra_field="extra_value")
 ```
+```
+{
+    "event": "Information that's useful for future me and others",
+    "extra_field": "extra_value",
+    "level": "info",
+    "logger": "<input>",
+    "timestamp": "2020-09-25 17:21:26",
+}
+```
 ###### Note: all the regular [Python logging levels](https://docs.python.org/3/library/logging.html#levels) are supported.
 
 You can even incorporate custom messages in your exception handling:
@@ -43,6 +52,32 @@ except AssertionError as err:
                "Now throwing another that explicitly chains from that one!")
     curr_user_logger.exception(err_msg)
     raise RuntimeError(err_msg) from err
+```
+
+```
+{
+    "event": "A dummy error for testing purposes is about to be thrown!",
+    "level": "warning",
+    "logger": "<input>",
+    "timestamp": "2020-09-25 17:19:02",
+    "uuid": "68f595440e69478a97a26b002f9cbf44",
+}
+{
+    "event": "I threw an error on purpose for this example!\nNow throwing another that explicitly chains from that one!",
+    "exception": 'Traceback (most recent call last):\n  File "<input>", line 8, in <module>\nAssertionError',
+    "level": "error",
+    "logger": "<input>",
+    "timestamp": "2020-09-25 17:19:02",
+    "uuid": "68f595440e69478a97a26b002f9cbf44",
+}
+Traceback (most recent call last):
+  File "<input>", line 8, in <module>
+AssertionError
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "<input>", line 13, in <module>
+RuntimeError: I threw an error on purpose for this example!
+Now throwing another that explicitly chains from that one!
 ```
 
 Output Formatting
