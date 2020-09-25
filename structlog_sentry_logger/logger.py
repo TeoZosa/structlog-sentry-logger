@@ -109,6 +109,7 @@ def get_logger():
     caller_name = inspect.getmodule(prev_stack_frame[0]).__name__
     if caller_name == "__main__":
         caller_name = get_namespaced_module_name(prev_stack_frame.filename)
+    if not logging.root.handlers:
         timestamper = structlog.processors.TimeStamper(fmt="%Y-%m-%d %H:%M:%S")
         _set_logging_config(caller_name, timestamper)
         _set_structlog_config(timestamper)
