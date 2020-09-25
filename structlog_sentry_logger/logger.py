@@ -84,7 +84,16 @@ def get_git_root():
     return Path(git_root)
 
 
-ROOT_DIR = get_git_root()
+def get_root_dir():
+    try:
+        return get_git_root()
+    except git.InvalidGitRepositoryError as err:
+        # the __str__() method on err returns the root descendant path, e.g., `/app`
+        root_dir = Path(str(err)).resolve(strict=True)
+        return root_dir
+
+
+ROOT_DIR = get_root_dir()
 LOG_DATA_DIR = ROOT_DIR / ".logs"
 LOG_DATA_DIR.mkdir(exist_ok=True)
 
