@@ -29,12 +29,19 @@ LOGGER.info("Information that's useful for future me and others", extra_field="e
 
 You can even incorporate custom messages in your exception handling:
 ```python
+import uuid
+
+from structlog_sentry_logger import logger
+LOGGER = logger.get_logger()
+
+curr_user_logger = LOGGER.bind(uuid=uuid.uuid4().hex) # LOGGER instance with bound UUID 
 try:
+    curr_user_logger.warn("A dummy error for testing purposes is about to be thrown!")
     assert False
 except AssertionError as err:
     err_msg = ("I threw an error on purpose for this example!\n"
-               "Now throwing another!")
-    LOGGER.exception(err_msg)
+               "Now throwing another that explicitly chains from that one!")
+    curr_user_logger.exception(err_msg)
     raise RuntimeError(err_msg) from err
 ```
 
