@@ -3,8 +3,8 @@ Structlog-Sentry-Logger
 
 A logger that automagically wraps [Structlog](https://www.structlog.org/en/stable/) 
 with [Sentry](https://sentry.io/welcome/) integration 
-via [structlog-sentry](https://github.com/kiwicom/structlog-sentry) using
-`CorSAIR`-standard configurations.
+via [structlog-sentry](https://github.com/kiwicom/structlog-sentry) with 
+pre-configured options.
 
 ##### Benefits:
 1. Makes logging as easy as using print statements, but prettier and less smelly!
@@ -82,7 +82,7 @@ RuntimeError: I threw an error on purpose for this example!
 Now throwing another that explicitly chains from that one!
 ```
 
-Output Formatting
+Output: Formatting & Storage
 ------------
 The default behavior is to stream JSON logs directly to the standard output
 stream [like a proper 12 Factor App](https://12factor.net/logs).
