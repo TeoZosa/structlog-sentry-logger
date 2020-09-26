@@ -93,6 +93,9 @@ this behavior, set the following environment variable:
 ```bash
 CI_ENVIRONMENT_SLUG=dev-local
 ```
+In doing so, with our previous exception handling example we would get: 
+
+<img src=".static/Output_Formatting_example.png">
 
 Summary
 ------------
