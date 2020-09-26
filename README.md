@@ -1,7 +1,9 @@
 Structlog-Sentry-Logger
 ==============================
 
-A logger that automagically wraps [Structlog](https://www.structlog.org/en/stable/) with [Sentry](https://sentry.io/welcome/) integration using
+A logger that automagically wraps [Structlog](https://www.structlog.org/en/stable/) 
+with [Sentry](https://sentry.io/welcome/) integration 
+via [structlog-sentry](https://github.com/kiwicom/structlog-sentry) using
 `CorSAIR`-standard configurations.
 
 ##### Benefits:
@@ -108,3 +110,6 @@ Further Reading
 <img src="https://camo.githubusercontent.com/2dfeafbee0904d6df16ddf7200993dace1629e60/68747470733a2f2f73656e7472792d6272616e642e73746f726167652e676f6f676c65617069732e636f6d2f73656e7472792d6c6f676f2d626c61636b2e706e67" width="400">
 
 ### [`Sentry`](https://sentry.io/welcome/): Monitor and fix crashes in realtime.
+
+### [`structlog-sentry`](https://github.com/kiwicom/structlog-sentry): Provides the `structlog` `SentryProcessor` for `Sentry` integration. 
+
