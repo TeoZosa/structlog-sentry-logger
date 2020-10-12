@@ -27,7 +27,7 @@ keywords = ['logging', 'structured logging', 'sentry', 'structlog', 'structlog-s
 #   Note: to import requirements.txt, use:
 #       `cat requirements.txt |  sed 's/#.*//g' | tr -s '\n' | sed '/-e.*/d' | perl -pe 's/([<=>]+)/:$1/' | xargs -t -n 1 -I {} poetry add '{}'`
 [tool.poetry.dependencies]
-python = "^3.7.5"
+python = "^3.7"
 # Source code-related
 gitpython = "^3.1.7"
 python-dotenv = "^0.14.0"
