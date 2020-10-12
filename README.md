@@ -45,7 +45,7 @@ import uuid
 from structlog_sentry_logger import logger
 LOGGER = logger.get_logger()
 
-curr_user_logger = LOGGER.bind(uuid=uuid.uuid4().hex) # LOGGER instance with bound UUID
+curr_user_logger = LOGGER.bind(uuid=uuid.uuid4().hex)  # LOGGER instance with bound UUID
 try:
     curr_user_logger.warn("A dummy error for testing purposes is about to be thrown!")
     assert False
