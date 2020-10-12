@@ -231,10 +231,7 @@ class SentryBreadcrumbJsonProcessor(SentryJsonProcessor):
     ) -> None:
         self.breadcrumb_level = breadcrumb_level
         super().__init__(
-            level=level,
-            active=active,
-            as_extra=as_extra,
-            tag_keys=tag_keys,
+            level=level, active=active, as_extra=as_extra, tag_keys=tag_keys,
         )
 
     @staticmethod

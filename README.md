@@ -1,9 +1,9 @@
 Structlog-Sentry-Logger
 ==============================
 
-A logger that automagically wraps [Structlog](https://www.structlog.org/en/stable/) 
-with [Sentry](https://sentry.io/welcome/) integration 
-via [structlog-sentry](https://github.com/kiwicom/structlog-sentry) with 
+A logger that automagically wraps [Structlog](https://www.structlog.org/en/stable/)
+with [Sentry](https://sentry.io/welcome/) integration
+via [structlog-sentry](https://github.com/kiwicom/structlog-sentry) with
 a set of multi-purpose pre-configured options.
 
 ##### Benefits:
@@ -45,7 +45,7 @@ import uuid
 from structlog_sentry_logger import logger
 LOGGER = logger.get_logger()
 
-curr_user_logger = LOGGER.bind(uuid=uuid.uuid4().hex) # LOGGER instance with bound UUID 
+curr_user_logger = LOGGER.bind(uuid=uuid.uuid4().hex) # LOGGER instance with bound UUID
 try:
     curr_user_logger.warn("A dummy error for testing purposes is about to be thrown!")
     assert False
@@ -93,7 +93,7 @@ this behavior, set the following environment variable:
 ```bash
 CI_ENVIRONMENT_SLUG=dev-local
 ```
-In doing so, with our previous exception handling example we would get: 
+In doing so, with our previous exception handling example we would get:
 
 <img src=".static/Output_Formatting_example.png">
 
@@ -114,5 +114,4 @@ Further Reading
 
 ### [`Sentry`](https://sentry.io/welcome/): Monitor and fix crashes in realtime.
 
-### [`structlog-sentry`](https://github.com/kiwicom/structlog-sentry): Provides the `structlog` `SentryProcessor` for `Sentry` integration. 
-
+### [`structlog-sentry`](https://github.com/kiwicom/structlog-sentry): Provides the `structlog` `SentryProcessor` for `Sentry` integration.
