@@ -16,12 +16,12 @@ build-backend = "poetry.masonry.api"
 [tool.poetry]
 name = "structlog-sentry-logger"
 version = "0.1.0"
-description = "A logger that automagically wraps Structlog with Sentry integration using CorSAIR-standard configurations"
+description = "A logger that automagically wraps Structlog with Sentry integration (via `structlog-sentry`) with a set of multi-purpose pre-configured options."
 authors = ["Teo Zosa <teo@sonosim.com>"]
 readme = 'README.md'
 repository = "http://gitlab.sonosim.local/CorSAIR/utils/structlog-sentry-logger"
 homepage = "http://gitlab.sonosim.local/CorSAIR/utils/structlog-sentry-logger"
-keywords = ['AI', 'structlog-sentry-logger']
+keywords = ['logging', 'structured logging', 'sentry', 'structlog', 'structlog-sentry']
 
 # requirements.txt replacement
 #   Note: to import requirements.txt, use:

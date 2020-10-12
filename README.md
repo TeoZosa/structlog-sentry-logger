@@ -4,7 +4,7 @@ Structlog-Sentry-Logger
 A logger that automagically wraps [Structlog](https://www.structlog.org/en/stable/) 
 with [Sentry](https://sentry.io/welcome/) integration 
 via [structlog-sentry](https://github.com/kiwicom/structlog-sentry) with 
-pre-configured options.
+a set of multi-purpose pre-configured options.
 
 ##### Benefits:
 1. Makes logging as easy as using print statements, but prettier and less smelly!
