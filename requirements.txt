@@ -1,7 +1,6 @@
 certifi==2020.6.20
-colorama==0.4.3
 gitdb==4.0.5
-gitpython==3.1.8
+gitpython==3.1.9
 python-dotenv==0.14.0
 sentry-sdk==0.17.8
 six==1.15.0
