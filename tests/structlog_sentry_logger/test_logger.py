@@ -13,6 +13,7 @@ def test_main_logger(caplog):
     req = {"response": 200, "result": "DUMMY RESULTS"}
     _uuid = uuid.uuid4()
     LOGGER.debug("Testing main Logger", uuid=_uuid, req=req)
+    assert caplog.records
     for record in caplog.records:
         log = record.msg
         if isinstance(log, dict):  # structlog logger
@@ -25,6 +26,7 @@ def test_main_logger(caplog):
 def test_child_loggers(caplog):
     child_module_1.log_warn()
     child_module_2.log_error()
+    assert caplog.records
     child_logs = [record for record in caplog.records if isinstance(record.msg, dict)]
 
     for child_log, child_module, log_level in zip(
@@ -46,6 +48,7 @@ def test_child_loggers(caplog):
 def test_logger_schema(caplog):
     log_msg = "Generating log to inspect schema"
     LOGGER.debug(log_msg)
+    assert caplog.records
     for record in caplog.records:
         log = record.msg
         if isinstance(log, dict):  # structlog logger
@@ -66,6 +69,7 @@ def test_sentry_DSN_integration(caplog):
             raise TestErrorClass(err_msg)
         except TestErrorClass as err:
             LOGGER.exception("Exception caught and thrown")
+            assert caplog.records
             for record in caplog.records:
                 log = record.msg
                 if isinstance(log, dict):  # structlog logger
