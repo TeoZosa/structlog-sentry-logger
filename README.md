@@ -17,7 +17,8 @@ make the world a better place!
 
 
 Usage
-------------
+==============================
+## Pure `structlog` Logging (Without Sentry)
 At the top of your Python module, import and instantiate the logger:
 ```python
 from structlog_sentry_logger import logger
@@ -83,7 +84,7 @@ Now throwing another that explicitly chains from that one!
 ```
 
 Output: Formatting & Storage
-------------
+==============================
 The default behavior is to stream JSON logs directly to the standard output
 stream [like a proper 12 Factor App](https://12factor.net/logs).
 
@@ -98,14 +99,14 @@ In doing so, with our previous exception handling example we would get:
 <img src=".static/Output_Formatting_example.png">
 
 Summary
-------------
+==============================
 That's it. Now no excuses.
 Get out there and program with pride knowing no one
 will laugh at you in production! For not logging properly, that is. You're on your own
 for that other [observability](https://devops.com/metrics-logs-and-traces-the-golden-triangle-of-observability-in-monitoring/) stuff.
 
 Further Reading
-------------
+==============================
 <img src="https://www.structlog.org/en/stable/_static/structlog_logo_small.png" width="200">
 
 ### [`Structlog`](https://www.structlog.org/en/stable/#): Structured Logging for Python
