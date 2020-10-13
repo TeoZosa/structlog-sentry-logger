@@ -25,31 +25,22 @@ def test_main_logger(caplog):
 def test_child_loggers(caplog):
     child_module_1.log_warn()
     child_module_2.log_error()
-    c1_logs, c2_logs = [
-        record for record in caplog.records if isinstance(record.msg, dict)
-    ]
-    assert c1_logs.msg["level"] == "warning" == c1_logs.levelname.lower()
-    assert (
-        c1_logs.msg["event"]
-        == c1_logs.msg["logger"]
-        == c1_logs.msg["name"]
-        == c1_logs.name
-        == child_module_1.MODULE_NAME
-    )
-    assert c1_logs.msg["file"] == c1_logs.pathname
-    assert c1_logs.msg["sleep_time"] == child_module_1.SLEEP_TIME
+    child_logs = [record for record in caplog.records if isinstance(record.msg, dict)]
 
-    assert c2_logs.msg["level"] == "error" == c2_logs.levelname.lower()
-    assert c2_logs.msg["event"] == child_module_2.MODULE_NAME
-    assert (
-        c2_logs.msg["event"]
-        == c2_logs.msg["logger"]
-        == c2_logs.msg["name"]
-        == c2_logs.name
-        == child_module_2.MODULE_NAME
-    )
-    assert c2_logs.msg["file"] == c2_logs.pathname
-    assert c2_logs.msg["sleep_time"] == child_module_2.SLEEP_TIME
+    for c_log, log_level, child_module in zip(
+        child_logs, ["warning", "error"], [child_module_1, child_module_2]
+    ):
+        assert c_log.msg["level"] == log_level == c_log.levelname.lower()
+        assert c_log.msg["event"] == child_module.MODULE_NAME
+        assert (
+            c_log.msg["event"]
+            == c_log.msg["logger"]
+            == c_log.msg["name"]
+            == c_log.name
+            == child_module.MODULE_NAME
+        )
+        assert c_log.msg["file"] == c_log.pathname
+        assert c_log.msg["sleep_time"] == child_module.SLEEP_TIME
 
 
 def test_logger_schema(caplog):
