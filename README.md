@@ -16,10 +16,7 @@ Save your tears for what you do best: writing fancy computer mumbo jumbo to
 make the world a better place!  
 
 ------------
-
 Table of Contents
-
-<!-- toc -->
 
 - [Installation](#installation)
 - [Usage](#usage)
@@ -31,8 +28,6 @@ Table of Contents
     + [`structlog`](#structlog-structured-logging-for-python)
     + [`Sentry`](#sentry-monitor-and-fix-crashes-in-realtime)
     + [`structlog-sentry`](#structlog-sentry-provides-the-structlog-sentryprocessor-for-sentry-integration)
-
-<!-- tocstop -->
 
 Installation
 ==============================
