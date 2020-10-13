@@ -39,7 +39,7 @@ LOGGER.info("Information that's useful for future me and others", extra_field="e
 }
 ```
 
-You can even incorporate custom messages in your exception handling:
+With `structlog`, you can even incorporate custom messages in your exception handling:
 ```python
 import uuid
 
