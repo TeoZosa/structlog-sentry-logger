@@ -33,6 +33,7 @@ python-dotenv = "^0.14.0"
 sentry-sdk = ">0.17.0"
 structlog = "^20.1.0"
 structlog-sentry = "^1.2.2"
+orjson = "^3.4.0"
 
 [tool.poetry.dev-dependencies]
 # Testing

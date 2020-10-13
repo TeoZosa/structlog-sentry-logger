@@ -73,6 +73,7 @@ from pathlib import Path
 from typing import List, Union
 
 import git
+import orjson
 import structlog
 from sentry_sdk import add_breadcrumb
 from structlog_sentry import SentryJsonProcessor
@@ -130,7 +131,9 @@ def _set_logging_config(module_name, timestamper):
         return {
             "plain": {
                 "()": structlog.stdlib.ProcessorFormatter,
-                "processor": structlog.processors.JSONRenderer(sort_keys=True),
+                "processor": structlog.processors.JSONRenderer(
+                    serializer=orjson.dumps, option=orjson.OPT_SORT_KEYS,
+                ),
                 "foreign_pre_chain": pre_chain,
             },
             "colored": {
