@@ -15,7 +15,7 @@ build-backend = "poetry.masonry.api"
 # Metadata
 [tool.poetry]
 name = "structlog-sentry-logger"
-version = "0.3.0"
+version = "0.3.1"
 description = "A multi-purpose, pre-configured [`structlog`](https://www.structlog.org/en/stable/) logger with (optional) [Sentry](https://sentry.io/welcome/) integration via [`structlog-sentry`](https://github.com/kiwicom/structlog-sentry)."
 authors = ["Teo Zosa <teo@sonosim.com>"]
 readme = 'README.md'
