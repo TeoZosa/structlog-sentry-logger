@@ -38,3 +38,18 @@ def test_child_loggers():
         child_module_2.log_error()
         assert c2_logs[0]["log_level"] == "error"
         pprint.pprint(c2_logs)
+
+
+def test_logger_schema(caplog):
+    log_msg = "Generating log to inspect schema"
+    LOGGER.debug(log_msg)
+    for record in caplog.records:
+        log = record.msg
+        if isinstance(log, dict):  # structlog logger
+            assert log["level"] == "debug" == record.levelname.lower()
+            assert log["logger"] == LOGGER.name == MODULE_NAME == record.name
+            assert log["event"] == log_msg
+            assert log["sentry"] == "skipped"
+            assert "timestamp" in log
+        else:
+            raise NotImplementedError("Captured log message not a supported type")
