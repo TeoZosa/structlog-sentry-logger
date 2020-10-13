@@ -32,12 +32,12 @@ provision_environment:
 
 .PHONY: test
 test: lint
-	tox
+	poetry run tox
 
 .PHONY: lint
 ## Lint using pre-commit hooks (see `.pre-commit-config.yaml`)
 lint: clean update-dependencies generate-requirements
-	tox -e lint
+	poetry run tox -e lint
 
 .PHONY: clean
 ## Delete all compiled Python files
