@@ -19,6 +19,12 @@ MODULE_NAME = logger.get_namespaced_module_name(__file__)
 # [Testing](https://www.structlog.org/en/stable/testing.html) requires
 # complicated patching.
 
+
+@pytest.fixture(scope="function")
+def random_log_msgs(iters=10):
+    return [uuid.uuid4().hex for _ in range(iters)]
+
+
 # Demonstrates/validates `pytest`-captured logs are functionally identical to
 # `structlog.testing`-captured logs
 def test_pytest_caplog_and_structlog_patching_equivalence(caplog, random_log_msgs):
@@ -100,11 +106,6 @@ def test_child_loggers(caplog):
         )
         assert child_log.msg["file"] == child_log.pathname
         assert child_log.msg["sleep_time"] == child_module.SLEEP_TIME
-
-
-@pytest.fixture(scope="session")
-def random_log_msgs(iters=10):
-    return [uuid.uuid4().hex for _ in range(iters)]
 
 
 def test_structlog_logger_schema(caplog, random_log_msgs):
