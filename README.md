@@ -83,6 +83,23 @@ Traceback (most recent call last):
 RuntimeError: I threw an error on purpose for this example!
 Now throwing another that explicitly chains from that one!
 ```
+Sentry Integration
+------------
+Export your [Sentry DSN](https://docs.sentry.io/platforms/python/#configure) 
+into your local environment. 
+
+- An easy way to do this is to put it into a local `.env` file and use 
+`python-dotenv` to populate your environment:
+ ```shell script
+# On the command line:
+SENTRY_DSN=YOUR_SENTRY_DSN
+ echo "SENTRY_DSN=${SENTRY_DSN}" > .env
+```
+```python
+# In your Python code, prior to instantiating the logger:
+from dotenv import find_dotenv, load_dotenv
+load_dotenv(find_dotenv())
+```
 
 Output: Formatting & Storage
 ==============================
