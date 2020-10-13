@@ -134,7 +134,7 @@ def _set_logging_config(module_name, timestamper):
                     serializer=orjson.dumps, option=orjson.OPT_SORT_KEYS,
                 ),
                 "foreign_pre_chain": pre_chain,
-            },
+            },  # pylint: disable=c-extension-no-member
             "colored": {
                 "()": structlog.stdlib.ProcessorFormatter,
                 "processor": structlog.dev.ConsoleRenderer(colors=True),
