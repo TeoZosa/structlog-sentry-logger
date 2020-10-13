@@ -1,0 +1,59 @@
+# Global --------------------------
+
+variables:
+  PIP_CACHE_DIR: "${CI_PROJECT_DIR}/.cache/pip"
+
+cache:
+  key: "${CI_JOB_NAME}"
+  paths:
+    - .cache/pip
+    - .venv
+
+stages:
+  - quality
+  - tests
+
+# Jobs templates ------------------
+
+.install-deps-template: &install-deps
+  before_script:
+    - pip install poetry
+    - poetry --version
+    - poetry config settings.virtualenvs.in-project true
+    - poetry install -vv
+
+.quality-template: &quality
+  <<: *install-deps
+  image: python:3.7
+  stage: quality
+
+.test-template: &test
+  <<: *install-deps
+  stage: tests
+  coverage: '/TOTAL.*\s(\d+\.\d+\%)/'
+  script: make test
+  artifacts:
+    paths:
+      - tests/logs
+    when: always
+    expire_in: 1 week
+
+# Quality jobs ----------------------
+
+static_analysis:
+  <<: *quality
+  script: make lint
+
+# Tests jobs ------------------------
+
+python3.7:
+  <<: *test
+  image: python:3.7
+
+python3.8:
+  <<: *test
+  image: python:3.8
+
+python3.9:
+  <<: *test
+  image: python:3.9
