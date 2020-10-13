@@ -81,5 +81,5 @@ def test_sentry_DSN_integration(caplog):
                 else:
                     raise NotImplementedError(
                         "Captured log message not a supported type"
-                    )
+                    ) from err
             raise err
