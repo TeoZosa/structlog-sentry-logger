@@ -1,6 +1,8 @@
 import uuid
+from datetime import datetime
 
 import pytest
+import structlog
 
 from structlog_sentry_logger import logger
 from tests.structlog_sentry_logger import child_module_1, child_module_2
@@ -15,7 +17,53 @@ MODULE_NAME = logger.get_namespaced_module_name(__file__)
 # formatting specified in the underlying logger's `structlog.configure()` step,
 # capturing logs via the methods from
 # [Testing](https://www.structlog.org/en/stable/testing.html) requires
-# complicated patching.  
+# complicated patching.
+
+# Demonstrates/validates `pytest`-captured logs are functionally identical to
+# `structlog.testing`-captured logs
+def test_pytest_caplog_and_structlog_patching_equivalence(caplog, random_log_msgs):
+    def get_pytest_captured_logs():
+        for log_msg in random_log_msgs:
+            LOGGER.debug(log_msg)
+        captured_logs = [record.msg for record in caplog.records]
+        assert captured_logs
+        return captured_logs
+
+    def get_structlog_captured_logs():
+        structlog_caplog = structlog.testing.LogCapture()
+        orig_processors = structlog.get_config()["processors"]
+        patched_procs = orig_processors.copy()
+        patched_procs.insert(-1, structlog_caplog)
+        structlog.configure(processors=patched_procs)
+        for log_msg in random_log_msgs:
+            logger.get_logger().debug(log_msg)
+        structlog.configure(processors=orig_processors)
+        captured_logs = structlog_caplog.entries
+        assert captured_logs
+        return captured_logs
+
+    def validate_timestamps_approx_equal(timestamp1: str, timestamp2: str):
+        def convert_time(timestamp: str) -> datetime:
+            return datetime.strptime(timestamp, logger.DATETIME_FORMAT)
+
+        time_delta = convert_time(timestamp1) - convert_time(timestamp2)
+        assert pytest.approx(time_delta.total_seconds(), 0)
+
+    for pytest_captured_log, structlog_captured_log in zip(
+        get_pytest_captured_logs(), get_structlog_captured_logs()
+    ):
+        # Redundant information solely for better UX;
+        # from `structlog.stdlib.add_log_level`
+        del structlog_captured_log["log_level"]
+
+        # Timestamps not tested for strict equality
+        validate_timestamps_approx_equal(
+            structlog_captured_log["timestamp"], pytest_captured_log["timestamp"]
+        )
+        del structlog_captured_log["timestamp"]
+        del pytest_captured_log["timestamp"]
+
+        assert pytest_captured_log == structlog_captured_log
 
 
 def test_main_logger(caplog):

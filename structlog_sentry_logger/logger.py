@@ -96,6 +96,7 @@ def get_root_dir():
 ROOT_DIR = get_root_dir()
 LOG_DATA_DIR = ROOT_DIR / ".logs"
 LOG_DATA_DIR.mkdir(exist_ok=True)
+DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 
 def get_namespaced_module_name(__file__):
@@ -110,7 +111,7 @@ def get_logger():
     if caller_name == "__main__":
         caller_name = get_namespaced_module_name(prev_stack_frame.filename)
     if not structlog.is_configured():
-        timestamper = structlog.processors.TimeStamper(fmt="%Y-%m-%d %H:%M:%S")
+        timestamper = structlog.processors.TimeStamper(fmt=DATETIME_FORMAT)
         _set_logging_config(caller_name, timestamper)
         _set_structlog_config(timestamper)
     return structlog.get_logger(caller_name)
