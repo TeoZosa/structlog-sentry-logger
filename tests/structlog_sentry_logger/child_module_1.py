@@ -14,9 +14,7 @@ def main():
 
 
 def log_warn():
-    LOGGER.warn(
-        MODULE_NAME, file=__file__, name=__name__, LOGGER=LOGGER, sleep_time=SLEEP_TIME
-    )
+    LOGGER.warn(MODULE_NAME, file=__file__, name=__name__, sleep_time=SLEEP_TIME)
 
 
 if __name__ == "__main__":
