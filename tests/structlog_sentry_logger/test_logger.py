@@ -59,22 +59,29 @@ def random_log_msgs(iters=10):
     return [uuid.uuid4().hex for _ in range(iters)]
 
 
-def test_logger_schema(caplog, random_log_msgs):
+def test_structlog_logger_schema(caplog, random_log_msgs):
     for log_msg in random_log_msgs:
         LOGGER.debug(log_msg)
     assert caplog.records
-    
-    structlogged_records = [record for record in caplog.records if isinstance(record.msg, dict)]
+    structlogged_records = [
+        record for record in caplog.records if isinstance(record.msg, dict)
+    ]
     for record, log_msg in zip(structlogged_records, random_log_msgs):
         log = record.msg
-        if isinstance(log, dict):  # structlog logger
-            assert log["level"] == "debug" == record.levelname.lower()
-            assert log["logger"] == LOGGER.name == MODULE_NAME == record.name
-            assert log["event"] == log_msg
-            assert log["sentry"] == "skipped"
-            assert "timestamp" in log
-            
-    non_structlogged_records = [record for record in caplog.records if not isinstance(record.msg, dict)]
+        assert log["level"] == "debug" == record.levelname.lower()
+        assert log["logger"] == LOGGER.name == MODULE_NAME == record.name
+        assert log["event"] == log_msg
+        assert log["sentry"] == "skipped"
+        assert "timestamp" in log
+
+
+def test_nonstructlog_logger_schema(caplog, random_log_msgs):
+    for log_msg in random_log_msgs:
+        LOGGER.debug(log_msg)
+    assert caplog.records
+    non_structlogged_records = [
+        record for record in caplog.records if not isinstance(record.msg, dict)
+    ]
     for record in non_structlogged_records:
         log = record.msg
         if isinstance(log, str):
