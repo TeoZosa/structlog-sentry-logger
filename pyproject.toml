@@ -19,8 +19,8 @@ version = "0.3.0"
 description = "A multi-purpose, pre-configured [`structlog`](https://www.structlog.org/en/stable/) logger with (optional) [Sentry](https://sentry.io/welcome/) integration via [`structlog-sentry`](https://github.com/kiwicom/structlog-sentry)."
 authors = ["Teo Zosa <teo@sonosim.com>"]
 readme = 'README.md'
-repository = "http://gitlab.sonosim.local/CorSAIR/utils/structlog-sentry-logger"
-homepage = "http://gitlab.sonosim.local/CorSAIR/utils/structlog-sentry-logger"
+repository = "https://github.com/TeoZosa/structlog-sentry-logger"
+homepage = "https://github.com/TeoZosa/structlog-sentry-logger"
 keywords = ['logging', 'structured logging', 'sentry', 'structlog', 'structlog-sentry']
 
 # requirements.txt replacement
