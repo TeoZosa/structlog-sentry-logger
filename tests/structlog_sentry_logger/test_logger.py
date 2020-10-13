@@ -1,5 +1,6 @@
 import pprint
 
+import pytest
 from structlog.testing import capture_logs
 
 from structlog_sentry_logger import logger
@@ -53,3 +54,30 @@ def test_logger_schema(caplog):
             assert "timestamp" in log
         else:
             raise NotImplementedError("Captured log message not a supported type")
+
+
+def test_sentry_DSN_integration(caplog):
+    TestErrorClass = ConnectionError
+    with pytest.raises(TestErrorClass):
+        try:
+            err_msg = "DUMMY ERROR TO TEST SENTRY CONNECTION"
+            raise TestErrorClass(err_msg)
+        except TestErrorClass as err:
+            LOGGER.exception("Exception caught and thrown")
+            for record in caplog.records:
+                log = record.msg
+                if isinstance(log, dict):  # structlog logger
+                    assert log["level"] == "error" == record.levelname.lower()
+                    assert log["sentry"] == "sent"
+                    assert err_msg in log["exception"]
+                    assert "sentry_id" in log
+                elif isinstance(log, str):
+                    # other stdlib-based logger initialized BEFORE our structlog logger;
+                    # i.e., Sentry-invoked `urllib3.connectionpool` logger
+                    assert record.name == "urllib3.connectionpool"
+                    assert "sentry" in record.message
+                else:
+                    raise NotImplementedError(
+                        "Captured log message not a supported type"
+                    )
+            raise err
