@@ -15,8 +15,8 @@ build-backend = "poetry.masonry.api"
 # Metadata
 [tool.poetry]
 name = "structlog-sentry-logger"
-version = "0.1.0"
-description = "A logger that automagically wraps Structlog with Sentry integration (via `structlog-sentry`) with a set of multi-purpose pre-configured options."
+version = "0.2.0"
+description = "A multi-purpose, pre-configured [`structlog`](https://www.structlog.org/en/stable/) logger with (optional) [Sentry](https://sentry.io/welcome/) integration via [`structlog-sentry`](https://github.com/kiwicom/structlog-sentry)."
 authors = ["Teo Zosa <teo@sonosim.com>"]
 readme = 'README.md'
 repository = "http://gitlab.sonosim.local/CorSAIR/utils/structlog-sentry-logger"
@@ -30,7 +30,7 @@ keywords = ['logging', 'structured logging', 'sentry', 'structlog', 'structlog-s
 python = "^3.7"
 gitpython = "^3.1.7"
 python-dotenv = "^0.14.0"
-sentry-sdk = "^0.17.0"
+sentry-sdk = ">0.17.0"
 structlog = "^20.1.0"
 structlog-sentry = "^1.2.2"
 
@@ -83,8 +83,7 @@ atomic = "true"
 combine_as_imports = true
 
 [tool.pylint.basic]
-good-names = ["k", "v"]
-good-names-rgxs = ["^Test_.*$"]
+good-names-rgxs = ["^Test_.*$", "^.*DSN.*$"]
 
 [tool.pylint.messages_control]
 disable = [
