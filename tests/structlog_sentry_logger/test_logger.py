@@ -1,4 +1,4 @@
-import pprint
+import uuid
 
 import pytest
 from structlog.testing import capture_logs
@@ -10,24 +10,17 @@ LOGGER = logger.get_logger()
 MODULE_NAME = logger.get_namespaced_module_name(__file__)
 
 
-def test_main_logger():
-    struct_log_message = {
-        "uuid": -1,
-        "req": {"response": 200, "result": "DUMMY RESULTS"},
-        "logger": LOGGER,
-    }
-    with capture_logs() as expected_logs:
-        LOGGER.debug(MODULE_NAME, **struct_log_message)
-    with capture_logs() as actual_logs:
-        LOGGER.debug(
-            MODULE_NAME,
-            uuid=-1,
-            req={"response": 200, "result": "DUMMY RESULTS"},
-            logger=LOGGER,
-        )
-    assert actual_logs == expected_logs
-    assert actual_logs[0]["log_level"] == "debug"
-    pprint.pprint(actual_logs)
+def test_main_logger(caplog):
+    req = {"response": 200, "result": "DUMMY RESULTS"}
+    _uuid = uuid.uuid4()
+    LOGGER.debug("Testing main Logger", uuid=_uuid, req=req)
+    for record in caplog.records:
+        log = record.msg
+        if isinstance(log, dict):  # structlog logger
+            assert log["uuid"] == _uuid
+            assert log["req"] == req
+        else:
+            raise NotImplementedError("Captured log message not a supported type")
 
 
 def test_child_loggers():
