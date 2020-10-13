@@ -21,6 +21,17 @@ stages:
     - poetry --version
     - poetry config virtualenvs.in-project true
     - poetry install -vv
+    # Install Go for pre-commit hook (shfmt)
+    - >
+      GO_TAR=go1.15.linux-amd64.tar.gz &&
+      wget https://golang.org/dl/$GO_TAR &&
+      tar -C /usr/local -xzf $GO_TAR &&
+      rm $GO_TAR &&
+      export GO111MODULE=on &&
+      export CGO_ENABLED=0 &&
+      export GOOS=linux &&
+      export GOARCH=amd64 &&
+      export PATH="${PATH}:/usr/local/go/bin"
 
 .quality-template: &quality
   <<: *install-deps
