@@ -27,8 +27,8 @@ def test_child_loggers(caplog):
     child_module_2.log_error()
     child_logs = [record for record in caplog.records if isinstance(record.msg, dict)]
 
-    for child_log, log_level, child_module in zip(
-        child_logs, ["warning", "error"], [child_module_1, child_module_2]
+    for child_log, child_module, log_level in zip(
+        child_logs, [child_module_1, child_module_2], ["warning", "error"]
     ):
         assert child_log.msg["level"] == log_level == child_log.levelname.lower()
         assert child_log.msg["event"] == child_module.MODULE_NAME
