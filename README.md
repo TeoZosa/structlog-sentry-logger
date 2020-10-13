@@ -88,7 +88,7 @@ Export your [Sentry DSN](https://docs.sentry.io/platforms/python/#configure)
 into your local environment. 
 
 - An easy way to do this is to put it into a local `.env` file and use 
-`python-dotenv` to populate your environment:
+[`python-dotenv`](https://github.com/theskumar/python-dotenv) to populate your environment:
  ```shell script
 # On the command line:
 SENTRY_DSN=YOUR_SENTRY_DSN
