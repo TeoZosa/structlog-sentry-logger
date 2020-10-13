@@ -24,7 +24,7 @@ stages:
     # Install Go for pre-commit hook (shfmt)
     - >
       GO_TAR=go1.15.linux-amd64.tar.gz &&
-      wget https://golang.org/dl/$GO_TAR &&
+      wget --quiet https://golang.org/dl/$GO_TAR &&
       tar -C /usr/local -xzf $GO_TAR &&
       rm $GO_TAR &&
       export GO111MODULE=on &&
