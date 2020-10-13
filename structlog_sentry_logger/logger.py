@@ -207,6 +207,8 @@ def _set_structlog_config(timestamper):
             + structlog_processors
             + format_wrapper_processer
         ),
+        # See [Performance](https://www.structlog.org/en/stable/performance.html)
+        # for an in-depth explanation of the below settings
         context_class=dict,
         logger_factory=structlog.stdlib.LoggerFactory(),
         wrapper_class=structlog.stdlib.BoundLogger,
