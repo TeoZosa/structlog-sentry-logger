@@ -27,20 +27,20 @@ def test_child_loggers(caplog):
     child_module_2.log_error()
     child_logs = [record for record in caplog.records if isinstance(record.msg, dict)]
 
-    for c_log, log_level, child_module in zip(
+    for child_log, log_level, child_module in zip(
         child_logs, ["warning", "error"], [child_module_1, child_module_2]
     ):
-        assert c_log.msg["level"] == log_level == c_log.levelname.lower()
-        assert c_log.msg["event"] == child_module.MODULE_NAME
+        assert child_log.msg["level"] == log_level == child_log.levelname.lower()
+        assert child_log.msg["event"] == child_module.MODULE_NAME
         assert (
-            c_log.msg["event"]
-            == c_log.msg["logger"]
-            == c_log.msg["name"]
-            == c_log.name
+            child_log.msg["event"]
+            == child_log.msg["logger"]
+            == child_log.msg["name"]
+            == child_log.name
             == child_module.MODULE_NAME
         )
-        assert c_log.msg["file"] == c_log.pathname
-        assert c_log.msg["sleep_time"] == child_module.SLEEP_TIME
+        assert child_log.msg["file"] == child_log.pathname
+        assert child_log.msg["sleep_time"] == child_module.SLEEP_TIME
 
 
 def test_logger_schema(caplog):
