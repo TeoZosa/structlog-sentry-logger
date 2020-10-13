@@ -195,12 +195,8 @@ def _set_structlog_config(timestamper):
         structlog.stdlib.add_log_level,
         structlog.stdlib.add_logger_name,
         structlog.stdlib.PositionalArgumentsFormatter(),
+        SentryBreadcrumbJsonProcessor(level=logging.ERROR, tag_keys="__all__"),
     ]
-
-    if os.environ.get("SENTRY_DSN"):
-        stdlib_log_compatibility_processors.append(
-            SentryBreadcrumbJsonProcessor(level=logging.ERROR, tag_keys="__all__")
-        )
 
     # Note: MUST come last!
     format_wrapper_processer = [structlog.stdlib.ProcessorFormatter.wrap_for_formatter]
