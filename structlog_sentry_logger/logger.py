@@ -79,7 +79,6 @@ from sentry_sdk import add_breadcrumb
 from structlog_sentry import SentryJsonProcessor
 
 
-
 def _get_git_root():
     git_repo = git.Repo(Path.cwd(), search_parent_directories=True)
     git_root = git_repo.git.rev_parse("--show-toplevel")

@@ -13,7 +13,7 @@ MODULE_NAME = logger.get_namespaced_module_name(__file__)
 # Note: the below methods use `pytest`'s `caplog` fixture to properly capture the
 # logs.
 #
-# Because `cache_logger_on_first_use=True` and we want to capture specific log 
+# Because `cache_logger_on_first_use=True` and we want to capture specific log
 # formatting specified in the underlying logger's `structlog.configure()` step,
 # capturing logs via the methods from
 # [Testing](https://www.structlog.org/en/stable/testing.html) requires
