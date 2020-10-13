@@ -7,13 +7,30 @@ via [`structlog-sentry`](https://github.com/kiwicom/structlog-sentry).
 
 ##### Benefits:
 1. Makes logging as easy as using print statements, but prettier and less smelly!
-2. Highly opinionated! There are only two (2) distinct configurations. 
+2. Highly opinionated! There are only [two (2) distinct configurations](#output-formatting--storage). 
 3. Structured logs in JSON format means they are ready to be ingested by many
 favorite log analysis tools!
 
 Save your tears for what you do best: writing fancy computer mumbo jumbo to
 make the world a better place!  
 
+------------
+
+Table of Contents
+
+<!-- toc -->
+
+- [Usage](#usage)
+  * [Pure `structlog` Logging (Without Sentry)](#pure-structlog-logging-without-sentry)
+  * [Sentry Integration](#sentry-integration)
+- [Output: Formatting & Storage](#output-formatting--storage)
+- [Summary](#summary)
+- [Further Reading](#further-reading)
+    + [`structlog`](#structlog-structured-logging-for-python)
+    + [`Sentry`](#sentry-monitor-and-fix-crashes-in-realtime)
+    + [`structlog-sentry`](#structlog-sentry-provides-the-structlog-sentryprocessor-for-sentry-integration)
+
+<!-- tocstop -->
 
 Usage
 ==============================
@@ -126,7 +143,7 @@ Further Reading
 ==============================
 <img src="https://www.structlog.org/en/stable/_static/structlog_logo_small.png" width="200">
 
-### [`Structlog`](https://www.structlog.org/en/stable/#): Structured Logging for Python
+### [`structlog`](https://www.structlog.org/en/stable/#): Structured Logging for Python
 
 <img src="https://camo.githubusercontent.com/2dfeafbee0904d6df16ddf7200993dace1629e60/68747470733a2f2f73656e7472792d6272616e642e73746f726167652e676f6f676c65617069732e636f6d2f73656e7472792d6c6f676f2d626c61636b2e706e67" width="400">
 
