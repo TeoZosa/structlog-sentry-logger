@@ -54,6 +54,11 @@ def test_child_loggers(caplog):
         assert child_log.msg["sleep_time"] == child_module.SLEEP_TIME
 
 
+@pytest.fixture(scope="session")
+def random_log_msgs(iters=10):
+    return [uuid.uuid4().hex for _ in range(iters)]
+
+
 def test_logger_schema(caplog):
     log_msg = "Generating log to inspect schema"
     LOGGER.debug(log_msg)
