@@ -18,7 +18,8 @@ make the world a better place!
 
 Usage
 ==============================
-## Pure `structlog` Logging (Without Sentry)
+Pure `structlog` Logging (Without Sentry)
+------------
 At the top of your Python module, import and instantiate the logger:
 ```python
 from structlog_sentry_logger import logger
