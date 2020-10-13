@@ -19,6 +19,8 @@ MODULE_NAME = logger.get_namespaced_module_name(__file__)
 # [Testing](https://www.structlog.org/en/stable/testing.html) requires
 # complicated patching.
 
+# pylint: disable=redefined-outer-name
+
 
 @pytest.fixture(scope="function")
 def random_log_msgs(iters=10):
