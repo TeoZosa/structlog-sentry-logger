@@ -8,7 +8,7 @@ via [`structlog-sentry`](https://github.com/kiwicom/structlog-sentry).
 Benefits:
 ------------
 1. Makes logging as easy as using print statements, but prettier and less smelly!
-2. Highly opinionated! There are only [two (2) distinct configurations](#output-formatting--storage). 
+2. Highly opinionated! There are only [two (2) distinct configurations](#output-formatting--storage).
 3. Structured logs in JSON format means they are ready to be ingested by many
 favorite log analysis tools!
 
@@ -109,10 +109,10 @@ Now throwing another that explicitly chains from that one!
 ```
 Sentry Integration
 ------------
-Export your [Sentry DSN](https://docs.sentry.io/platforms/python/#configure) 
-into your local environment. 
+Export your [Sentry DSN](https://docs.sentry.io/platforms/python/#configure)
+into your local environment.
 
-- An easy way to do this is to put it into a local `.env` file and use 
+- An easy way to do this is to put it into a local `.env` file and use
 [`python-dotenv`](https://github.com/theskumar/python-dotenv) to populate your environment:
  ```shell script
 # On the command line:
