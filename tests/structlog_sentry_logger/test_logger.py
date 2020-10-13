@@ -8,6 +8,15 @@ from tests.structlog_sentry_logger import child_module_1, child_module_2
 LOGGER = logger.get_logger()
 MODULE_NAME = logger.get_namespaced_module_name(__file__)
 
+# Note: the below methods use `pytest`'s `caplog` fixture to properly capture the
+# logs.
+#
+# Because `cache_logger_on_first_use=True` and we want to capture specific log 
+# formatting specified in the underlying logger's `structlog.configure()` step,
+# capturing logs via the methods from
+# [Testing](https://www.structlog.org/en/stable/testing.html) requires
+# complicated patching.  
+
 
 def test_main_logger(caplog):
     req = {"response": 200, "result": "DUMMY RESULTS"}
