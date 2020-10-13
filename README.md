@@ -21,6 +21,7 @@ Table of Contents
 
 <!-- toc -->
 
+- [Installation](#installation)
 - [Usage](#usage)
   * [Pure `structlog` Logging (Without Sentry)](#pure-structlog-logging-without-sentry)
   * [Sentry Integration](#sentry-integration)
@@ -32,6 +33,12 @@ Table of Contents
     + [`structlog-sentry`](#structlog-sentry-provides-the-structlog-sentryprocessor-for-sentry-integration)
 
 <!-- tocstop -->
+
+Installation
+==============================
+ ```shell script
+pip install structlog-sentry-logger
+```
 
 Usage
 ==============================
