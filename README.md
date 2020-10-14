@@ -152,4 +152,4 @@ Further Reading
 
 ### [`Sentry`](https://sentry.io/welcome/): Monitor and fix crashes in realtime.
 
-### [`structlog-sentry`](https://github.com/kiwicom/structlog-sentry): Provides the `structlog` `SentryProcessor` for `Sentry` integration.
+### [`structlog-sentry`](https://github.com/kiwicom/structlog-sentry): Provides the [`structlog`](https://www.structlog.org/en/stable/#) `SentryProcessor` for [Sentry](https://sentry.io/welcome/) integration.
