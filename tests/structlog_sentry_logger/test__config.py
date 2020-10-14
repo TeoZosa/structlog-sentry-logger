@@ -93,6 +93,7 @@ def test_main_logger(caplog):
 
 def test_child_loggers(caplog):
     child_module_1.log_warn()
+    # This line sends an error event to Sentry, with all the breadcrumbs included
     child_module_2.log_error()
     assert caplog.records
     child_logs = [record for record in caplog.records if isinstance(record.msg, dict)]
@@ -154,6 +155,7 @@ def test_sentry_DSN_integration(caplog):
             err_msg = "DUMMY ERROR TO TEST SENTRY CONNECTION"
             raise TestErrorClass(err_msg)
         except TestErrorClass as err:
+            # This line sends the above exception event to Sentry, with all the breadcrumbs included
             LOGGER.exception("Exception caught and thrown")
             assert caplog.records
             for record in caplog.records:
