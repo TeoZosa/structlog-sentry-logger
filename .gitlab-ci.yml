@@ -41,7 +41,7 @@ stages:
 .test-template: &test
   <<: *install-deps
   stage: tests
-  coverage: '/TOTAL.*\s(\d+\.\d+\%)/'
+  coverage: '/^TOTAL.+?(\d+\%)$/'
   artifacts:
     paths:
       - tests/logs
