@@ -36,7 +36,7 @@ test:
 
 .PHONY: test-%
 test-%:
-	poetry run tox -e $*
+	poetry run tox -e clean,$*,report
 
 .PHONY: lint
 ## Lint using pre-commit hooks (see `.pre-commit-config.yaml`)
