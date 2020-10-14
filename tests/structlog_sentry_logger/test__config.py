@@ -53,7 +53,8 @@ def test_pytest_caplog_and_structlog_patching_equivalence(caplog, random_log_msg
     def validate_timestamps_approx_equal(timestamp1: str, timestamp2: str):
         def convert_time(timestamp: str) -> datetime:
             return datetime.strptime(
-                timestamp, structlog_sentry_logger._config.DATETIME_FORMAT
+                timestamp,
+                structlog_sentry_logger._config.DATETIME_FORMAT,  # pylint: disable=protected-access
             )
 
         time_delta = convert_time(timestamp1) - convert_time(timestamp2)
