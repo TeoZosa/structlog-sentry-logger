@@ -79,29 +79,29 @@ from sentry_sdk import add_breadcrumb
 from structlog_sentry import SentryJsonProcessor
 
 
-def _get_git_root():
+def get_git_root():
     git_repo = git.Repo(Path.cwd(), search_parent_directories=True)
     git_root = git_repo.git.rev_parse("--show-toplevel")
     return Path(git_root)
 
 
-def _get_root_dir():
+def get_root_dir():
     try:
-        return _get_git_root()
+        return get_git_root()
     except git.InvalidGitRepositoryError as err:
         # the __str__() method on err returns the root descendant path, e.g., `/app`
         root_dir = Path(str(err)).resolve(strict=True)
         return root_dir
 
 
-_ROOT_DIR = _get_root_dir()
-_LOG_DATA_DIR = _ROOT_DIR / ".logs"
-_LOG_DATA_DIR.mkdir(exist_ok=True)
+ROOT_DIR = get_root_dir()
+LOG_DATA_DIR = ROOT_DIR / ".logs"
+LOG_DATA_DIR.mkdir(exist_ok=True)
 DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 
 def get_namespaced_module_name(__file__):
-    root_relative_path = Path(__file__).resolve().relative_to(_ROOT_DIR)
+    root_relative_path = Path(__file__).resolve().relative_to(ROOT_DIR)
     namespaces = root_relative_path.with_suffix("").parts
     return ".".join(namespaces)
 
@@ -113,13 +113,13 @@ def get_logger():
         caller_name = get_namespaced_module_name(prev_stack_frame.filename)
     if not structlog.is_configured():
         timestamper = structlog.processors.TimeStamper(fmt=DATETIME_FORMAT)
-        _set_logging_config(caller_name, timestamper)
-        _set_structlog_config(timestamper)
+        set_logging_config(caller_name, timestamper)
+        set_structlog_config(timestamper)
     return structlog.get_logger(caller_name)
 
 
-def _set_logging_config(module_name, timestamper):
-    def _get_formatters(timestamper):
+def set_logging_config(module_name, timestamper):
+    def get_formatters(timestamper):
         pre_chain = [
             # Add the log level and a timestamp to the event_dict if the log
             # entry is not from structlog.
@@ -144,7 +144,7 @@ def _set_logging_config(module_name, timestamper):
             },
         }
 
-    def _get_handlers(module_name):
+    def get_handlers(module_name):
         default_key = "default"
         base_handlers = {
             default_key: {
@@ -159,7 +159,7 @@ def _set_logging_config(module_name, timestamper):
             # Add filename handler
             file_timestamp = datetime.datetime.utcnow().strftime("%Y-%m-%d")
             log_file_name = f"{file_timestamp}_{module_name}.json"
-            log_file_path = _LOG_DATA_DIR / log_file_name
+            log_file_path = LOG_DATA_DIR / log_file_name
             base_handlers["filename"] = {
                 "level": "DEBUG",
                 "class": "logging.handlers.RotatingFileHandler",
@@ -172,8 +172,8 @@ def _set_logging_config(module_name, timestamper):
             base_handlers[default_key]["formatter"] = "plain"
         return base_handlers
 
-    formatters = _get_formatters(timestamper)
-    handlers = _get_handlers(module_name)
+    formatters = get_formatters(timestamper)
+    handlers = get_handlers(module_name)
     config = {
         "version": 1,
         "disable_existing_loggers": False,
@@ -186,7 +186,7 @@ def _set_logging_config(module_name, timestamper):
     logging.config.dictConfig(config)
 
 
-def _set_structlog_config(timestamper):
+def set_structlog_config(timestamper):
     structlog_processors = [
         timestamper,
         structlog.processors.StackInfoRenderer(),
