@@ -31,16 +31,17 @@ provision_environment:
 	poetry install -vv
 
 .PHONY: test
-test:
+test: clean update-dependencies generate-requirements
 	poetry run tox
 
 .PHONY: test-%
-test-%:
+test-%: clean update-dependencies generate-requirements
 	poetry run tox -e clean,$*,report
 
 .PHONY: lint
 ## Lint using pre-commit hooks (see `.pre-commit-config.yaml`)
 lint: clean update-dependencies generate-requirements
+# Note: updated `requirements.txt` (via `generate-requirements`) also needed for `safety` `pre-commit` hook
 	poetry run tox -e lint
 
 .PHONY: clean
