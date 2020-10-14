@@ -9,7 +9,7 @@ Why
 ------------
 1. Makes logging as easy as using print statements, but prettier and less smelly!
 2. Highly opinionated! There are only [two (2) distinct configurations](#output-formatting--storage).
-3. Structured logs in JSON format means they are ready to be ingested by many
+3. Structured logs in JSON format means they are ready to be ingested by many of your
 favorite log analysis tools!
 
 Save your tears for what you do best: writing fancy computer mumbo jumbo to
