@@ -31,7 +31,7 @@ provision_environment:
 	poetry install
 
 .PHONY: test
-test: lint
+test:
 	poetry run tox
 
 .PHONY: lint
