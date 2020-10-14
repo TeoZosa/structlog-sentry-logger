@@ -12,8 +12,38 @@ Why
 3. Structured logs in JSON format means they are ready to be ingested by many of your
 favorite log analysis tools!
 
-Save your tears for what you do best: writing fancy computer mumbo jumbo to
-make the world a better place!  
+What You Get
+------------
+
+### Powerful Automatic Context Fields
+The pre-configured options include:
+
+1. Timestamps
+    - `DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"`
+2. Log levels
+    - Added to the JSON context for filtering and categorization
+3. Logger names
+    - Automatically assigned to namespaced versions of the initializing
+python modules (`.py` files), relative to your project directory.
+        - e.g., the logger in `tests/structlog_sentry_logger/test_logger.py` is named `tests.structlog_sentry_logger.test_logger`
+
+With fields sorted by key for easier at-a-glance analysis.
+
+### Performance
+`structlog-sentry-logger` is fully-tuned and leverages [`ORJSON`](https://github.com/ijl/orjson)
+as the JSON serializer for lightning-fast logging. Let cross-cutting concerns
+cripple performance no longer!  
+
+For further reference, see:
+- "[`ORJSON`: Serialize](https://github.com/ijl/orjson#serialize)" for benchmarks
+- "[`structlog`: Performance](https://www.structlog.org/en/stable/performance.html)" for salient performance-related configurations.
+
+### Built-in Sentry Integration (Optional)
+Automatically add much richer context to your Sentry reports.
+- Your entire logging context is sent as a Sentry event when the `structlog-sentry-logger`
+log level is `error` or higher.
+    - i.e., `logger.error("")`, `logger.exception("")`
+- See [`structlog-sentry`](https://github.com/kiwicom/structlog-sentry) for more details.
 
 ------------
 Table of Contents
