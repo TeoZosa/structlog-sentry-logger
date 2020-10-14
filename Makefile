@@ -34,6 +34,10 @@ provision_environment:
 test:
 	poetry run tox
 
+.PHONY: test-%
+test-%:
+	poetry run tox -e $*
+
 .PHONY: lint
 ## Lint using pre-commit hooks (see `.pre-commit-config.yaml`)
 lint: clean update-dependencies generate-requirements
