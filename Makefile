@@ -28,7 +28,7 @@ PROJECT_NAME := $(shell basename $(PROJECT_DIR))
 .PHONY: provision_environment
 ## Set up python interpreter environment with installed project dependencies
 provision_environment:
-	poetry install
+	poetry install -vv
 
 .PHONY: test
 test:
