@@ -1,7 +1,7 @@
-from structlog_sentry_logger import logger
+import structlog_sentry_logger
 
-LOGGER = logger.get_logger()
-MODULE_NAME = logger.get_namespaced_module_name(__file__)
+LOGGER = structlog_sentry_logger.get_logger()
+MODULE_NAME = structlog_sentry_logger.get_namespaced_module_name(__file__)
 SLEEP_TIME = 1
 
 

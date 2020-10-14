@@ -41,8 +41,8 @@ Pure `structlog` Logging (Without Sentry)
 ------------
 At the top of your Python module, import and instantiate the logger:
 ```python
-from structlog_sentry_logger import logger
-LOGGER = logger.get_logger()
+import structlog_sentry_logger
+LOGGER = structlog_sentry_logger.get_logger()
 ```
 Now anytime you want to print anything, don't. Instead do this:
 ```python
@@ -63,8 +63,8 @@ With `structlog`, you can even incorporate custom messages in your exception han
 ```python
 import uuid
 
-from structlog_sentry_logger import logger
-LOGGER = logger.get_logger()
+import structlog_sentry_logger
+LOGGER = structlog_sentry_logger.get_logger()
 
 curr_user_logger = LOGGER.bind(uuid=uuid.uuid4().hex)  # LOGGER instance with bound UUID
 try:

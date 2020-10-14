@@ -4,11 +4,11 @@ from datetime import datetime
 import pytest
 import structlog
 
-from structlog_sentry_logger import logger
+import structlog_sentry_logger
 from tests.structlog_sentry_logger import child_module_1, child_module_2
 
-LOGGER = logger.get_logger()
-MODULE_NAME = logger.get_namespaced_module_name(__file__)
+LOGGER = structlog_sentry_logger.get_logger()
+MODULE_NAME = structlog_sentry_logger.get_namespaced_module_name(__file__)
 
 # Note: the below methods use `pytest`'s `caplog` fixture to properly capture the
 # logs.
@@ -44,7 +44,7 @@ def test_pytest_caplog_and_structlog_patching_equivalence(caplog, random_log_msg
         patched_procs.insert(-1, structlog_caplog)
         structlog.configure(processors=patched_procs)
         for log_msg in random_log_msgs:
-            logger.get_logger().debug(log_msg)
+            structlog_sentry_logger.get_logger().debug(log_msg)
         structlog.configure(processors=orig_processors)
         captured_logs = structlog_caplog.entries
         assert captured_logs
@@ -52,7 +52,9 @@ def test_pytest_caplog_and_structlog_patching_equivalence(caplog, random_log_msg
 
     def validate_timestamps_approx_equal(timestamp1: str, timestamp2: str):
         def convert_time(timestamp: str) -> datetime:
-            return datetime.strptime(timestamp, logger.DATETIME_FORMAT)
+            return datetime.strptime(
+                timestamp, structlog_sentry_logger._config.DATETIME_FORMAT
+            )
 
         time_delta = convert_time(timestamp1) - convert_time(timestamp2)
         assert pytest.approx(time_delta.total_seconds(), 0)
