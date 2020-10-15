@@ -131,7 +131,12 @@ def set_logging_config(module_name, timestamper):
             "plain": {
                 "()": structlog.stdlib.ProcessorFormatter,
                 "processor": structlog.processors.JSONRenderer(
-                    serializer=orjson.dumps,  # pylint: disable=c-extension-no-member
+                    serializer=lambda *args, **kwargs: str(
+                        orjson.dumps(  # pylint: disable=c-extension-no-member
+                            *args, **kwargs
+                        ),
+                        "utf-8",
+                    ),
                     option=orjson.OPT_SORT_KEYS,
                 ),
                 "foreign_pre_chain": pre_chain,
