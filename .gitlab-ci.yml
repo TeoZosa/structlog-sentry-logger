@@ -56,6 +56,11 @@ static_analysis:
 
 # Tests jobs ------------------------
 
+python3.6:
+  <<: *test
+  script: make test-py36
+  image: python:3.6
+
 python3.7:
   <<: *test
   script: make test-py37
