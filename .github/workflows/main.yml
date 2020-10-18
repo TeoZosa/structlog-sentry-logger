@@ -95,3 +95,4 @@ jobs:
         run: |
           export CI_ENVIRONMENT_SLUG=dev-local
           poetry run python ./docs_src/pure_structlog_logging_without_sentry.py
+        shell: bash
