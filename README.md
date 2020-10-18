@@ -80,6 +80,7 @@ Now anytime you want to print anything, don't. Instead do this:
 LOGGER.info("Information that's useful for future me and others", extra_field="extra_value")
 ```
 ###### Note: all the regular [Python logging levels](https://docs.python.org/3/library/logging.html#levels) are supported.
+Which automatically produces this:
 ```
 {
     "event": "Information that's useful for future me and others",
