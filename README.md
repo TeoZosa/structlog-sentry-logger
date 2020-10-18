@@ -52,6 +52,7 @@ Table of Contents
 - [Usage](#usage)
   * [Pure `structlog` Logging (Without Sentry)](#pure-structlog-logging-without-sentry)
   * [Sentry Integration](#sentry-integration)
+    + [Log Custom Context Directly to Sentry](#log-custom-context-directly-to-sentry)
 - [Output: Formatting & Storage](#output-formatting--storage)
 - [Summary](#summary)
 - [Further Reading](#further-reading)
@@ -89,7 +90,26 @@ LOGGER.info("Information that's useful for future me and others", extra_field="e
 }
 ```
 
-With `structlog`, you can even incorporate custom messages in your exception handling:
+Sentry Integration
+------------
+Export your [Sentry DSN](https://docs.sentry.io/platforms/python/#configure)
+into your local environment.
+
+- An easy way to do this is to put it into a local `.env` file and use
+[`python-dotenv`](https://github.com/theskumar/python-dotenv) to populate your environment:
+ ```shell script
+# On the command line:
+SENTRY_DSN=YOUR_SENTRY_DSN
+ echo "SENTRY_DSN=${SENTRY_DSN}" > .env
+```
+```python
+# In your Python code, prior to instantiating the logger:
+from dotenv import find_dotenv, load_dotenv
+load_dotenv(find_dotenv())
+```
+
+### Log Custom Context Directly to Sentry
+With `structlog`, you can even incorporate custom messages in your exception handling which will automatically be reported to Sentry (thanks to the `structlog-sentry` module):
 ```python
 import uuid
 
@@ -131,23 +151,6 @@ Traceback (most recent call last):
   File "<input>", line 13, in <module>
 RuntimeError: I threw an error on purpose for this example!
 Now throwing another that explicitly chains from that one!
-```
-Sentry Integration
-------------
-Export your [Sentry DSN](https://docs.sentry.io/platforms/python/#configure)
-into your local environment.
-
-- An easy way to do this is to put it into a local `.env` file and use
-[`python-dotenv`](https://github.com/theskumar/python-dotenv) to populate your environment:
- ```shell script
-# On the command line:
-SENTRY_DSN=YOUR_SENTRY_DSN
- echo "SENTRY_DSN=${SENTRY_DSN}" > .env
-```
-```python
-# In your Python code, prior to instantiating the logger:
-from dotenv import find_dotenv, load_dotenv
-load_dotenv(find_dotenv())
 ```
 
 Output: Formatting & Storage
