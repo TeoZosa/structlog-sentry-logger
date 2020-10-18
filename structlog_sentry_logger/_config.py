@@ -132,7 +132,8 @@ def set_logging_config(module_name, timestamper):
                 "()": structlog.stdlib.ProcessorFormatter,
                 "processor": structlog.processors.JSONRenderer(
                     serializer=lambda *args, **kwargs: str(
-                        orjson.dumps(*args, **kwargs), "utf-8",
+                        orjson.dumps(*args, **kwargs),
+                        "utf-8",
                     ),
                     option=orjson.OPT_SORT_KEYS,
                 ),
@@ -236,7 +237,10 @@ class SentryBreadcrumbJsonProcessor(SentryJsonProcessor):
     ) -> None:
         self.breadcrumb_level = breadcrumb_level
         super().__init__(
-            level=level, active=active, as_extra=as_extra, tag_keys=tag_keys,
+            level=level,
+            active=active,
+            as_extra=as_extra,
+            tag_keys=tag_keys,
         )
 
     @staticmethod
