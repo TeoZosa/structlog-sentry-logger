@@ -25,7 +25,7 @@ The pre-configured options include:
 3. Logger names
     - Automatically assigned to namespaced versions of the initializing
 python modules (`.py` files), relative to your project directory.
-        - e.g., the logger in `tests/structlog_sentry_logger/test_logger.py` is named `tests.structlog_sentry_logger.test_logger`
+        - e.g., the logger in `docs_src/sentry_integration.py` is named `docs_src.sentry_integration`
 
 With fields sorted by key for easier at-a-glance analysis.
 
@@ -73,11 +73,13 @@ Pure `structlog` Logging (Without Sentry)
 At the top of your Python module, import and instantiate the logger:
 ```python
 import structlog_sentry_logger
+
 LOGGER = structlog_sentry_logger.get_logger()
 ```
 Now anytime you want to print anything, don't. Instead do this:
 ```python
-LOGGER.info("Information that's useful for future me and others", extra_field="extra_value")
+LOG_MSG = "Information that's useful for future me and others"
+LOGGER.info(LOG_MSG, extra_field="extra_value")
 ```
 ###### Note: all the regular [Python logging levels](https://docs.python.org/3/library/logging.html#levels) are supported.
 Which automatically produces this:
@@ -86,8 +88,9 @@ Which automatically produces this:
     "event": "Information that's useful for future me and others",
     "extra_field": "extra_value",
     "level": "info",
-    "logger": "<input>",
-    "timestamp": "2020-09-25 17:21:26",
+    "logger": "docs_src.pure_structlog_logging_without_sentry",
+    "sentry": "skipped",
+    "timestamp": "2020-10-18 15:30:05"
 }
 ```
 
@@ -119,41 +122,51 @@ With `structlog`, you can even incorporate custom messages in your exception han
 import uuid
 
 import structlog_sentry_logger
+
 LOGGER = structlog_sentry_logger.get_logger()
 
 curr_user_logger = LOGGER.bind(uuid=uuid.uuid4().hex)  # LOGGER instance with bound UUID
 try:
     curr_user_logger.warn("A dummy error for testing purposes is about to be thrown!")
-    assert False
-except AssertionError as err:
-    err_msg = ("I threw an error on purpose for this example!\n"
-               "Now throwing another that explicitly chains from that one!")
-    curr_user_logger.exception(err_msg)
-    raise RuntimeError(err_msg) from err
+    x = 1 / 0
+except ZeroDivisionError as err:
+    ERR_MSG = (
+        "I threw an error on purpose for this example!\n"
+        "Now throwing another that explicitly chains from that one!"
+    )
+    curr_user_logger.exception(ERR_MSG)
+    raise RuntimeError(ERR_MSG) from err
 ```
 
 ```
 {
     "event": "A dummy error for testing purposes is about to be thrown!",
     "level": "warning",
-    "logger": "<input>",
-    "timestamp": "2020-09-25 17:19:02",
-    "uuid": "68f595440e69478a97a26b002f9cbf44",
+    "logger": "docs_src.sentry_integration",
+    "sentry": "skipped",
+    "timestamp": "2020-10-18 15:29:55",
+    "uuid": "181e0e00b9034732af4fed2b8424fb11"
 }
 {
     "event": "I threw an error on purpose for this example!\nNow throwing another that explicitly chains from that one!",
-    "exception": 'Traceback (most recent call last):\n  File "<input>", line 8, in <module>\nAssertionError',
+    "exception": 'Traceback (most recent call last):\n  File "/app/structlog-sentry-logger/docs_src/sentry_integration.py", line 10, in <module>\n    x = 1 / 0\nZeroDivisionError: division by zero',
     "level": "error",
-    "logger": "<input>",
-    "timestamp": "2020-09-25 17:19:02",
-    "uuid": "68f595440e69478a97a26b002f9cbf44",
+    "logger": "docs_src.sentry_integration",
+    "sentry": "sent",
+    "sentry_id": null,
+    "timestamp": "2020-10-18 15:29:55",
+    "uuid": "181e0e00b9034732af4fed2b8424fb11"
 }
 Traceback (most recent call last):
-  File "<input>", line 8, in <module>
-AssertionError
+  File "/app/structlog-sentry-logger/docs_src/sentry_integration.py", line 10, in <module>
+    x = 1 / 0
+ZeroDivisionError: division by zero
+
 The above exception was the direct cause of the following exception:
+
 Traceback (most recent call last):
-  File "<input>", line 13, in <module>
+  File "/app/structlog-sentry-logger/docs_src/sentry_integration.py", line 17, in <module>
+    raise RuntimeError(ERR_MSG) from err
 RuntimeError: I threw an error on purpose for this example!
 Now throwing another that explicitly chains from that one!
 ```
