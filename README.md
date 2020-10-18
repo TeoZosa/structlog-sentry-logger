@@ -102,10 +102,14 @@ into your local environment.
 SENTRY_DSN=YOUR_SENTRY_DSN
  echo "SENTRY_DSN=${SENTRY_DSN}" > .env
 ```
+
+Then load the `.env` file in your Python code prior to instantiating the logger, e.g.:
 ```python
-# In your Python code, prior to instantiating the logger:
 from dotenv import find_dotenv, load_dotenv
 load_dotenv(find_dotenv())
+
+import structlog_sentry_logger
+LOGGER = structlog_sentry_logger.get_logger()
 ```
 
 ### Log Custom Context Directly to Sentry
