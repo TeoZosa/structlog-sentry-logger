@@ -101,7 +101,7 @@ into your local environment.
  ```shell script
 # On the command line:
 SENTRY_DSN=YOUR_SENTRY_DSN
- echo "SENTRY_DSN=${SENTRY_DSN}" > .env
+ echo "SENTRY_DSN=${SENTRY_DSN}" >> .env
 ```
 
 Then load the `.env` file in your Python code prior to instantiating the logger, e.g.:
