@@ -1,5 +1,9 @@
 Structlog-Sentry-Logger
 ==============================
+![CI](https://github.com/TeoZosa/structlog-sentry-logger/workflows/CI/badge.svg)
+[![codecov](https://codecov.io/gh/TeoZosa/structlog-sentry-logger/branch/master/graph/badge.svg?token=3HF21UWY82)](undefined)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 A multi-purpose, pre-configured [`structlog`](https://www.structlog.org/en/stable/) logger
 with (optional) [Sentry](https://sentry.io/welcome/) integration
