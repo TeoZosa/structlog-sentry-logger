@@ -1,0 +1,97 @@
+---
+name: CI
+
+on:  # yamllint disable-line rule:truthy
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
+  workflow_dispatch:
+
+jobs:
+  lint:
+    name: "Lint"
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: "actions/checkout@v2"
+      - uses: "actions/setup-python@v2"
+        with:
+          python-version: "3.8"
+      - name: "Install package"
+        run: |
+          pip install poetry
+          poetry --version
+          poetry config virtualenvs.in-project true
+          poetry install -vv
+
+      - name: "Install Go for pre-commit hook (shfmt)"
+        run: >
+          GO_TAR=go1.15.linux-amd64.tar.gz &&
+          wget --quiet https://golang.org/dl/$GO_TAR &&
+          sudo tar -C /usr/local -xzf $GO_TAR &&
+          rm $GO_TAR &&
+          export GO111MODULE=on &&
+          export CGO_ENABLED=0 &&
+          export GOOS=linux &&
+          export GOARCH=amd64 &&
+          export PATH="${PATH}:/usr/local/go/bin"
+
+      - name: "Run static analysis"
+        run: "make lint"
+
+  test:
+    name: "Python ${{ matrix.python-version }}"
+    runs-on: "ubuntu-latest"
+    env:
+      USING_COVERAGE: "3.9"
+
+    strategy:
+      matrix:
+        python-version: ["3.6", "3.7", "3.8", "3.9"]
+
+    steps:
+      - uses: "actions/checkout@v2"
+      - uses: "actions/setup-python@v2"
+        with:
+          python-version: "${{ matrix.python-version }}"
+      - name: "Install package"
+        run: |
+          pip install poetry
+          poetry --version
+          poetry config virtualenvs.in-project true
+          poetry install -vv
+
+      - name: "Run tox targets for ${{ matrix.python-version }}"
+        run: "make test"
+
+      - name: "Upload coverage to Codecov"
+        if: "contains(env.USING_COVERAGE, matrix.python-version)"
+        uses: "codecov/codecov-action@v1"
+        with:
+          file: ./tests/coverage.xml
+          fail_ci_if_error: true
+
+  install-dev:
+    strategy:
+      matrix:
+        os: ["ubuntu-latest", "windows-latest", "macos-latest"]
+
+    name: "Verify package"
+    runs-on: "${{ matrix.os }}"
+
+    steps:
+      - uses: "actions/checkout@v2"
+      - uses: "actions/setup-python@v2"
+        with:
+          python-version: "3.8"
+      - name: "Install package"
+        run: |
+          pip install poetry
+          poetry --version
+          poetry config virtualenvs.in-project true
+          poetry install -vv
+
+      - name: "Run example script with dev-local formatting"
+        run: |
+          export CI_ENVIRONMENT_SLUG=dev-local
+          poetry run python ./docs_src/pure_structlog_logging_without_sentry.py
