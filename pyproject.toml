@@ -18,10 +18,10 @@ name = "structlog-sentry-logger"
 version = "0.5.0"
 description = "Log without the setup via a pre-configured structlog logger with optional Sentry integration"
 authors = ["Teo Zosa <teo@sonosim.com>"]
-readme = 'README.md'
+readme = "README.md"
 repository = "https://github.com/TeoZosa/structlog-sentry-logger"
 homepage = "https://github.com/TeoZosa/structlog-sentry-logger"
-keywords = ['logging', 'structured logging', 'sentry', 'structlog', 'structlog-sentry']
+keywords = ["logging", "structured logging", "sentry", "structlog", "structlog-sentry"]
 
 # requirements.txt replacement
 #   Note: to import requirements.txt, use:
