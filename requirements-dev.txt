@@ -48,7 +48,7 @@ pytest-xdist==2.1.0
 python-dotenv==0.14.0
 pyyaml==5.3.1
 regex==2020.10.15
-sentry-sdk==0.19.0
+sentry-sdk==0.19.1
 six==1.15.0
 smmap==3.0.4
 structlog==20.1.0
@@ -59,7 +59,7 @@ tox==3.20.1
 tox-gh-actions==2.1.0
 typed-ast==1.4.1
 typing-extensions==3.7.4.3
-urllib3==1.25.10
+urllib3==1.25.11
 virtualenv==20.0.35
 wrapt==1.12.1
 zipp==3.3.1; python_version < "3.8"
