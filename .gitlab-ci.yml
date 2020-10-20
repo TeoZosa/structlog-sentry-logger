@@ -42,6 +42,7 @@ stages:
 .test-template: &test
   <<: *install-deps
   stage: tests
+  script: make test
   coverage: '/^TOTAL.+?(\d+\%)$/'
   artifacts:
     paths:
@@ -62,20 +63,16 @@ static_analysis:
 
 python3.6:
   <<: *test
-  script: make test-py36
   image: python:3.6
 
 python3.7:
   <<: *test
-  script: make test-py37
   image: python:3.7
 
 python3.8:
   <<: *test
-  script: make test-py38
   image: python:3.8
 
 python3.9:
   <<: *test
-  script: make test-py39
   image: python:3.9
