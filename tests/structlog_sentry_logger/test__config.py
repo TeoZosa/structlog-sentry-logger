@@ -79,7 +79,7 @@ def test_pytest_caplog_and_structlog_patching_equivalence(caplog, random_log_msg
         assert pytest_captured_log == structlog_captured_log
 
 
-def test_main_logger(caplog):
+def test_basic_logging(caplog):
     req = {"response": 200, "result": "DUMMY RESULTS"}
     _uuid = uuid.uuid4()
     LOGGER.debug("Testing main Logger", uuid=_uuid, req=req)
