@@ -78,15 +78,17 @@ def test_pytest_caplog_and_structlog_patching_equivalence(caplog, random_log_msg
 
 def test_basic_logging(caplog):
     logger = structlog_sentry_logger.get_logger()
-    _uuid = uuid.uuid4()
-    req = {"response": 200, "result": "DUMMY RESULTS"}
-    logger.debug("Testing main Logger", uuid=_uuid, req=req)
+    test_data = {
+        "uuid": uuid.uuid4(),
+        "request": {"response": 200, "result": "DUMMY RESULTS"},
+    }
+    logger.debug("Testing main Logger", **test_data)
     assert caplog.records
     for record in caplog.records:
         log = record.msg
         if isinstance(log, dict):  # structlog logger
-            assert log["uuid"] == _uuid
-            assert log["req"] == req
+            for k in test_data:
+                assert log[k] == test_data[k]
         else:
             raise NotImplementedError("Captured log message not a supported type")
 
