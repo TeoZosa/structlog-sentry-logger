@@ -246,11 +246,9 @@ class TestCorrectNamespacing:
             record for record in caplog.records if isinstance(record.msg, dict)
         ]
 
-        for child_log, child_module, log_level in zip(
-            child_logs, [child_module_1, child_module_2], ["warning", "error"]
+        for child_log, child_module in zip(
+            child_logs, [child_module_1, child_module_2]
         ):
-            assert child_log.msg["level"] == log_level == child_log.levelname.lower()
-            assert child_log.msg["event"] == child_module.MODULE_NAME
             assert (
                 child_log.msg["event"]
                 == child_log.msg["logger"]
@@ -259,5 +257,3 @@ class TestCorrectNamespacing:
                 == child_module.MODULE_NAME
                 == child_module.__name__
             )
-            assert child_log.msg["file"] == child_log.pathname
-            assert child_log.msg["sleep_time"] == child_module.SLEEP_TIME
