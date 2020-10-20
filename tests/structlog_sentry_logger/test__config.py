@@ -122,7 +122,7 @@ def test_invalid_git_repository(mocker):
 # pylint: enable=protected-access
 
 
-def test_child_loggers(caplog):
+def test_child_loggers_with_correct_namespacing(caplog):
     child_module_1.log_warn()
     # This line sends an error event to Sentry, with all the breadcrumbs included
     child_module_2.log_error()
