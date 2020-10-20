@@ -11,8 +11,7 @@ cache:
     - .venv
 
 stages:
-  - quality
-  - tests
+  - CI
 
 # Jobs templates ------------------
 
@@ -36,12 +35,12 @@ stages:
 
 .quality-template: &quality
   <<: *install-deps
-  image: python:3.7
-  stage: quality
+  stage: CI
+  script: make lint
 
 .test-template: &test
   <<: *install-deps
-  stage: tests
+  stage: CI
   script: make test
   coverage: '/^TOTAL.+?(\d+\%)$/'
   artifacts:
@@ -57,7 +56,7 @@ stages:
 
 static_analysis:
   <<: *quality
-  script: make lint
+  image: python:3.7
 
 # Tests jobs ------------------------
 
