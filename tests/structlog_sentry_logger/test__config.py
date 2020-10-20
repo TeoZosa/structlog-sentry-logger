@@ -1,6 +1,7 @@
 import uuid
 from datetime import datetime
 from pathlib import Path
+from typing import Any, Dict
 
 import git
 import pytest
@@ -76,7 +77,7 @@ def test_pytest_caplog_and_structlog_patching_equivalence(caplog, random_log_msg
         assert pytest_captured_log == structlog_captured_log
 
 
-test_data = {
+test_cases = {
     "integer": 143,
     "float": 3.14,
     "boolean": True,
@@ -92,6 +93,8 @@ test_data = {
     "🌳": "🦥",
     "🎩": "🐈",
 }
+
+test_data: Dict[str, Any] = {**test_cases, "all test cases simultaneously": test_cases}
 
 
 @pytest.mark.parametrize(
