@@ -84,9 +84,10 @@ python3.9:
 # Install Verification ----------------------
 
 install-dev:
-  <<: *install-deps
   stage: install-dev
+  before_script:
+    - pip install structlog-sentry-logger
   script: |
     export CI_ENVIRONMENT_SLUG=dev-local
-    poetry run python ./docs_src/pure_structlog_logging_without_sentry.py
+    python ./docs_src/pure_structlog_logging_without_sentry.py
   image: python:3.9

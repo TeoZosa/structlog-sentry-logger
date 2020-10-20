@@ -86,13 +86,10 @@ jobs:
           python-version: "3.8"
       - name: "Install package"
         run: |
-          pip install poetry
-          poetry --version
-          poetry config virtualenvs.in-project true
-          poetry install -vv
+          pip install structlog-sentry-logger
 
       - name: "Run example script with dev-local formatting"
         run: |
           export CI_ENVIRONMENT_SLUG=dev-local
-          poetry run python ./docs_src/pure_structlog_logging_without_sentry.py
+          python ./docs_src/pure_structlog_logging_without_sentry.py
         shell: bash
