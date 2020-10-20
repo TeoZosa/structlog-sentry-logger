@@ -28,7 +28,7 @@ mccabe==0.6.1
 mypy==0.790
 mypy-extensions==0.4.3
 nodeenv==1.5.0
-orjson==3.4.0
+orjson==3.4.1
 packaging==20.4
 pathspec==0.8.0
 pluggy==0.13.1
