@@ -77,46 +77,6 @@ def test_pytest_caplog_and_structlog_patching_equivalence(caplog, random_log_msg
         assert pytest_captured_log == structlog_captured_log
 
 
-class TestBasicLogging:  # pylint: disable=too-few-public-methods
-    test_cases = {
-        "integer": 143,
-        "float": 3.14,
-        "boolean": True,
-        "uuid": uuid.uuid4(),
-        "list": [1, "2", float("nan")],
-        "dict": {
-            "request": {"response": 200, "result": "DUMMY RESULTS"},
-            "extra value": False,
-        },
-        "russian": "русский",
-        "chinese": "中文",
-        "japanese": "日本語の漢字とひらがなとカタカナ",
-        "🌳": "🦥",
-        "🎩": "🐈",
-    }
-
-    test_data: Dict[str, Any] = {
-        **test_cases,
-        "all test cases simultaneously": test_cases,
-    }
-
-    @staticmethod
-    @pytest.mark.parametrize(
-        "test_data", [{k: v} for k, v in test_data.items()], ids=test_data.keys()
-    )
-    def test(caplog, test_data):
-        logger = structlog_sentry_logger.get_logger()
-        logger.debug("Testing main Logger", **test_data)
-        assert caplog.records
-        for record in caplog.records:
-            log = record.msg
-            if isinstance(log, dict):  # structlog logger
-                for k in test_data:
-                    assert log[k] == test_data[k]
-            else:
-                raise NotImplementedError("Captured log message not a supported type")
-
-
 # pylint: disable=protected-access
 def test_namespacing_correct_for_main_module(mocker):
     expected_logger = structlog_sentry_logger.get_logger()
@@ -250,3 +210,43 @@ def test_sentry_DSN_integration(caplog):
                         "Captured log message not a supported type"
                     ) from err
             raise err
+
+
+class TestBasicLogging:  # pylint: disable=too-few-public-methods
+    test_cases = {
+        "integer": 143,
+        "float": 3.14,
+        "boolean": True,
+        "uuid": uuid.uuid4(),
+        "list": [1, "2", float("nan")],
+        "dict": {
+            "request": {"response": 200, "result": "DUMMY RESULTS"},
+            "extra value": False,
+        },
+        "russian": "русский",
+        "chinese": "中文",
+        "japanese": "日本語の漢字とひらがなとカタカナ",
+        "🌳": "🦥",
+        "🎩": "🐈",
+    }
+
+    test_data: Dict[str, Any] = {
+        **test_cases,
+        "all test cases simultaneously": test_cases,
+    }
+
+    @staticmethod
+    @pytest.mark.parametrize(
+        "test_data", [{k: v} for k, v in test_data.items()], ids=test_data.keys()
+    )
+    def test(caplog, test_data):
+        logger = structlog_sentry_logger.get_logger()
+        logger.debug("Testing main Logger", **test_data)
+        assert caplog.records
+        for record in caplog.records:
+            log = record.msg
+            if isinstance(log, dict):  # structlog logger
+                for k in test_data:
+                    assert log[k] == test_data[k]
+            else:
+                raise NotImplementedError("Captured log message not a supported type")
