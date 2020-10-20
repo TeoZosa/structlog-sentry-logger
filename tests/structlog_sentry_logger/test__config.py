@@ -77,8 +77,20 @@ def test_pytest_caplog_and_structlog_patching_equivalence(caplog, random_log_msg
 
 
 test_data = {
+    "integer": 143,
+    "float": 3.14,
+    "boolean": True,
     "uuid": uuid.uuid4(),
-    "request": {"response": 200, "result": "DUMMY RESULTS"},
+    "list": [1, "2", float("nan")],
+    "dict": {
+        "request": {"response": 200, "result": "DUMMY RESULTS"},
+        "extra value": False,
+    },
+    "russian": "русский",
+    "chinese": "中文",
+    "japanese": "日本語の漢字とひらがなとカタカナ",
+    "🌳": "🦥",
+    "🎩": "🐈",
 }
 
 
