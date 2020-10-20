@@ -38,12 +38,17 @@ With fields sorted by key for easier at-a-glance analysis.
 
 ### Performance
 `structlog-sentry-logger` is fully-tuned and leverages [`ORJSON`](https://github.com/ijl/orjson)
-as the JSON serializer for lightning-fast logging. It's 2020, you don't have to let your obligate cross-cutting concerns
-cripple performance any longer!  
+as the JSON serializer for lightning-fast logging (more than a 4x speedup over
+Python's built-in JSON library[[1]](#1)). It's 2020, you don't have to let your
+obligate cross-cutting concerns cripple performance any longer!  
 
 For further reference, see:
 - "[`ORJSON`: Serialize](https://github.com/ijl/orjson#serialize)" for benchmarks
 - "[`structlog`: Performance](https://www.structlog.org/en/stable/performance.html)" for salient performance-related configurations.
+
+<a id="1">[1]</a>
+source:
+[Choosing a faster JSON library for Python: Benchmarking](https://pythonspeed.com/articles/faster-json-library/#step-4-benchmarking)
 
 ### Built-in Sentry Integration (Optional)
 Automatically add much richer context to your Sentry reports.
