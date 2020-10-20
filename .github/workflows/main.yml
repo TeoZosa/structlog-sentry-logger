@@ -9,7 +9,7 @@ on:  # yamllint disable-line rule:truthy
   workflow_dispatch:
 
 jobs:
-  static_analysis:
+  static-analysis:
     name: "Static Analysis"
     runs-on: "ubuntu-latest"
     steps:
