@@ -76,12 +76,17 @@ def test_pytest_caplog_and_structlog_patching_equivalence(caplog, random_log_msg
         assert pytest_captured_log == structlog_captured_log
 
 
-def test_basic_logging(caplog):
+test_data = {
+    "uuid": uuid.uuid4(),
+    "request": {"response": 200, "result": "DUMMY RESULTS"},
+}
+
+
+@pytest.mark.parametrize(
+    "test_data", [{k: v} for k, v in test_data.items()], ids=test_data.keys()
+)
+def test_basic_logging(caplog, test_data):
     logger = structlog_sentry_logger.get_logger()
-    test_data = {
-        "uuid": uuid.uuid4(),
-        "request": {"response": 200, "result": "DUMMY RESULTS"},
-    }
     logger.debug("Testing main Logger", **test_data)
     assert caplog.records
     for record in caplog.records:
