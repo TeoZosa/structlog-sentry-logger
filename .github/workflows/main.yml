@@ -9,8 +9,8 @@ on:  # yamllint disable-line rule:truthy
   workflow_dispatch:
 
 jobs:
-  lint:
-    name: "Lint"
+  static_analysis:
+    name: "Static Analysis"
     runs-on: "ubuntu-latest"
     steps:
       - uses: "actions/checkout@v2"
