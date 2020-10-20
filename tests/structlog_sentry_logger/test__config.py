@@ -145,41 +145,45 @@ def test_child_loggers_with_correct_namespacing(caplog):
         assert child_log.msg["sleep_time"] == child_module.SLEEP_TIME
 
 
-def test_structlog_logger_schema(caplog, random_log_msgs):
-    logger = structlog_sentry_logger.get_logger()
-    for log_msg in random_log_msgs:
-        logger.debug(log_msg)
-    assert caplog.records
-    structlogged_records = [
-        record for record in caplog.records if isinstance(record.msg, dict)
-    ]
-    module_name = structlog_sentry_logger.get_namespaced_module_name(__file__)
-    for record, log_msg in zip(structlogged_records, random_log_msgs):
-        log = record.msg
-        assert log["level"] == "debug" == record.levelname.lower()
-        assert log["logger"] == logger.name == record.name == module_name == __name__
-        assert log["event"] == log_msg
-        assert log["sentry"] == "skipped"
-        assert "timestamp" in log
+class TestLoggerSchema:
+    @staticmethod
+    def test_structlog_logger(caplog, random_log_msgs):
+        logger = structlog_sentry_logger.get_logger()
+        for log_msg in random_log_msgs:
+            logger.debug(log_msg)
+        assert caplog.records
+        structlogged_records = [
+            record for record in caplog.records if isinstance(record.msg, dict)
+        ]
+        module_name = structlog_sentry_logger.get_namespaced_module_name(__file__)
+        for record, log_msg in zip(structlogged_records, random_log_msgs):
+            log = record.msg
+            assert log["level"] == "debug" == record.levelname.lower()
+            assert (
+                log["logger"] == logger.name == record.name == module_name == __name__
+            )
+            assert log["event"] == log_msg
+            assert log["sentry"] == "skipped"
+            assert "timestamp" in log
 
-
-def test_nonstructlog_logger_schema(caplog, random_log_msgs):
-    logger = structlog_sentry_logger.get_logger()
-    for log_msg in random_log_msgs:
-        logger.debug(log_msg)
-    assert caplog.records
-    non_structlogged_records = [
-        record for record in caplog.records if not isinstance(record.msg, dict)
-    ]
-    for record in non_structlogged_records:
-        log = record.msg
-        if isinstance(log, str):
-            # other stdlib-based logger initialized BEFORE our structlog logger;
-            # i.e., Sentry-invoked `urllib3.connectionpool` logger
-            assert record.name == "urllib3.connectionpool"
-            assert "sentry" in record.message
-        else:
-            raise NotImplementedError("Captured log message not a supported type")
+    @staticmethod
+    def test_non_structlog_logger(caplog, random_log_msgs):
+        logger = structlog_sentry_logger.get_logger()
+        for log_msg in random_log_msgs:
+            logger.debug(log_msg)
+        assert caplog.records
+        non_structlogged_records = [
+            record for record in caplog.records if not isinstance(record.msg, dict)
+        ]
+        for record in non_structlogged_records:
+            log = record.msg
+            if isinstance(log, str):
+                # other stdlib-based logger initialized BEFORE our structlog logger;
+                # i.e., Sentry-invoked `urllib3.connectionpool` logger
+                assert record.name == "urllib3.connectionpool"
+                assert "sentry" in record.message
+            else:
+                raise NotImplementedError("Captured log message not a supported type")
 
 
 def test_sentry_DSN_integration(caplog):
