@@ -8,7 +8,7 @@ Structlog-Sentry-Logger
 ![PyPI](https://img.shields.io/pypi/v/structlog-sentry-logger?color=informational&style=plastic)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-A multi-purpose, pre-configured [`structlog`](https://www.structlog.org/en/stable/) logger
+A multi-purpose, pre-configured, performance-optimized [`structlog`](https://www.structlog.org/en/stable/) logger
 with (optional) [Sentry](https://sentry.io/welcome/) integration
 via [`structlog-sentry`](https://github.com/kiwicom/structlog-sentry).
 
