@@ -22,7 +22,7 @@ import structlog_sentry_logger
 
 @pytest.fixture(scope="function")
 def random_log_msgs(iters=10):
-    return [uuid.uuid4().hex for _ in range(iters)]
+    return [uuid.uuid4() for _ in range(iters)]
 
 
 # Demonstrates/validates `pytest`-captured logs are functionally identical to
