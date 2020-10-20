@@ -98,7 +98,15 @@ def test_namespacing_correct_for_main_module(mocker):
         structlog_sentry_logger._config, "is_caller_main", lambda _: True
     )
     actual_logger = structlog_sentry_logger.get_logger()
-    assert expected_logger.name == actual_logger.name == __name__
+    assert repr(expected_logger) == repr(actual_logger)
+    module_name = structlog_sentry_logger.get_namespaced_module_name(__file__)
+    assert (
+        expected_logger.name
+        == actual_logger.name
+        == module_name
+        == __name__
+        != "__main__"
+    )
 
 
 def test_invalid_git_repository(mocker):
