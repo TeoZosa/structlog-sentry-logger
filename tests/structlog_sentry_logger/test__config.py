@@ -1,6 +1,8 @@
 import uuid
 from datetime import datetime
+from pathlib import Path
 
+import git
 import pytest
 import structlog
 
@@ -89,6 +91,28 @@ def test_main_logger(caplog):
             assert log["req"] == req
         else:
             raise NotImplementedError("Captured log message not a supported type")
+
+
+# pylint: disable=protected-access
+def test_invalid_git_repository(mocker):
+    test_file_dir = Path(__file__)
+
+    def mock_err():
+        raise git.InvalidGitRepositoryError(test_file_dir.parent)
+
+    mocker.patch.object(structlog_sentry_logger._config, "get_git_root", mock_err)
+    # Patch `ROOT_DIR` to use the patched `get_git_root()` fn
+    mocker.patch.object(
+        structlog_sentry_logger._config,
+        "ROOT_DIR",
+        structlog_sentry_logger._config.get_root_dir(),
+    )
+    expected = test_file_dir.with_suffix("").name
+    actual = structlog_sentry_logger._config.get_namespaced_module_name(test_file_dir)
+    assert actual == expected
+
+
+# pylint: enable=protected-access
 
 
 def test_child_loggers(caplog):
