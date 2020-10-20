@@ -7,10 +7,6 @@ import pytest
 import structlog
 
 import structlog_sentry_logger
-from tests.structlog_sentry_logger import child_module_1, child_module_2
-
-LOGGER = structlog_sentry_logger.get_logger()
-MODULE_NAME = structlog_sentry_logger.get_namespaced_module_name(__file__)
 
 # Note: the below methods use `pytest`'s `caplog` fixture to properly capture the
 # logs.
@@ -33,8 +29,9 @@ def random_log_msgs(iters=10):
 # `structlog.testing`-captured logs
 def test_pytest_caplog_and_structlog_patching_equivalence(caplog, random_log_msgs):
     def get_pytest_captured_logs():
+        logger = structlog_sentry_logger.get_logger()
         for log_msg in random_log_msgs:
-            LOGGER.debug(log_msg)
+            logger.debug(log_msg)
         captured_logs = [record.msg for record in caplog.records]
         assert captured_logs
         return captured_logs
@@ -80,9 +77,10 @@ def test_pytest_caplog_and_structlog_patching_equivalence(caplog, random_log_msg
 
 
 def test_basic_logging(caplog):
-    req = {"response": 200, "result": "DUMMY RESULTS"}
+    logger = structlog_sentry_logger.get_logger()
     _uuid = uuid.uuid4()
-    LOGGER.debug("Testing main Logger", uuid=_uuid, req=req)
+    req = {"response": 200, "result": "DUMMY RESULTS"}
+    logger.debug("Testing main Logger", uuid=_uuid, req=req)
     assert caplog.records
     for record in caplog.records:
         log = record.msg
@@ -95,10 +93,11 @@ def test_basic_logging(caplog):
 
 # pylint: disable=protected-access
 def test_namespacing_correct_for_main_module(mocker):
+    logger = structlog_sentry_logger.get_logger()
     mocker.patch.object(
         structlog_sentry_logger._config, "is_caller_main", lambda _: True
     )
-    assert structlog_sentry_logger.get_logger().name == LOGGER.name
+    assert structlog_sentry_logger.get_logger().name == logger.name
 
 
 def test_invalid_git_repository(mocker):
@@ -123,6 +122,11 @@ def test_invalid_git_repository(mocker):
 
 
 def test_child_loggers_with_correct_namespacing(caplog):
+    from tests.structlog_sentry_logger import (  # pylint: disable=import-outside-toplevel
+        child_module_1,
+        child_module_2,
+    )
+
     child_module_1.log_warn()
     # This line sends an error event to Sentry, with all the breadcrumbs included
     child_module_2.log_error()
@@ -146,24 +150,27 @@ def test_child_loggers_with_correct_namespacing(caplog):
 
 
 def test_structlog_logger_schema(caplog, random_log_msgs):
+    logger = structlog_sentry_logger.get_logger()
     for log_msg in random_log_msgs:
-        LOGGER.debug(log_msg)
+        logger.debug(log_msg)
     assert caplog.records
     structlogged_records = [
         record for record in caplog.records if isinstance(record.msg, dict)
     ]
+    module_name = structlog_sentry_logger.get_namespaced_module_name(__file__)
     for record, log_msg in zip(structlogged_records, random_log_msgs):
         log = record.msg
         assert log["level"] == "debug" == record.levelname.lower()
-        assert log["logger"] == LOGGER.name == MODULE_NAME == record.name
+        assert log["logger"] == logger.name == module_name == record.name
         assert log["event"] == log_msg
         assert log["sentry"] == "skipped"
         assert "timestamp" in log
 
 
 def test_nonstructlog_logger_schema(caplog, random_log_msgs):
+    logger = structlog_sentry_logger.get_logger()
     for log_msg in random_log_msgs:
-        LOGGER.debug(log_msg)
+        logger.debug(log_msg)
     assert caplog.records
     non_structlogged_records = [
         record for record in caplog.records if not isinstance(record.msg, dict)
@@ -186,8 +193,9 @@ def test_sentry_DSN_integration(caplog):
             err_msg = "DUMMY ERROR TO TEST SENTRY CONNECTION"
             raise TestErrorClass(err_msg)
         except TestErrorClass as err:
+            logger = structlog_sentry_logger.get_logger()
             # This line sends the above exception event to Sentry, with all the breadcrumbs included
-            LOGGER.exception("Exception caught and thrown")
+            logger.exception("Exception caught and thrown")
             assert caplog.records
             for record in caplog.records:
                 log = record.msg
