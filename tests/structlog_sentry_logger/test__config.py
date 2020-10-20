@@ -99,59 +99,6 @@ def test_invalid_git_repository(mocker):
 # pylint: enable=protected-access
 
 
-class TestCorrectNamespacing:
-    # pylint: disable=protected-access
-    @staticmethod
-    def test_main_module(mocker):
-        expected_logger = structlog_sentry_logger.get_logger()
-        mocker.patch.object(
-            structlog_sentry_logger._config, "is_caller_main", lambda _: True
-        )
-        actual_logger = structlog_sentry_logger.get_logger()
-        assert repr(expected_logger) == repr(actual_logger)
-        module_name = structlog_sentry_logger.get_namespaced_module_name(__file__)
-        assert (
-            expected_logger.name
-            == actual_logger.name
-            == module_name
-            == __name__
-            != "__main__"
-        )
-
-    # pylint: enable=protected-access
-
-    @staticmethod
-    def test_child_loggers(caplog):
-        from tests.structlog_sentry_logger import (  # pylint: disable=import-outside-toplevel
-            child_module_1,
-            child_module_2,
-        )
-
-        child_module_1.log_warn()
-        # This line sends an error event to Sentry, with all the breadcrumbs included
-        child_module_2.log_error()
-        assert caplog.records
-        child_logs = [
-            record for record in caplog.records if isinstance(record.msg, dict)
-        ]
-
-        for child_log, child_module, log_level in zip(
-            child_logs, [child_module_1, child_module_2], ["warning", "error"]
-        ):
-            assert child_log.msg["level"] == log_level == child_log.levelname.lower()
-            assert child_log.msg["event"] == child_module.MODULE_NAME
-            assert (
-                child_log.msg["event"]
-                == child_log.msg["logger"]
-                == child_log.msg["name"]
-                == child_log.name
-                == child_module.MODULE_NAME
-                == child_module.__name__
-            )
-            assert child_log.msg["file"] == child_log.pathname
-            assert child_log.msg["sleep_time"] == child_module.SLEEP_TIME
-
-
 def test_sentry_DSN_integration(caplog):
     TestErrorClass = ConnectionError
     with pytest.raises(TestErrorClass):
@@ -261,3 +208,56 @@ class TestLoggerSchema:
                 assert "sentry" in record.message
             else:
                 raise NotImplementedError("Captured log message not a supported type")
+
+
+class TestCorrectNamespacing:
+    # pylint: disable=protected-access
+    @staticmethod
+    def test_main_module(mocker):
+        expected_logger = structlog_sentry_logger.get_logger()
+        mocker.patch.object(
+            structlog_sentry_logger._config, "is_caller_main", lambda _: True
+        )
+        actual_logger = structlog_sentry_logger.get_logger()
+        assert repr(expected_logger) == repr(actual_logger)
+        module_name = structlog_sentry_logger.get_namespaced_module_name(__file__)
+        assert (
+            expected_logger.name
+            == actual_logger.name
+            == module_name
+            == __name__
+            != "__main__"
+        )
+
+    # pylint: enable=protected-access
+
+    @staticmethod
+    def test_child_loggers(caplog):
+        from tests.structlog_sentry_logger import (  # pylint: disable=import-outside-toplevel
+            child_module_1,
+            child_module_2,
+        )
+
+        child_module_1.log_warn()
+        # This line sends an error event to Sentry, with all the breadcrumbs included
+        child_module_2.log_error()
+        assert caplog.records
+        child_logs = [
+            record for record in caplog.records if isinstance(record.msg, dict)
+        ]
+
+        for child_log, child_module, log_level in zip(
+            child_logs, [child_module_1, child_module_2], ["warning", "error"]
+        ):
+            assert child_log.msg["level"] == log_level == child_log.levelname.lower()
+            assert child_log.msg["event"] == child_module.MODULE_NAME
+            assert (
+                child_log.msg["event"]
+                == child_log.msg["logger"]
+                == child_log.msg["name"]
+                == child_log.name
+                == child_module.MODULE_NAME
+                == child_module.__name__
+            )
+            assert child_log.msg["file"] == child_log.pathname
+            assert child_log.msg["sleep_time"] == child_module.SLEEP_TIME
