@@ -11,7 +11,8 @@ cache:
     - .venv
 
 stages:
-  - CI
+  - static-analysis
+  - test
 
 # Jobs templates ------------------
 
@@ -36,14 +37,14 @@ stages:
 
 .quality-template: &quality
   <<: *install-deps
-  stage: CI
+  stage: static-analysis
   script:
     - *install-go
     - make lint
 
 .test-template: &test
   <<: *install-deps
-  stage: CI
+  stage: test
   script: make test
   coverage: '/^TOTAL.+?(\d+\%)$/'
   artifacts:
