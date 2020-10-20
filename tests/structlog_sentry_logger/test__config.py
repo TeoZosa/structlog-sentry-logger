@@ -97,7 +97,7 @@ def test_namespacing_correct_for_main_module(mocker):
     mocker.patch.object(
         structlog_sentry_logger._config, "is_caller_main", lambda _: True
     )
-    assert structlog_sentry_logger.get_logger().name == logger.name
+    assert structlog_sentry_logger.get_logger().name == logger.name == __name__
 
 
 def test_invalid_git_repository(mocker):
@@ -144,6 +144,7 @@ def test_child_loggers_with_correct_namespacing(caplog):
             == child_log.msg["name"]
             == child_log.name
             == child_module.MODULE_NAME
+            == child_module.__name__
         )
         assert child_log.msg["file"] == child_log.pathname
         assert child_log.msg["sleep_time"] == child_module.SLEEP_TIME
@@ -161,7 +162,7 @@ def test_structlog_logger_schema(caplog, random_log_msgs):
     for record, log_msg in zip(structlogged_records, random_log_msgs):
         log = record.msg
         assert log["level"] == "debug" == record.levelname.lower()
-        assert log["logger"] == logger.name == module_name == record.name
+        assert log["logger"] == logger.name == record.name == module_name == __name__
         assert log["event"] == log_msg
         assert log["sentry"] == "skipped"
         assert "timestamp" in log
