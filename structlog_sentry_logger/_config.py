@@ -109,13 +109,17 @@ def get_namespaced_module_name(__file__):
 def get_logger():
     prev_stack_frame = inspect.stack()[1]
     caller_name = inspect.getmodule(prev_stack_frame[0]).__name__
-    if caller_name == "__main__":
+    if is_caller_main(caller_name):
         caller_name = get_namespaced_module_name(prev_stack_frame.filename)
     if not structlog.is_configured():
         timestamper = structlog.processors.TimeStamper(fmt=DATETIME_FORMAT)
         set_logging_config(caller_name, timestamper)
         set_structlog_config(timestamper)
     return structlog.get_logger(caller_name)
+
+
+def is_caller_main(caller_name):
+    return caller_name == "__main__"
 
 
 def set_logging_config(module_name, timestamper):
