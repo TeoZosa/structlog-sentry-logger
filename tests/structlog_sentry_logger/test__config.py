@@ -93,11 +93,12 @@ def test_basic_logging(caplog):
 
 # pylint: disable=protected-access
 def test_namespacing_correct_for_main_module(mocker):
-    logger = structlog_sentry_logger.get_logger()
+    expected_logger = structlog_sentry_logger.get_logger()
     mocker.patch.object(
         structlog_sentry_logger._config, "is_caller_main", lambda _: True
     )
-    assert structlog_sentry_logger.get_logger().name == logger.name == __name__
+    actual_logger = structlog_sentry_logger.get_logger()
+    assert expected_logger.name == actual_logger.name == __name__
 
 
 def test_invalid_git_repository(mocker):
