@@ -226,8 +226,8 @@ class TestBasicLogging:  # pylint: disable=too-few-public-methods
         "russian": "русский",
         "chinese": "中文",
         "japanese": "日本語の漢字とひらがなとカタカナ",
-        "🌳": "🦥",
-        "🎩": "🐈",
+        "emoji tree (🌳)": "emoji sloth (🦥)",
+        "emoji hat (🎩)": "emoji cat (🐈)",
     }
 
     test_data: Dict[str, Any] = {
