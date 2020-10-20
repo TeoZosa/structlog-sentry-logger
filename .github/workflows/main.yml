@@ -88,8 +88,11 @@ jobs:
         run: |
           pip install structlog-sentry-logger
 
-      - name: "Run example script with dev-local formatting"
+      - name: "Run example script with both logging configurations"
         run: |
+          echo "Default output (JSON)"
+          python ./docs_src/pure_structlog_logging_without_sentry.py
+          echo "dev-local output (formatted)"
           export CI_ENVIRONMENT_SLUG=dev-local
           python ./docs_src/pure_structlog_logging_without_sentry.py
         shell: bash
