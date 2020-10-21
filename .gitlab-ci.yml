@@ -24,6 +24,8 @@ stages:
     - poetry config virtualenvs.in-project true
     - poetry install -vv
 
+# Quality jobs ----------------------
+
 # Install Go for pre-commit hook (shfmt)
 .install-go-template: &install-go >
   GO_TAR=go1.15.linux-amd64.tar.gz &&
@@ -43,6 +45,12 @@ stages:
     - *install-go
     - make lint
 
+static-analysis:
+  <<: *quality
+  image: python:3.7
+
+# Tests jobs ------------------------
+
 .test-template: &test
   <<: *install-deps
   stage: test
@@ -56,14 +64,6 @@ stages:
       - tests/coverage.json
     when: always
     expire_in: 2000 years
-
-# Quality jobs ----------------------
-
-static-analysis:
-  <<: *quality
-  image: python:3.7
-
-# Tests jobs ------------------------
 
 python3.6:
   <<: *test
