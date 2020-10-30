@@ -31,6 +31,7 @@ provision_environment:
 	poetry install -vv
 
 .PHONY: test
+## Test via poetry
 test: clean update-dependencies generate-requirements
 	poetry run tox
 
@@ -59,7 +60,7 @@ update-dependencies:
 	poetry install
 
 .PHONY: generate-requirements
-## Generate updated requirements from `pyproject.toml`
+## Generate project requirements files from `pyproject.toml`
 generate-requirements:
 	poetry export -f requirements.txt --without-hashes > requirements.txt # subset
 	poetry export --dev -f requirements.txt --without-hashes > requirements-dev.txt # superset
