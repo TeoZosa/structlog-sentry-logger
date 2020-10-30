@@ -24,6 +24,7 @@ jobs:
         run: |
           pip install poetry
           poetry --version
+          poetry config cache-dir "${GITHUB_WORKSPACE}/.cache/pypoetry"
           poetry config virtualenvs.in-project true
           poetry install -vv
 
@@ -54,6 +55,7 @@ jobs:
         run: |
           pip install poetry
           poetry --version
+          poetry config cache-dir "${GITHUB_WORKSPACE}/.cache/pypoetry"
           poetry config virtualenvs.in-project true
           poetry install -vv
 
@@ -81,6 +83,7 @@ jobs:
         run: |
           pip install poetry
           poetry --version
+          poetry config cache-dir "${GITHUB_WORKSPACE}/.cache/pypoetry"
           poetry config virtualenvs.in-project true
           poetry install -vv
 

@@ -9,6 +9,7 @@ cache:
   paths:
     - .cache/pip
     - .venv
+    - .cache/pypoetry
 
 stages:
   - static-analysis
@@ -21,6 +22,7 @@ stages:
   before_script:
     - pip install poetry
     - poetry --version
+    - poetry config cache-dir "${CI_PROJECT_DIR}/.cache/pypoetry"
     - poetry config virtualenvs.in-project true
     - poetry install -vv
 
