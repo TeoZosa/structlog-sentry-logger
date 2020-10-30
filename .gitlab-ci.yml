@@ -13,7 +13,7 @@ cache:
 stages:
   - static-analysis
   - test
-  - install-dev
+  - verify-user-install
 
 # Jobs templates ------------------
 
@@ -86,8 +86,8 @@ python3.9:
 
 # Install Verification ----------------------
 
-install-dev:
-  stage: install-dev
+verify-user-install:
+  stage: verify-user-install
   before_script:
     - pip install structlog-sentry-logger
   script: |

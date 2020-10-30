@@ -78,12 +78,12 @@ jobs:
 
   # Install Verification ----------------------
 
-  install-dev:
+  verify-user-install:
     strategy:
       matrix:
         os: ["ubuntu-latest", "windows-latest", "macos-latest"]
 
-    name: "Verify package"
+    name: "Verify package install as user"
     runs-on: "${{ matrix.os }}"
 
     steps:
