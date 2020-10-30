@@ -17,7 +17,7 @@ stages:
 
 # Jobs templates ------------------
 
-.install-deps-template: &install-deps
+.install-dev-deps-template: &install-dev-deps
   before_script:
     - pip install poetry
     - poetry --version
@@ -39,7 +39,7 @@ stages:
   export PATH="${PATH}:/usr/local/go/bin"
 
 .quality-template: &quality
-  <<: *install-deps
+  <<: *install-dev-deps
   stage: static-analysis
   script:
     - *install-go
@@ -52,7 +52,7 @@ static-analysis:
 # Tests jobs ------------------------
 
 .test-template: &test
-  <<: *install-deps
+  <<: *install-dev-deps
   stage: test
   coverage: '/^TOTAL.+?(\d+\%)$/'
   artifacts:
