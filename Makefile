@@ -34,16 +34,19 @@ provision_environment:
 ## Test via poetry
 test: clean update-dependencies generate-requirements
 	poetry run tox
+	$(MAKE) clean-requirements
 
 .PHONY: test-%
 test-%: clean update-dependencies generate-requirements
 	poetry run tox -e clean,$*,report
+	$(MAKE) clean-requirements
 
 .PHONY: lint
 ## Lint using pre-commit hooks (see `.pre-commit-config.yaml`)
 lint: clean update-dependencies generate-requirements
 # Note: updated `requirements.txt` (via `generate-requirements`) also needed for `safety` `pre-commit` hook
 	poetry run tox -e lint
+	$(MAKE) clean-requirements
 
 .PHONY: clean
 ## Delete all compiled Python files
@@ -64,6 +67,11 @@ update-dependencies:
 generate-requirements:
 	poetry export -f requirements.txt --without-hashes > requirements.txt # subset
 	poetry export --dev -f requirements.txt --without-hashes > requirements-dev.txt # superset
+
+.PHONY: clean-requirements
+## clean generated project requirements files
+clean-requirements:
+	find . -type f -name "requirements*.txt" -delete
 
 #################################################################################
 # Self Documenting Commands                                                     #
