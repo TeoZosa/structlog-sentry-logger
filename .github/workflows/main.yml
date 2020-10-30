@@ -42,6 +42,24 @@ jobs:
       - name: "Run static analysis"
         run: "make lint"
 
+  dependency-security-vulnerability-analysis:
+    name: "Dependency Security Vulnerability Analysis"
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: "actions/checkout@v2"
+      - uses: "actions/setup-python@v2"
+        with:
+          python-version: "3.9"
+      - name: "Install package"
+        run: |
+          pip install poetry
+          poetry --version
+          poetry config virtualenvs.in-project true
+          poetry install -vv
+
+      - name: "Run dependency security vulnerability analysis"
+        run: "make scan-dependencies"
+
   # Tests jobs ------------------------
 
   test:
