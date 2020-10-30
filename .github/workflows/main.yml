@@ -26,6 +26,7 @@ jobs:
           poetry --version
           poetry config cache-dir "${GITHUB_WORKSPACE}/.cache/pypoetry"
           poetry config virtualenvs.in-project true
+          poetry config --list
           poetry install -vv
 
       - name: "Install Go for pre-commit hook (shfmt)"
@@ -57,6 +58,7 @@ jobs:
           poetry --version
           poetry config cache-dir "${GITHUB_WORKSPACE}/.cache/pypoetry"
           poetry config virtualenvs.in-project true
+          poetry config --list
           poetry install -vv
 
       - name: "Run dependency security vulnerability analysis"
@@ -85,6 +87,7 @@ jobs:
           poetry --version
           poetry config cache-dir "${GITHUB_WORKSPACE}/.cache/pypoetry"
           poetry config virtualenvs.in-project true
+          poetry config --list
           poetry install -vv
 
       - name: "Run tox targets for ${{ matrix.python-version }}"
