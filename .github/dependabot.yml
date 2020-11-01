@@ -5,13 +5,31 @@ updates:
     directory: "/"
     schedule:
       interval: daily
+      time: "06:00"
+      timezone: "America/Los_Angeles"
+    labels:
+      - "dependencies"
+      - "github_actions"
+    open-pull-requests-limit: 99
   # GitHub Actions Python dependencies `constraints` file
   - package-ecosystem: pip
     directory: "/.github/workflows"
     schedule:
       interval: daily
+      time: "06:00"
+      timezone: "America/Los_Angeles"
+    labels:
+      - "dependencies"
+      - "python"
+    open-pull-requests-limit: 99
   # Project dependencies
   - package-ecosystem: pip
     directory: "/"
     schedule:
       interval: daily
+      time: "06:00"
+      timezone: "America/Los_Angeles"
+    labels:
+      - "dependencies"
+      - "python"
+    open-pull-requests-limit: 99
