@@ -42,7 +42,8 @@ jobs:
           export PATH="${PATH}:/usr/local/go/bin"
 
       - name: "Run static analysis"
-        run: "make lint"
+        run: |
+          make lint
 
   dependency-security-vulnerability-analysis:
     name: "Dependency Security Vulnerability Analysis"
@@ -62,7 +63,8 @@ jobs:
           poetry install -vv
 
       - name: "Run dependency security vulnerability analysis"
-        run: "make scan-dependencies"
+        run: |
+          make scan-dependencies
 
   # Tests jobs ------------------------
 
@@ -91,7 +93,8 @@ jobs:
           poetry install -vv
 
       - name: "Run tox targets for ${{ matrix.python-version }}"
-        run: "make test"
+        run: |
+          make test
 
       - name: "Upload coverage to Codecov"
         if: "contains(env.USING_COVERAGE, matrix.python-version)"
