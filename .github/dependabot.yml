@@ -1,0 +1,17 @@
+version: 2
+updates:
+  # Github Actions
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: daily
+  # GitHub Actions Python dependencies `constraints` file
+  - package-ecosystem: pip
+    directory: "/.github/workflows"
+    schedule:
+      interval: daily
+  # Project dependencies
+  - package-ecosystem: pip
+    directory: "/"
+    schedule:
+      interval: daily
