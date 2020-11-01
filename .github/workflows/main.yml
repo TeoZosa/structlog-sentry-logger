@@ -22,7 +22,7 @@ jobs:
           python-version: "3.8"
       - name: "Install package"
         run: |
-          pip install poetry
+          pip install --constraint=.github/workflows/constraints.txt poetry
           poetry --version
           poetry config cache-dir "${GITHUB_WORKSPACE}/.cache/pypoetry"
           poetry config virtualenvs.in-project true
@@ -55,7 +55,7 @@ jobs:
           python-version: "3.9"
       - name: "Install package"
         run: |
-          pip install poetry
+          pip install --constraint=.github/workflows/constraints.txt poetry
           poetry --version
           poetry config cache-dir "${GITHUB_WORKSPACE}/.cache/pypoetry"
           poetry config virtualenvs.in-project true
@@ -85,7 +85,7 @@ jobs:
           python-version: "${{ matrix.python-version }}"
       - name: "Install package"
         run: |
-          pip install poetry
+          pip install --constraint=.github/workflows/constraints.txt poetry
           poetry --version
           poetry config cache-dir "${GITHUB_WORKSPACE}/.cache/pypoetry"
           poetry config virtualenvs.in-project true
