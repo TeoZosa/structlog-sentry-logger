@@ -1,0 +1,27 @@
+categories:
+  - title: ":boom: Breaking Changes"
+    label: "breaking"
+  - title: ":sparkles: Features"
+    label: "enhancement"
+  - title: ":fire: Removals and Deprecations"
+    label: "removal"
+  - title: ":bug: Fixes"
+    label: "bug"
+  - title: ":zap: Performance"
+    label: "performance"
+  - title: ":white_check_mark: Testing"
+    label: "testing"
+  - title: ":construction_worker: Continuous Integration"
+    label: "ci"
+  - title: ":memo: Documentation"
+    label: "documentation"
+  - title: ":recycle: Refactoring"
+    label: "refactoring"
+  - title: ":package: Dependencies"
+    labels:
+      - "dependencies"
+      - "build"
+template: |
+  ## Changes
+
+  $CHANGES
