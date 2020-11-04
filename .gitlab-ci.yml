@@ -25,7 +25,8 @@ stages:
     - poetry config cache-dir "${CI_PROJECT_DIR}/.cache/pypoetry"
     - poetry config virtualenvs.in-project true
     - poetry config --list
-    - poetry update -vv
+    - poetry update --lock -vv
+    - poetry install -vv
 
 # Quality jobs ----------------------
 
