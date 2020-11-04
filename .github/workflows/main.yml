@@ -27,7 +27,7 @@ jobs:
           poetry config cache-dir "${GITHUB_WORKSPACE}/.cache/pypoetry"
           poetry config virtualenvs.in-project true
           poetry config --list
-          poetry install -vv
+          poetry update -vv
 
       - name: "Install Go for pre-commit hook (shfmt)"
         run: >
