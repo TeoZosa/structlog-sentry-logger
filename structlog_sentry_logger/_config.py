@@ -237,7 +237,9 @@ class SentryBreadcrumbJsonProcessor(SentryJsonProcessor):
         breadcrumb_level: int = logging.INFO,
         active: bool = True,
         as_extra: bool = True,
-        tag_keys: Union[List[str], str] = None,
+        tag_keys: Union[  # pylint: disable=unsubscriptable-object
+            List[str], str
+        ] = None,
     ) -> None:
         self.breadcrumb_level = breadcrumb_level
         super().__init__(
