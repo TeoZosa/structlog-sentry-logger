@@ -26,9 +26,22 @@ PROJECT_NAME := $(shell basename $(PROJECT_DIR))
 #################################################################################
 
 .PHONY: provision_environment
-## Set up python interpreter environment with installed project dependencies
+## Set up Python virtual environment with installed project dependencies
 provision_environment:
+ifeq ($(shell command -v poetry),)
+	@echo "poetry could not be found!"
+	@echo "Please install poetry!"
+	@echo "Ex.: 'curl -sSL \
+	https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python - \
+	&& source $$HOME/.poetry/env'"
+	@echo "Note: 'pyenv' recommended for Python version management"
+	@echo "see:"
+	@echo "- https://github.com/pyenv/pyenv"
+	@echo "- https://python-poetry.org/docs/managing-environments/"
+	false
+else
 	poetry install -vv
+endif
 
 .PHONY: test
 ## Test via poetry
