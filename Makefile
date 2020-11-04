@@ -40,6 +40,7 @@ ifeq ($(shell command -v poetry),)
 	@echo "- https://python-poetry.org/docs/managing-environments/"
 	false
 else
+	poetry update --lock -vv
 	poetry install -vv
 endif
 
