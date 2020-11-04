@@ -64,7 +64,7 @@ clean:
 ## updating packages in `poetry.lock` with any newer versions specified in
 ## `pyproject.toml`, and install $(PROJECT_NAME) source code
 update-dependencies:
-	poetry update
+	poetry update --lock
 	poetry install
 
 .PHONY: generate-requirements
