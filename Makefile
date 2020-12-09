@@ -89,7 +89,7 @@ clean:
 .PHONY: update-dependencies
 ## Install Python dependencies,
 ## updating packages in `poetry.lock` with any newer versions specified in
-## `pyproject.toml`, and install $(PROJECT_NAME) source code
+## `pyproject.toml`, and install structlog-sentry-logger source code
 update-dependencies:
 	poetry update --lock
 ifneq (${CI}, true)
