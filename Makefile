@@ -46,6 +46,11 @@ else
 	poetry install -vv
 endif
 
+.PHONY: install-pre-commit-hooks
+## Install git pre-commit hooks locally
+install-pre-commit-hooks:
+	poetry run pre-commit install
+
 .PHONY: test
 ## Test via poetry
 test: clean update-dependencies generate-requirements
