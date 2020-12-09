@@ -1,104 +1,28 @@
 ---
-# Global --------------------------
 
-variables:
-  PIP_CACHE_DIR: "${CI_PROJECT_DIR}/.cache/pip"
-
-cache:
-  key: "${CI_JOB_NAME}"
-  paths:
-    - .cache/pip
-    - .venv
-    - .cache/pypoetry
+include:
+  - project: 'CorSAIR/ci-cd/pipeline-templates'
+    ref: master
+    file: '/.gitlab/ci/stages/globals.yml'
+  - project: 'CorSAIR/ci-cd/pipeline-templates'
+    ref: master
+    file: '/.gitlab/ci/stages/pull_docker_image/jobs/pull.yml'
+  - project: 'CorSAIR/ci-cd/pipeline-templates'
+    ref: master
+    file: '/.gitlab/ci/stages/sast/jobs/scan-dependencies.yml'
+  - project: 'CorSAIR/ci-cd/pipeline-templates'
+    ref: master
+    file: '/.gitlab/ci/stages/sast_and_code_quality/jobs/semgrep-python.yml'
+  - project: 'CorSAIR/ci-cd/pipeline-templates'
+    ref: master
+    file: '/.gitlab/ci/stages/code_quality/jobs/pre-commit-hooks.yml'
+  - project: 'CorSAIR/ci-cd/pipeline-templates'
+    ref: master
+    file: '/.gitlab/ci/stages/test/jobs/python/all.yml'
 
 stages:
-  - static-analysis
-  - test
-  - verify-user-install
-
-# Jobs templates ------------------
-
-.install-dev-deps-template: &install-dev-deps
-  before_script:
-    - pip install poetry
-    - poetry --version
-    - poetry config cache-dir "${CI_PROJECT_DIR}/.cache/pypoetry"
-    - poetry config virtualenvs.in-project true
-    - poetry config --list
-    - make provision_environment
-
-# Quality jobs ----------------------
-
-# Install Go for pre-commit hook (shfmt)
-.install-go-template: &install-go >
-  GO_TAR=go1.15.linux-amd64.tar.gz &&
-  wget --quiet https://golang.org/dl/$GO_TAR &&
-  tar -C /usr/local -xzf $GO_TAR &&
-  rm $GO_TAR &&
-  export GO111MODULE=on &&
-  export CGO_ENABLED=0 &&
-  export GOOS=linux &&
-  export GOARCH=amd64 &&
-  export PATH="${PATH}:/usr/local/go/bin"
-
-.quality-template: &quality
-  <<: *install-dev-deps
-  stage: static-analysis
-  script:
-    - *install-go
-    - make lint
-
-static-analysis:
-  <<: *quality
-  image: python:3.9
-
-dependency-security-vulnerability-analysis:
-  <<: *install-dev-deps
-  stage: static-analysis
-  script:
-    - make scan-dependencies
-  image: python:3.9
-
-# Tests jobs ------------------------
-
-.test-template: &test
-  <<: *install-dev-deps
-  stage: test
-  coverage: '/^TOTAL.+?(\d+\%)$/'
-  artifacts:
-    paths:
-      - tests/.coverage
-      - tests/htmlcov/
-      - tests/coverage.xml
-      - tests/coverage.json
-    when: always
-    expire_in: 2000 years
-
-python3.7:
-  <<: *test
-  script: make test-py37
-  image: python:3.7
-
-python3.8:
-  <<: *test
-  script: make test-py38
-  image: python:3.8
-
-python3.9:
-  <<: *test
-  script: make test-py39
-  image: python:3.9
-
-# Install Verification ----------------------
-
-verify-user-install:
-  stage: verify-user-install
-  before_script:
-    - pip install structlog-sentry-logger
-  script: |
-    echo "Default output (JSON)"
-    python ./docs_src/pure_structlog_logging_without_sentry.py
-    echo "dev-local output (formatted)"
-    export CI_ENVIRONMENT_SLUG=dev-local
-    python ./docs_src/pure_structlog_logging_without_sentry.py
-  image: python:3.9
+  - Pull Docker Image
+  - SAST
+  - SAST & Code Quality
+  - Code Quality
+  - Test
