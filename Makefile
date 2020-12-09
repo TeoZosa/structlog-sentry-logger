@@ -34,6 +34,8 @@ ifeq ($(shell command -v poetry),)
 	@echo "Ex.: 'curl -sSL \
 	https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python - \
 	&& source $$HOME/.poetry/env'"
+	@echo "see:"
+	@echo "- https://python-poetry.org/docs/#installation"
 	@echo "Note: 'pyenv' recommended for Python version management"
 	@echo "see:"
 	@echo "- https://github.com/pyenv/pyenv"
@@ -43,6 +45,11 @@ else
 	poetry update --lock -vv
 	poetry install -vv
 endif
+
+.PHONY: install-pre-commit-hooks
+## Install git pre-commit hooks locally
+install-pre-commit-hooks:
+	poetry run pre-commit install
 
 .PHONY: test
 ## Test via poetry
@@ -56,9 +63,15 @@ test-%: clean update-dependencies generate-requirements
 	$(MAKE) clean-requirements
 
 .PHONY: lint
+## Run full static analysis suite for local development
+lint:
+	$(MAKE) scan-dependencies
+	$(MAKE) pre-commit
+
+.PHONY: pre-commit
 ## Lint using pre-commit hooks (see `.pre-commit-config.yaml`)
-lint: clean update-dependencies generate-requirements
-	poetry run tox -e lint
+pre-commit: clean update-dependencies generate-requirements
+	poetry run tox -e precommit
 	$(MAKE) clean-requirements
 
 .PHONY: scan-dependencies
@@ -76,10 +89,12 @@ clean:
 .PHONY: update-dependencies
 ## Install Python dependencies,
 ## updating packages in `poetry.lock` with any newer versions specified in
-## `pyproject.toml`, and install $(PROJECT_NAME) source code
+## `pyproject.toml`, and install structlog-sentry-logger source code
 update-dependencies:
 	poetry update --lock
+ifneq (${CI}, true)
 	poetry install
+endif
 
 .PHONY: generate-requirements
 ## Generate project requirements files from `pyproject.toml`
