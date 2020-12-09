@@ -92,7 +92,9 @@ clean:
 ## `pyproject.toml`, and install $(PROJECT_NAME) source code
 update-dependencies:
 	poetry update --lock
+ifneq (${CI}, true)
 	poetry install
+endif
 
 .PHONY: generate-requirements
 ## Generate project requirements files from `pyproject.toml`
