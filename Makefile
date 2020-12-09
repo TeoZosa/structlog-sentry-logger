@@ -64,8 +64,8 @@ test-%: clean update-dependencies generate-requirements
 
 .PHONY: lint
 ## Lint using pre-commit hooks (see `.pre-commit-config.yaml`)
-lint: clean update-dependencies generate-requirements
-	poetry run tox -e lint
+pre-commit: clean update-dependencies generate-requirements
+	poetry run tox -e precommit
 	$(MAKE) clean-requirements
 
 .PHONY: scan-dependencies

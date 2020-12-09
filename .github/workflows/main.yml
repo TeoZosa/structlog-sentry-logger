@@ -43,7 +43,7 @@ jobs:
 
       - name: "Run static analysis"
         run: |
-          make lint
+          make pre-commit
 
   dependency-security-vulnerability-analysis:
     name: "Dependency Security Vulnerability Analysis"
