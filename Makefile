@@ -63,6 +63,12 @@ test-%: clean update-dependencies generate-requirements
 	$(MAKE) clean-requirements
 
 .PHONY: lint
+## Run full static analysis suite for local development
+lint:
+	$(MAKE) scan-dependencies
+	$(MAKE) pre-commit
+
+.PHONY: pre-commit
 ## Lint using pre-commit hooks (see `.pre-commit-config.yaml`)
 pre-commit: clean update-dependencies generate-requirements
 	poetry run tox -e precommit
