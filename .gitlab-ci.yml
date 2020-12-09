@@ -74,11 +74,6 @@ dependency-security-vulnerability-analysis:
     when: always
     expire_in: 2000 years
 
-python3.6:
-  <<: *test
-  script: make test-py36
-  image: python:3.6
-
 python3.7:
   <<: *test
   script: make test-py37
