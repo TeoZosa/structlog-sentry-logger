@@ -41,7 +41,7 @@ repos:
       - id: mypy
         name: mypy
         language: system
-        entry: .tox/lint/bin/mypy
+        entry: .tox/precommit/bin/mypy
         args: [--cache-dir=/dev/null, --config-file=tox.ini]
         types: [python]
 
@@ -50,7 +50,7 @@ repos:
       - id: pylint
         name: pylint
         language: system
-        entry: .tox/lint/bin/pylint
+        entry: .tox/precommit/bin/pylint
         args: [--rcfile=pyproject.toml]
         types: [python]
 
