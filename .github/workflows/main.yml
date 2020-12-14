@@ -124,6 +124,7 @@ jobs:
              --no-deps --index-url https://test.pypi.org/simple/
           pip install --upgrade structlog-sentry-logger
           pip list -v
+        shell: bash
 
       - name: "Run example script with both logging configurations"
         run: |
