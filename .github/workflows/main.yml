@@ -123,6 +123,7 @@ jobs:
           pip install structlog-sentry-logger \
              --no-deps --index-url https://test.pypi.org/simple/
           pip install --upgrade structlog-sentry-logger
+          pip list -v
 
       - name: "Run example script with both logging configurations"
         run: |
