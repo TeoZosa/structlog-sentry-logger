@@ -120,7 +120,9 @@ jobs:
           python-version: "3.8"
       - name: "Install package"
         run: |
-          pip install structlog-sentry-logger
+          pip install structlog-sentry-logger \
+             --no-deps --index-url https://test.pypi.org/simple/
+          pip install --upgrade structlog-sentry-logger
 
       - name: "Run example script with both logging configurations"
         run: |
