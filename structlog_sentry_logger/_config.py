@@ -135,9 +135,8 @@ def set_logging_config(module_name, timestamper):
             "plain": {
                 "()": structlog.stdlib.ProcessorFormatter,
                 "processor": structlog.processors.JSONRenderer(
-                    serializer=lambda *args, **kwargs: str(
-                        orjson.dumps(*args, **kwargs),
-                        "utf-8",
+                    serializer=lambda *args, **kwargs: (
+                        orjson.dumps(*args, **kwargs).decode()
                     ),
                     option=orjson.OPT_SORT_KEYS,
                 ),
