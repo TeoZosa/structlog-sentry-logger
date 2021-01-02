@@ -51,6 +51,23 @@ endif
 get-project-version-number:
 	@poetry version --short
 
+.PHONY: bump-commit-and-push-project-version-number-%
+##  Bumps the version of the project, writes the new version back to
+##  pyproject.toml if a valid bump rule is provided, commits it to VCS, and pushes it to the remote repository.
+##  The new version should ideally be a valid semver string or a valid bump rule:
+##  "patch", "minor", "major", "prepatch", "preminor", "premajor", "prerelease".
+bump-commit-and-push-project-version-number-%: VERSION_NUM_FILE:=pyproject.toml
+bump-commit-and-push-project-version-number-%:
+	# shell out to ensure next line gets updated version number;
+	# directly running `poetry version $*` will cause next line to NOT pick up the version bump
+	@echo "$(shell poetry version $*)"
+	@export NEW_VER_NUM=$(shell $(MAKE) get-project-version-number) && \
+		export COMMIT_MSG=":bookmark: Bump version number to \`$${NEW_VER_NUM}\`" && \
+		git commit $(VERSION_NUM_FILE) -m "$${COMMIT_MSG}" && \
+		git push \
+	|| git checkout HEAD -- $(VERSION_NUM_FILE) # Rollback `VERSION_NUM_FILE` file on failure
+
+
 .PHONY: install-pre-commit-hooks
 ## Install git pre-commit hooks locally
 install-pre-commit-hooks:
