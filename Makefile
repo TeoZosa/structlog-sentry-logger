@@ -71,6 +71,9 @@ lint:
 .PHONY: pre-commit
 ## Lint using pre-commit hooks (see `.pre-commit-config.yaml`)
 pre-commit: clean update-dependencies generate-requirements
+	# Note: Running through `tox` since some hooks rely on finding their executables
+	# in the `.tox/precommit/bin` directory and to provide an extra layer of isolation
+	# for reproducibility.
 	poetry run tox -e precommit -- $(PRECOMMIT_HOOK_ID)
 	$(MAKE) clean-requirements
 
