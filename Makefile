@@ -71,8 +71,14 @@ lint:
 .PHONY: pre-commit
 ## Lint using pre-commit hooks (see `.pre-commit-config.yaml`)
 pre-commit: clean update-dependencies generate-requirements
-	poetry run tox -e precommit
+	poetry run tox -e precommit -- $(PRECOMMIT_HOOK_ID)
 	$(MAKE) clean-requirements
+
+.PHONY: pre-commit-%
+## Lint using a single specific pre-commit hook (see `.pre-commit-config.yaml`)
+pre-commit-%: export SKIP= # Reset `SKIP` env var to force single hooks to always run
+pre-commit-%:
+	$(MAKE) pre-commit PRECOMMIT_HOOK_ID=$*
 
 .PHONY: scan-dependencies
 ## Scan dependencies for security vulnerabilities
