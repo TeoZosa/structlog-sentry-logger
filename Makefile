@@ -46,6 +46,11 @@ else
 	poetry install -vv
 endif
 
+.PHONY: get-project-version-number
+## Echo project's canonical version number
+get-project-version-number:
+	@poetry version --short
+
 .PHONY: install-pre-commit-hooks
 ## Install git pre-commit hooks locally
 install-pre-commit-hooks:
