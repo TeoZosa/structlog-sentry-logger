@@ -66,6 +66,12 @@ repos:
       - id: script-must-have-extension
       - id: script-must-not-have-extension
 
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v2.7.4
+    hooks:
+      - id: pyupgrade
+        args: [--py38-plus]
+
   - repo: local
     hooks:
       - id: shfmt
