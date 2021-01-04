@@ -50,7 +50,8 @@ jobs:
         run: |
           poetry version patch &&
           VERSION=$(make get-project-version-number) &&
-          poetry version "${VERSION}.dev.$(date +%s)"
+          DEV_VERSION="${VERSION}.dev.$(date +%s)" &&
+          poetry version "${DEV_VERSION}"
 
       - name: Build package
         run: |
