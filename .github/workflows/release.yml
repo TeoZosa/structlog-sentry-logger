@@ -49,8 +49,8 @@ jobs:
         if: "! steps.check-version.outputs.tag"
         run: |
           poetry version patch &&
-          version=$(make get-project-version-number) &&
-          poetry version "${version}.dev.$(date +%s)"
+          VERSION=$(make get-project-version-number) &&
+          poetry version "${VERSION}.dev.$(date +%s)"
 
       - name: Build package
         run: |
