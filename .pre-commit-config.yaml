@@ -17,7 +17,7 @@ repos:
     rev: v0.14.3
     hooks:
       - id: detect-secrets
-        exclude: ^(poetry\.lock)$
+        exclude: ^(poetry\.lock|\.cruft\.json)$
 
   - repo: https://github.com/life4/flakehell
     rev: v.0.7.1
