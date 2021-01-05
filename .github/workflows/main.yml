@@ -29,11 +29,14 @@ jobs:
           pip install --constraint=.github/workflows/constraints.txt poetry
           poetry --version
 
-      - name: Install package
+      - name: Configure Poetry
         run: |
           poetry config cache-dir "${GITHUB_WORKSPACE}/.cache/pypoetry"
           poetry config virtualenvs.in-project true
           poetry config --list
+
+      - name: Install package
+        run: |
           make provision_environment
 
       - name: Install Go for pre-commit hook (shfmt)
@@ -69,11 +72,14 @@ jobs:
           pip install --constraint=.github/workflows/constraints.txt poetry
           poetry --version
 
-      - name: Install package
+      - name: Configure Poetry
         run: |
           poetry config cache-dir "${GITHUB_WORKSPACE}/.cache/pypoetry"
           poetry config virtualenvs.in-project true
           poetry config --list
+
+      - name: Install package
+        run: |
           make provision_environment
 
       - name: Run dependency security vulnerability analysis
@@ -108,11 +114,14 @@ jobs:
           pip install --constraint=.github/workflows/constraints.txt poetry
           poetry --version
 
-      - name: Install package
+      - name: Configure Poetry
         run: |
           poetry config cache-dir "${GITHUB_WORKSPACE}/.cache/pypoetry"
           poetry config virtualenvs.in-project true
           poetry config --list
+
+      - name: Install package
+        run: |
           make provision_environment
 
       - name: "Run tox targets for ${{ matrix.python-version }}"
