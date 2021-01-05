@@ -81,7 +81,7 @@ test: clean update-dependencies generate-requirements
 
 .PHONY: test-%
 test-%: clean update-dependencies generate-requirements
-	poetry run tox -e clean,$*,report
+	poetry run tox -e clean,$*,coverage
 	$(MAKE) clean-requirements
 
 .PHONY: lint
