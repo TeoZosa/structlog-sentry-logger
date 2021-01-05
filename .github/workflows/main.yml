@@ -94,6 +94,7 @@ jobs:
 
       - name: "Run tox targets for ${{ matrix.python-version }}"
         run: |
+          git fetch origin master:refs/remotes/origin/master
           make test
 
       - name: "Upload coverage to Codecov"
