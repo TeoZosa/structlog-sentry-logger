@@ -35,7 +35,7 @@ jobs:
           poetry config virtualenvs.in-project true
           poetry config --list
 
-      - name: Install package
+      - name: Install dependencies
         run: |
           make provision_environment
 
@@ -78,7 +78,7 @@ jobs:
           poetry config virtualenvs.in-project true
           poetry config --list
 
-      - name: Install package
+      - name: Install dependencies
         run: |
           make provision_environment
 
@@ -120,7 +120,7 @@ jobs:
           poetry config virtualenvs.in-project true
           poetry config --list
 
-      - name: Install package
+      - name: Install dependencies
         run: |
           make provision_environment
 
