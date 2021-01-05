@@ -101,7 +101,7 @@ jobs:
         if: "contains(env.USING_COVERAGE, matrix.python-version)"
         uses: "codecov/codecov-action@v1"
         with:
-          file: ./tests/coverage.xml
+          file: ./.tox/coverage.xml
           fail_ci_if_error: true
 
   # Install Verification ----------------------
