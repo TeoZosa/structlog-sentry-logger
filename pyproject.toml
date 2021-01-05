@@ -74,6 +74,10 @@ pre-commit = "^2.9.3"
 #################################################################################
 # Tooling configs                                                               #
 #################################################################################
+[tool.coverage.run]
+branch = true
+parallel = true
+
 [tool.flakehell]
 # specify any flake8 options
 exclude = [".*"] # Ignore dotfiles
