@@ -1,0 +1,19 @@
+{
+    "template": "https://github.com/TeoZosa/cookiecutter-cruft-poetry-tox-pre-commit-ci-cd",
+    "commit": "ed4d8ee8dbda901f38dee8868c39c1044170d5e5",
+    "context": {
+        "cookiecutter": {
+            "project_name": "Structlog-Sentry-Logger",
+            "project_slug": "structlog-sentry-logger",
+            "package_name": "structlog_sentry_logger",
+            "friendly_name": "Structlog Sentry Logger",
+            "author": "Teo Zosa",
+            "email": "teo@sonosim.com",
+            "remote_vcs_host": "https://github.com",
+            "remote_vcs_username": "TeoZosa",
+            "version": "0.5.6",
+            "_template": "https://github.com/TeoZosa/cookiecutter-cruft-poetry-tox-pre-commit-ci-cd"
+        }
+    },
+    "directory": null
+}
