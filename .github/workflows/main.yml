@@ -13,23 +13,33 @@ jobs:
   # Quality jobs ----------------------
 
   static-analysis:
-    name: "Static Analysis"
+    name: Static Analysis
     runs-on: "ubuntu-latest"
     steps:
-      - uses: "actions/checkout@v2"
-      - uses: "actions/setup-python@v2"
+      - name: Check out the repository
+        uses: actions/checkout@v2.3.3
+
+      - name: Set up Python
+        uses: actions/setup-python@v2.1.4
         with:
           python-version: "3.9"
-      - name: "Install package"
+
+      - name: Install Poetry
         run: |
           pip install --constraint=.github/workflows/constraints.txt poetry
           poetry --version
+
+      - name: Configure Poetry
+        run: |
           poetry config cache-dir "${GITHUB_WORKSPACE}/.cache/pypoetry"
           poetry config virtualenvs.in-project true
           poetry config --list
+
+      - name: Install dependencies
+        run: |
           make provision_environment
 
-      - name: "Install Go for pre-commit hook (shfmt)"
+      - name: Install Go for pre-commit hook (shfmt)
         run: >
           GO_TAR=go1.15.linux-amd64.tar.gz &&
           wget --quiet https://golang.org/dl/$GO_TAR &&
@@ -46,23 +56,33 @@ jobs:
           make pre-commit
 
   dependency-security-vulnerability-analysis:
-    name: "Dependency Security Vulnerability Analysis"
+    name: Dependency Security Vulnerability Analysis
     runs-on: "ubuntu-latest"
     steps:
-      - uses: "actions/checkout@v2"
-      - uses: "actions/setup-python@v2"
+      - name: Check out the repository
+        uses: actions/checkout@v2.3.3
+
+      - name: Set up Python
+        uses: actions/setup-python@v2.1.4
         with:
           python-version: "3.9"
-      - name: "Install package"
+
+      - name: Install Poetry
         run: |
           pip install --constraint=.github/workflows/constraints.txt poetry
           poetry --version
+
+      - name: Configure Poetry
+        run: |
           poetry config cache-dir "${GITHUB_WORKSPACE}/.cache/pypoetry"
           poetry config virtualenvs.in-project true
           poetry config --list
+
+      - name: Install dependencies
+        run: |
           make provision_environment
 
-      - name: "Run dependency security vulnerability analysis"
+      - name: Run dependency security vulnerability analysis
         run: |
           make scan-dependencies
 
@@ -79,28 +99,41 @@ jobs:
         python-version: ["3.7", "3.8", "3.9"]
 
     steps:
-      - uses: "actions/checkout@v2"
-      - uses: "actions/setup-python@v2"
+      - name: Check out the repository
+        uses: actions/checkout@v2.3.3
+        with:
+          fetch-depth: 2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2.1.4
         with:
           python-version: "${{ matrix.python-version }}"
-      - name: "Install package"
+
+      - name: Install Poetry
         run: |
           pip install --constraint=.github/workflows/constraints.txt poetry
           poetry --version
+
+      - name: Configure Poetry
+        run: |
           poetry config cache-dir "${GITHUB_WORKSPACE}/.cache/pypoetry"
           poetry config virtualenvs.in-project true
           poetry config --list
+
+      - name: Install dependencies
+        run: |
           make provision_environment
 
       - name: "Run tox targets for ${{ matrix.python-version }}"
         run: |
+          git fetch origin master:refs/remotes/origin/master
           make test
 
-      - name: "Upload coverage to Codecov"
+      - name: Upload coverage to Codecov
         if: "contains(env.USING_COVERAGE, matrix.python-version)"
         uses: "codecov/codecov-action@v1"
         with:
-          file: ./tests/coverage.xml
+          file: ./.tox/coverage.xml
           fail_ci_if_error: true
 
   # Install Verification ----------------------
@@ -110,15 +143,19 @@ jobs:
       matrix:
         os: ["ubuntu-latest", "windows-latest", "macos-latest"]
 
-    name: "Verify package install as user"
+    name: Verify package install as user
     runs-on: "${{ matrix.os }}"
 
     steps:
-      - uses: "actions/checkout@v2"
-      - uses: "actions/setup-python@v2"
+      - name: Check out the repository
+        uses: actions/checkout@v2.3.3
+
+      - name: Set up Python
+        uses: actions/setup-python@v2.1.4
         with:
-          python-version: "3.8"
-      - name: "Install package"
+          python-version: "3.9"
+
+      - name: Install package
         run: |
           pip install structlog-sentry-logger \
              --no-deps --index-url https://test.pypi.org/simple/
@@ -126,7 +163,7 @@ jobs:
           pip list -v
         shell: bash
 
-      - name: "Run example script with both logging configurations"
+      - name: Run example script with both logging configurations
         run: |
           echo "Default output (JSON)"
           python ./docs_src/pure_structlog_logging_without_sentry.py
