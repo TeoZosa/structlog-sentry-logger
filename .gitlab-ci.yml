@@ -26,3 +26,7 @@ stages:
   - SAST & Code Quality
   - Code Quality
   - Test
+
+variables:
+  # For `pre-commit-hooks` job
+  SKIP: cruft

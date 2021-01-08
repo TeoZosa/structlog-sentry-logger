@@ -54,6 +54,8 @@ jobs:
       - name: "Run static analysis"
         run: |
           make pre-commit
+        env:
+          SKIP: cruft
 
   # Security jobs ----------------------
 
