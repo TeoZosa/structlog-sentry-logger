@@ -13,11 +13,16 @@ repos:
     hooks:
       - id: black
 
+  - repo: https://github.com/cruft/cruft
+    rev: 2.6.0
+    hooks:
+      - id: cruft
+
   - repo: https://github.com/Yelp/detect-secrets
     rev: v0.14.3
     hooks:
       - id: detect-secrets
-        exclude: poetry.lock
+        exclude: ^(poetry\.lock|\.cruft\.json)$
 
   - repo: https://github.com/life4/flakehell
     rev: v.0.7.1
@@ -93,10 +98,12 @@ repos:
     hooks:
       - id: check-added-large-files  # Ignored for git-lfs files
         args: [--maxkb=100000]  # 100MB
+      - id: check-ast
       - id: debug-statements
       - id: end-of-file-fixer  # Ensure files ONLY end in a newline
         exclude_types: [jupyter]
       - id: pretty-format-json  # Sort and indent
         args: [--autofix]
+        exclude: ^(\.cruft\.json)$
       - id: trailing-whitespace  # Trim
         args: [--markdown-linebreak-ext=md]
