@@ -50,7 +50,7 @@ tox-gh-actions = "^2.3.0"
 # see: https://black.readthedocs.io/en/stable/editor_integration.html
 black = "^20.8b1"
 # Linters
-flakehell = "^0.7.1"
+flakehell = "^0.8.0"
 pylint = "^2.6.0"
 # Static type checker
 mypy = "^0.790"
