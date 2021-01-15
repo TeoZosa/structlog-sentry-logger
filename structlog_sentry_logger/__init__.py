@@ -1,4 +1,4 @@
-""" Callers of this module should strive to implement canonical log lines
+""" Users should strive to implement canonical log lines
 (when it makes sense).
 
 - Note: the below is a quick primer on the topic; see the
