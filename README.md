@@ -99,7 +99,11 @@ Now anytime you want to print anything, don't. Instead do this:
 LOG_MSG = "Information that's useful for future me and others"
 LOGGER.info(LOG_MSG, extra_field="extra_value")
 ```
-###### Note: all the regular [Python logging levels](https://docs.python.org/3/library/logging.html#levels) are supported.
+> :note: **Note**  
+>  All the regular
+>  [Python logging levels](https://docs.python.org/3/library/logging.html#levels)
+>  are supported.
+
 Which automatically produces this:
 ```
 {
