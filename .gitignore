@@ -47,6 +47,9 @@ coverage.xml
 # DotEnv configuration
 .env
 
+# Documentation builds
+docs/_build
+
 # Database
 *.db
 *.rdb

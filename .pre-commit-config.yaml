@@ -29,6 +29,14 @@ repos:
     hooks:
       - id: flakehell
 
+  # Docstring coverage tool
+  - repo: https://github.com/econchick/interrogate
+    rev: 1.3.2
+    hooks:
+      - id: interrogate
+        # adjust `fail-under` value as quality standards permit
+        args: [-vv, --fail-under=0]
+
   - repo: https://github.com/timothycrosley/isort
     rev: 5.7.0
     hooks:
@@ -39,6 +47,7 @@ repos:
     hooks:
       - id: markdown-toc
         args: [--maxdepth=3, -i]
+        exclude: ^(docs/source/.*)$
 
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v0.790

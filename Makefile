@@ -46,6 +46,20 @@ else
 	poetry install -vv
 endif
 
+.PHONY: docs-%
+## Build documentation in the format specified after `-`
+## e.g.,
+## `make docs-html` builds the docs in HTML format,
+## `make docs-confluence` builds and publishes the docs on confluence (see `docs/source/conf.py` for details),
+## `make docs-clean` cleans the docs build directory
+docs-%:
+	$(MAKE) $* -C docs
+
+.PHONY: test-docs
+## Test documentation format/syntax
+test-docs:
+	poetry run tox -e docs
+
 .PHONY: get-project-version-number
 ## Echo project's canonical version number
 get-project-version-number:
@@ -136,7 +150,7 @@ generate-requirements:
 .PHONY: clean-requirements
 ## clean generated project requirements files
 clean-requirements:
-	find . -type f -name "requirements*.txt" -delete
+	find . -type f -name "requirements*.txt" -delete -maxdepth 0
 
 #################################################################################
 # Self Documenting Commands                                                     #

@@ -1,0 +1,41 @@
+---
+name: Build documentation
+
+on:  # yamllint disable-line rule:truthy
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
+  workflow_dispatch:
+
+jobs:
+
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2.3.3
+
+      - name: Set up Python
+        uses: actions/setup-python@v2.2.1
+        with:
+          python-version: "3.9"
+
+      - name: Install Poetry
+        run: |
+          pip install --constraint=.github/workflows/constraints.txt poetry
+          poetry --version
+
+      - name: Configure Poetry
+        run: |
+          poetry config cache-dir "${GITHUB_WORKSPACE}/.cache/pypoetry"
+          poetry config virtualenvs.in-project true
+          poetry config --list
+
+      - name: Install dependencies
+        run: |
+          make provision_environment
+
+      - name: Build Documentation
+        run: |
+          make docs-html

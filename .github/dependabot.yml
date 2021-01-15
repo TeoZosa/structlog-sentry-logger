@@ -1,6 +1,16 @@
 ---
 version: 2
 updates:
+  # Sphinx (documentation)
+  - package-ecosystem: pip
+    directory: "/docs"
+    schedule:
+      interval: daily
+      time: "06:00"
+      timezone: "America/Los_Angeles"
+    labels:
+      - "dependencies"
+      - "python"
   # Github Actions
   - package-ecosystem: github-actions
     directory: "/"
