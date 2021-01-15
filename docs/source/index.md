@@ -7,7 +7,6 @@
    :maxdepth: 1
 
    readme
-   usage
    API Reference <ref/api/modules>
    Developer Reference <ref/dev/modules>
    contributing
