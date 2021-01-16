@@ -171,7 +171,13 @@ class TestBasicLogging:  # pylint: disable=too-few-public-methods
 
 class TestLoggerSchema:
     @staticmethod
-    def test_structlog_logger(caplog, random_log_msgs):
+    @pytest.mark.usefixtures(
+        "patch_get_caller_name_from_frames_for_typeguard_compatibility"
+    )
+    def test_structlog_logger(
+        caplog,
+        random_log_msgs,
+    ):
         logger = structlog_sentry_logger.get_logger()
         for log_msg in random_log_msgs:
             logger.debug(log_msg)
@@ -213,6 +219,9 @@ class TestLoggerSchema:
 class TestCorrectNamespacing:
     # pylint: disable=protected-access
     @staticmethod
+    @pytest.mark.usefixtures(
+        "patch_get_caller_name_from_frames_for_typeguard_compatibility"
+    )
     def test_main_module(mocker):
         expected_logger = structlog_sentry_logger.get_logger()
         mocker.patch.object(
@@ -232,6 +241,9 @@ class TestCorrectNamespacing:
     # pylint: enable=protected-access
 
     @staticmethod
+    @pytest.mark.usefixtures(
+        "patch_get_caller_name_from_frames_for_typeguard_compatibility"
+    )
     def test_child_loggers(caplog):
         from tests.structlog_sentry_logger import (  # pylint: disable=import-outside-toplevel
             child_module_1,

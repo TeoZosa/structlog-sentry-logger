@@ -28,6 +28,9 @@ def actual_output(capsys, caplog, monkeypatch):
     return utils.get_validated_json_output(capsys)
 
 
+@pytest.mark.usefixtures(
+    "patch_get_caller_name_from_frames_for_typeguard_compatibility"
+)
 def test_dev_local(capsys, caplog, monkeypatch):
     utils.reload_module_dev_local_env(
         monkeypatch, pure_structlog_logging_without_sentry
@@ -45,6 +48,9 @@ def test_dev_local(capsys, caplog, monkeypatch):
     )  # ignoring timestamped portion
 
 
+@pytest.mark.usefixtures(
+    "patch_get_caller_name_from_frames_for_typeguard_compatibility"
+)
 # pylint: disable=redefined-outer-name
 def test_pure_structlog_logging_without_sentry(
     expected_output_truncated,
