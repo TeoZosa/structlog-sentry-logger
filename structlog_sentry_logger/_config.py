@@ -40,9 +40,13 @@ def get_namespaced_module_name(__file__):
     return ".".join(namespaces)
 
 
+def get_caller_name(prev_stack_frame):
+    return inspect.getmodule(prev_stack_frame[0]).__name__
+
+
 def get_caller_name_from_frames(stack_frames):
     prev_stack_frame = stack_frames[1]
-    caller_name = inspect.getmodule(prev_stack_frame[0]).__name__
+    caller_name = get_caller_name(prev_stack_frame)
     if is_caller_main(caller_name):
         caller_name = get_namespaced_module_name(prev_stack_frame.filename)
     return caller_name
