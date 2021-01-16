@@ -41,6 +41,13 @@ def get_namespaced_module_name(__file__):
 
 
 def get_logger():
+    """
+    Convenience function that returns a logger
+
+    Returns: A proxy that creates a correctly configured logger bound to
+    the __name__ of the calling module
+
+    """
     prev_stack_frame = inspect.stack()[1]
     caller_name = inspect.getmodule(prev_stack_frame[0]).__name__
     if is_caller_main(caller_name):
