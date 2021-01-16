@@ -4,7 +4,7 @@ import logging
 import logging.config
 import os
 from pathlib import Path
-from typing import List, Union
+from typing import Any, List, Union
 
 import git
 import orjson
@@ -52,7 +52,7 @@ def get_caller_name_from_frames(stack_frames):
     return caller_name
 
 
-def get_logger():
+def get_logger() -> Any:
     """
     Convenience function that returns a logger
 
