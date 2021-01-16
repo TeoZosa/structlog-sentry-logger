@@ -40,6 +40,14 @@ def get_namespaced_module_name(__file__):
     return ".".join(namespaces)
 
 
+def get_caller_name_from_frames(stack_frames):
+    prev_stack_frame = stack_frames[1]
+    caller_name = inspect.getmodule(prev_stack_frame[0]).__name__
+    if is_caller_main(caller_name):
+        caller_name = get_namespaced_module_name(prev_stack_frame.filename)
+    return caller_name
+
+
 def get_logger():
     """
     Convenience function that returns a logger
@@ -48,10 +56,8 @@ def get_logger():
     the __name__ of the calling module
 
     """
-    prev_stack_frame = inspect.stack()[1]
-    caller_name = inspect.getmodule(prev_stack_frame[0]).__name__
-    if is_caller_main(caller_name):
-        caller_name = get_namespaced_module_name(prev_stack_frame.filename)
+    stack_frames = inspect.stack()
+    caller_name = get_caller_name_from_frames(stack_frames)
     if not structlog.is_configured():
         timestamper = structlog.processors.TimeStamper(fmt=DATETIME_FORMAT)
         set_logging_config(caller_name, timestamper)
