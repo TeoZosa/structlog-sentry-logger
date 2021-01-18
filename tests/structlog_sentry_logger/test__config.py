@@ -219,6 +219,21 @@ class TestLoggerSchema:
 class TestCorrectNamespacing:
     # pylint: disable=protected-access
     @staticmethod
+    def test_unpatched_is_caller_main_and_typeguard_enabled(mocker):
+        expected_logger = structlog_sentry_logger.get_logger()
+        mocker.patch.object(
+            structlog_sentry_logger._config, "is_caller_main", lambda _: True
+        )
+        actual_logger = structlog_sentry_logger.get_logger()
+
+        print(repr(expected_logger))
+        assert (
+            expected_logger.name == "typeguard"
+            and "typeguard" in actual_logger.name
+            and actual_logger.name != "__main__"
+        )
+
+    @staticmethod
     @pytest.mark.usefixtures(
         "patch_get_caller_name_from_frames_for_typeguard_compatibility"
     )
