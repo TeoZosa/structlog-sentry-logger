@@ -1,48 +1,45 @@
 """Sphinx configuration."""
 import os
 import pathlib
-import subprocess  # nosec
 import sys
 from datetime import datetime
 from typing import List
 
+import importlib_metadata
 from dotenv import find_dotenv, load_dotenv
 from sphinx.ext import apidoc
 
 # Load user-specific env vars (e.g. secrets) from a `.env` file
 load_dotenv(find_dotenv())
+
+
+# -- Path setup --------------------------------------------------------------
+
+# If extensions (or modules to document with autodoc) are in another directory,
+# add these directories to sys.path here. Note that we are adding an absolute
+# path.
 _project_directory = pathlib.Path(__file__).parent.parent.parent
 sys.path.insert(0, str(_project_directory))
 
 
-def get_version_number():
-    """
-    >>> assert get_version_number()
-    """
-    prog = "make"
-    args = [
-        "get-project-version-number",
-        "-C",
-        _project_directory,
-    ]
-    completion_info = subprocess.run(  # nosec
-        [prog, *args],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        universal_newlines=True,
-        check=True,
-    )
-
-    return completion_info.stdout
+# -- Project information -----------------------------------------------------
+PACKAGE_NAME = "structlog-sentry-logger"
+try:
+    project_metadata = importlib_metadata.metadata(PACKAGE_NAME)
+except importlib_metadata.PackageNotFoundError as err:
+    raise RuntimeError(
+        f"The package '{PACKAGE_NAME}' must be installed. "
+        "Please install the package in editable mode before building docs."
+    ) from err
 
 
 # pylint: disable=invalid-name
 
 # -- Project information -----------------------------------------------------
-project = "structlog-sentry-logger"
-author = "Teo Zosa"
+project = project_metadata["Name"]
+author = project_metadata["Author"]
 project_copyright = f"{datetime.now().year}, {author}"
-version = release = get_version_number()
+version = release = project_metadata["Version"]
 
 # -- General configuration ---------------------------------------------------
 extensions = [
