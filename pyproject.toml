@@ -45,7 +45,7 @@ pytest-mock = "^3.5.1"
 pytest-sugar = "^0.9.4"
 pytest-xdist = "^2.2.0"
 tox = "^3.21.1"
-tox-gh-actions = "^2.3.0"
+tox-gh-actions = "^2.4.0"
 # Code formatter
 # see: https://black.readthedocs.io/en/stable/editor_integration.html
 black = "^20.8b1"
