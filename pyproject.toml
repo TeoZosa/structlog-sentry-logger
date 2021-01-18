@@ -39,7 +39,7 @@ structlog-sentry = "^1.2.2"
 [tool.poetry.dev-dependencies]
 # Testing
 pytest = "^6.2.1"
-pytest-cov = "^2.10.1"
+pytest-cov = "^2.11.0"
 pytest-emoji = "^0.2.0"
 pytest-mock = "^3.5.1"
 pytest-sugar = "^0.9.4"
