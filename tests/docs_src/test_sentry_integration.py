@@ -2,7 +2,10 @@ from pathlib import Path
 
 import pytest
 
+import structlog_sentry_logger
 from tests.docs_src import utils
+
+_ = structlog_sentry_logger.get_logger()
 
 
 @pytest.fixture(scope="function")
