@@ -1,14 +1,1 @@
-click==7.1.2
-gitpython==3.1.12
-myst-parser==0.13.1
-orjson==3.4.0
 poetry==1.1.4
-Pygments==2.7.4
-python-dotenv==0.15.0
-sentry-sdk==0.19.5
-Sphinx==3.4.3
-sphinx-autodoc-typehints==1.11.1
-sphinx-click==2.5.0
-sphinx-rtd-theme==0.5.1
-sphinxcontrib-apidoc==0.3.0
-sphinxcontrib-confluencebuilder==1.4.0

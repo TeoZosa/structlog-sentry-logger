@@ -43,7 +43,7 @@ ifeq ($(shell command -v poetry),)
 	false
 else
 	poetry update --lock -vv
-	poetry install -vv
+	poetry install --extras docs -vv
 endif
 
 .PHONY: docs-%
@@ -138,14 +138,14 @@ clean:
 update-dependencies:
 	poetry update --lock
 ifneq (${CI}, true)
-	poetry install
+	poetry install --extras docs
 endif
 
 .PHONY: generate-requirements
 ## Generate project requirements files from `pyproject.toml`
 generate-requirements:
-	poetry export -f requirements.txt --without-hashes > requirements.txt # subset
-	poetry export --dev -f requirements.txt --without-hashes > requirements-dev.txt # superset
+	poetry export --extras docs -f requirements.txt --without-hashes > requirements.txt # subset
+	poetry export --extras docs --dev -f requirements.txt --without-hashes > requirements-dev.txt # superset
 
 .PHONY: clean-requirements
 ## clean generated project requirements files
