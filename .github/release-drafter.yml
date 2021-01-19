@@ -13,7 +13,9 @@ categories:
   - title: ":white_check_mark: Testing"
     label: "testing"
   - title: ":construction_worker: Continuous Integration"
-    label: "ci"
+    labels:
+      - "ci"
+      - "github_actions"
   - title: ":memo: Documentation"
     label: "documentation"
   - title: ":recycle: Refactoring"
