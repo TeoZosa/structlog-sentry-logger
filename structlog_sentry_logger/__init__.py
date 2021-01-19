@@ -83,12 +83,14 @@ Getting insight into e.g., a rate limiting problem, becomes as simple as
 .. _Splunk: https://www.splunk.com/en_us
 .. _`built-in query language`: https://docs.splunk.com/Documentation/Splunk/8.1.1/SearchTutorial/Usethesearchlanguage
 """
+from typing import List
+
 import sentry_sdk
 from dotenv import find_dotenv, load_dotenv
 
 from structlog_sentry_logger._config import get_logger, get_namespaced_module_name
 
-__all__ = [
+__all__: List[str] = [
     "get_logger",
     "get_namespaced_module_name",
 ]
