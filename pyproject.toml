@@ -102,6 +102,14 @@ source = ["structlog_sentry_logger"]
 show_missing = true
 fail_under = 100
 
+[tool.cruft]
+skip = [
+    ".env",
+    "README.md",
+    "structlog_sentry_logger/__init__.py",
+    "docs/source/.env",
+    "docs/source/ref/dev/"
+]
 
 [tool.flakehell]
 # specify any flake8 options
