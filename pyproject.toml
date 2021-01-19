@@ -157,7 +157,7 @@ disable = [
 ignore-imports = "yes"
 
 [tool.pytest.ini_options]
-addopts = ["-rfsxX", "-l", "--tb=short", "--strict", "-vv", "--emoji", "--xdoctest"]
+addopts = ["-rfsxX", "-l", "--tb=short", "--strict-markers", "-vv", "--emoji", "--xdoctest"]
 xfail_strict = "true"
 testpaths = ["tests",]
 norecursedirs = [".*", "*.egg", "build", "dist",]
