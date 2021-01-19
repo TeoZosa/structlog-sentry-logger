@@ -7,6 +7,7 @@ license = "Apache-2.0"
 readme = "README.md"
 repository = "https://github.com/TeoZosa/structlog-sentry-logger"
 homepage = "https://github.com/TeoZosa/structlog-sentry-logger"
+include = ["structlog_sentry_logger/py.typed"]
 keywords = ["logging", "structured", "structure", "log", "structured logging", "sentry", "structlog", "structlog-sentry"]
 classifiers = [
     "Intended Audience :: Developers",
