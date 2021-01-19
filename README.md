@@ -1,13 +1,14 @@
 Structlog-Sentry-Logger
 ==============================
 ![CI](https://github.com/TeoZosa/structlog-sentry-logger/workflows/CI/badge.svg)
-[![codecov](https://codecov.io/gh/TeoZosa/structlog-sentry-logger/branch/master/graph/badge.svg?token=3HF21UWY82)](undefined)
+![codecov](https://codecov.io/gh/TeoZosa/structlog-sentry-logger/branch/master/graph/badge.svg?token=3HF21UWY82)
 ![License](https://img.shields.io/github/license/TeoZosa/structlog-sentry-logger?style=plastic)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/structlog-sentry-logger?style=plastic)
 ![PyPI](https://img.shields.io/pypi/v/structlog-sentry-logger?color=informational&style=plastic)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![powered by semgrep](https://img.shields.io/badge/powered%20by-semgrep-1B2F3D?labelColor=lightgrey&link=https://semgrep.dev/&logo=data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAABmJLR0QA/gD+AP+cH+QUAAAACXBIWXMAAA3XAAAN1wFCKJt4AAAAB3RJTUUH5AYMEy0l8dkqrQAAAvFJREFUKBUB5gIZ/QEAAP8BAAAAAAMG6AD9+hn/GzA//wD//wAAAAD+AAAAAgABAQDl0MEBAwbmAf36GQAAAAAAAQEC9QH//gv/Gi1GFQEC+OoAAAAAAAAAAAABAQAA//8AAAAAAAAAAAD//ggX5tO66gID9AEBFSRxAgYLzRQAAADpAAAAAP7+/gDl0cMPAAAA+wAAAPkbLz39AgICAAAAAAAAAAAs+vU12AEbLz4bAAAA5P8AAAAA//4A5NDDEwEBAO///wABAQEAAP//ABwcMD7hAQEBAAAAAAAAAAAaAgAAAOAAAAAAAQEBAOXRwxUAAADw//8AAgAAAAD//wAAAAAA5OXRwhcAAQEAAAAAAAAAAOICAAAABP3+/gDjzsAT//8A7gAAAAEAAAD+AAAA/wAAAAAAAAAA//8A7ePOwA/+/v4AAAAABAIAAAAAAAAAAAAAAO8AAAABAAAAAAAAAAIAAAABAAAAAAAAAAgAAAD/AAAA8wAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA8AAAAEAAAA/gAAAP8AAAADAAAA/gAAAP8AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAA7wAAAPsAAAARAAAABAAAAP4AAAAAAAAAAgAAABYAAAAAAAAAAAIAAAD8AwICAB0yQP78/v4GAAAA/wAAAPAAAAD9AAAA/wAAAPr9//8aHTJA6AICAgAAAAD8AgAAADIAAAAAAP//AB4wPvgAAAARAQEA/gEBAP4BAQABAAAAGB0vPeIA//8AAAAAAAAAABAC+vUz1QAAAA8AAAAAAwMDABwwPu3//wAe//8AAv//ABAcMD7lAwMDAAAAAAAAAAAG+vU0+QEBAvUB//4L/xotRhUBAvjqAAAAAAAAAAAAAQEAAP//AAAAAAAAAAAA//4IF+bTuuoCA/QBAQAA/wEAAAAAAwboAP36Gf8bMD//AP//AAAAAP4AAAACAAEBAOXQwQEDBuYB/foZAAAAAAD4I6qbK3+1zQAAAABJRU5ErkJggg==)](https://semgrep.dev/)
+[![Dependabot](https://api.dependabot.com/badges/status?host=github&repo=TeoZosa/structlog-sentry-logger)](https://dependabot.com/)
 
 
 Overview
@@ -98,7 +99,11 @@ Now anytime you want to print anything, don't. Instead do this:
 LOG_MSG = "Information that's useful for future me and others"
 LOGGER.info(LOG_MSG, extra_field="extra_value")
 ```
-###### Note: all the regular [Python logging levels](https://docs.python.org/3/library/logging.html#levels) are supported.
+> :note: **Note**  
+>  All the regular
+>  [Python logging levels](https://docs.python.org/3/library/logging.html#levels)
+>  are supported.
+
 Which automatically produces this:
 ```
 {
@@ -203,7 +208,76 @@ CI_ENVIRONMENT_SLUG=dev-local
 ```
 In doing so, with our previous exception handling example we would get:
 
-<img src=".static/Output_Formatting_example.png">
+![Output_Formatting_example](./.static/Output_Formatting_example.png)
+
+Development
+==============================
+
+> 📝 **Note**  
+>  For convenience, many of the below processes are abstracted away
+>  and encapsulated in single [Make](https://www.gnu.org/software/make/) targets.
+
+
+> 🔥 **Tip**  
+>  Invoking `make` without any arguments will display
+>  auto-generated documentation on available commands.
+
+Package and Dependencies Installation
+------------
+
+Make sure you have Python 3.6+ and [`poetry`](https://python-poetry.org/)
+installed and configured.
+
+To install the package and all dev dependencies, run:
+```shell script
+make provision_environment
+```
+
+> 🔥 **Tip**  
+>  Invoking the above without `poetry` installed will emit a
+>  helpful error message letting you know how you can install poetry.
+
+Testing
+------------
+
+We use [`tox`](https://tox.readthedocs.io/en/latest/) for our test automation framework
+and [`pytest`](https://pytest.readthedocs.io/) for our testing framework.
+To invoke the tests, run:
+
+```shell script
+make test
+```
+
+Code Quality
+------------
+
+We are using [`pre-commit`](https://pre-commit.com/) for our code quality
+static analysis automation and management framework. To invoke the analyses and
+auto-formatting over all version-controlled files, run:
+
+```shell script
+make lint
+```
+
+> 🚨 **Danger**  
+>  CI will fail if either testing or code quality fail,
+>  so it is recommended to automatically run the above locally
+>  prior to every commit that is pushed.
+
+### Automate via Git Pre-Commit Hooks
+
+To automatically run code quality validation on every commit (over to-be-committed
+files), run:
+
+```shell script
+make install-pre-commit-hooks
+```
+
+> ⚠️ Warning  
+>  This will prevent commits if any single pre-commit hook fails
+>  (unless it is allowed to fail)
+>  or a file is modified by an auto-formatting job;
+>  in the latter case, you may simply repeat the commit and it should pass.
 
 Summary
 ==============================
@@ -216,13 +290,13 @@ Further Reading
 ==============================
 <img src="https://www.structlog.org/en/stable/_static/structlog_logo_small.png" width="200">
 
-### [`structlog`](https://www.structlog.org/en/stable/#): Structured Logging for Python
+## [`structlog`](https://www.structlog.org/en/stable/#): Structured Logging for Python
 
 <img src="https://camo.githubusercontent.com/2dfeafbee0904d6df16ddf7200993dace1629e60/68747470733a2f2f73656e7472792d6272616e642e73746f726167652e676f6f676c65617069732e636f6d2f73656e7472792d6c6f676f2d626c61636b2e706e67" width="400">
 
-### [`Sentry`](https://sentry.io/welcome/): Monitor and fix crashes in realtime.
+## [`Sentry`](https://sentry.io/welcome/): Monitor and fix crashes in realtime.
 
-### [`structlog-sentry`](https://github.com/kiwicom/structlog-sentry): Provides the [`structlog`](https://www.structlog.org/en/stable/#) `SentryProcessor` for [Sentry](https://sentry.io/welcome/) integration.
+## [`structlog-sentry`](https://github.com/kiwicom/structlog-sentry): Provides the [`structlog`](https://www.structlog.org/en/stable/#) `SentryProcessor` for [Sentry](https://sentry.io/welcome/) integration.
 
 ---
 
@@ -234,6 +308,7 @@ License
 
 Structlog-Sentry-Logger is licensed under the Apache License, Version 2.0.
 See [LICENSE](./LICENSE) for the full license text.
+
 
 Credits
 -------
