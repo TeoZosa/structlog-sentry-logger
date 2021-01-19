@@ -2,7 +2,10 @@ from pathlib import Path
 
 import pytest
 
+import structlog_sentry_logger
 from tests.docs_src import utils
+
+_ = structlog_sentry_logger.get_logger()
 
 
 @pytest.fixture(scope="function")
@@ -49,6 +52,9 @@ def actual_output(capsys, caplog, monkeypatch):
 
 
 # pylint: disable=redefined-outer-name
+@pytest.mark.usefixtures(
+    "patch_get_caller_name_from_frames_for_typeguard_compatibility"
+)
 def test_sentry_integration(expected_output_truncated, actual_output):
     utils.validate_output(
         expected_output_truncated,
