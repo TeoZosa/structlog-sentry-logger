@@ -105,6 +105,7 @@ fail_under = 100
 [tool.cruft]
 skip = [
     ".env",
+    ".python-version",
     "README.md",
     "structlog_sentry_logger/__init__.py",
     "docs/source/.env",
