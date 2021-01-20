@@ -51,7 +51,6 @@ extensions = [
     "sphinx.ext.autosectionlabel",  # Allow reference sections using its title (https://www.sphinx-doc.org/en/master/usage/extensions/autosectionlabel.html)
     "sphinx.ext.napoleon",  # Support for NumPy and Google style docstrings (https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html
     "sphinx_autodoc_typehints",  # Python 3 type annotation extraction (as opposed to manually specifying them in your docstrings) (https://pypi.org/project/sphinx-autodoc-typehints/)
-    "sphinx_click",  # Automatically extract documentation from a click-based application and include it in your docs (https://sphinx-click.readthedocs.io/en/latest/)
     "sphinx_rtd_theme",  # Sphinx theme used on Read The Docs (https://github.com/readthedocs/sphinx_rtd_theme)
     "sphinxcontrib.confluencebuilder",  # Build Confluence supported format files (e.g. storage format) and optionally publish them to a Confluence instance (https://sphinxcontrib-confluencebuilder.readthedocs.io/en/stable/)
 ]
