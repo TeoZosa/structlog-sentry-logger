@@ -517,7 +517,7 @@ python-versions = "*"
 
 [[package]]
 name = "myst-parser"
-version = "0.13.1"
+version = "0.13.2"
 description = "An extended commonmark compliant parser, with bridges to docutils & sphinx."
 category = "main"
 optional = true
@@ -1570,8 +1570,8 @@ mypy-extensions = [
     {file = "mypy_extensions-0.4.3.tar.gz", hash = "sha256:2d82818f5bb3e369420cb3c4060a7970edba416647068eb4c5343488a6c604a8"},
 ]
 myst-parser = [
-    {file = "myst-parser-0.13.1.tar.gz", hash = "sha256:5281f72cc37742b5b753f2bbfdb8f970ae98b01f09cbae192a0dd2560cd70974"},
-    {file = "myst_parser-0.13.1-py3-none-any.whl", hash = "sha256:65dc2c3f27a511844bfbe0bffd1e40c2c796debf290f63dd6c8fe3faeee13f15"},
+    {file = "myst-parser-0.13.2.tar.gz", hash = "sha256:55ad4743f3a7eef6dcc7bfa6ff55249f6e04741eddd37077a627682ed5cdb762"},
+    {file = "myst_parser-0.13.2-py3-none-any.whl", hash = "sha256:27ff163e05774f9db6153eb41f27a33225cd65d4db15d732698d785aeecbbe2c"},
 ]
 nodeenv = [
     {file = "nodeenv-1.5.0-py2.py3-none-any.whl", hash = "sha256:5304d424c529c997bc888453aeaa6362d242b6b4631e90f3d4bf1b290f1c84a9"},
