@@ -44,15 +44,15 @@ jobs:
           make provision_environment
 
       - name: Install Go for pre-commit hook (shfmt)
-        run: >
-          GO_TAR=go1.15.linux-amd64.tar.gz &&
-          wget --quiet https://golang.org/dl/$GO_TAR &&
-          sudo tar -C /usr/local -xzf $GO_TAR &&
-          rm $GO_TAR &&
-          export GO111MODULE=on &&
-          export CGO_ENABLED=0 &&
-          export GOOS=linux &&
-          export GOARCH=amd64 &&
+        run: |
+          GO_TAR=go1.15.linux-amd64.tar.gz && \
+          wget --quiet https://golang.org/dl/$GO_TAR && \
+          sudo tar -C /usr/local -xzf $GO_TAR && \
+          rm $GO_TAR && \
+          export GO111MODULE=on && \
+          export CGO_ENABLED=0 && \
+          export GOOS=linux && \
+          export GOARCH=amd64 && \
           export PATH="${PATH}:/usr/local/go/bin"
 
       - name: Run static analysis
