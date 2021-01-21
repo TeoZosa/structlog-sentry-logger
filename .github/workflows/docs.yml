@@ -3,9 +3,13 @@ name: Build documentation
 
 on:  # yamllint disable-line rule:truthy
   push:
-    branches: ["master"]
+    branches:
+      - main  # forward-compatibility with new GitHub default branch naming
+      - master  # backward-compatibility with old GitHub default branch naming
   pull_request:
-    branches: ["master"]
+    branches:
+      - main  # forward-compatibility with new GitHub default branch naming
+      - master  # backward-compatibility with old GitHub default branch naming
   workflow_dispatch:
 
 jobs:
