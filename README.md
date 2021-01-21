@@ -12,14 +12,14 @@ Structlog-Sentry-Logger
 
 
 Overview
-------------------------------
+--------
 
 A multi-purpose, pre-configured, performance-optimized [`structlog`](https://www.structlog.org/en/stable/) logger
 with (optional) [Sentry](https://sentry.io/welcome/) integration
 via [`structlog-sentry`](https://github.com/kiwicom/structlog-sentry).
 
 Features
-------------
+--------
 1. Makes logging as easy as using print statements, but prettier and less smelly!
 2. Highly opinionated! There are only [two (2) distinct configurations](#output-formatting--storage).
 3. Structured logs in JSON format means they are ready to be ingested by many of your
@@ -64,6 +64,7 @@ log level is `error` or higher.
 - See [`structlog-sentry`](https://github.com/kiwicom/structlog-sentry) for more details.
 
 ------------
+
 Table of Contents
 
 - [Installation](#installation)
@@ -79,13 +80,13 @@ Table of Contents
     + [`structlog-sentry`](#structlog-sentry-provides-the-structlog-sentryprocessor-for-sentry-integration)
 
 Installation
-==============================
+============
  ```shell script
 pip install structlog-sentry-logger
 ```
 
 Usage
-==============================
+=====
 Pure `structlog` Logging (Without Sentry)
 ------------
 At the top of your Python module, import and instantiate the logger:
@@ -117,7 +118,7 @@ Which automatically produces this:
 ```
 
 Sentry Integration
-------------
+------------------
 Export your [Sentry DSN](https://docs.sentry.io/platforms/python/#configure)
 into your local environment.
 
@@ -211,7 +212,7 @@ In doing so, with our previous exception handling example we would get:
 ![Output_Formatting_example](./.static/Output_Formatting_example.png)
 
 Development
-==============================
+===========
 
 > 📝 **Note**  
 >  For convenience, many of the below processes are abstracted away
@@ -223,7 +224,7 @@ Development
 >  auto-generated documentation on available commands.
 
 Package and Dependencies Installation
-------------
+--------------------------------------
 
 Make sure you have Python 3.6+ and [`poetry`](https://python-poetry.org/)
 installed and configured.
@@ -279,15 +280,26 @@ make install-pre-commit-hooks
 >  or a file is modified by an auto-formatting job;
 >  in the latter case, you may simply repeat the commit and it should pass.
 
+Documentation
+--------------
+
+```shell script
+make docs-clean docs-html
+```
+
+> 📝 **Note**  
+>  For faster feedback loops, this will attempt to automatically open the newly
+>  built documentation static HTML in your browser.
+
 Summary
-==============================
+=======
 That's it. Now no excuses.
 Get out there and program with pride knowing no one
 will laugh at you in production! For not logging properly, that is. You're on your own
 for that other [observability](https://devops.com/metrics-logs-and-traces-the-golden-triangle-of-observability-in-monitoring/) stuff.
 
 Further Reading
-==============================
+===============
 <img src="https://www.structlog.org/en/stable/_static/structlog_logo_small.png" width="200">
 
 ## [`structlog`](https://www.structlog.org/en/stable/#): Structured Logging for Python
@@ -301,7 +313,7 @@ Further Reading
 ---
 
 Legal
-==============================
+=====
 
 License
 -------
