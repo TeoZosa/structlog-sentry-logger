@@ -109,8 +109,6 @@ jobs:
     steps:
       - name: Check out the repository
         uses: actions/checkout@v2.3.3
-        with:
-          fetch-depth: 2
 
       - name: Set up Python
         uses: actions/setup-python@v2.2.1
@@ -152,7 +150,7 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v2.3.3
         with:
-          fetch-depth: 2
+          lfs: true
 
       - name: Set up Python
         uses: actions/setup-python@v2.2.1
