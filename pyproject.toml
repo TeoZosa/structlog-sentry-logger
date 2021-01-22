@@ -83,7 +83,6 @@ docs = [
     "pygments",
     "sphinx",
     "sphinx-autodoc-typehints",
-    "sphinx-click",
     "sphinx-rtd-theme",
     "sphinxcontrib-apidoc",
     "sphinxcontrib-confluencebuilder",
