@@ -243,18 +243,32 @@ Testing
 
 We use [`tox`](https://tox.readthedocs.io/en/latest/) for our test automation framework
 and [`pytest`](https://pytest.readthedocs.io/) for our testing framework.
+
 To invoke the tests, run:
 
 ```shell script
 make test
 ```
 
+Run [mutation tests](https://opensource.com/article/20/7/mutmut-python) to validate test suite robustness (Optional):
+
+```shell script
+make test-mutations
+```
+
+> 📝 **Note**  
+>  Test time scales with the complexity of the codebase. Results are cached
+>  in `.mutmut-cache`, so once you get past the initial [cold start problem](https://en.wikipedia.org/wiki/Cold_start_(recommender_systems)),
+>  subsequent mutation test runs will be much faster; new mutations will only
+>  be applied to modified code paths.
+
 Code Quality
 ------------
 
 We are using [`pre-commit`](https://pre-commit.com/) for our code quality
-static analysis automation and management framework. To invoke the analyses and
-auto-formatting over all version-controlled files, run:
+static analysis automation and management framework.
+
+To invoke the analyses and auto-formatting over all version-controlled files, run:
 
 ```shell script
 make lint

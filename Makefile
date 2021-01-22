@@ -89,6 +89,11 @@ test-%: clean update-dependencies generate-requirements
 	poetry run tox -e $*,coverage
 	$(MAKE) clean-requirements
 
+.PHONY: test-mutations
+## Test against mutated code to validate test suite robustness
+test-mutations:
+	$(MAKE) tox-mutmut
+
 .PHONY: lint
 ## Run full static analysis suite for local development
 lint:

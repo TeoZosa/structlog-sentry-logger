@@ -82,6 +82,20 @@ Run the full test suite:
 
    $ make test
 
+Run `mutation tests`_ to validate test suite robustness (Optional):
+-------------------------------------------------------------------
+
+.. highlight:: bash
+.. code-block:: bash
+
+   $ make test-mutations
+
+.. note::
+   Test time scales with the complexity of the codebase. Results are cached
+   in ``.mutmut-cache``, so once you get past the initial `cold start problem`_,
+   subsequent mutation test runs will be much faster; new mutations will only
+   be applied to modified code paths.
+
 Lint the code:
 --------------
 
@@ -120,6 +134,8 @@ Build the documentation:
 
 .. _pytest: https://pytest.readthedocs.io/
 .. _tox: https://tox.readthedocs.io/
+.. _`mutation tests`: https://opensource.com/article/20/7/mutmut-python
+.. _`cold start problem`: https://en.wikipedia.org/wiki/Cold_start_(recommender_systems)
 
 
 How to submit changes
