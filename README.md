@@ -88,7 +88,7 @@ pip install structlog-sentry-logger
 Usage
 =====
 Pure `structlog` Logging (Without Sentry)
-------------
+------------------------------------------
 At the top of your Python module, import and instantiate the logger:
 ```python
 import structlog_sentry_logger
