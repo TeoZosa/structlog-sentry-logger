@@ -208,7 +208,7 @@ jobs:
             RELEASE_WORKFLOW_STATUS=$( \
               curl -sSL -X GET -G \
                 -H "Accept: application/vnd.github.v3+json" \
-                -d "branch=${GITHUB_REF_SLUG}" \
+                -d "branch=${GITHUB_REF_NAME_SLUG}" \
                 -d "event=push" \
                 "${WORKFLOW_API_ENDPOINT}" \
               | jq -r '.workflow_runs[0].conclusion' \

@@ -1,6 +1,6 @@
 {
     "template": "https://github.com/TeoZosa/cookiecutter-cruft-poetry-tox-pre-commit-ci-cd",
-    "commit": "be6a3ef0e83cf23489f664c68006971d362decfe",
+    "commit": "d88b3b48d1f5b212b7d6a55243c415b5220bccb9",
     "context": {
         "cookiecutter": {
             "project_name": "Structlog-Sentry-Logger",
