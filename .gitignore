@@ -72,3 +72,6 @@ docs/_build
 
 # Mypy cache
 .mypy_cache/
+
+# Local log files
+.logs/
