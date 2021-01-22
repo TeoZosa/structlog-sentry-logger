@@ -46,19 +46,10 @@ else
 	poetry install --extras docs -vv
 endif
 
-.PHONY: docs-%
-## Build documentation in the format specified after `-`
-## e.g.,
-## `make docs-html` builds the docs in HTML format,
-## `make docs-confluence` builds and publishes the docs on confluence (see `docs/source/conf.py` for details),
-## `make docs-clean` cleans the docs build directory
-docs-%:
-	$(MAKE) $* -C docs
-
-.PHONY: test-docs
-## Test documentation format/syntax
-test-docs:
-	poetry run tox -e docs
+.PHONY: install-pre-commit-hooks
+## Install git pre-commit hooks locally
+install-pre-commit-hooks:
+	poetry run pre-commit install
 
 .PHONY: get-project-version-number
 ## Echo project's canonical version number
@@ -81,11 +72,11 @@ bump-commit-and-push-project-version-number-%:
 		git push \
 	|| git checkout HEAD -- $(VERSION_NUM_FILE) # Rollback `VERSION_NUM_FILE` file on failure
 
-
-.PHONY: install-pre-commit-hooks
-## Install git pre-commit hooks locally
-install-pre-commit-hooks:
-	poetry run pre-commit install
+.PHONY: tox-%
+## Scan dependencies for security vulnerabilities
+tox-%: clean update-dependencies generate-requirements
+	poetry run tox -e $* -- $(POSARGS)
+	$(MAKE) clean-requirements
 
 .PHONY: test
 ## Test via poetry
@@ -104,14 +95,18 @@ lint:
 	$(MAKE) scan-dependencies
 	$(MAKE) pre-commit
 
+.PHONY: scan-dependencies
+## Scan dependencies for security vulnerabilities
+scan-dependencies:
+	$(MAKE) tox-security
+
 .PHONY: pre-commit
 ## Lint using pre-commit hooks (see `.pre-commit-config.yaml`)
-pre-commit: clean update-dependencies generate-requirements
+pre-commit:
 	# Note: Running through `tox` since some hooks rely on finding their executables
 	# in the `.tox/precommit/bin` directory and to provide an extra layer of isolation
 	# for reproducibility.
-	poetry run tox -e precommit -- $(PRECOMMIT_HOOK_ID)
-	$(MAKE) clean-requirements
+	$(MAKE) tox-precommit POSARGS=$(PRECOMMIT_HOOK_ID)
 
 .PHONY: pre-commit-%
 ## Lint using a single specific pre-commit hook (see `.pre-commit-config.yaml`)
@@ -119,17 +114,19 @@ pre-commit-%: export SKIP= # Reset `SKIP` env var to force single hooks to alway
 pre-commit-%:
 	$(MAKE) pre-commit PRECOMMIT_HOOK_ID=$*
 
-.PHONY: scan-dependencies
-## Scan dependencies for security vulnerabilities
-scan-dependencies: clean update-dependencies generate-requirements
-	poetry run tox -e security
-	$(MAKE) clean-requirements
+.PHONY: docs-%
+## Build documentation in the format specified after `-`
+## e.g.,
+## `make docs-html` builds the docs in HTML format,
+## `make docs-confluence` builds and publishes the docs on confluence (see `docs/source/conf.py` for details),
+## `make docs-clean` cleans the docs build directory
+docs-%:
+	$(MAKE) $* -C docs
 
-.PHONY: clean
-## Delete all compiled Python files
-clean:
-	find . -type f -name "*.py[co]" -delete
-	find . -type d -name "__pycache__" -delete
+.PHONY: test-docs
+## Test documentation format/syntax
+test-docs:
+	poetry run tox -e docs
 
 .PHONY: update-dependencies
 ## Install Python dependencies,
@@ -152,6 +149,12 @@ generate-requirements:
 ## clean generated project requirements files
 clean-requirements:
 	find . -type f -name "requirements*.txt" -delete -maxdepth 0
+
+.PHONY: clean
+## Delete all compiled Python files
+clean:
+	find . -type f -name "*.py[co]" -delete
+	find . -type d -name "__pycache__" -delete
 
 #################################################################################
 # Self Documenting Commands                                                     #
