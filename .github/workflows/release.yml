@@ -6,6 +6,10 @@ on:  # yamllint disable-line rule:truthy
     branches:
       - main  # forward-compatibility with new GitHub default branch naming
       - master  # backward-compatibility with old GitHub default branch naming
+  pull_request:
+    branches:
+      - main  # forward-compatibility with new GitHub default branch naming
+      - master  # backward-compatibility with old GitHub default branch naming
 
 jobs:
   release:
@@ -71,6 +75,23 @@ jobs:
           user: __token__
           password: ${{ secrets.TEST_PYPI_TOKEN }}
           repository_url: https://test.pypi.org/legacy/
+
+      # yamllint disable rule:line-length
+      - name: Validate published package is reachable
+        run: |
+          PYPI_PACKAGE="structlog-sentry-logger==$(make get-project-version-number)"
+          TEST_PYPI_PACKAGE="${PYPI_PACKAGE} --index-url https://test.pypi.org/simple/"
+          function install_test_pypi() { pip install ${TEST_PYPI_PACKAGE} --no-deps && install_pypi; }
+          function install_pypi() { pip install --upgrade ${PYPI_PACKAGE}; }
+
+          until (install_test_pypi || install_pypi) &> /dev/null
+          do
+             echo "Waiting for Python Package Index to serve current package-under-test"
+             sleep 10
+          done
+          pip list -v
+        shell: bash
+      # yamllint enable rule:line-length
 
       - name: Publish the release notes
         uses: release-drafter/release-drafter@v5.13.0

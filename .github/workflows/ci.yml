@@ -44,15 +44,15 @@ jobs:
           make provision_environment
 
       - name: Install Go for pre-commit hook (shfmt)
-        run: >
-          GO_TAR=go1.15.linux-amd64.tar.gz &&
-          wget --quiet https://golang.org/dl/$GO_TAR &&
-          sudo tar -C /usr/local -xzf $GO_TAR &&
-          rm $GO_TAR &&
-          export GO111MODULE=on &&
-          export CGO_ENABLED=0 &&
-          export GOOS=linux &&
-          export GOARCH=amd64 &&
+        run: |
+          GO_TAR=go1.15.linux-amd64.tar.gz && \
+          wget --quiet https://golang.org/dl/$GO_TAR && \
+          sudo tar -C /usr/local -xzf $GO_TAR && \
+          rm $GO_TAR && \
+          export GO111MODULE=on && \
+          export CGO_ENABLED=0 && \
+          export GOOS=linux && \
+          export GOARCH=amd64 && \
           export PATH="${PATH}:/usr/local/go/bin"
 
       - name: Run static analysis
@@ -162,6 +162,39 @@ jobs:
         uses: actions/setup-python@v2.2.1
         with:
           python-version: "3.9"
+
+      - name: Inject slug/short variables
+        uses: rlespinasse/github-slug-action@v3.x
+
+      - name: Check Release workflow status
+        id: release-workflow-status
+        run: |
+          RELEASE_WORKFLOW_STATUS=null
+          until [ "${RELEASE_WORKFLOW_STATUS}" != null ]; do
+            echo "Release workflow status unavailable; retrying"
+            sleep 10
+            RELEASE_WORKFLOW_STATUS=$( \
+              curl -sSL -X GET -G \
+                -H "Accept: application/vnd.github.v3+json" \
+                -d "branch=${GITHUB_REF_SLUG}" \
+                -d "event=push" \
+                "${WORKFLOW_API_ENDPOINT}" \
+              | jq -r '.workflow_runs[0].conclusion' \
+              )
+          done
+          echo "::set-output name=status::${RELEASE_WORKFLOW_STATUS}"
+        env:
+          # yamllint disable-line rule:line-length
+          WORKFLOW_API_ENDPOINT: https://api.github.com/repos/${{ github.repository }}/actions/workflows/release.yml/runs
+        shell: bash
+
+      - name: Abort if Release workflow not successful
+        if: "steps.release-workflow-status.outputs.status != 'success'"
+        run: |
+          echo "ERROR:"
+          echo "Release Workflow status: \
+            ${{ steps.release-workflow-status.outputs.status }}"
+          exit 1
 
       - name: Install package
         run: |

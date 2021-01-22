@@ -144,8 +144,9 @@ endif
 .PHONY: generate-requirements
 ## Generate project requirements files from `pyproject.toml`
 generate-requirements:
-	poetry export --extras docs -f requirements.txt --without-hashes > requirements.txt # subset
-	poetry export --extras docs --dev -f requirements.txt --without-hashes > requirements-dev.txt # superset
+	poetry export -f requirements.txt --without-hashes > requirements.txt # subset
+	poetry export --dev -f requirements.txt --without-hashes > requirements-dev.txt # superset w/o docs
+	poetry export --extras docs --dev -f requirements.txt --without-hashes > requirements-all.txt # superset
 
 .PHONY: clean-requirements
 ## clean generated project requirements files
