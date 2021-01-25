@@ -41,7 +41,16 @@ def get_namespaced_module_name(__file__):
 
 
 def get_caller_name(prev_stack_frame):
-    return inspect.getmodule(prev_stack_frame[0]).__name__
+    deduced_calling_module = deduce_module(prev_stack_frame)
+    return (
+        deduced_calling_module.__name__
+        if deduced_calling_module
+        else get_namespaced_module_name(prev_stack_frame.filename)
+    )
+
+
+def deduce_module(prev_stack_frame):
+    return inspect.getmodule(prev_stack_frame[0])
 
 
 def get_caller_name_from_frames(stack_frames):

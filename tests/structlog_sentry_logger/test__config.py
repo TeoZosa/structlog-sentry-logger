@@ -1,3 +1,4 @@
+import inspect
 import uuid
 from datetime import datetime
 from pathlib import Path
@@ -216,6 +217,34 @@ class TestLoggerSchema:
                 assert "sentry" in record.message
             else:
                 raise NotImplementedError("Captured log message not a supported type")
+
+
+class TestCallerNameInference:
+    @staticmethod
+    @pytest.fixture(scope="function")
+    def prev_stack_frame():
+        stack_frames = inspect.stack()
+        return stack_frames[1]
+
+    # pylint: disable=protected-access
+    @staticmethod
+    def test_get_caller_name_deducable_module(prev_stack_frame):
+        expected = structlog_sentry_logger._config.deduce_module(
+            prev_stack_frame
+        ).__name__
+        actual = structlog_sentry_logger._config.get_caller_name(prev_stack_frame)
+        assert actual == expected
+
+    @staticmethod
+    def test_get_caller_name_non_deducable_module(monkeypatch, prev_stack_frame):
+        monkeypatch.setattr(inspect, "getmodule", lambda _: None)
+        expected = structlog_sentry_logger._config.get_namespaced_module_name(
+            prev_stack_frame.filename
+        )
+        actual = structlog_sentry_logger._config.get_caller_name(prev_stack_frame)
+        assert actual == expected
+
+    # pylint: enable=protected-access
 
 
 class TestCorrectNamespacing:
