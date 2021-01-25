@@ -45,6 +45,7 @@ def get_caller_name(prev_stack_frame):
     return (
         deduced_calling_module.__name__
         if deduced_calling_module
+        and not is_caller_main(deduced_calling_module.__name__)
         else get_namespaced_module_name(prev_stack_frame.filename)
     )
 
@@ -55,10 +56,7 @@ def deduce_module(prev_stack_frame):
 
 def get_caller_name_from_frames(stack_frames):
     prev_stack_frame = stack_frames[1]
-    caller_name = get_caller_name(prev_stack_frame)
-    if is_caller_main(caller_name):
-        caller_name = get_namespaced_module_name(prev_stack_frame.filename)
-    return caller_name
+    return get_caller_name(prev_stack_frame)
 
 
 def get_logger() -> Any:
