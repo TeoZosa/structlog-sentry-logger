@@ -81,60 +81,6 @@ def is_caller_main(caller_name):
 
 
 def set_logging_config(module_name, timestamper):
-    def get_formatters(timestamper):
-        pre_chain = [
-            # Add the log level and a timestamp to the event_dict if the log
-            # entry is not from structlog.
-            structlog.stdlib.add_log_level,
-            timestamper,
-            structlog.stdlib.add_logger_name,
-        ]
-        return {
-            "plain": {
-                "()": structlog.stdlib.ProcessorFormatter,
-                "processor": structlog.processors.JSONRenderer(
-                    serializer=lambda *args, **kwargs: (
-                        orjson.dumps(*args, **kwargs).decode()
-                    ),
-                    option=orjson.OPT_SORT_KEYS,
-                ),
-                "foreign_pre_chain": pre_chain,
-            },
-            "colored": {
-                "()": structlog.stdlib.ProcessorFormatter,
-                "processor": structlog.dev.ConsoleRenderer(colors=True),
-                "format": "%(message)s [in %(funcName)s]",
-                "foreign_pre_chain": pre_chain,
-            },
-        }
-
-    def get_handlers(module_name):
-        default_key = "default"
-        base_handlers = {
-            default_key: {
-                "level": "DEBUG",
-                "class": "logging.StreamHandler",
-                "stream": "ext://sys.stdout",
-            }
-        }
-        if os.environ.get("CI_ENVIRONMENT_SLUG", "").lower() == "dev-local":
-            # Prettify stdout/stderr streams
-            base_handlers[default_key]["formatter"] = "colored"
-            # Add filename handler
-            file_timestamp = datetime.datetime.utcnow().strftime("%Y-%m-%d")
-            log_file_name = f"{file_timestamp}_{module_name}.json"
-            log_file_path = LOG_DATA_DIR / log_file_name
-            base_handlers["filename"] = {
-                "level": "DEBUG",
-                "class": "logging.handlers.RotatingFileHandler",
-                "filename": log_file_path,
-                "maxBytes": 1 << 20,  # 1 MB
-                "backupCount": 3,
-                "formatter": "plain",
-            }
-        else:
-            base_handlers[default_key]["formatter"] = "plain"
-        return base_handlers
 
     formatters = get_formatters(timestamper)
     handlers = get_handlers(module_name)
@@ -148,6 +94,63 @@ def set_logging_config(module_name, timestamper):
         },
     }
     logging.config.dictConfig(config)
+
+
+def get_formatters(timestamper):
+    pre_chain = [
+        # Add the log level and a timestamp to the event_dict if the log
+        # entry is not from structlog.
+        structlog.stdlib.add_log_level,
+        timestamper,
+        structlog.stdlib.add_logger_name,
+    ]
+    return {
+        "plain": {
+            "()": structlog.stdlib.ProcessorFormatter,
+            "processor": structlog.processors.JSONRenderer(
+                serializer=lambda *args, **kwargs: (
+                    orjson.dumps(*args, **kwargs).decode()
+                ),
+                option=orjson.OPT_SORT_KEYS,
+            ),
+            "foreign_pre_chain": pre_chain,
+        },
+        "colored": {
+            "()": structlog.stdlib.ProcessorFormatter,
+            "processor": structlog.dev.ConsoleRenderer(colors=True),
+            "format": "%(message)s [in %(funcName)s]",
+            "foreign_pre_chain": pre_chain,
+        },
+    }
+
+
+def get_handlers(module_name):
+    default_key = "default"
+    base_handlers = {
+        default_key: {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "stream": "ext://sys.stdout",
+        }
+    }
+    if os.environ.get("CI_ENVIRONMENT_SLUG", "").lower() == "dev-local":
+        # Prettify stdout/stderr streams
+        base_handlers[default_key]["formatter"] = "colored"
+        # Add filename handler
+        file_timestamp = datetime.datetime.utcnow().strftime("%Y-%m-%d")
+        log_file_name = f"{file_timestamp}_{module_name}.json"
+        log_file_path = LOG_DATA_DIR / log_file_name
+        base_handlers["filename"] = {
+            "level": "DEBUG",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": log_file_path,
+            "maxBytes": 1 << 20,  # 1 MB
+            "backupCount": 3,
+            "formatter": "plain",
+        }
+    else:
+        base_handlers[default_key]["formatter"] = "plain"
+    return base_handlers
 
 
 def set_structlog_config(timestamper):
