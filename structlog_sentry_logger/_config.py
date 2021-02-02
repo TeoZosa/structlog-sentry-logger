@@ -80,9 +80,9 @@ def is_caller_main(caller_name):
     return caller_name == "__main__"
 
 
-def set_logging_config(module_name, timestamper):
+def get_logging_config(module_name, timestamper):
     handlers = get_handlers(module_name)
-    config = {
+    return {
         "version": 1,
         "disable_existing_loggers": False,
         "formatters": (get_formatters(timestamper)),
@@ -91,7 +91,10 @@ def set_logging_config(module_name, timestamper):
             "": {"handlers": list(handlers.keys()), "level": "DEBUG", "propagate": True}
         },
     }
-    logging.config.dictConfig(config)
+
+
+def set_logging_config(module_name, timestamper):
+    logging.config.dictConfig(get_logging_config(module_name, timestamper))
 
 
 def get_formatters(timestamper):
