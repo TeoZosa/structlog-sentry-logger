@@ -90,7 +90,7 @@ def set_logging_config(module_name, timestamper):
         "formatters": formatters,
         "handlers": handlers,
         "loggers": {
-            "": {"handlers": handlers.keys(), "level": "DEBUG", "propagate": True}
+            "": {"handlers": list(handlers.keys()), "level": "DEBUG", "propagate": True}
         },
     }
     logging.config.dictConfig(config)
