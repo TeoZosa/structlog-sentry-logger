@@ -81,13 +81,11 @@ def is_caller_main(caller_name):
 
 
 def set_logging_config(module_name, timestamper):
-
-    formatters = get_formatters(timestamper)
     handlers = get_handlers(module_name)
     config = {
         "version": 1,
         "disable_existing_loggers": False,
-        "formatters": formatters,
+        "formatters": (get_formatters(timestamper)),
         "handlers": handlers,
         "loggers": {
             "": {"handlers": list(handlers.keys()), "level": "DEBUG", "propagate": True}
