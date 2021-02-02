@@ -13,10 +13,10 @@ repos:
     hooks:
       - id: black
 
-  - repo: https://github.com/cruft/cruft
-    rev: 2.6.0
-    hooks:
-      - id: cruft
+#  - repo: https://github.com/cruft/cruft
+#    rev: 2.6.0
+#    hooks:
+#      - id: cruft
 
   - repo: https://github.com/Yelp/detect-secrets
     rev: v0.14.3
