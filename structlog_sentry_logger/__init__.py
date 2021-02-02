@@ -88,9 +88,14 @@ from typing import List
 import sentry_sdk
 from dotenv import find_dotenv, load_dotenv
 
-from structlog_sentry_logger._config import get_logger, get_namespaced_module_name
+from structlog_sentry_logger._config import (
+    get_config_dict,
+    get_logger,
+    get_namespaced_module_name,
+)
 
 __all__: List[str] = [
+    "get_config_dict",
     "get_logger",
     "get_namespaced_module_name",
 ]

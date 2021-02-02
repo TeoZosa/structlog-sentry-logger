@@ -76,6 +76,21 @@ def get_logger() -> Any:
     return structlog.get_logger(caller_name)
 
 
+def get_config_dict():
+    """
+    Convenience function to get the local logging configuration dictionary,
+    e.g., to help configure loggers from other libraries.
+
+    Returns: The logging configuration dictionary that would be used to
+    configure the Python logging library component of the logger
+
+    """
+    stack_frames = inspect.stack()
+    caller_name = get_caller_name_from_frames(stack_frames)
+    timestamper = structlog.processors.TimeStamper(fmt=DATETIME_FORMAT)
+    return get_logging_config(caller_name, timestamper)
+
+
 def is_caller_main(caller_name):
     return caller_name == "__main__"
 

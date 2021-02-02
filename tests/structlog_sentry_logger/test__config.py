@@ -80,6 +80,24 @@ def test_pytest_caplog_and_structlog_patching_equivalence(caplog, random_log_msg
         assert pytest_captured_log == structlog_captured_log
 
 
+def test_get_config_dict():
+    logging_conf_dict = structlog_sentry_logger.get_config_dict()
+    expected_keys = [
+        "disable_existing_loggers",
+        "formatters",
+        "handlers",
+        "loggers",
+        "version",
+    ]
+    assert expected_keys == sorted(list(logging_conf_dict.keys()))
+
+    assert logging_conf_dict["version"] == 1
+    assert logging_conf_dict["disable_existing_loggers"] is False
+    assert "default" in logging_conf_dict["handlers"]
+    assert ["colored", "plain"] == sorted(list(logging_conf_dict["formatters"].keys()))
+    assert [""] == list(logging_conf_dict["loggers"].keys())
+
+
 # pylint: disable=protected-access
 def test_invalid_git_repository(mocker):
     test_file_dir = Path(__file__)
