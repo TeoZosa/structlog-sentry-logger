@@ -96,6 +96,10 @@ def set_logging_config(module_name, timestamper):
     logging.config.dictConfig(config)
 
 
+def serializer(*args, **kwargs):
+    return orjson.dumps(*args, **kwargs).decode()
+
+
 def get_formatters(timestamper):
     pre_chain = [
         # Add the log level and a timestamp to the event_dict if the log
@@ -108,9 +112,7 @@ def get_formatters(timestamper):
         "plain": {
             "()": structlog.stdlib.ProcessorFormatter,
             "processor": structlog.processors.JSONRenderer(
-                serializer=lambda *args, **kwargs: (
-                    orjson.dumps(*args, **kwargs).decode()
-                ),
+                serializer=serializer,
                 option=orjson.OPT_SORT_KEYS,
             ),
             "foreign_pre_chain": pre_chain,
