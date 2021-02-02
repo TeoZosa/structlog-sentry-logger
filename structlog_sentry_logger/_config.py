@@ -96,10 +96,6 @@ def set_logging_config(module_name, timestamper):
     logging.config.dictConfig(config)
 
 
-def serializer(*args, **kwargs):
-    return orjson.dumps(*args, **kwargs).decode()
-
-
 def get_formatters(timestamper):
     pre_chain = [
         # Add the log level and a timestamp to the event_dict if the log
@@ -124,6 +120,10 @@ def get_formatters(timestamper):
             "foreign_pre_chain": pre_chain,
         },
     }
+
+
+def serializer(*args, default=None, option=orjson.OPT_SORT_KEYS):
+    return orjson.dumps(*args, default=default, option=option).decode()
 
 
 def get_handlers(module_name):
