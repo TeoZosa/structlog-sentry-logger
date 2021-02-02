@@ -76,6 +76,12 @@ def get_logger() -> Any:
     return structlog.get_logger(caller_name)
 
 
+getLogger = get_logger
+"""
+CamelCase alias for `structlog_sentry_logger.get_logger`.
+"""
+
+
 def get_config_dict():
     """
     Convenience function to get the local logging configuration dictionary,
