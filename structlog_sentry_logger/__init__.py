@@ -92,12 +92,14 @@ from structlog_sentry_logger._config import (
     get_config_dict,
     get_logger,
     get_namespaced_module_name,
+    getLogger,
 )
 
 __all__: List[str] = [
     "get_config_dict",
     "get_logger",
     "get_namespaced_module_name",
+    "getLogger",
 ]
 
 load_dotenv(find_dotenv())
