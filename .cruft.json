@@ -12,7 +12,7 @@
             "remote_vcs_host": "https://github.com",
             "remote_vcs_username": "TeoZosa",
             "documentation_url": "https://structlog-sentry-logger.readthedocs.io",
-            "version": "0.7.1",
+            "version": "0.7.2",
             "_copy_without_render": [
                 "docs/source/_templates/*"
             ],
