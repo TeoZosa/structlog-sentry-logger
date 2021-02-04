@@ -35,7 +35,8 @@ DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 
 def get_namespaced_module_name(__file__):
-    root_relative_path = Path(__file__).resolve().relative_to(ROOT_DIR)
+    prefix_dir = ROOT_DIR if str(ROOT_DIR) in __file__ else "/"
+    root_relative_path = Path(__file__).resolve().relative_to(prefix_dir)
     namespaces = root_relative_path.with_suffix("").parts
     return ".".join(namespaces)
 
