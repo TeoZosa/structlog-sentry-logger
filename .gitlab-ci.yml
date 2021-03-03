@@ -17,6 +17,20 @@ stages:
   - SAST & Code Quality
   - Code Quality
   - Test
+  - Deploy
+
+pages:
+  stage: Deploy
+  extends:
+    - .ci-image-based-job-boilerplate
+  script:
+    - make provision_environment
+    - make docs-html
+    - mv docs/_build public
+  artifacts:
+    paths:
+      - public
+
 
 variables:
   # For `pre-commit-hooks` job
