@@ -71,7 +71,7 @@ typeguard = "^2.10.0"
 # Linting & formatting orchestrator
 pre-commit = "^2.9.3"
 # Project boilerplate synchronizer
-cruft = "^2.6.0"
+cruft = "^2.8.0"
 
 # Documentation
 darglint = "^1.5.8"
