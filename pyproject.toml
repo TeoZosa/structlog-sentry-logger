@@ -67,7 +67,7 @@ pylint = "^2.6.0"
 # Static type checker
 mypy = "^0.800"
 # Runtime type checker
-typeguard = "^2.10.0"
+typeguard = "^2.11.1"
 # Linting & formatting orchestrator
 pre-commit = "^2.9.3"
 # Project boilerplate synchronizer
