@@ -67,12 +67,6 @@ repos:
         args: [--rcfile=pyproject.toml]
         types: [python]
 
-  - repo: https://github.com/Cielquan/poetry
-    rev: 5d361d9ac236624fffc1e7392422dad4b8c0b2b9
-    hooks:
-      # Check config file
-      - id: poetry-check
-
   - repo: https://github.com/jumanjihouse/pre-commit-hooks
     rev: 2.1.4
     hooks:
