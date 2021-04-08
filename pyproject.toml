@@ -57,7 +57,7 @@ pytest-xdist = "^2.2.0"
 xdoctest = "^0.15.0"
 mutmut = "^2.1.0"
 tox = "^3.21.2"
-tox-gh-actions = "^2.3.0"
+tox-gh-actions = "^2.5.0"
 # Code formatter
 # see: https://black.readthedocs.io/en/stable/editor_integration.html
 black = "^20.8b1"
