@@ -532,7 +532,7 @@ python-versions = "*"
 
 [[package]]
 name = "myst-parser"
-version = "0.13.5"
+version = "0.13.6"
 description = "An extended commonmark compliant parser, with bridges to docutils & sphinx."
 category = "main"
 optional = true
@@ -550,7 +550,7 @@ sphinx = ">=2,<4"
 code_style = ["flake8 (>=3.7.0,<3.8.0)", "black", "pre-commit (==1.17.0)"]
 linkify = ["linkify-it-py (>=1.0,<2.0)"]
 rtd = ["sphinxcontrib-bibtex (<2.0.0)", "ipython", "sphinx-book-theme (>=0.0.36)", "sphinx-panels (>=0.5.2,<0.6.0)"]
-testing = ["coverage", "pytest (>=3.6,<4)", "pytest-cov", "pytest-regressions", "beautifulsoup4"]
+testing = ["coverage", "pytest (>=3.6,<4)", "pytest-cov", "pytest-regressions", "beautifulsoup4", "docutils (>=0.17)"]
 
 [[package]]
 name = "nodeenv"
@@ -1639,8 +1639,8 @@ mypy-extensions = [
     {file = "mypy_extensions-0.4.3.tar.gz", hash = "sha256:2d82818f5bb3e369420cb3c4060a7970edba416647068eb4c5343488a6c604a8"},
 ]
 myst-parser = [
-    {file = "myst-parser-0.13.5.tar.gz", hash = "sha256:72cf89cc0d6f35070736da19643c9ef52e570e3e13e30c007ad9b94a21f5457a"},
-    {file = "myst_parser-0.13.5-py3-none-any.whl", hash = "sha256:47e469cef8ba209f4dcb82cd0b4f935171c78c6a2cc0072cd3a9724242eb81ee"},
+    {file = "myst-parser-0.13.6.tar.gz", hash = "sha256:bec01ecebe9b9c04322f8aebd6fd8e61d2cb9ab711d531065a374cc3dcb1d7be"},
+    {file = "myst_parser-0.13.6-py3-none-any.whl", hash = "sha256:a448b3dcb39bc62a6954f5e18544b83d69ed69d8947cf01f8ebe8b654921b4bf"},
 ]
 nodeenv = [
     {file = "nodeenv-1.5.0-py2.py3-none-any.whl", hash = "sha256:5304d424c529c997bc888453aeaa6362d242b6b4631e90f3d4bf1b290f1c84a9"},
