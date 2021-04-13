@@ -19,13 +19,13 @@ repos:
 #      - id: cruft
 
   - repo: https://github.com/Yelp/detect-secrets
-    rev: v0.14.3
+    rev: v1.0.3
     hooks:
       - id: detect-secrets
         exclude: ^(poetry\.lock|\.cruft\.json)$
 
   - repo: https://github.com/life4/flakehell
-    rev: v.0.7.1
+    rev: v.0.8.0
     hooks:
       - id: flakehell
 
@@ -38,7 +38,7 @@ repos:
         args: [-vv, --fail-under=0]
 
   - repo: https://github.com/timothycrosley/isort
-    rev: 5.7.0
+    rev: 5.8.0
     hooks:
       - id: isort
 
@@ -68,13 +68,13 @@ repos:
         types: [python]
 
   - repo: https://github.com/jumanjihouse/pre-commit-hooks
-    rev: 2.1.4
+    rev: 2.1.5
     hooks:
       - id: script-must-have-extension
       - id: script-must-not-have-extension
 
   - repo: https://github.com/asottile/pyupgrade
-    rev: v2.7.4
+    rev: v2.12.0
     hooks:
       - id: pyupgrade
         args: [--py38-plus]
@@ -91,7 +91,7 @@ repos:
         types: [shell]
 
   - repo: https://github.com/adrienverge/yamllint
-    rev: v1.25.0
+    rev: v1.26.1
     hooks:
       - id: yamllint
 

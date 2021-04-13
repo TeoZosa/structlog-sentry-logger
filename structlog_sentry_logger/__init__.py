@@ -104,4 +104,4 @@ __all__: List[str] = [
 
 load_dotenv(find_dotenv())
 # Note: if DSN isn't defined, will silently not transmit telemetry
-sentry_sdk.init()
+sentry_sdk.init()  # pylint: disable=abstract-class-instantiated
