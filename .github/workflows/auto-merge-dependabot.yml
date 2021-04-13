@@ -2,7 +2,7 @@
 name: Auto-Merge-Dependabot
 
 on:  # yamllint disable-line rule:truthy
-  pull_request:
+  pull_request_target:
 
 jobs:
   auto-merge:
