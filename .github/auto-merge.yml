@@ -9,4 +9,4 @@
 
 - match:
     dependency_type: production
-    update_type: semver:patch
+    update_type: semver:minor  # includes patch updates!
