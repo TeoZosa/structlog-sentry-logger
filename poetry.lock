@@ -93,7 +93,7 @@ chardet = ">=3.0.2"
 
 [[package]]
 name = "black"
-version = "21.4b2"
+version = "21.5b0"
 description = "The uncompromising code formatter."
 category = "dev"
 optional = false
@@ -1311,7 +1311,7 @@ docs = ["importlib-metadata", "myst-parser", "pygments", "sphinx", "sphinx-autod
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "fff9479c0d7068d5387a3e7399623e0b90b080e85a2f9292fa02944fd49404f1"
+content-hash = "53363ccda2b00ff564a52ecbc62bd683a743475e6a39f4041e78ff31afbc21d6"
 
 [metadata.files]
 alabaster = [
@@ -1351,8 +1351,8 @@ binaryornot = [
     {file = "binaryornot-0.4.4.tar.gz", hash = "sha256:359501dfc9d40632edc9fac890e19542db1a287bbcfa58175b66658392018061"},
 ]
 black = [
-    {file = "black-21.4b2-py3-none-any.whl", hash = "sha256:bff7067d8bc25eb21dcfdbc8c72f2baafd9ec6de4663241a52fb904b304d391f"},
-    {file = "black-21.4b2.tar.gz", hash = "sha256:fc9bcf3b482b05c1f35f6a882c079dc01b9c7795827532f4cc43c0ec88067bbc"},
+    {file = "black-21.5b0-py3-none-any.whl", hash = "sha256:0e80435b8a88f383c9149ae89d671eb2095b72344b0fe8a1d61d2ff5110ed173"},
+    {file = "black-21.5b0.tar.gz", hash = "sha256:9dc2042018ca10735366d944c2c12d9cad6dec74a3d5f679d09384ea185d9943"},
 ]
 certifi = [
     {file = "certifi-2020.12.5-py2.py3-none-any.whl", hash = "sha256:719a74fb9e33b9bd44cc7f3a8d94bc35e4049deebe19ba7d8e108280cfd59830"},
