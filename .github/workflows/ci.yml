@@ -21,7 +21,7 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v2.3.3
+        uses: actions/checkout@v2.3.4
 
       - name: Set up Python
         uses: actions/setup-python@v2.2.2
@@ -68,7 +68,7 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v2.3.3
+        uses: actions/checkout@v2.3.4
 
       - name: Set up Python
         uses: actions/setup-python@v2.2.2
@@ -108,7 +108,7 @@ jobs:
 
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v2.3.3
+        uses: actions/checkout@v2.3.4
 
       - name: Set up Python
         uses: actions/setup-python@v2.2.2
@@ -148,7 +148,7 @@ jobs:
 
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v2.3.3
+        uses: actions/checkout@v2.3.4
         with:
           lfs: true
 
@@ -188,7 +188,7 @@ jobs:
 
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v2.3.3
+        uses: actions/checkout@v2.3.4
 
       - name: Set up Python
         uses: actions/setup-python@v2.2.2
