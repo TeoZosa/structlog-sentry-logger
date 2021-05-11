@@ -137,7 +137,7 @@ jobs:
 
       - name: Upload coverage to Codecov
         if: "contains(env.USING_COVERAGE, matrix.python-version)"
-        uses: "codecov/codecov-action@v1"
+        uses: "codecov/codecov-action@v1.5.0"
         with:
           file: ./.tox/coverage.xml
           fail_ci_if_error: true
