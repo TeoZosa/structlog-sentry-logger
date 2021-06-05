@@ -60,7 +60,7 @@ tox = "^3.23.1"
 tox-gh-actions = "^2.3.0"
 # Code formatter
 # see: https://black.readthedocs.io/en/stable/editor_integration.html
-black = "^21.5b1"
+black = "^21.5b2"
 # Linters
 flakehell = "^0.9.0"
 pylint = "^2.6.0"
