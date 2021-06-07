@@ -94,6 +94,21 @@ jobs:
         run: |
           make scan-dependencies
 
+  # Code quality AND security job ----------------------
+
+  semgrep:
+    runs-on: ubuntu-latest
+    name: Semgrep
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2.3.3
+
+      - name: Run Semgrep
+        id: semgrep
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: r/python
+
   # Tests jobs ------------------------
 
   test:
