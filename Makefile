@@ -79,7 +79,7 @@ tox-%: clean update-dependencies generate-requirements
 	$(MAKE) clean-requirements
 
 .PHONY: test
-## Test via poetry
+## Test via tox in poetry env
 test: clean update-dependencies generate-requirements
 	poetry run tox
 	$(MAKE) clean-requirements
