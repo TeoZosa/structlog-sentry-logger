@@ -43,7 +43,7 @@ jobs:
 
       - name: Detect and tag new version
         id: check-version
-        if: steps.check-parent-commit.outputs.sha
+        if: "steps.check-parent-commit.outputs.sha"
         run: |
           BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
           git checkout HEAD~
@@ -62,6 +62,7 @@ jobs:
           DEV_VERSION="${VERSION}.dev.$(date +%s)" &&
           poetry version "${DEV_VERSION}"
 
+      # PyPI/TestPyPI package upload ----------------------
       - name: Build package
         run: |
           poetry build --ansi
@@ -98,6 +99,7 @@ jobs:
         shell: bash
       # yamllint enable rule:line-length
 
+      # Release notes publication ----------------------
       - name: Publish the release notes
         uses: release-drafter/release-drafter@v5.15.0
         with:
