@@ -93,12 +93,20 @@ docs = [
 #################################################################################
 [tool.coverage.run]
 branch = true
+concurrency = ["multiprocessing"]
 parallel = true
 source = ["structlog_sentry_logger"]
 
 [tool.coverage.report]
-show_missing = true
+exclude_lines =[
+    "pragma: no cover",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+]
 fail_under = 100
+show_missing = true
+skip_covered = true
 
 [tool.cruft]
 skip = [
