@@ -149,7 +149,7 @@ pycodestyle = ["+*",
 
 [tool.isort]
 profile = "black"
-atomic = "true"
+atomic = true
 combine_as_imports = true
 
 [tool.pylint.basic]
@@ -173,7 +173,7 @@ ignore-imports = "yes"
 
 [tool.pytest.ini_options]
 addopts = ["-rfsxX", "-l", "--tb=short", "--strict-markers", "-vv", "--emoji", "--xdoctest"]
-xfail_strict = "true"
+xfail_strict = true
 testpaths = ["tests",]
 norecursedirs = [".*", "*.egg", "build", "dist",]
 
