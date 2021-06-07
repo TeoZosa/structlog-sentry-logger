@@ -21,9 +21,30 @@ SHELL := bash
 PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 PROJECT_NAME := $(shell basename $(PROJECT_DIR))
 
+# List any changed files (excluding submodules)
+CHANGED_FILES := $(shell git diff --name-only)
+
+ifeq ($(strip $(CHANGED_FILES)),)
+GIT_VERSION := $(shell git describe --tags --long --always)
+else
+diff_checksum := $(shell git diff | shasum -a 256 | cut -c -6)
+GIT_VERSION := $(shell git describe --tags --long --always --dirty)-$(diff_checksum)
+endif
+TAG := $(shell date +v%Y%m%d)-$(GIT_VERSION)
+
 #################################################################################
 # HELPER TARGETS                                                                #
 #################################################################################
+
+.PHONY: get-make-var-%
+get-make-var-%:
+	@echo $($*)
+
+.PHONY: strong-version-tag
+strong-version-tag: get-make-var-TAG
+
+.PHONY: strong-version-tag-dateless
+strong-version-tag-dateless: get-make-var-GIT_VERSION
 
 .PHONY: update-dependencies
 ## Install Python dependencies,
