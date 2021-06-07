@@ -231,8 +231,9 @@ jobs:
       - name: Install package
         run: |
           pip install structlog-sentry-logger \
-             --no-deps --index-url https://test.pypi.org/simple/
-          pip install --upgrade structlog-sentry-logger
+            --no-deps --index-url https://test.pypi.org/simple/
+          pip install structlog-sentry-logger \
+            --upgrade
           pip list -v
         shell: bash
 
