@@ -3,28 +3,29 @@ import inspect
 import logging
 import logging.config
 import os
-from pathlib import Path
-from typing import Any, List, Union
+import pathlib
+from types import ModuleType
+from typing import Any, Callable, List, Optional, Union
 
 import git
 import orjson
+import sentry_sdk
 import structlog
-from sentry_sdk import add_breadcrumb
-from structlog_sentry import SentryJsonProcessor
+import structlog_sentry
 
 
-def get_git_root():
-    git_repo = git.Repo(Path.cwd(), search_parent_directories=True)
+def get_git_root() -> pathlib.Path:
+    git_repo = git.Repo(pathlib.Path.cwd(), search_parent_directories=True)
     git_root = git_repo.git.rev_parse("--show-toplevel")
-    return Path(git_root)
+    return pathlib.Path(git_root)
 
 
-def get_root_dir():
+def get_root_dir() -> pathlib.Path:
     try:
         return get_git_root()
     except git.InvalidGitRepositoryError as err:
         # the __str__() method on err returns the root descendant path, e.g., `/app`
-        root_dir = Path(str(err)).resolve(strict=True)
+        root_dir = pathlib.Path(str(err)).resolve(strict=True)
         return root_dir
 
 
@@ -34,14 +35,14 @@ LOG_DATA_DIR.mkdir(exist_ok=True)
 DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 
-def get_namespaced_module_name(__file__):
-    prefix_dir = ROOT_DIR if str(ROOT_DIR) in str(__file__) else "/"
-    root_relative_path = Path(__file__).resolve().relative_to(prefix_dir)
+def get_namespaced_module_name(__file__: Union[pathlib.Path, str]) -> str:
+    prefix_dir = str(ROOT_DIR) if str(ROOT_DIR) in str(__file__) else "/"
+    root_relative_path = pathlib.Path(__file__).resolve().relative_to(prefix_dir)
     namespaces = root_relative_path.with_suffix("").parts
     return ".".join(namespaces)
 
 
-def get_caller_name(prev_stack_frame):
+def get_caller_name(prev_stack_frame: inspect.FrameInfo) -> str:
     deduced_calling_module = deduce_module(prev_stack_frame)
     return (
         deduced_calling_module.__name__
@@ -51,11 +52,11 @@ def get_caller_name(prev_stack_frame):
     )
 
 
-def deduce_module(prev_stack_frame):
+def deduce_module(prev_stack_frame: inspect.FrameInfo) -> Optional[ModuleType]:
     return inspect.getmodule(prev_stack_frame[0])
 
 
-def get_caller_name_from_frames(stack_frames):
+def get_caller_name_from_frames(stack_frames: List[inspect.FrameInfo]) -> str:
     prev_stack_frame = stack_frames[1]
     return get_caller_name(prev_stack_frame)
 
@@ -83,7 +84,7 @@ CamelCase alias for `structlog_sentry_logger.get_logger`.
 """
 
 
-def get_config_dict():
+def get_config_dict() -> dict:
     """
     Convenience function to get the local logging configuration dictionary,
     e.g., to help configure loggers from other libraries.
@@ -98,11 +99,13 @@ def get_config_dict():
     return get_logging_config(caller_name, timestamper)
 
 
-def is_caller_main(caller_name):
+def is_caller_main(caller_name: str) -> bool:
     return caller_name == "__main__"
 
 
-def get_logging_config(module_name, timestamper):
+def get_logging_config(
+    module_name: str, timestamper: structlog.processors.TimeStamper
+) -> dict:
     handlers = get_handlers(module_name)
     return {
         "version": 1,
@@ -115,11 +118,13 @@ def get_logging_config(module_name, timestamper):
     }
 
 
-def set_logging_config(module_name, timestamper):
+def set_logging_config(
+    module_name: str, timestamper: structlog.processors.TimeStamper
+) -> None:
     logging.config.dictConfig(get_logging_config(module_name, timestamper))
 
 
-def get_formatters(timestamper):
+def get_formatters(timestamper: structlog.processors.TimeStamper) -> dict:
     pre_chain = [
         # Add the log level and a timestamp to the event_dict if the log
         # entry is not from structlog.
@@ -145,11 +150,15 @@ def get_formatters(timestamper):
     }
 
 
-def serializer(*args, default=None, option=orjson.OPT_SORT_KEYS):
-    return orjson.dumps(*args, default=default, option=option).decode()
+def serializer(
+    *args: Any,
+    default: Optional[Callable[[Any], Any]] = None,
+    option: Optional[int] = orjson.OPT_SORT_KEYS,
+) -> str:
+    return orjson.dumps(*args, default=default, option=option).decode()  # type: ignore[misc]
 
 
-def get_handlers(module_name):
+def get_handlers(module_name: str) -> dict:
     default_key = "default"
     base_handlers = {
         default_key: {
@@ -168,9 +177,10 @@ def get_handlers(module_name):
         base_handlers["filename"] = {
             "level": "DEBUG",
             "class": "logging.handlers.RotatingFileHandler",
-            "filename": log_file_path,
-            "maxBytes": 1 << 20,  # 1 MB
-            "backupCount": 3,
+            "filename": str(log_file_path),
+            # 1 MB
+            "maxBytes": 1 << 20,  # type: ignore[dict-item]
+            "backupCount": 3,  # type: ignore[dict-item]
             "formatter": "plain",
         }
     else:
@@ -178,7 +188,7 @@ def get_handlers(module_name):
     return base_handlers
 
 
-def set_structlog_config(timestamper):
+def set_structlog_config(timestamper: structlog.processors.TimeStamper) -> None:
     structlog_processors = [
         timestamper,
         structlog.processors.StackInfoRenderer(),
@@ -195,9 +205,9 @@ def set_structlog_config(timestamper):
     format_wrapper_processer = [structlog.stdlib.ProcessorFormatter.wrap_for_formatter]
     structlog.configure(
         processors=(
-            stdlib_log_compatibility_processors
+            stdlib_log_compatibility_processors  # type: ignore[arg-type]
             + structlog_processors
-            + format_wrapper_processer
+            + format_wrapper_processer  # type: ignore[operator]
         ),
         # See [Performance](https://www.structlog.org/en/stable/performance.html)
         # for an in-depth explanation of the below settings
@@ -208,7 +218,7 @@ def set_structlog_config(timestamper):
     )
 
 
-class SentryBreadcrumbJsonProcessor(SentryJsonProcessor):
+class SentryBreadcrumbJsonProcessor(structlog_sentry.SentryJsonProcessor):
 
     """
     Addresses: `SentryJsonProcessor breaks logging breadcrumbs #25`_
@@ -237,8 +247,8 @@ class SentryBreadcrumbJsonProcessor(SentryJsonProcessor):
         )
 
     @staticmethod
-    def save_breadcrumb(logger, event_dict):
-        data = event_dict.copy()
+    def save_breadcrumb(logger: Any, event_dict: structlog.types.EventDict) -> None:
+        data = event_dict.copy()  # type: ignore[attr-defined]
         data.pop("event")
         data.pop("logger", None)
         data.pop("level", None)
@@ -250,9 +260,11 @@ class SentryBreadcrumbJsonProcessor(SentryJsonProcessor):
             "message": event_dict["event"],
             "data": data,
         }
-        add_breadcrumb(breadcrumb, hint={"event_dict": event_dict})
+        sentry_sdk.add_breadcrumb(breadcrumb, hint={"event_dict": event_dict})
 
-    def __call__(self, logger, method, event_dict) -> dict:
+    def __call__(
+        self, logger: Any, method: str, event_dict: structlog.types.EventDict
+    ) -> dict:
         do_breadcrumb = (
             getattr(logging, event_dict["level"].upper()) >= self.breadcrumb_level
         )

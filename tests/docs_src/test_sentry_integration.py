@@ -1,15 +1,20 @@
 from pathlib import Path
+from typing import List
 
 import pytest
+from _pytest.capture import CaptureFixture
+from _pytest.logging import LogCaptureFixture
+from _pytest.monkeypatch import MonkeyPatch
 
 import structlog_sentry_logger
 from tests.docs_src import utils
+from tests.docs_src.utils import JSONOutputType
 
 _ = structlog_sentry_logger.get_logger()
 
 
 @pytest.fixture(scope="function")
-def expected_output_truncated():
+def expected_output_truncated() -> List[JSONOutputType]:
     return [
         {
             "event": "A dummy error for testing purposes is about to be thrown!",
@@ -37,7 +42,9 @@ def expected_output_truncated():
 
 
 @pytest.fixture(scope="function")
-def actual_output(capsys, caplog, monkeypatch):
+def actual_output(
+    capsys: CaptureFixture, caplog: LogCaptureFixture, monkeypatch: MonkeyPatch
+) -> List[JSONOutputType]:
     with pytest.raises(RuntimeError):
         with capsys.disabled():
             # must import locally to avoid `NameError: name 'sentry_integration' is not defined` will be thrown
@@ -55,7 +62,9 @@ def actual_output(capsys, caplog, monkeypatch):
 @pytest.mark.usefixtures(
     "patch_get_caller_name_from_frames_for_typeguard_compatibility"
 )
-def test_sentry_integration(expected_output_truncated, actual_output):
+def test_sentry_integration(
+    expected_output_truncated: List[JSONOutputType], actual_output: List[JSONOutputType]
+) -> None:
     utils.validate_output(
         expected_output_truncated,
         actual_output,

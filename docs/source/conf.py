@@ -7,6 +7,7 @@ from typing import List
 
 import importlib_metadata
 from dotenv import find_dotenv, load_dotenv
+from sphinx.application import Sphinx
 from sphinx.ext import apidoc
 
 # Load user-specific env vars (e.g. secrets) from a `.env` file
@@ -92,7 +93,7 @@ autosectionlabel_prefix_document = True
 # Running separately to support Read The Docs builds
 
 
-def run_apidoc(_):
+def run_apidoc(_: Sphinx) -> None:
 
     argv = [
         "--ext-autodoc",
@@ -108,7 +109,7 @@ def run_apidoc(_):
     apidoc.main(argv)
 
 
-def setup(app):
+def setup(app: Sphinx) -> None:
     app.connect("builder-inited", run_apidoc)
 
 
