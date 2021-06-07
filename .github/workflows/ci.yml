@@ -45,7 +45,7 @@ jobs:
 
       - name: Install Go for pre-commit hook (shfmt)
         run: |
-          GO_TAR=go1.15.linux-amd64.tar.gz && \
+          GO_TAR=go1.16.linux-amd64.tar.gz && \
           wget --quiet https://golang.org/dl/$GO_TAR && \
           sudo tar -C /usr/local -xzf $GO_TAR && \
           rm $GO_TAR && \
