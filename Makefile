@@ -85,9 +85,8 @@ test: clean update-dependencies generate-requirements
 	$(MAKE) clean-requirements
 
 .PHONY: test-%
-test-%: clean update-dependencies generate-requirements
-	poetry run tox -e $*,coverage
-	$(MAKE) clean-requirements
+test-%:
+	$(MAKE) tox-$*,coverage
 
 .PHONY: test-mutations
 ## Test against mutated code to validate test suite robustness
