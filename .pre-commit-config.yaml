@@ -9,7 +9,7 @@ repos:
   # For IDE-integration outside of the pre-commit hook,
   # see: https://black.readthedocs.io/en/stable/editor_integration.html
   - repo: https://github.com/ambv/black
-    rev: 20.8b1
+    rev: 21.5b2
     hooks:
       - id: black
 
@@ -19,14 +19,14 @@ repos:
 #      - id: cruft
 
   - repo: https://github.com/Yelp/detect-secrets
-    rev: v1.0.3
+    rev: v1.1.0
     hooks:
       - id: detect-secrets
         exclude: ^(poetry\.lock|\.cruft\.json)$
 
   # Docstring coverage tool
   - repo: https://github.com/econchick/interrogate
-    rev: 1.3.2
+    rev: 1.4.0
     hooks:
       - id: interrogate
         # adjust `fail-under` value as quality standards permit
@@ -69,7 +69,7 @@ repos:
       - id: script-must-not-have-extension
 
   - repo: https://github.com/asottile/pyupgrade
-    rev: v2.12.0
+    rev: v2.19.1
     hooks:
       - id: pyupgrade
         args: [--py38-plus]
@@ -91,7 +91,7 @@ repos:
       - id: yamllint
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v3.4.0
+    rev: v4.0.1
     hooks:
       - id: check-added-large-files  # Ignored for git-lfs files
         args: [--maxkb=100000]  # 100MB
