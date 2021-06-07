@@ -79,9 +79,9 @@ clean:
 # COMMANDS                                                                      #
 #################################################################################
 
-.PHONY: provision_environment
+.PHONY: provision-environment
 ## Set up Python virtual environment with installed project dependencies
-provision_environment:
+provision-environment:
 ifeq ($(shell command -v poetry),)
 	@echo "poetry could not be found!"
 	@echo "Please install poetry!"

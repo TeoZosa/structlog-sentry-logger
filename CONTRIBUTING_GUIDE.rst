@@ -59,7 +59,7 @@ Install the package with development requirements:
 .. highlight:: bash
 .. code-block:: bash
 
-   $ make provision_environment
+   $ make provision-environment
 
 .. tip::
    Invoking the above without ``poetry`` installed will emit a
