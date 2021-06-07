@@ -73,7 +73,7 @@ bump-commit-and-push-project-version-number-%:
 	|| git checkout HEAD -- $(VERSION_NUM_FILE) # Rollback `VERSION_NUM_FILE` file on failure
 
 .PHONY: tox-%
-## Scan dependencies for security vulnerabilities
+## Run specified tox testenvs
 tox-%: clean update-dependencies generate-requirements
 	poetry run tox -e $* -- $(POSARGS)
 	$(MAKE) clean-requirements
