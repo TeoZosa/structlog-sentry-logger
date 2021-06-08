@@ -2,11 +2,14 @@ import inspect
 import uuid
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, List, MutableMapping, Union
 
 import git
 import pytest
 import structlog
+from _pytest.logging import LogCaptureFixture
+from _pytest.monkeypatch import MonkeyPatch
+from pytest_mock import MockerFixture
 
 import structlog_sentry_logger
 
@@ -25,14 +28,19 @@ _ = structlog_sentry_logger.get_logger()
 
 
 @pytest.fixture(scope="function")
-def random_log_msgs(iters=10):
+def random_log_msgs(iters: int = 10) -> List[uuid.UUID]:
     return [uuid.uuid4() for _ in range(iters)]
 
 
 # Demonstrates/validates `pytest`-captured logs are functionally identical to
 # `structlog.testing`-captured logs
-def test_pytest_caplog_and_structlog_patching_equivalence(caplog, random_log_msgs):
-    def get_pytest_captured_logs():
+LogType = Dict[str, Union[uuid.UUID, str]]
+
+
+def test_pytest_caplog_and_structlog_patching_equivalence(
+    caplog: LogCaptureFixture, random_log_msgs: List[uuid.UUID]
+) -> None:
+    def get_pytest_captured_logs() -> Union[List[str], List[LogType]]:
         logger = structlog_sentry_logger.get_logger()
         for log_msg in random_log_msgs:
             logger.debug(log_msg)
@@ -40,7 +48,10 @@ def test_pytest_caplog_and_structlog_patching_equivalence(caplog, random_log_msg
         assert captured_logs
         return captured_logs
 
-    def get_structlog_captured_logs():
+    # List[Dict[str,Union[uuid.UUID, str]]]
+    def get_structlog_captured_logs() -> Union[
+        List[MutableMapping[str, Any]], List[LogType]
+    ]:
         structlog_caplog = structlog.testing.LogCapture()
         orig_processors = structlog.get_config()["processors"]
         patched_procs = orig_processors.copy()
@@ -53,7 +64,7 @@ def test_pytest_caplog_and_structlog_patching_equivalence(caplog, random_log_msg
         assert captured_logs
         return captured_logs
 
-    def validate_timestamps_approx_equal(timestamp1: str, timestamp2: str):
+    def validate_timestamps_approx_equal(timestamp1: str, timestamp2: str) -> None:
         def convert_time(timestamp: str) -> datetime:
             return datetime.strptime(
                 timestamp,
@@ -72,15 +83,16 @@ def test_pytest_caplog_and_structlog_patching_equivalence(caplog, random_log_msg
 
         # Timestamps not tested for strict equality
         validate_timestamps_approx_equal(
-            structlog_captured_log["timestamp"], pytest_captured_log["timestamp"]
+            structlog_captured_log["timestamp"],  # type: ignore[arg-type]
+            pytest_captured_log["timestamp"],  # type: ignore[index]
         )
         del structlog_captured_log["timestamp"]
-        del pytest_captured_log["timestamp"]
+        del pytest_captured_log["timestamp"]  # type: ignore[attr-defined]
 
         assert pytest_captured_log == structlog_captured_log
 
 
-def test_get_config_dict():
+def test_get_config_dict() -> None:
     logging_conf_dict = structlog_sentry_logger.get_config_dict()
     expected_keys = [
         "disable_existing_loggers",
@@ -99,10 +111,10 @@ def test_get_config_dict():
 
 
 # pylint: disable=protected-access
-def test_invalid_git_repository(mocker):
+def test_invalid_git_repository(mocker: MockerFixture) -> None:
     test_file_dir = Path(__file__)
 
-    def mock_err():
+    def mock_err() -> None:
         raise git.InvalidGitRepositoryError(test_file_dir.parent)
 
     mocker.patch.object(structlog_sentry_logger._config, "get_git_root", mock_err)
@@ -120,7 +132,7 @@ def test_invalid_git_repository(mocker):
 # pylint: enable=protected-access
 
 
-def test_sentry_DSN_integration(caplog):
+def test_sentry_DSN_integration(caplog: LogCaptureFixture) -> None:
     TestErrorClass = ConnectionError
     with pytest.raises(TestErrorClass):
         try:
@@ -177,7 +189,7 @@ class TestBasicLogging:  # pylint: disable=too-few-public-methods
     @pytest.mark.parametrize(
         "test_data", [{k: v} for k, v in test_data.items()], ids=test_data.keys()
     )
-    def test(caplog, test_data):
+    def test(caplog: LogCaptureFixture, test_data: dict) -> None:
         logger = structlog_sentry_logger.get_logger()
         logger.debug("Testing main Logger", **test_data)
         assert caplog.records
@@ -196,9 +208,9 @@ class TestLoggerSchema:
         "patch_get_caller_name_from_frames_for_typeguard_compatibility"
     )
     def test_structlog_logger(
-        caplog,
-        random_log_msgs,
-    ):
+        caplog: LogCaptureFixture,
+        random_log_msgs: List[uuid.UUID],
+    ) -> None:
         logger = structlog_sentry_logger.get_logger()
         for log_msg in random_log_msgs:
             logger.debug(log_msg)
@@ -209,16 +221,18 @@ class TestLoggerSchema:
         module_name = structlog_sentry_logger.get_namespaced_module_name(__file__)
         for record, log_msg in zip(structlogged_records, random_log_msgs):
             log = record.msg
-            assert log["level"] == "debug" == record.levelname.lower()
+            assert log["level"] == "debug" == record.levelname.lower()  # type: ignore[index]
             assert (
-                log["logger"] == logger.name == record.name == module_name == __name__
+                log["logger"] == logger.name == record.name == module_name == __name__  # type: ignore[index]
             )
-            assert log["event"] == log_msg
-            assert log["sentry"] == "skipped"
+            assert log["event"] == log_msg  # type: ignore[index]
+            assert log["sentry"] == "skipped"  # type: ignore[index]
             assert "timestamp" in log
 
     @staticmethod
-    def test_non_structlog_logger(caplog, random_log_msgs):
+    def test_non_structlog_logger(
+        caplog: LogCaptureFixture, random_log_msgs: List[uuid.UUID]
+    ) -> None:
         logger = structlog_sentry_logger.get_logger()
         for log_msg in random_log_msgs:
             logger.debug(log_msg)
@@ -240,21 +254,27 @@ class TestLoggerSchema:
 class TestCallerNameInference:
     @staticmethod
     @pytest.fixture(scope="function")
-    def prev_stack_frame():
+    def prev_stack_frame() -> inspect.FrameInfo:
         stack_frames = inspect.stack()
         return stack_frames[1]
 
     # pylint: disable=protected-access
     @staticmethod
-    def test_get_caller_name_deducable_module(prev_stack_frame):
-        expected = structlog_sentry_logger._config.deduce_module(
-            prev_stack_frame
-        ).__name__
+    def test_get_caller_name_deducable_module(
+        prev_stack_frame: inspect.FrameInfo,
+    ) -> None:
+        module = structlog_sentry_logger._config.deduce_module(prev_stack_frame)
+        if module is None:
+            raise ValueError("Module cannot be determined")
+
+        expected = module.__name__
         actual = structlog_sentry_logger._config.get_caller_name(prev_stack_frame)
         assert actual == expected
 
     @staticmethod
-    def test_get_caller_name_non_deducable_module(monkeypatch, prev_stack_frame):
+    def test_get_caller_name_non_deducable_module(
+        monkeypatch: MonkeyPatch, prev_stack_frame: inspect.FrameInfo
+    ) -> None:
         monkeypatch.setattr(inspect, "getmodule", lambda _: None)
         expected = structlog_sentry_logger._config.get_namespaced_module_name(
             prev_stack_frame.filename
@@ -268,7 +288,9 @@ class TestCallerNameInference:
 class TestCorrectNamespacing:
     # pylint: disable=protected-access
     @staticmethod
-    def test_unpatched_is_caller_main_and_typeguard_enabled(mocker):
+    def test_unpatched_is_caller_main_and_typeguard_enabled(
+        mocker: MockerFixture,
+    ) -> None:
         expected_logger = structlog_sentry_logger.get_logger()
         mocker.patch.object(
             structlog_sentry_logger._config, "is_caller_main", lambda _: True
@@ -286,7 +308,7 @@ class TestCorrectNamespacing:
     @pytest.mark.usefixtures(
         "patch_get_caller_name_from_frames_for_typeguard_compatibility"
     )
-    def test_main_module(mocker):
+    def test_main_module(mocker: MockerFixture) -> None:
         expected_logger = structlog_sentry_logger.get_logger()
         mocker.patch.object(
             structlog_sentry_logger._config, "is_caller_main", lambda _: True
@@ -308,7 +330,7 @@ class TestCorrectNamespacing:
     @pytest.mark.usefixtures(
         "patch_get_caller_name_from_frames_for_typeguard_compatibility"
     )
-    def test_child_loggers(caplog):
+    def test_child_loggers(caplog: LogCaptureFixture) -> None:
         from tests.structlog_sentry_logger import (  # pylint: disable=import-outside-toplevel
             child_module_1,
             child_module_2,
@@ -326,10 +348,10 @@ class TestCorrectNamespacing:
             child_logs, [child_module_1, child_module_2]
         ):
             assert (
-                child_log.msg["event"]
-                == child_log.msg["logger"]
-                == child_log.msg["name"]
+                child_log.msg["event"]  # type: ignore[index]
+                == child_log.msg["logger"]  # type: ignore[index]
+                == child_log.msg["name"]  # type: ignore[index]
                 == child_log.name
-                == child_module.MODULE_NAME
+                == child_module.MODULE_NAME  # type: ignore[attr-defined]
                 == child_module.__name__
             )

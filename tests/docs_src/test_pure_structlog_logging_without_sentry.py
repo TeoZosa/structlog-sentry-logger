@@ -1,13 +1,19 @@
+from typing import List
+
 import pytest
+from _pytest.capture import CaptureFixture
+from _pytest.logging import LogCaptureFixture
+from _pytest.monkeypatch import MonkeyPatch
 
 from docs_src import (  # pylint: disable=import-error
     pure_structlog_logging_without_sentry,
 )
 from tests.docs_src import utils  # pylint: disable=import-error
+from tests.docs_src.utils import JSONOutputType
 
 
 @pytest.fixture(scope="function")
-def expected_output_truncated():
+def expected_output_truncated() -> List[JSONOutputType]:
     return [
         {
             "event": "Information that's useful for future me and others",
@@ -20,7 +26,9 @@ def expected_output_truncated():
 
 
 @pytest.fixture(scope="function")
-def actual_output(capsys, caplog, monkeypatch):
+def actual_output(
+    capsys: CaptureFixture, caplog: LogCaptureFixture, monkeypatch: MonkeyPatch
+) -> List[JSONOutputType]:
     utils.reload_module_non_dev_local_env(
         monkeypatch, pure_structlog_logging_without_sentry
     )
@@ -31,7 +39,9 @@ def actual_output(capsys, caplog, monkeypatch):
 @pytest.mark.usefixtures(
     "patch_get_caller_name_from_frames_for_typeguard_compatibility"
 )
-def test_dev_local(capsys, caplog, monkeypatch):
+def test_dev_local(
+    capsys: CaptureFixture, caplog: LogCaptureFixture, monkeypatch: MonkeyPatch
+) -> None:
     utils.reload_module_dev_local_env(
         monkeypatch, pure_structlog_logging_without_sentry
     )
@@ -53,9 +63,9 @@ def test_dev_local(capsys, caplog, monkeypatch):
 )
 # pylint: disable=redefined-outer-name
 def test_pure_structlog_logging_without_sentry(
-    expected_output_truncated,
-    actual_output,
-):
+    expected_output_truncated: List[JSONOutputType],
+    actual_output: List[JSONOutputType],
+) -> None:
     utils.validate_output(
         expected_output_truncated, actual_output, dynamic_keys_to_copy=["timestamp"]
     )
