@@ -1811,7 +1811,7 @@ docs = ["importlib-metadata", "myst-parser", "pygments", "sphinx", "sphinx-autod
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "af4fd098cf081c153099f012ef5e3e4d1a6b7fe82f607b7e17ac0e23350ceaf7"
+content-hash = "e04c950b3c75f779dae735cff2daebf3be1de1df27ac451312fa47d2d0a00b5e"
 
 [metadata.files]
 alabaster = [
