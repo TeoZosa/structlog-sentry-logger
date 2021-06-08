@@ -2,10 +2,15 @@
 name: Release
 
 on:  # yamllint disable-line rule:truthy
-  push:
-    branches:
-      - main  # forward-compatibility with new GitHub default branch naming
-      - master  # backward-compatibility with old GitHub default branch naming
+  workflow_run:
+    workflows:
+      # Upstream workflow runs on pushes to main/master and always completes;
+      # needed because Dependabot-initiated pushes to master do not have access
+      # to repository secrets on which this workflow relies.
+      # see: dependabot/dependabot-core/issues/3253
+      - Dependabot PR Check
+    types:
+      - completed
   pull_request:
     branches:
       - main  # forward-compatibility with new GitHub default branch naming
@@ -43,7 +48,7 @@ jobs:
 
       - name: Detect and tag new version
         id: check-version
-        if: steps.check-parent-commit.outputs.sha
+        if: "steps.check-parent-commit.outputs.sha"
         run: |
           BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
           git checkout HEAD~
@@ -62,6 +67,7 @@ jobs:
           DEV_VERSION="${VERSION}.dev.$(date +%s)" &&
           poetry version "${DEV_VERSION}"
 
+      # PyPI/TestPyPI package upload ----------------------
       - name: Build package
         run: |
           poetry build --ansi
@@ -71,14 +77,14 @@ jobs:
         uses: pypa/gh-action-pypi-publish@v1.4.2
         with:
           user: __token__
-          password: ${{ secrets.PYPI_TOKEN }} # pragma: allowlist secret
+          password: ${{ secrets.PYPI_TOKEN }}  # pragma: allowlist secret
 
       - name: Publish package on TestPyPI
         if: "! steps.check-version.outputs.tag"
         uses: pypa/gh-action-pypi-publish@v1.4.2
         with:
           user: __token__
-          password: ${{ secrets.TEST_PYPI_TOKEN }} # pragma: allowlist secret
+          password: ${{ secrets.TEST_PYPI_TOKEN }}  # pragma: allowlist secret
           repository_url: https://test.pypi.org/legacy/
 
       # yamllint disable rule:line-length
@@ -98,6 +104,7 @@ jobs:
         shell: bash
       # yamllint enable rule:line-length
 
+      # Release notes publication ----------------------
       - name: Publish the release notes
         uses: release-drafter/release-drafter@v5.15.0
         with:

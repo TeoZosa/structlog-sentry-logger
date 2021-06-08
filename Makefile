@@ -21,19 +21,72 @@ SHELL := bash
 PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 PROJECT_NAME := $(shell basename $(PROJECT_DIR))
 
+# List any changed files (excluding submodules)
+CHANGED_FILES := $(shell git diff --name-only)
+
+ifeq ($(strip $(CHANGED_FILES)),)
+GIT_VERSION := $(shell git describe --tags --long --always)
+else
+diff_checksum := $(shell git diff | shasum -a 256 | cut -c -6)
+GIT_VERSION := $(shell git describe --tags --long --always --dirty)-$(diff_checksum)
+endif
+TAG := $(shell date +v%Y%m%d)-$(GIT_VERSION)
+
+#################################################################################
+# HELPER TARGETS                                                                #
+#################################################################################
+
+.PHONY: get-make-var-%
+get-make-var-%:
+	@echo $($*)
+
+.PHONY: strong-version-tag
+strong-version-tag: get-make-var-TAG
+
+.PHONY: strong-version-tag-dateless
+strong-version-tag-dateless: get-make-var-GIT_VERSION
+
+.PHONY: update-dependencies
+## Install Python dependencies,
+## updating packages in `poetry.lock` with any newer versions specified in
+## `pyproject.toml`, and install structlog-sentry-logger source code
+update-dependencies:
+	poetry update --lock
+ifneq (${CI}, true)
+	poetry install --extras docs
+endif
+
+.PHONY: generate-requirements
+## Generate project requirements files from `pyproject.toml`
+generate-requirements:
+	poetry export -f requirements.txt --without-hashes > requirements.txt # subset
+	poetry export --dev -f requirements.txt --without-hashes > requirements-dev.txt # superset w/o docs
+	poetry export --extras docs --dev -f requirements.txt --without-hashes > requirements-all.txt # superset
+
+.PHONY: clean-requirements
+## Clean generated project requirements files
+clean-requirements:
+	find . -type f -name "requirements*.txt" -delete -maxdepth 1
+
+.PHONY: clean
+## Delete all compiled Python files
+clean:
+	find . -type f -name "*.py[co]" -delete
+	find . -type d -name "__pycache__" -delete
+
 #################################################################################
 # COMMANDS                                                                      #
 #################################################################################
 
-.PHONY: provision_environment
+.PHONY: provision-environment
 ## Set up Python virtual environment with installed project dependencies
-provision_environment:
+provision-environment:
 ifeq ($(shell command -v poetry),)
 	@echo "poetry could not be found!"
 	@echo "Please install poetry!"
 	@echo "Ex.: 'curl -sSL \
-	https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python - \
-	&& source $$HOME/.poetry/env'"
+	https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py  | python - \
+	&& source $$HOME/.local/env'"
 	@echo "see:"
 	@echo "- https://python-poetry.org/docs/#installation"
 	@echo "Note: 'pyenv' recommended for Python version management"
@@ -72,22 +125,25 @@ bump-commit-and-push-project-version-number-%:
 		git push \
 	|| git checkout HEAD -- $(VERSION_NUM_FILE) # Rollback `VERSION_NUM_FILE` file on failure
 
+ifeq (${CI}, true)
+export TOX_PARALLEL_NO_SPINNER=1
+endif
+
 .PHONY: tox-%
-## Scan dependencies for security vulnerabilities
+## Run specified tox testenvs
 tox-%: clean update-dependencies generate-requirements
 	poetry run tox -e $* -- $(POSARGS)
 	$(MAKE) clean-requirements
 
 .PHONY: test
-## Test via poetry
+## Test via tox in poetry env
 test: clean update-dependencies generate-requirements
-	poetry run tox
+	poetry run tox --parallel
 	$(MAKE) clean-requirements
 
 .PHONY: test-%
-test-%: clean update-dependencies generate-requirements
-	poetry run tox -e $*,coverage
-	$(MAKE) clean-requirements
+test-%:
+	$(MAKE) tox-$*,coverage
 
 .PHONY: test-mutations
 ## Test against mutated code to validate test suite robustness
@@ -132,34 +188,6 @@ docs-%:
 ## Test documentation format/syntax
 test-docs:
 	poetry run tox -e docs
-
-.PHONY: update-dependencies
-## Install Python dependencies,
-## updating packages in `poetry.lock` with any newer versions specified in
-## `pyproject.toml`, and install structlog-sentry-logger source code
-update-dependencies:
-	poetry update --lock
-ifneq (${CI}, true)
-	poetry install --extras docs
-endif
-
-.PHONY: generate-requirements
-## Generate project requirements files from `pyproject.toml`
-generate-requirements:
-	poetry export -f requirements.txt --without-hashes > requirements.txt # subset
-	poetry export --dev -f requirements.txt --without-hashes > requirements-dev.txt # superset w/o docs
-	poetry export --extras docs --dev -f requirements.txt --without-hashes > requirements-all.txt # superset
-
-.PHONY: clean-requirements
-## clean generated project requirements files
-clean-requirements:
-	find . -type f -name "requirements*.txt" -delete -maxdepth 0
-
-.PHONY: clean
-## Delete all compiled Python files
-clean:
-	find . -type f -name "*.py[co]" -delete
-	find . -type d -name "__pycache__" -delete
 
 #################################################################################
 # Self Documenting Commands                                                     #

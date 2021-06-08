@@ -41,11 +41,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          make provision_environment
+          make provision-environment
 
       - name: Install Go for pre-commit hook (shfmt)
         run: |
-          GO_TAR=go1.15.linux-amd64.tar.gz && \
+          GO_TAR=go1.16.linux-amd64.tar.gz && \
           wget --quiet https://golang.org/dl/$GO_TAR && \
           sudo tar -C /usr/local -xzf $GO_TAR && \
           rm $GO_TAR && \
@@ -88,11 +88,30 @@ jobs:
 
       - name: Install dependencies
         run: |
-          make provision_environment
+          make provision-environment
 
       - name: Run dependency security vulnerability analysis
         run: |
           make scan-dependencies
+
+  # Code quality AND security job ----------------------
+
+  semgrep:
+    runs-on: ubuntu-latest
+    name: Semgrep
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2.3.3
+
+      - name: Disable Git LFS
+        run: |
+          rm .git/hooks/post-checkout
+
+      - name: Run Semgrep
+        id: semgrep
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: r/python
 
   # Tests jobs ------------------------
 
@@ -128,7 +147,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          make provision_environment
+          make provision-environment
 
       - name: Run tox targets for ${{ matrix.python-version }}
         run: |
@@ -140,7 +159,7 @@ jobs:
         uses: "codecov/codecov-action@v1"
         with:
           file: ./.tox/coverage.xml
-          fail_ci_if_error: true
+          fail_ci_if_error: false
 
   test-mutations:
     name: Mutation testing
@@ -170,7 +189,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          make provision_environment
+          make provision-environment
 
       - name: Run mutation testing
         run: |
@@ -231,8 +250,9 @@ jobs:
       - name: Install package
         run: |
           pip install structlog-sentry-logger \
-             --no-deps --index-url https://test.pypi.org/simple/
-          pip install --upgrade structlog-sentry-logger
+            --no-deps --index-url https://test.pypi.org/simple/
+          pip install structlog-sentry-logger \
+            --upgrade
           pip list -v
         shell: bash
 

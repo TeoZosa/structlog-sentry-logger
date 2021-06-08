@@ -18,7 +18,7 @@ Here is a list of important resources for contributors:
 .. _Issue Tracker: https://github.com/TeoZosa/structlog-sentry-logger/issues
 
 How to report a bug
-====================
+--------------------
 
 Report bugs on the `Issue Tracker`_.
 
@@ -35,13 +35,13 @@ and/or steps to reproduce the issue.
 
 
 How to request a feature
-========================
+------------------------
 
 Request features on the `Issue Tracker`_.
 
 
 How to set up your development environment
-==========================================
+------------------------------------------
 
 .. note::
    For convenience, many of the below processes are abstracted away
@@ -54,12 +54,12 @@ How to set up your development environment
 Make sure you have Python 3.6+ and Poetry_ installed and configured.
 
 Install the package with development requirements:
---------------------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. highlight:: bash
 .. code-block:: bash
 
-   $ make provision_environment
+   $ make provision-environment
 
 .. tip::
    Invoking the above without ``poetry`` installed will emit a
@@ -69,13 +69,13 @@ Install the package with development requirements:
 
 
 How to test the project
-=======================
+-----------------------
 
 We use tox_ for our test automation framework
 and pytest_ for our testing framework.
 
 Run the full test suite:
-------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. highlight:: bash
 .. code-block:: bash
@@ -83,7 +83,7 @@ Run the full test suite:
    $ make test
 
 Run `mutation tests`_ to validate test suite robustness (Optional):
--------------------------------------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. highlight:: bash
 .. code-block:: bash
@@ -97,7 +97,7 @@ Run `mutation tests`_ to validate test suite robustness (Optional):
    be applied to modified code paths.
 
 Lint the code:
---------------
+^^^^^^^^^^^^^^
 
 .. highlight:: bash
 .. code-block:: bash
@@ -121,7 +121,7 @@ Unit tests are located in the ``tests`` directory,
 and are written using the pytest_ testing framework.
 
 Build the documentation:
-------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. highlight:: bash
 .. code-block:: bash
@@ -139,7 +139,7 @@ Build the documentation:
 
 
 How to submit changes
-=====================
+---------------------
 
 Open a `pull request`_ to submit changes to this project.
 

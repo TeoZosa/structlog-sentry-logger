@@ -43,6 +43,7 @@ coverage.*
 nosetests.xml
 coverage.xml
 *.cover
+**/*.hypothesis/
 
 # DotEnv configuration
 .env

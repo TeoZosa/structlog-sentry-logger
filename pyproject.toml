@@ -28,6 +28,8 @@ Changelog = "https://github.com/TeoZosa/structlog-sentry-logger/releases"
 
 [tool.poetry.dependencies]
 python = "^3.7"
+
+# Project-Specific
 colorama = "^0.4.3"
 gitpython = "^3.1.7"
 orjson = "^3.4.0"
@@ -39,14 +41,21 @@ structlog-sentry = "^1.2.2"
 # Documentation
 importlib-metadata = { version = "^4.2.0", optional = true}
 myst-parser = { version = "^0.14.0", optional = true}
-pygments = { version = "^2.7.3", optional = true}
-sphinx = { version = "^3.4.3", optional = true}
-sphinx-autodoc-typehints = { version = "^1.11.1", optional = true}
+pygments = { version = "^2.8.1", optional = true}
+sphinx = { version = "^3.5.3", optional = true}
+sphinx-autodoc-typehints = { version = "^1.12.0", optional = true}
 sphinx-rtd-theme = { version = "^0.5.1", optional = true}
 sphinxcontrib-apidoc = { version = "^0.3.0", optional = true}
 sphinxcontrib-confluencebuilder = { version = "^1.3.0", optional = true}
 
 [tool.poetry.dev-dependencies]
+# Standardized Developer Workflow Orchestration
+cruft = "^2.6.0" # Automated Cookiecutter template synchronization
+
+# Type Checking and Data Validation
+mypy = "^0.812" # Static type checker
+typeguard = "^2.12.1" # Runtime type checker
+
 # Testing
 pytest = "^6.2.4"
 pytest-cov = "^2.12.1"
@@ -54,24 +63,21 @@ pytest-emoji = "^0.2.0"
 pytest-mock = "^3.6.1"
 pytest-sugar = "^0.9.4"
 pytest-xdist = "^2.2.0"
-xdoctest = "^0.15.0"
 mutmut = "^2.1.0"
-tox = "^3.23.1"
-tox-gh-actions = "^2.3.0"
-# Code formatter
-# see: https://black.readthedocs.io/en/stable/editor_integration.html
-black = "^21.5b2"
-# Linters
+xdoctest = {extras = ["all"], version = "^0.15.4"}
+tox = "^3.21.4"
+
+# Linting
+## Code formatting
+black = "^21.4b2" # see: https://black.readthedocs.io/en/stable/editor_integration.html
+## Code quality
 flakehell = "^0.9.0"
-pylint = "^2.8.3"
-# Static type checker
-mypy = "^0.812"
-# Runtime type checker
-typeguard = "^2.12.1"
-# Linting & formatting orchestrator
-pre-commit = "^2.13.0"
-# Project boilerplate synchronizer
-cruft = "^2.6.0"
+pylint = "^2.8.1"
+## Automation and management
+pre-commit = "^2.12.1"
+
+# CI/CD
+tox-gh-actions = "^2.3.0"
 
 # Documentation
 darglint = "^1.5.8"
@@ -93,12 +99,20 @@ docs = [
 #################################################################################
 [tool.coverage.run]
 branch = true
+concurrency = ["multiprocessing"]
 parallel = true
 source = ["structlog_sentry_logger"]
 
 [tool.coverage.report]
-show_missing = true
+exclude_lines =[
+    "pragma: no cover",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+]
 fail_under = 100
+show_missing = true
+skip_covered = true
 
 [tool.cruft]
 skip = [
@@ -117,6 +131,8 @@ exclude = [".*"] # Ignore dotfiles
 format = "grouped"
 # show line of source code in output
 show_source = true
+# temporary fix for flake8 version 3.9.1 compatibility
+extended_default_ignore=[]  # see https://github.com/flakehell/flakehell/issues/10
 
 # list of plugins and rules for them
 [tool.flakehell.plugins]
@@ -133,7 +149,7 @@ pycodestyle = ["+*",
 
 [tool.isort]
 profile = "black"
-atomic = "true"
+atomic = true
 combine_as_imports = true
 
 [tool.pylint.basic]
@@ -157,7 +173,7 @@ ignore-imports = "yes"
 
 [tool.pytest.ini_options]
 addopts = ["-rfsxX", "-l", "--tb=short", "--strict-markers", "-vv", "--emoji", "--xdoctest"]
-xfail_strict = "true"
+xfail_strict = true
 testpaths = ["tests",]
 norecursedirs = [".*", "*.egg", "build", "dist",]
 

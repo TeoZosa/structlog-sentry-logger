@@ -38,7 +38,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          make provision_environment
+          make provision-environment
 
       - name: Build Documentation
         run: |
