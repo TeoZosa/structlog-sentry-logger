@@ -36,7 +36,7 @@ favorite log analysis tools!
 What You Get
 ------------
 
-### Powerful Automatic Context Fields
+### :muscle: Powerful Automatic Context Fields
 The pre-configured options include:
 
 1. Timestamps
@@ -50,7 +50,7 @@ python modules (`.py` files), relative to your project directory.
 
 With fields sorted by key for easier at-a-glance analysis.
 
-### Performance
+### :zap: Performance
 `structlog-sentry-logger` is fully-tuned and leverages [`ORJSON`](https://github.com/ijl/orjson)
 as the JSON serializer for lightning-fast logging (more than a 4x speedup over
 Python's built-in JSON library[[1]](#1)). It's 2021, you don't have to let your
@@ -64,7 +64,7 @@ For further reference, see:
 source:
 [Choosing a faster JSON library for Python: Benchmarking](https://pythonspeed.com/articles/faster-json-library/#step-4-benchmarking)
 
-### Built-in Sentry Integration (Optional)
+### :robot: Built-in Sentry Integration (Optional)
 Automatically add much richer context to your Sentry reports.
 - Your entire logging context is sent as a Sentry event when the `structlog-sentry-logger`
 log level is `error` or higher.
