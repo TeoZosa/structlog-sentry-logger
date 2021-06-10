@@ -22,21 +22,25 @@ Structlog-Sentry-Logger
 Overview
 --------
 
-A multi-purpose, pre-configured, performance-optimized [`structlog`](https://www.structlog.org/en/stable/) logger
-with (optional) [Sentry](https://sentry.io/welcome/) integration
+A multi-purpose, pre-configured,
+performance-optimized [`structlog`](https://www.structlog.org/en/stable/) logger with (
+optional) [Sentry](https://sentry.io/welcome/) integration
 via [`structlog-sentry`](https://github.com/kiwicom/structlog-sentry).
 
 Features
 --------
+
 1. Makes logging as easy as using print statements, but prettier and less smelly!
-2. Highly opinionated! There are only [two (2) distinct configurations](#output-formatting--storage).
+2. Highly opinionated! There are
+   only [two (2) distinct configurations](#output-formatting--storage).
 3. Structured logs in JSON format means they are ready to be ingested by many of your
-favorite log analysis tools!
+   favorite log analysis tools!
 
 What You Get
 ------------
 
 ### :muscle: Powerful Automatic Context Fields
+
 The pre-configured options include:
 
 1. Timestamps
@@ -44,32 +48,41 @@ The pre-configured options include:
 2. Log levels
     - Added to the JSON context for filtering and categorization
 3. Logger names
-    - Automatically assigned to namespaced versions of the initializing
-python modules (`.py` files), relative to your project directory.
-        - e.g., the logger in `docs_src/sentry_integration.py` is named `docs_src.sentry_integration`
+    - Automatically assigned to namespaced versions of the initializing python
+      modules (`.py` files), relative to your project directory.
+        - e.g., the logger in `docs_src/sentry_integration.py` is
+          named `docs_src.sentry_integration`
 
 With fields sorted by key for easier at-a-glance analysis.
 
 ### :zap: Performance
-`structlog-sentry-logger` is fully-tuned and leverages [`ORJSON`](https://github.com/ijl/orjson)
-as the JSON serializer for lightning-fast logging (more than a 4x speedup over
-Python's built-in JSON library[[1]](#1)). It's 2021, you don't have to let your
-obligate cross-cutting concerns cripple performance any longer!  
+
+`structlog-sentry-logger` is fully-tuned and
+leverages [`ORJSON`](https://github.com/ijl/orjson)
+as the JSON serializer for lightning-fast logging (more than a 4x speedup over Python's
+built-in JSON library[[1]](#1)). It's 2021, you don't have to let your obligate
+cross-cutting concerns cripple performance any longer!
 
 For further reference, see:
+
 - "[`ORJSON`: Serialize](https://github.com/ijl/orjson#serialize)" for benchmarks
-- "[`structlog`: Performance](https://www.structlog.org/en/stable/performance.html)" for salient performance-related configurations.
+- "[`structlog`: Performance](https://www.structlog.org/en/stable/performance.html)" for
+  salient performance-related configurations.
 
 <a id="1">[1]</a>
 source:
 [Choosing a faster JSON library for Python: Benchmarking](https://pythonspeed.com/articles/faster-json-library/#step-4-benchmarking)
 
 ### :robot: Built-in Sentry Integration (Optional)
+
 Automatically add much richer context to your Sentry reports.
-- Your entire logging context is sent as a Sentry event when the `structlog-sentry-logger`
-log level is `error` or higher.
+
+- Your entire logging context is sent as a Sentry event when
+  the `structlog-sentry-logger`
+  log level is `error` or higher.
     - i.e., `logger.error("")`, `logger.exception("")`
-- See [`structlog-sentry`](https://github.com/kiwicom/structlog-sentry) for more details.
+- See [`structlog-sentry`](https://github.com/kiwicom/structlog-sentry) for more
+  details.
 
 ------------
 
@@ -77,27 +90,28 @@ Table of Contents
 
 - [Installation](#installation)
 - [Usage](#usage)
-  * [Pure `structlog` Logging (Without Sentry)](#pure-structlog-logging-without-sentry)
-  * [Sentry Integration](#sentry-integration)
-    + [Log Custom Context Directly to Sentry](#log-custom-context-directly-to-sentry)
+    * [Pure `structlog` Logging (Without Sentry)](#pure-structlog-logging-without-sentry)
+    * [Sentry Integration](#sentry-integration)
+        + [Log Custom Context Directly to Sentry](#log-custom-context-directly-to-sentry)
 - [Output: Formatting & Storage](#output-formatting--storage)
 - [Development](#development)
-  * [Package and Dependencies Installation](#package-and-dependencies-installation)
-  * [Testing](#testing)
-  * [Code Quality](#code-quality)
-    + [Automate via Git Pre-Commit Hooks](#automate-via-git-pre-commit-hooks)
-  * [Documentation](#documentation)
+    * [Package and Dependencies Installation](#package-and-dependencies-installation)
+    * [Testing](#testing)
+    * [Code Quality](#code-quality)
+        + [Automate via Git Pre-Commit Hooks](#automate-via-git-pre-commit-hooks)
+    * [Documentation](#documentation)
 - [Summary](#summary)
 - [Further Reading](#further-reading)
-  * [`structlog`](#structlog-structured-logging-for-python)
-  * [`Sentry`](#sentry-monitor-and-fix-crashes-in-realtime)
-  * [`structlog-sentry`](#structlog-sentry-provides-the-structlog-sentryprocessor-for-sentry-integration)
+    * [`structlog`](#structlog-structured-logging-for-python)
+    * [`Sentry`](#sentry-monitor-and-fix-crashes-in-realtime)
+    * [`structlog-sentry`](#structlog-sentry-provides-the-structlog-sentryprocessor-for-sentry-integration)
 - [Legal](#legal)
-  * [License](#license)
-  * [Credits](#credits)
+    * [License](#license)
+    * [Credits](#credits)
 
 Installation
 ============
+
  ```shell script
 pip install structlog-sentry-logger
 ```
@@ -107,22 +121,27 @@ Usage
 Pure `structlog` Logging (Without Sentry)
 ------------------------------------------
 At the top of your Python module, import and instantiate the logger:
+
 ```python
 import structlog_sentry_logger
 
 LOGGER = structlog_sentry_logger.get_logger()
 ```
+
 Now anytime you want to print anything, don't. Instead do this:
+
 ```python
 LOG_MSG = "Information that's useful for future me and others"
 LOGGER.info(LOG_MSG, extra_field="extra_value")
 ```
+
 > :note: **Note**  
->  All the regular
->  [Python logging levels](https://docs.python.org/3/library/logging.html#levels)
->  are supported.
+> All the regular
+> [Python logging levels](https://docs.python.org/3/library/logging.html#levels)
+> are supported.
 
 Which automatically produces this:
+
 ```
 {
     "event": "Information that's useful for future me and others",
@@ -140,7 +159,9 @@ Export your [Sentry DSN](https://docs.sentry.io/platforms/python/#configure)
 into your local environment.
 
 - An easy way to do this is to put it into a local `.env` file and use
-[`python-dotenv`](https://github.com/theskumar/python-dotenv) to populate your environment:
+  [`python-dotenv`](https://github.com/theskumar/python-dotenv) to populate your
+  environment:
+
  ```shell script
 # On the command line:
 SENTRY_DSN=YOUR_SENTRY_DSN
@@ -148,16 +169,23 @@ SENTRY_DSN=YOUR_SENTRY_DSN
 ```
 
 Then load the `.env` file in your Python code prior to instantiating the logger, e.g.:
+
 ```python
 from dotenv import find_dotenv, load_dotenv
+
 load_dotenv(find_dotenv())
 
 import structlog_sentry_logger
+
 LOGGER = structlog_sentry_logger.get_logger()
 ```
 
 ### Log Custom Context Directly to Sentry
-With `structlog`, you can even incorporate custom messages in your exception handling which will automatically be reported to Sentry (thanks to the `structlog-sentry` module):
+
+With `structlog`, you can even incorporate custom messages in your exception handling
+which will automatically be reported to Sentry (thanks to the `structlog-sentry`
+module):
+
 ```python
 import uuid
 
@@ -216,14 +244,16 @@ Output: Formatting & Storage
 The default behavior is to stream JSON logs directly to the standard output
 stream [like a proper 12 Factor App](https://12factor.net/logs).
 
-For local development, it often helps to prettify logging to stdout and save
-JSON logs to a `.logs` folder at the root of your project directory for later
-debugging. To enable this behavior, set the following environment variable
+For local development, it often helps to prettify logging to stdout and save JSON logs
+to a `.logs` folder at the root of your project directory for later debugging. To enable
+this behavior, set the following environment variable
 (e.g. via [`python-dotenv`](https://github.com/theskumar/python-dotenv) as in
 the [Sentry Integration](#sentry-integration) section):
+
 ```bash
 CI_ENVIRONMENT_SLUG=dev-local
 ```
+
 In doing so, with our previous exception handling example we would get:
 
 ![Output_Formatting_example](./.static/Output_Formatting_example.png)
@@ -232,13 +262,13 @@ Development
 ===========
 
 > :memo: **Note**  
->  For convenience, many of the below processes are abstracted away
->  and encapsulated in single [Make](https://www.gnu.org/software/make/) targets.
+> For convenience, many of the below processes are abstracted away
+> and encapsulated in single [Make](https://www.gnu.org/software/make/) targets.
 
 
 > :fire: **Tip**  
->  Invoking `make` without any arguments will display
->  auto-generated documentation on available commands.
+> Invoking `make` without any arguments will display
+> auto-generated documentation on available commands.
 
 Package and Dependencies Installation
 --------------------------------------
@@ -247,13 +277,14 @@ Make sure you have Python 3.7+ and [`poetry`](https://python-poetry.org/)
 installed and configured.
 
 To install the package and all dev dependencies, run:
+
 ```shell script
 make provision-environment
 ```
 
 > :fire: **Tip**  
->  Invoking the above without `poetry` installed will emit a
->  helpful error message letting you know how you can install poetry.
+> Invoking the above without `poetry` installed will emit a
+> helpful error message letting you know how you can install poetry.
 
 Testing
 ------------
@@ -267,23 +298,24 @@ To invoke the tests, run:
 make test
 ```
 
-Run [mutation tests](https://opensource.com/article/20/7/mutmut-python) to validate test suite robustness (Optional):
+Run [mutation tests](https://opensource.com/article/20/7/mutmut-python) to validate test
+suite robustness (Optional):
 
 ```shell script
 make test-mutations
 ```
 
 > :memo: **Note**  
->  Test time scales with the complexity of the codebase. Results are cached
->  in `.mutmut-cache`, so once you get past the initial [cold start problem](https://en.wikipedia.org/wiki/Cold_start_(recommender_systems)),
->  subsequent mutation test runs will be much faster; new mutations will only
->  be applied to modified code paths.
+> Test time scales with the complexity of the codebase. Results are cached
+> in `.mutmut-cache`, so once you get past the initial [cold start problem](https://en.wikipedia.org/wiki/Cold_start_(recommender_systems)),
+> subsequent mutation test runs will be much faster; new mutations will only
+> be applied to modified code paths.
 
 Code Quality
 ------------
 
-We are using [`pre-commit`](https://pre-commit.com/) for our code quality
-static analysis automation and management framework.
+We are using [`pre-commit`](https://pre-commit.com/) for our code quality static
+analysis automation and management framework.
 
 To invoke the analyses and auto-formatting over all version-controlled files, run:
 
@@ -292,9 +324,9 @@ make lint
 ```
 
 > :rotating_light: **Danger**  
->  CI will fail if either testing or code quality fail,
->  so it is recommended to automatically run the above locally
->  prior to every commit that is pushed.
+> CI will fail if either testing or code quality fail,
+> so it is recommended to automatically run the above locally
+> prior to every commit that is pushed.
 
 ### Automate via Git Pre-Commit Hooks
 
@@ -306,10 +338,10 @@ make install-pre-commit-hooks
 ```
 
 > :warning:️ Warning  
->  This will prevent commits if any single pre-commit hook fails
->  (unless it is allowed to fail)
->  or a file is modified by an auto-formatting job;
->  in the latter case, you may simply repeat the commit and it should pass.
+> This will prevent commits if any single pre-commit hook fails
+> (unless it is allowed to fail)
+> or a file is modified by an auto-formatting job;
+> in the latter case, you may simply repeat the commit and it should pass.
 
 Documentation
 --------------
@@ -319,15 +351,16 @@ make docs-clean docs-html
 ```
 
 > :memo: **Note**  
->  For faster feedback loops, this will attempt to automatically open the newly
->  built documentation static HTML in your browser.
+> For faster feedback loops, this will attempt to automatically open the newly
+> built documentation static HTML in your browser.
 
 Summary
 =======
-That's it. Now no excuses.
-Get out there and program with pride knowing no one
-will laugh at you in production! For not logging properly, that is. You're on your own
-for that other [observability](https://devops.com/metrics-logs-and-traces-the-golden-triangle-of-observability-in-monitoring/) stuff.
+That's it. Now no excuses. Get out there and program with pride knowing no one will
+laugh at you in production! For not logging properly, that is. You're on your own for
+that
+other [observability](https://devops.com/metrics-logs-and-traces-the-golden-triangle-of-observability-in-monitoring/)
+stuff.
 
 Further Reading
 ===============
