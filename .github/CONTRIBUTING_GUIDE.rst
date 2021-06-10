@@ -51,7 +51,7 @@ How to set up your development environment
    Invoking ``make`` without any arguments will display
    auto-generated documentation on available commands.
 
-Make sure you have Python 3.6+ and Poetry_ installed and configured.
+Make sure you have Python 3.7+ and Poetry_ installed and configured.
 
 Install the package with development requirements:
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
