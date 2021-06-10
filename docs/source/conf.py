@@ -1,14 +1,16 @@
 """Sphinx configuration."""
+import datetime
 import os
 import pathlib
+import re
 import sys
-from datetime import datetime
-from typing import List
+from typing import List, Match
 
+import emoji
 import importlib_metadata
+import sphinx.ext.apidoc
 from dotenv import find_dotenv, load_dotenv
 from sphinx.application import Sphinx
-from sphinx.ext import apidoc
 
 # Load user-specific env vars (e.g. secrets) from a `.env` file
 load_dotenv(find_dotenv())
@@ -39,7 +41,9 @@ except importlib_metadata.PackageNotFoundError as err:
 # -- Project information -----------------------------------------------------
 project = project_metadata["Name"]
 author = project_metadata["Author"]
-copyright = f"{datetime.now().year}, {author}"  # pylint: disable=redefined-builtin
+copyright = (  # pylint: disable=redefined-builtin
+    f"{datetime.datetime.now().year}, {author}"
+)
 version = release = project_metadata["Version"]
 
 # -- General configuration ---------------------------------------------------
@@ -76,25 +80,26 @@ html_show_sourcelink = (
 
 # -- Extension configurations ---------------------------------------------------
 
-# sphinx.ext.autosummary configs
+# `sphinx.ext.autosummary` configs
 autosummary_generate = True  # Turn on sphinx.ext.autosummary
 
-# sphinx.ext.autodoc configs
+# `sphinx.ext.autodoc` configs
 autoclass_content = "both"  # Add __init__ doc (ie. params) to class summaries
 autodoc_inherit_docstrings = True  # If no class summary, inherit base class summary
 autodoc_typehints = "description"  # Show typehints as content of function or method
 
-# myst_parser configs
+# `myst_parser` configs
 # Prefix document path to section labels, to use:
 # `path/to/file:heading` instead of just `heading`
 autosectionlabel_prefix_document = True
 
-# sphinx.ext.apidoc configs
-# Running separately to support Read The Docs builds
-
 
 def run_apidoc(_: Sphinx) -> None:
+    """`sphinx.ext.apidoc` configs
 
+    Running separately to support Read The Docs builds.
+    Adapted from: https://bitbucket.org/lbesson/bin/src/master/emojize.py
+    """
     argv = [
         "--ext-autodoc",
         "--ext-intersphinx",
@@ -106,11 +111,33 @@ def run_apidoc(_: Sphinx) -> None:
         str(pathlib.Path(__file__).parent / "ref/api"),
         str(_project_directory / "structlog_sentry_logger"),
     ]
-    apidoc.main(argv)
+    sphinx.ext.apidoc.main(argv)
+
+
+def convert_emoji_shortcodes(app: Sphinx, exception: Exception) -> None:
+    """Convert emoji shortcodes in HTML files to corresponding emoji characters
+
+    Running separately to support Read The Docs builds.
+    Adapted from: https://bitbucket.org/lbesson/bin/src/master/emojize.py
+    """
+
+    def emojize_match(match: Match) -> str:
+        """Convert emoji shortcodes in match to corresponding emoji characters"""
+        return emoji.emojize(match.group(), use_aliases=True, variant="emoji_type")
+
+    def emojize_all(text: str) -> str:
+        """Convert all emoji shortcodes in text to corresponding emoji characters"""
+        return re.sub(r":([a-z0-9_-]+):", emojize_match, text)
+
+    if exception is None:
+        for html_file in pathlib.Path(app.outdir).rglob("*.html"):
+            html_file.write_text(emojize_all(html_file.read_text()))
 
 
 def setup(app: Sphinx) -> None:
+    """Connects bespoke `sphinx.ext.apidoc` extension and emoji shortcode conversion functions"""
     app.connect("builder-inited", run_apidoc)
+    app.connect("build-finished", convert_emoji_shortcodes)
 
 
 # sphinxcontrib.confluencebuilder configs
