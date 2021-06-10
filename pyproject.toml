@@ -120,7 +120,6 @@ skip_covered = true
 skip = [
     ".env",
     ".python-version",
-    "README.md",
     "structlog_sentry_logger/__init__.py",
     "docs/source/.env",
     "docs/source/ref/dev/"
