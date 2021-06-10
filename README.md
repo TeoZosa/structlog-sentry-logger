@@ -88,36 +88,36 @@ Automatically add much richer context to your Sentry reports.
 
 Table of Contents
 
-- [Installation](#installation)
-- [Usage](#usage)
-    * [Pure `structlog` Logging (Without Sentry)](#pure-structlog-logging-without-sentry)
-    * [Sentry Integration](#sentry-integration)
-        + [Log Custom Context Directly to Sentry](#log-custom-context-directly-to-sentry)
+- [:tada: Installation](#tada-installation)
+- [:rocket: Usage](#rocket-usage)
+  * [Pure `structlog` Logging (Without Sentry)](#pure-structlog-logging-without-sentry)
+  * [Sentry Integration](#sentry-integration)
+    + [Log Custom Context Directly to Sentry](#log-custom-context-directly-to-sentry)
 - [Output: Formatting & Storage](#output-formatting--storage)
-- [Development](#development)
-    * [Package and Dependencies Installation](#package-and-dependencies-installation)
-    * [Testing](#testing)
-    * [Code Quality](#code-quality)
-        + [Automate via Git Pre-Commit Hooks](#automate-via-git-pre-commit-hooks)
-    * [Documentation](#documentation)
-- [Summary](#summary)
-- [Further Reading](#further-reading)
-    * [`structlog`](#structlog-structured-logging-for-python)
-    * [`Sentry`](#sentry-monitor-and-fix-crashes-in-realtime)
-    * [`structlog-sentry`](#structlog-sentry-provides-the-structlog-sentryprocessor-for-sentry-integration)
-- [Legal](#legal)
-    * [License](#license)
-    * [Credits](#credits)
+- [:wrench: Development](#wrench-development)
+  * [Package and Dependencies Installation](#package-and-dependencies-installation)
+  * [Testing](#testing)
+  * [Code Quality](#code-quality)
+    + [Automate via Git Pre-Commit Hooks](#automate-via-git-pre-commit-hooks)
+  * [Documentation](#documentation)
+- [:clipboard: Summary](#clipboard-summary)
+- [:books: Further Reading](#books-further-reading)
+  * [`structlog`](#structlog-structured-logging-for-python)
+  * [`Sentry`](#sentry-monitor-and-fix-crashes-in-realtime)
+  * [`structlog-sentry`](#structlog-sentry-provides-the-structlog-sentryprocessor-for-sentry-integration)
+- [:page_facing_up: Legal](#page_facing_up-legal)
+  * [License](#license)
+  * [Credits](#credits)
 
-Installation
-============
+:tada: Installation
+===================
 
  ```shell script
 pip install structlog-sentry-logger
 ```
 
-Usage
-=====
+:rocket: Usage
+==============
 Pure `structlog` Logging (Without Sentry)
 ------------------------------------------
 At the top of your Python module, import and instantiate the logger:
@@ -258,8 +258,8 @@ In doing so, with our previous exception handling example we would get:
 
 ![Output_Formatting_example](./.static/Output_Formatting_example.png)
 
-Development
-===========
+:wrench: Development
+====================
 
 > :memo: **Note**  
 > For convenience, many of the below processes are abstracted away
@@ -354,16 +354,16 @@ make docs-clean docs-html
 > For faster feedback loops, this will attempt to automatically open the newly
 > built documentation static HTML in your browser.
 
-Summary
-=======
+:clipboard: Summary
+===================
 That's it. Now no excuses. Get out there and program with pride knowing no one will
 laugh at you in production! For not logging properly, that is. You're on your own for
 that
 other [observability](https://devops.com/metrics-logs-and-traces-the-golden-triangle-of-observability-in-monitoring/)
 stuff.
 
-Further Reading
-===============
+:books: Further Reading
+=======================
 <img src="https://www.structlog.org/en/stable/_static/structlog_logo_small.png" width="200">
 
 ## [`structlog`](https://www.structlog.org/en/stable/#): Structured Logging for Python
@@ -376,8 +376,8 @@ Further Reading
 
 ---
 
-Legal
-=====
+:page_facing_up: Legal
+======================
 
 License
 -------
