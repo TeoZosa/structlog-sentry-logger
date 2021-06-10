@@ -11,6 +11,15 @@ Structlog-Sentry-Logger
 [![Dependabot](https://api.dependabot.com/badges/status?host=github&repo=TeoZosa/structlog-sentry-logger)](https://dependabot.com/)
 
 
+---
+
+**Documentation**: [https://structlog-sentry-logger.readthedocs.io](https://structlog-sentry-logger.readthedocs.io)
+
+**Source Code**: [https://github.com/TeoZosa/structlog-sentry-logger](https://github.com/TeoZosa/structlog-sentry-logger)
+
+---
+
+
 Overview
 --------
 
