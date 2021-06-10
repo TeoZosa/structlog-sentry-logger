@@ -93,7 +93,7 @@ Table of Contents
   * [Pure `structlog` Logging (Without Sentry)](#pure-structlog-logging-without-sentry)
   * [Sentry Integration](#sentry-integration)
     + [Log Custom Context Directly to Sentry](#log-custom-context-directly-to-sentry)
-- [Output: Formatting & Storage](#output-formatting--storage)
+- [:chart_with_downwards_trend: Output: Formatting & Storage](#chart_with_downwards_trend-output-formatting--storage)
 - [:wrench: Development](#wrench-development)
   * [Package and Dependencies Installation](#package-and-dependencies-installation)
   * [Testing](#testing)
@@ -239,8 +239,8 @@ RuntimeError: I threw an error on purpose for this example!
 Now throwing another that explicitly chains from that one!
 ```
 
-Output: Formatting & Storage
-==============================
+:chart_with_downwards_trend: Output: Formatting & Storage
+=========================================================
 The default behavior is to stream JSON logs directly to the standard output
 stream [like a proper 12 Factor App](https://12factor.net/logs).
 
