@@ -81,11 +81,20 @@ Table of Contents
   * [Sentry Integration](#sentry-integration)
     + [Log Custom Context Directly to Sentry](#log-custom-context-directly-to-sentry)
 - [Output: Formatting & Storage](#output-formatting--storage)
+- [Development](#development)
+  * [Package and Dependencies Installation](#package-and-dependencies-installation)
+  * [Testing](#testing)
+  * [Code Quality](#code-quality)
+    + [Automate via Git Pre-Commit Hooks](#automate-via-git-pre-commit-hooks)
+  * [Documentation](#documentation)
 - [Summary](#summary)
 - [Further Reading](#further-reading)
-    + [`structlog`](#structlog-structured-logging-for-python)
-    + [`Sentry`](#sentry-monitor-and-fix-crashes-in-realtime)
-    + [`structlog-sentry`](#structlog-sentry-provides-the-structlog-sentryprocessor-for-sentry-integration)
+  * [`structlog`](#structlog-structured-logging-for-python)
+  * [`Sentry`](#sentry-monitor-and-fix-crashes-in-realtime)
+  * [`structlog-sentry`](#structlog-sentry-provides-the-structlog-sentryprocessor-for-sentry-integration)
+- [Legal](#legal)
+  * [License](#license)
+  * [Credits](#credits)
 
 Installation
 ============
@@ -239,7 +248,7 @@ installed and configured.
 
 To install the package and all dev dependencies, run:
 ```shell script
-make provision_environment
+make provision-environment
 ```
 
 > :fire: **Tip**  
