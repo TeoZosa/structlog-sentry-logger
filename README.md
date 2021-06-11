@@ -261,9 +261,8 @@ In doing so, with our previous exception handling example we would get:
 :wrench: Development
 ====================
 
-> :memo: **Note**  
-> For convenience, many of the below processes are abstracted away
-> and encapsulated in single [Make](https://www.gnu.org/software/make/) targets.
+For convenience, implementation details of the below processes are abstracted away and
+encapsulated in single [Make](https://www.gnu.org/software/make/) targets.
 
 
 > :fire: **Tip**  
@@ -289,8 +288,9 @@ make provision-environment
 Testing
 ------------
 
-We use [`tox`](https://tox.readthedocs.io/en/latest/) for our test automation framework
-and [`pytest`](https://pytest.readthedocs.io/) for our testing framework.
+We use [`tox`](https://tox.readthedocs.io/en/latest/)
+and [`pytest`](https://pytest.readthedocs.io/) for our test automation and testing
+frameworks, respectively.
 
 To invoke the tests, run:
 
@@ -314,8 +314,8 @@ make test-mutations
 Code Quality
 ------------
 
-We are using [`pre-commit`](https://pre-commit.com/) for our code quality static
-analysis automation and management framework.
+We use [`pre-commit`](https://pre-commit.com/) for our static analysis automation and
+management framework.
 
 To invoke the analyses and auto-formatting over all version-controlled files, run:
 

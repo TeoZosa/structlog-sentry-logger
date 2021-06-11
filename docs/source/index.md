@@ -7,8 +7,8 @@
    :maxdepth: 1
 
    readme
-   API Reference <ref/api/modules>
-   Developer Reference <ref/dev/modules>
+   API Reference <autoapi/structlog_sentry_logger/index>
+   Developer Reference <autoapi/structlog_sentry_logger/_config/index>
    contributing
    Code of Conduct <codeofconduct>
    License <license>
