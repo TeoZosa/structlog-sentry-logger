@@ -14,9 +14,3 @@
    License <license>
    Changelog <changelog>
 ```
-
-```{eval-rst}
-.. role:: bash(code)
-   :language: bash
-   :class: highlight
-```
