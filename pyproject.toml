@@ -124,7 +124,6 @@ skip = [
     ".python-version",
     "structlog_sentry_logger/__init__.py",
     "docs/source/.env",
-    "docs/source/ref/dev/"
 ]
 
 [tool.flakehell]
