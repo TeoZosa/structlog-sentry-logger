@@ -57,7 +57,7 @@ cruft = "^2.6.0" # Automated Cookiecutter template synchronization
 mypy = "^0.902" # Static type checker
 typeguard = "^2.12.1" # Runtime type checker
 ## PEP 561 compliant stub packages for mypy
-types-orjson = "^0.1.0"
+types-orjson = "^0.1.1"
 
 # Testing
 pytest = "^6.2.4"

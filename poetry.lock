@@ -1705,7 +1705,7 @@ python-versions = "*"
 
 [[package]]
 name = "types-orjson"
-version = "0.1.0"
+version = "0.1.1"
 description = "Typing stubs for orjson"
 category = "dev"
 optional = false
@@ -1833,7 +1833,7 @@ docs = ["emoji", "importlib-metadata", "myst-parser", "pygments", "sphinx", "sph
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "51da44398531a65e8a08dd483f0880cd94d967f42dca579a7c008107a183f951"
+content-hash = "97b0aa8683de007ff2875ddd050a585cd3127683c593238a28de3a0ee4ad829c"
 
 [metadata.files]
 alabaster = [
@@ -2773,7 +2773,8 @@ types-emoji = [
     {file = "types_emoji-1.2.1-py2.py3-none-any.whl", hash = "sha256:0276905161cdf45ecb1da7f349ddc1f8defb9b62443cb83647f476b036a0f69b"},
 ]
 types-orjson = [
-    {file = "types_orjson-0.1.0-py2.py3-none-any.whl", hash = "sha256:7c5036f31615179a3154079d144329f868667e15ac9d041f388de3a823328b0c"},
+    {file = "types-orjson-0.1.1.tar.gz", hash = "sha256:7454bfbaed27900a844bb9d8e211b69f1c335f0b9e3541d4950a793db41c104d"},
+    {file = "types_orjson-0.1.1-py2.py3-none-any.whl", hash = "sha256:92f85986261ea1a5cb215e4b35e4016631d35163a372f023918750f340ea737f"},
 ]
 typing-extensions = [
     {file = "typing_extensions-3.10.0.0-py2-none-any.whl", hash = "sha256:0ac0f89795dd19de6b97debb0c6af1c70987fd80a2d62d1958f7e56fcc31b497"},
