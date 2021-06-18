@@ -1697,7 +1697,7 @@ doc = ["mkdocs (>=1.1.2,<2.0.0)", "mkdocs-material (>=5.4.0,<6.0.0)", "markdown-
 
 [[package]]
 name = "types-emoji"
-version = "1.2.1"
+version = "1.2.2"
 description = "Typing stubs for emoji"
 category = "main"
 optional = true
@@ -2770,7 +2770,8 @@ typer = [
     {file = "typer-0.3.2.tar.gz", hash = "sha256:5455d750122cff96745b0dec87368f56d023725a7ebc9d2e54dd23dc86816303"},
 ]
 types-emoji = [
-    {file = "types_emoji-1.2.1-py2.py3-none-any.whl", hash = "sha256:0276905161cdf45ecb1da7f349ddc1f8defb9b62443cb83647f476b036a0f69b"},
+    {file = "types-emoji-1.2.2.tar.gz", hash = "sha256:6d8f26809f41dbbbd3c7604415eba29a06edbc665784fd63fe2fd706729aacec"},
+    {file = "types_emoji-1.2.2-py2.py3-none-any.whl", hash = "sha256:e10ca236f4e5da74e1f7881ca8c768de8d18f714c8118755328263f321168bd8"},
 ]
 types-orjson = [
     {file = "types_orjson-0.1.0-py2.py3-none-any.whl", hash = "sha256:7c5036f31615179a3154079d144329f868667e15ac9d041f388de3a823328b0c"},
