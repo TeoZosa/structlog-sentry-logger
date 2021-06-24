@@ -105,7 +105,7 @@ jobs:
 
       - name: Disable Git LFS
         run: |
-          rm .git/hooks/post-checkout
+          rm .git/hooks/post-checkout || true
 
       - name: Run Semgrep
         id: semgrep

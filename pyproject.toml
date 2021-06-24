@@ -149,6 +149,18 @@ pycodestyle = ["+*",
     "-W503"  # Line break occurred before a binary operator <- this is now considered best practice by PEP 8
 ]
 
+[tool.interrogate]
+ignore-init-method = true
+ignore-init-module = true
+ignore-magic = false
+ignore-semiprivate = false
+ignore-private = false
+ignore-property-decorators = false
+ignore-module = false
+fail-under = 0 # adjust `fail-under` value as quality standards permit
+whitelist-regex = []
+color = true
+
 [tool.isort]
 profile = "black"
 atomic = true
