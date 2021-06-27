@@ -135,7 +135,7 @@ LOG_MSG = "Information that's useful for future me and others"
 LOGGER.info(LOG_MSG, extra_field="extra_value")
 ```
 
-> :note: **Note**  
+> :memo: **Note**  
 > All the regular
 > [Python logging levels](https://docs.python.org/3/library/logging.html#levels)
 > are supported.
