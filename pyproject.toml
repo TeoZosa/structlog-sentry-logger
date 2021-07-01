@@ -51,7 +51,7 @@ types-emoji = { version = "^1.2.1", optional = true} # PEP 561 compliant stub pa
 
 [tool.poetry.dev-dependencies]
 # Standardized Developer Workflow Orchestration
-cruft = "^2.6.0" # Automated Cookiecutter template synchronization
+cruft = "^2.9.0" # Automated Cookiecutter template synchronization
 
 # Type Checking and Data Validation
 mypy = "^0.910" # Static type checker
