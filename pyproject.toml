@@ -62,6 +62,13 @@ types-orjson = "^0.1.1"
 # Testing
 pytest = "^6.2.4"
 pytest-cov = "^2.12.1"
+# Fixes:
+#   ```
+#   Coverage 6.0b1 starts to use a modern hash algorithm (sha256) when
+#   fingerprinting for high-security environments.
+#   ```
+# Temporary fix until official 6.0 version is released included and in `pytest-cov`;
+coverage = {version = "^6.0b1", allow-prereleases = true}
 pytest-emoji = "^0.2.0"
 pytest-mock = "^3.6.1"
 pytest-sugar = "^0.9.4"
