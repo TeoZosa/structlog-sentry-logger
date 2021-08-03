@@ -23,6 +23,10 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 
+[tool.poetry.build]
+script = "build.py"
+generate-setup-file = false
+
 [tool.poetry.urls]
 Changelog = "https://github.com/TeoZosa/structlog-sentry-logger/releases"
 
