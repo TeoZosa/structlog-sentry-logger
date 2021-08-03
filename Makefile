@@ -129,6 +129,11 @@ ifeq (${CI}, true)
 export TOX_PARALLEL_NO_SPINNER=1
 endif
 
+.PHONY: build
+## Build project package(s)
+build:
+	$(MAKE) tox-package
+
 .PHONY: tox-%
 ## Run specified tox testenvs
 tox-%: clean update-dependencies generate-requirements
