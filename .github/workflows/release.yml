@@ -13,10 +13,20 @@ on:  # yamllint disable-line rule:truthy
     types:
       - completed
 
+
+env:
+  ARTIFACTS_DIR: .release_artifacts
+
 jobs:
-  release:
-    name: Release
+
+  # Shared tag & version number info ----------------------
+
+  get-tag-xor-dev-version:
+    name: Get tags and version numbers
     runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.detect-and-tag-new-version.outputs.tag }}
+      dev-version: ${{ steps.bump-dev-version.outputs.version }}
     steps:
       - name: Check out the repository
         uses: actions/checkout@v2.3.3
@@ -39,18 +49,13 @@ jobs:
           pip install --constraint=.github/workflows/constraints.txt poetry
           poetry --version
 
-      - name: Install Tox
-        run: |
-          pip install --constraint=.github/workflows/constraints.txt tox
-          tox --version
-
       - name: Check if there is a parent commit
         id: check-parent-commit
         run: |
           echo "::set-output name=sha::$(git rev-parse --verify --quiet HEAD^)"
 
       - name: Detect and tag new version
-        id: check-version
+        id: detect-and-tag-new-version
         if: "steps.check-parent-commit.outputs.sha"
         run: |
           BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
@@ -63,12 +68,51 @@ jobs:
           fi
 
       - name: Bump version for developmental release
-        if: "! steps.check-version.outputs.tag"
+        id: bump-dev-version
+        if: "! steps.detect-and-tag-new-version.outputs.tag"
         run: |
           poetry version patch &&
           VERSION=$(make get-project-version-number) &&
           DEV_VERSION="${VERSION}.dev.$(date +%s)" &&
-          poetry version "${DEV_VERSION}"
+          poetry version "${DEV_VERSION}" &&
+          echo "::set-output name=version::${DEV_VERSION}"
+
+  # PyPI/TestPyPI package build and upload ----------------------
+  pypi-package-build-and-upload:
+    name: PyPI/TestPyPI package build and upload
+    runs-on: ubuntu-latest
+    needs: get-tag-xor-dev-version
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2.3.3
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v2.2.2
+        with:
+          python-version: "3.9"
+
+      - name: Upgrade pip
+        run: |
+          pip install --constraint=.github/workflows/constraints.txt pip
+          pip --version
+
+      - name: Install Poetry
+        run: |
+          pip install --constraint=.github/workflows/constraints.txt poetry
+          poetry --version
+
+      - name: Install Tox
+        run: |
+          pip install --constraint=.github/workflows/constraints.txt tox
+          tox --version
+
+      - name: Use dev project version
+        if: "needs.get-tag-xor-dev-version.outputs.dev-version"
+        run: |
+          VERSION="${{ needs.get-tag-xor-dev-version.outputs.dev-version }}"
+          poetry version "${VERSION}"
 
       # PyPI/TestPyPI package upload ----------------------
       - name: Build package
@@ -76,14 +120,14 @@ jobs:
           make build
 
       - name: Publish package on PyPI
-        if: steps.check-version.outputs.tag
+        if: "needs.get-tag-xor-dev-version.outputs.tag"
         uses: pypa/gh-action-pypi-publish@v1.4.2
         with:
           user: __token__
           password: ${{ secrets.PYPI_TOKEN }}  # pragma: allowlist secret
 
       - name: Publish package on TestPyPI
-        if: "! steps.check-version.outputs.tag"
+        if: "! needs.get-tag-xor-dev-version.outputs.tag"
         uses: pypa/gh-action-pypi-publish@v1.4.2
         with:
           user: __token__
@@ -112,50 +156,17 @@ jobs:
   publish-release-notes:
     name: Publish release notes
     runs-on: ubuntu-latest
+    needs: get-tag-xor-dev-version
     steps:
       - name: Check out the repository
         uses: actions/checkout@v2.3.3
         with:
           ref: ${{ github.event.workflow_run.head_branch }}
-          fetch-depth: 2
-
-      - name: Set up Python
-        uses: actions/setup-python@v2.2.2
-        with:
-          python-version: "3.9"
-
-      - name: Upgrade pip
-        run: |
-          pip install --constraint=.github/workflows/constraints.txt pip
-          pip --version
-
-      - name: Install Poetry
-        run: |
-          pip install --constraint=.github/workflows/constraints.txt poetry
-          poetry --version
-
-      - name: Check if there is a parent commit
-        id: check-parent-commit
-        run: |
-          echo "::set-output name=sha::$(git rev-parse --verify --quiet HEAD^)"
-
-      - name: Detect and tag new version
-        id: check-version
-        if: "steps.check-parent-commit.outputs.sha"
-        run: |
-          BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
-          git checkout HEAD~
-          PARENT_COMMIT_VER=$(make get-project-version-number)
-          git checkout "${BRANCH_NAME}"
-          CURRENT_COMMIT_VER=$(make get-project-version-number)
-          if [[ "${PARENT_COMMIT_VER}" != "${CURRENT_COMMIT_VER}" ]]; then
-            echo "::set-output name=tag::${CURRENT_COMMIT_VER}"
-          fi
 
       - name: Publish the release notes
         uses: release-drafter/release-drafter@v5.15.0
         with:
-          publish: ${{ steps.check-version.outputs.tag != '' }}
-          tag: ${{ steps.check-version.outputs.tag }}
+          publish: ${{ needs.get-tag-xor-dev-version.outputs.tag != '' }}
+          tag: ${{ needs.get-tag-xor-dev-version.outputs.tag }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
