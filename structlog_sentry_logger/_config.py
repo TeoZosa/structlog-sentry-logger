@@ -207,7 +207,7 @@ def set_structlog_config(timestamper: structlog.processors.TimeStamper) -> None:
         processors=(
             stdlib_log_compatibility_processors  # type: ignore[arg-type]
             + structlog_processors
-            + format_wrapper_processer  # type: ignore[operator]
+            + format_wrapper_processer  # type: ignore[arg-type,operator]
         ),
         # See [Performance](https://www.structlog.org/en/stable/performance.html)
         # for an in-depth explanation of the below settings
