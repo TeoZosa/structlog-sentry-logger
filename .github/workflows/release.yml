@@ -107,7 +107,51 @@ jobs:
         shell: bash
       # yamllint enable rule:line-length
 
-      # Release notes publication ----------------------
+  # Release notes publication ----------------------
+
+  publish-release-notes:
+    name: Publish release notes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2.3.3
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
+          fetch-depth: 2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2.2.2
+        with:
+          python-version: "3.9"
+
+      - name: Upgrade pip
+        run: |
+          pip install --constraint=.github/workflows/constraints.txt pip
+          pip --version
+
+      - name: Install Poetry
+        run: |
+          pip install --constraint=.github/workflows/constraints.txt poetry
+          poetry --version
+
+      - name: Check if there is a parent commit
+        id: check-parent-commit
+        run: |
+          echo "::set-output name=sha::$(git rev-parse --verify --quiet HEAD^)"
+
+      - name: Detect and tag new version
+        id: check-version
+        if: "steps.check-parent-commit.outputs.sha"
+        run: |
+          BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+          git checkout HEAD~
+          PARENT_COMMIT_VER=$(make get-project-version-number)
+          git checkout "${BRANCH_NAME}"
+          CURRENT_COMMIT_VER=$(make get-project-version-number)
+          if [[ "${PARENT_COMMIT_VER}" != "${CURRENT_COMMIT_VER}" ]]; then
+            echo "::set-output name=tag::${CURRENT_COMMIT_VER}"
+          fi
+
       - name: Publish the release notes
         uses: release-drafter/release-drafter@v5.15.0
         with:
