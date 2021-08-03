@@ -39,6 +39,11 @@ jobs:
           pip install --constraint=.github/workflows/constraints.txt poetry
           poetry --version
 
+      - name: Install Tox
+        run: |
+          pip install --constraint=.github/workflows/constraints.txt tox
+          tox --version
+
       - name: Check if there is a parent commit
         id: check-parent-commit
         run: |
