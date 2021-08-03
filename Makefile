@@ -132,7 +132,7 @@ endif
 .PHONY: build
 ## Build project package(s)
 build:
-	poetry run tox -e package
+	tox -e package
 
 .PHONY: tox-%
 ## Run specified tox testenvs
