@@ -77,11 +77,15 @@ jobs:
           poetry version "${DEV_VERSION}" &&
           echo "::set-output name=version::${DEV_VERSION}"
 
-  # PyPI/TestPyPI package build and upload ----------------------
-  pypi-package-build-and-upload:
-    name: PyPI/TestPyPI package build and upload
+  # Package build ----------------------
+  package-build:
+    name: Package build
     runs-on: ubuntu-latest
     needs: get-tag-xor-dev-version
+    outputs:
+      # yamllint disable-line rule:line-length
+      is-test-package: ${{ steps.use-dev-version-for-testing.outputs.is_testing }}
+      package-version: ${{ steps.log-package-version.outputs.version }}
     steps:
       - name: Check out the repository
         uses: actions/checkout@v2.3.3
@@ -108,26 +112,67 @@ jobs:
           pip install --constraint=.github/workflows/constraints.txt tox
           tox --version
 
-      - name: Use dev project version
+      - name: Use dev project version for testing
+        id: use-dev-version-for-testing
         if: "needs.get-tag-xor-dev-version.outputs.dev-version"
         run: |
           VERSION="${{ needs.get-tag-xor-dev-version.outputs.dev-version }}"
           poetry version "${VERSION}"
+          echo "::set-output name=is_testing::true"
+
+      - name: Log package version
+        id: log-package-version
+        run: |
+          VERSION=$(make get-project-version-number)
+          echo "::set-output name=version::${VERSION}"
 
       # PyPI/TestPyPI package upload ----------------------
       - name: Build package
         run: |
           make build
 
+      - name: Store the binary wheel
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: python-package-distributions
+          path: dist
+
+  # PyPI/TestPyPI package upload ----------------------
+  pypi-package-upload:
+    name: PyPI/TestPyPI package upload
+    runs-on: ubuntu-latest
+    needs: package-build
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2.3.3
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v2.2.2
+        with:
+          python-version: "3.9"
+
+      - name: Upgrade pip
+        run: |
+          pip install --constraint=.github/workflows/constraints.txt pip
+          pip --version
+
+      - name: Download the binary wheel
+        uses: actions/download-artifact@v2.0.10
+        with:
+          name: python-package-distributions
+          path: dist
+
       - name: Publish package on PyPI
-        if: "needs.get-tag-xor-dev-version.outputs.tag"
+        if: "! needs.package-build.outputs.is-test-package"
         uses: pypa/gh-action-pypi-publish@v1.4.2
         with:
           user: __token__
           password: ${{ secrets.PYPI_TOKEN }}  # pragma: allowlist secret
 
       - name: Publish package on TestPyPI
-        if: "! needs.get-tag-xor-dev-version.outputs.tag"
+        if: "needs.package-build.outputs.is-test-package"
         uses: pypa/gh-action-pypi-publish@v1.4.2
         with:
           user: __token__
@@ -137,7 +182,7 @@ jobs:
       # yamllint disable rule:line-length
       - name: Validate published package is reachable
         run: |
-          PYPI_PACKAGE="structlog-sentry-logger==$(make get-project-version-number)"
+          PYPI_PACKAGE="structlog-sentry-logger==${{ needs.package-build.outputs.package-version }}"
           TEST_PYPI_PACKAGE="${PYPI_PACKAGE} --index-url https://test.pypi.org/simple/"
           function install_test_pypi() { pip install ${TEST_PYPI_PACKAGE} --no-deps && install_pypi; }
           function install_pypi() { pip install --upgrade ${PYPI_PACKAGE}; }
