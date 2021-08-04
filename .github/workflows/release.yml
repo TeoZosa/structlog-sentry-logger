@@ -189,7 +189,7 @@ jobs:
 
           until (install_test_pypi || install_pypi) &> /dev/null
           do
-             echo "Waiting for Python Package Index to serve current package-under-test"
+             echo "Waiting for Python Package Index to serve current package-under-test: ${PYPI_PACKAGE}"
              sleep 10
           done
           pip list -v
