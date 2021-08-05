@@ -49,7 +49,7 @@ def test_dev_local(
     utils.redirect_captured_logs_to_stdout(caplog)
 
     if sys.platform == "win32":
-        expected = (
+        relevant_expected = (
             "o     ] Information that's useful for "
             "future me and others "
             "[docs_src.pure_structlog_logging_without_sentry] "
@@ -57,7 +57,7 @@ def test_dev_local(
             "sentry=skipped [in <module>]\n"
         )
     else:
-        expected = (
+        relevant_expected = (
             "[0m [\x1b[32m\x1b[1minfo     \x1b[0m] \x1b[1mInformation that's useful for "
             "future me and others\x1b[0m "
             "[\x1b[34m\x1b[1mdocs_src.pure_structlog_logging_without_sentry\x1b[0m] "
@@ -65,9 +65,10 @@ def test_dev_local(
             "\x1b[36msentry\x1b[0m=\x1b[35mskipped\x1b[0m [in <module>]\n"
         )
 
-    assert (
-        expected == capsys.readouterr().out[len("\x1b[2m2020-10-17 22:27:09\x1b") :]
-    )  # ignoring timestamped portion
+    example_timestamp_substr = "\x1b[2m2020-10-17 22:27:09\x1b"
+    # Ignore timestamped portion
+    relevant_actual = capsys.readouterr().out[len(example_timestamp_substr) :]
+    assert relevant_expected == relevant_actual
 
 
 @pytest.mark.usefixtures(
