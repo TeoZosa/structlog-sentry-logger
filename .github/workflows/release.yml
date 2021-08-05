@@ -142,6 +142,8 @@ jobs:
     name: PyPI/TestPyPI package upload
     runs-on: ubuntu-latest
     needs: package-build
+    outputs:
+      package-version: ${{ needs.package-build.outputs.package-version }}
     steps:
       - name: Check out the repository
         uses: actions/checkout@v2.3.3
@@ -197,6 +199,49 @@ jobs:
           PACKAGE_VERSION: ${{ needs.package-build.outputs.package-version }}
         shell: bash
       # yamllint enable rule:line-length
+
+  # Install Verification ----------------------
+
+  verify-user-install:
+    strategy:
+      matrix:
+        os: ["ubuntu-latest", "windows-latest", "macos-latest"]
+
+    name: Verify package install as user
+    runs-on: ${{ matrix.os }}
+    needs: pypi-package-upload
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2.3.3
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v2.2.2
+        with:
+          python-version: "3.9"
+
+      - name: Install package-under-test
+        run: |
+          PYPI_PACKAGE="structlog-sentry-logger==${PACKAGE_VERSION}"
+          pip install "${PYPI_PACKAGE}" \
+            --no-deps --index-url https://test.pypi.org/simple/
+          pip install "${PYPI_PACKAGE}" \
+            --upgrade
+          pip list -v
+        env:
+          PACKAGE_VERSION: ${{ needs.pypi-package-upload.outputs.package-version }}
+        shell: bash
+
+      - name: Run example script with both logging configurations
+        run: |
+          echo "Default output (JSON)"
+          python ./docs_src/pure_structlog_logging_without_sentry.py
+          echo "dev-local output (formatted)"
+          export CI_ENVIRONMENT_SLUG=dev-local
+          python ./docs_src/pure_structlog_logging_without_sentry.py
+        shell: bash
 
   # Release notes publication ----------------------
 
