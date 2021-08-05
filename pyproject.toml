@@ -56,8 +56,6 @@ cruft = "^2.6.0" # Automated Cookiecutter template synchronization
 # Type Checking and Data Validation
 mypy = "^0.910" # Static type checker
 typeguard = "^2.12.1" # Runtime type checker
-## PEP 561 compliant stub packages for mypy
-types-orjson = "^0.1.1"
 
 # Testing
 pytest = "^6.2.4"
@@ -174,6 +172,7 @@ atomic = true
 combine_as_imports = true
 
 [tool.pylint.basic]
+extension-pkg-allow-list = ["orjson"]
 good-names-rgxs = ["^Test_.*$", "^.*DSN.*$"]
 
 [tool.pylint.messages_control]
