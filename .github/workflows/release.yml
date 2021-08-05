@@ -182,7 +182,7 @@ jobs:
       # yamllint disable rule:line-length
       - name: Validate published package is reachable
         run: |
-          PYPI_PACKAGE="structlog-sentry-logger==${{ needs.package-build.outputs.package-version }}"
+          PYPI_PACKAGE="structlog-sentry-logger==${PACKAGE_VERSION}"
           TEST_PYPI_PACKAGE="${PYPI_PACKAGE} --index-url https://test.pypi.org/simple/"
           function install_test_pypi() { pip install ${TEST_PYPI_PACKAGE} --no-deps && install_pypi; }
           function install_pypi() { pip install --upgrade ${PYPI_PACKAGE}; }
@@ -193,6 +193,8 @@ jobs:
              sleep 10
           done
           pip list -v
+        env:
+          PACKAGE_VERSION: ${{ needs.package-build.outputs.package-version }}
         shell: bash
       # yamllint enable rule:line-length
 
