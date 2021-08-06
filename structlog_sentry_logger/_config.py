@@ -36,9 +36,9 @@ DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 
 def get_namespaced_module_name(__file__: Union[pathlib.Path, str]) -> str:
-    prefix_dir = str(ROOT_DIR) if str(ROOT_DIR) in str(__file__) else "/"
-    root_relative_path = pathlib.Path(__file__).resolve().relative_to(prefix_dir)
-    namespaces = root_relative_path.with_suffix("").parts
+    fully_qualified_path = pathlib.Path(__file__).resolve()
+    prefix_dir = str(ROOT_DIR) if str(ROOT_DIR) in str(fully_qualified_path) else "/"
+    namespaces = fully_qualified_path.relative_to(prefix_dir).with_suffix("").parts
     return ".".join(namespaces)
 
 

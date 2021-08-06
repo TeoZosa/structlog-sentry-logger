@@ -185,6 +185,7 @@ jobs:
     strategy:
       matrix:
         os: ["ubuntu-latest", "windows-latest", "macos-latest"]
+        python-version: ["3.7", "3.8", "3.9"]
 
     name: Verify package install as user
     runs-on: ${{ matrix.os }}
@@ -199,7 +200,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2.2.2
         with:
-          python-version: "3.9"
+          python-version: ${{ matrix.python-version }}
 
       # yamllint disable rule:line-length
       - name: Install package-under-test

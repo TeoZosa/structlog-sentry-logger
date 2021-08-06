@@ -2,7 +2,7 @@
 # Silence spurious `config` fixture false-positives
 # pylint: disable=unused-argument
 import inspect
-from typing import List, Tuple
+from typing import Generator, List, Tuple
 
 import pytest
 from _pytest.config import Config
@@ -44,8 +44,9 @@ def pytest_emoji_xpassed(config: Config) -> Tuple[str, str]:
 @pytest.fixture(scope="function")
 def patch_get_caller_name_from_frames_for_typeguard_compatibility(
     monkeypatch: MonkeyPatch,
-) -> None:
+) -> Generator:
 
+    # Setup
     import structlog_sentry_logger
 
     def typeguard_patch(stack_frames: List[inspect.FrameInfo]) -> str:
@@ -61,3 +62,21 @@ def patch_get_caller_name_from_frames_for_typeguard_compatibility(
     monkeypatch.setattr(
         structlog_sentry_logger._config, "get_caller_name_from_frames", typeguard_patch
     )
+
+    # Pass control back to the calling function
+    yield
+
+    # Teardown
+    def clear_loggers() -> None:
+        """Remove handlers from all loggers"""
+        import logging
+
+        loggers = [logging.getLogger()] + list(
+            logging.Logger.manager.loggerDict.values()  # type: ignore[arg-type]
+        )
+        for logger in loggers:
+            handlers = getattr(logger, "handlers", [])
+            for handler in handlers:
+                logger.removeHandler(handler)
+
+    clear_loggers()
