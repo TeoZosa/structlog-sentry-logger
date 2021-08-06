@@ -78,8 +78,13 @@ jobs:
 
   # Package build ----------------------
   package-build:
+    strategy:
+      matrix:
+        os: ["ubuntu-latest", "windows-latest", "macos-latest"]
+        python-version: ["3.7", "3.8", "3.9"]
+
     name: Package build
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     needs: get-tag-xor-dev-version
     outputs:
       # yamllint disable-line rule:line-length
@@ -94,7 +99,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2.2.2
         with:
-          python-version: "3.9"
+          python-version: ${{ matrix.python-version }}
 
       - name: Upgrade pip
         run: |
@@ -118,12 +123,14 @@ jobs:
           VERSION="${{ needs.get-tag-xor-dev-version.outputs.dev-version }}"
           poetry version "${VERSION}"
           echo "::set-output name=is_testing::true"
+        shell: bash
 
       - name: Log package version
         id: log-package-version
         run: |
           VERSION=$(make get-project-version-number)
           echo "::set-output name=version::${VERSION}"
+        shell: bash
 
       # PyPI/TestPyPI package upload ----------------------
       - name: Build package
@@ -137,7 +144,7 @@ jobs:
           path: dist
 
   # PyPI/TestPyPI package upload ----------------------
-  pypi-package-upload:
+  pypi-packages-upload:
     name: PyPI/TestPyPI package upload
     runs-on: ubuntu-latest
     needs: package-build
@@ -159,20 +166,20 @@ jobs:
           pip install --constraint=.github/workflows/constraints.txt pip
           pip --version
 
-      - name: Download the binary wheel
+      - name: Download the binary wheels
         uses: actions/download-artifact@v2.0.10
         with:
           name: python-package-distributions
           path: dist
 
-      - name: Publish package on PyPI
+      - name: Publish packages on PyPI
         if: "! needs.package-build.outputs.is-test-package"
         uses: pypa/gh-action-pypi-publish@v1.4.2
         with:
           user: __token__
           password: ${{ secrets.PYPI_TOKEN }}  # pragma: allowlist secret
 
-      - name: Publish package on TestPyPI
+      - name: Publish packages on TestPyPI
         if: "needs.package-build.outputs.is-test-package"
         uses: pypa/gh-action-pypi-publish@v1.4.2
         with:
@@ -189,7 +196,7 @@ jobs:
 
     name: Verify package install as user
     runs-on: ${{ matrix.os }}
-    needs: pypi-package-upload
+    needs: pypi-packages-upload
 
     steps:
       - name: Check out the repository
@@ -217,7 +224,7 @@ jobs:
           done
           pip list -v
         env:
-          PACKAGE_VERSION: ${{ needs.pypi-package-upload.outputs.package-version }}
+          PACKAGE_VERSION: ${{ needs.pypi-packages-upload.outputs.package-version }}
         shell: bash
       # yamllint enable rule:line-length
 
