@@ -181,25 +181,6 @@ jobs:
           password: ${{ secrets.TEST_PYPI_TOKEN }}  # pragma: allowlist secret
           repository_url: https://test.pypi.org/legacy/
 
-      # yamllint disable rule:line-length
-      - name: Validate published package is reachable
-        run: |
-          PYPI_PACKAGE="structlog-sentry-logger==${PACKAGE_VERSION}"
-          TEST_PYPI_PACKAGE="${PYPI_PACKAGE} --index-url https://test.pypi.org/simple/"
-          function install_test_pypi() { pip install ${TEST_PYPI_PACKAGE} --no-deps && install_pypi; }
-          function install_pypi() { pip install --upgrade ${PYPI_PACKAGE}; }
-
-          until (install_test_pypi || install_pypi) &> /dev/null
-          do
-             echo "Waiting for Python Package Index to serve current package-under-test: ${PYPI_PACKAGE}"
-             sleep 10
-          done
-          pip list -v
-        env:
-          PACKAGE_VERSION: ${{ needs.package-build.outputs.package-version }}
-        shell: bash
-      # yamllint enable rule:line-length
-
   # Install Verification ----------------------
 
   verify-user-install:
@@ -222,17 +203,24 @@ jobs:
         with:
           python-version: "3.9"
 
+      # yamllint disable rule:line-length
       - name: Install package-under-test
         run: |
           PYPI_PACKAGE="structlog-sentry-logger==${PACKAGE_VERSION}"
-          pip install "${PYPI_PACKAGE}" \
-            --no-deps --index-url https://test.pypi.org/simple/
-          pip install "${PYPI_PACKAGE}" \
-            --upgrade
+          TEST_PYPI_PACKAGE="${PYPI_PACKAGE} --index-url https://test.pypi.org/simple/"
+          function install_test_pypi() { pip install ${TEST_PYPI_PACKAGE} --no-deps && install_pypi; }
+          function install_pypi() { pip install --upgrade ${PYPI_PACKAGE}; }
+
+          until (install_test_pypi || install_pypi) &> /dev/null
+          do
+             echo "Waiting for Python Package Index to serve current package-under-test: ${PYPI_PACKAGE}"
+             sleep 10
+          done
           pip list -v
         env:
           PACKAGE_VERSION: ${{ needs.pypi-package-upload.outputs.package-version }}
         shell: bash
+      # yamllint enable rule:line-length
 
       - name: Run example script with both logging configurations
         run: |
