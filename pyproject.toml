@@ -78,6 +78,7 @@ pytest-xdist = "^2.3.0"
 mutmut = "^2.2.0"
 xdoctest = {extras = ["all"], version = "^0.15.5"}
 tox = "^3.24.0"
+tox-wheel = "^0.6.0"
 
 # Linting
 ## Code formatting
