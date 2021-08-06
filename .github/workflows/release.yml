@@ -24,7 +24,7 @@ jobs:
     name: Get tags and version numbers
     runs-on: ubuntu-latest
     outputs:
-      tag: ${{ steps.detect-and-tag-new-version.outputs.tag }}
+      tag: ${{ steps.detect-new-version-tag.outputs.tag }}
       dev-version: ${{ steps.bump-dev-version.outputs.version }}
     steps:
       - name: Check out the repository
@@ -53,8 +53,8 @@ jobs:
         run: |
           echo "::set-output name=sha::$(git rev-parse --verify --quiet HEAD^)"
 
-      - name: Detect and tag new version
-        id: detect-and-tag-new-version
+      - name: Detect new version tag
+        id: detect-new-version-tag
         if: "steps.check-parent-commit.outputs.sha"
         run: |
           BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
@@ -68,7 +68,7 @@ jobs:
 
       - name: Bump version for developmental release
         id: bump-dev-version
-        if: "! steps.detect-and-tag-new-version.outputs.tag"
+        if: "! steps.detect-new-version-tag.outputs.tag"
         run: |
           poetry version patch &&
           VERSION=$(make get-project-version-number) &&
