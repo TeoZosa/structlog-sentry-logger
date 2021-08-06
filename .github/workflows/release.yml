@@ -252,6 +252,7 @@ jobs:
         uses: release-drafter/release-drafter@v5.15.0
         with:
           publish: ${{ needs.get-tag-xor-dev-version.outputs.tag != '' }}
+          # Annotated tag to associate with the current commit
           tag: ${{ needs.get-tag-xor-dev-version.outputs.tag }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
