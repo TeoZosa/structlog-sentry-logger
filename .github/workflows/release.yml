@@ -241,7 +241,9 @@ jobs:
   publish-release-notes:
     name: Publish release notes
     runs-on: ubuntu-latest
-    needs: get-tag-xor-dev-version
+    needs:
+      - get-tag-xor-dev-version
+      - verify-user-install
     steps:
       - name: Check out the repository
         uses: actions/checkout@v2.3.3
