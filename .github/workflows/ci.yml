@@ -15,7 +15,6 @@ on:  # yamllint disable-line rule:truthy
 jobs:
 
   # Quality jobs ----------------------
-
   code-quality:
     name: Code Quality
     runs-on: "ubuntu-latest"
@@ -62,7 +61,6 @@ jobs:
           SKIP: cruft
 
   # Security jobs ----------------------
-
   dependency-security-vulnerability-analysis:
     name: Dependency Security Vulnerability Analysis
     runs-on: "ubuntu-latest"
@@ -95,7 +93,6 @@ jobs:
           make scan-dependencies
 
   # Code quality AND security job ----------------------
-
   semgrep:
     runs-on: ubuntu-latest
     name: Semgrep
@@ -114,7 +111,6 @@ jobs:
           config: r/python
 
   # Tests jobs ------------------------
-
   test:
     name: Python ${{ matrix.python-version }}
     runs-on: "ubuntu-latest"
@@ -161,6 +157,7 @@ jobs:
           file: ./.tox/coverage.xml
           fail_ci_if_error: false
 
+  # Mutation testing jobs ------------------------
   test-mutations:
     name: Mutation testing
     runs-on: "ubuntu-latest"
@@ -194,73 +191,3 @@ jobs:
       - name: Run mutation testing
         run: |
           make test-mutations
-
-  # Install Verification ----------------------
-
-  verify-user-install:
-    strategy:
-      matrix:
-        os: ["ubuntu-latest", "windows-latest", "macos-latest"]
-
-    name: Verify package install as user
-    runs-on: ${{ matrix.os }}
-
-    steps:
-      - name: Check out the repository
-        uses: actions/checkout@v2.3.3
-
-      - name: Set up Python
-        uses: actions/setup-python@v2.2.2
-        with:
-          python-version: "3.9"
-
-      - name: Inject slug/short variables
-        uses: rlespinasse/github-slug-action@v3.x
-
-      - name: Check Release workflow status
-        id: release-workflow-status
-        run: |
-          RELEASE_WORKFLOW_STATUS=null
-          until [ "${RELEASE_WORKFLOW_STATUS}" != null ]; do
-            echo "Release workflow status unavailable; retrying"
-            sleep 10
-            RELEASE_WORKFLOW_STATUS=$( \
-              curl -sSL -X GET -G \
-                -H "Accept: application/vnd.github.v3+json" \
-                -d "branch=${GITHUB_REF_NAME_SLUG}" \
-                -d "event=push" \
-                "${WORKFLOW_API_ENDPOINT}" \
-              | jq -r '.workflow_runs[0].conclusion' \
-              )
-          done
-          echo "::set-output name=status::${RELEASE_WORKFLOW_STATUS}"
-        env:
-          # yamllint disable-line rule:line-length
-          WORKFLOW_API_ENDPOINT: https://api.github.com/repos/${{ github.repository }}/actions/workflows/release.yml/runs
-        shell: bash
-
-      - name: Abort if Release workflow not successful
-        if: "steps.release-workflow-status.outputs.status != 'success'"
-        run: |
-          echo "ERROR:"
-          echo "Release Workflow status: \
-            ${{ steps.release-workflow-status.outputs.status }}"
-          exit 1
-
-      - name: Install package
-        run: |
-          pip install structlog-sentry-logger \
-            --no-deps --index-url https://test.pypi.org/simple/
-          pip install structlog-sentry-logger \
-            --upgrade
-          pip list -v
-        shell: bash
-
-      - name: Run example script with both logging configurations
-        run: |
-          echo "Default output (JSON)"
-          python ./docs_src/pure_structlog_logging_without_sentry.py
-          echo "dev-local output (formatted)"
-          export CI_ENVIRONMENT_SLUG=dev-local
-          python ./docs_src/pure_structlog_logging_without_sentry.py
-        shell: bash
