@@ -13,10 +13,6 @@ on:  # yamllint disable-line rule:truthy
     types:
       - completed
 
-
-env:
-  ARTIFACTS_DIR: .release_artifacts
-
 jobs:
 
   # Shared tag & version number info ----------------------
