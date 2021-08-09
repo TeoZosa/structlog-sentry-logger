@@ -76,7 +76,7 @@ pytest-mock = "^3.6.1"
 pytest-sugar = "^0.9.4"
 pytest-xdist = "^2.3.0"
 mutmut = "^2.2.0"
-xdoctest = {extras = ["all"], version = "^0.15.5"}
+xdoctest = {extras = ["all"], version = "^0.15.6"}
 tox = "^3.24.0"
 tox-wheel = "^0.6.0"
 
