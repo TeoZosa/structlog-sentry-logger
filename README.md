@@ -19,16 +19,16 @@ Structlog-Sentry-Logger
 ---
 
 
-Overview
---------
+:teacher: Overview
+------------------
 
 A multi-purpose, pre-configured,
 performance-optimized [`structlog`](https://www.structlog.org/en/stable/) logger with (
 optional) [Sentry](https://sentry.io/welcome/) integration
 via [`structlog-sentry`](https://github.com/kiwicom/structlog-sentry).
 
-Features
---------
+:sparkles: Features
+-------------------
 
 1. Makes logging as easy as using print statements, but prettier and less smelly!
 2. Highly opinionated! There are
@@ -95,19 +95,20 @@ Table of Contents
     + [Log Custom Context Directly to Sentry](#log-custom-context-directly-to-sentry)
 - [:chart_with_downwards_trend: Output: Formatting & Storage](#chart_with_downwards_trend-output-formatting--storage)
 - [:wrench: Development](#wrench-development)
-  * [Package and Dependencies Installation](#package-and-dependencies-installation)
-  * [Testing](#testing)
-  * [Code Quality](#code-quality)
-    + [Automate via Git Pre-Commit Hooks](#automate-via-git-pre-commit-hooks)
-  * [Documentation](#documentation)
+  * [:building_construction: Package and Dependencies Installation](#building_construction-package-and-dependencies-installation)
+  * [:package: Python Module to C-Extension Compilation](#package-python-module-to-c-extension-compilation)
+  * [:white_check_mark: Testing](#white_check_mark-testing)
+  * [:rotating_light: Code Quality](#rotating_light-code-quality)
+    + [:arrows_counterclockwise: Automate via Git Pre-Commit Hooks](#arrows_counterclockwise-automate-via-git-pre-commit-hooks)
+  * [:memo: Documentation](#memo-documentation)
 - [:clipboard: Summary](#clipboard-summary)
 - [:books: Further Reading](#books-further-reading)
   * [`structlog`](#structlog-structured-logging-for-python)
   * [`Sentry`](#sentry-monitor-and-fix-crashes-in-realtime)
   * [`structlog-sentry`](#structlog-sentry-provides-the-structlog-sentryprocessor-for-sentry-integration)
-- [:page_facing_up: Legal](#page_facing_up-legal)
-  * [License](#license)
-  * [Credits](#credits)
+- [:judge: Legal](#judge-legal)
+  * [:page_facing_up: License](#page_facing_up-license)
+  * [:busts_in_silhouette: Credits](#busts_in_silhouette-credits)
 
 :tada: Installation
 ===================
@@ -269,8 +270,8 @@ encapsulated in single [Make](https://www.gnu.org/software/make/) targets.
 > Invoking `make` without any arguments will display
 > auto-generated documentation on available commands.
 
-Package and Dependencies Installation
---------------------------------------
+:building_construction: Package and Dependencies Installation
+-------------------------------------------------------------
 
 Make sure you have Python 3.7+ and [`poetry`](https://python-poetry.org/)
 installed and configured.
@@ -285,8 +286,15 @@ make provision-environment
 > Invoking the above without `poetry` installed will emit a
 > helpful error message letting you know how you can install poetry.
 
-Testing
-------------
+:package: Python Module to C-Extension Compilation
+--------------------------------------------------
+The projects's [build.py](./build.py) file specifies which modules to package.
+
+For manual per-module compilation, see:
+[Mypyc Documentation: Getting started - Compiling and running](https://mypyc.readthedocs.io/en/latest/getting_started.html#compiling-and-running)
+
+:white_check_mark: Testing
+--------------------------
 
 We use [`tox`](https://tox.readthedocs.io/en/latest/)
 and [`pytest`](https://pytest.readthedocs.io/) for our test automation and testing
@@ -311,8 +319,8 @@ make test-mutations
 > subsequent mutation test runs will be much faster; new mutations will only
 > be applied to modified code paths.
 
-Code Quality
-------------
+:rotating_light: Code Quality
+-----------------------------
 
 We use [`pre-commit`](https://pre-commit.com/) for our static analysis automation and
 management framework.
@@ -328,7 +336,7 @@ make lint
 > so it is recommended to automatically run the above locally
 > prior to every commit that is pushed.
 
-### Automate via Git Pre-Commit Hooks
+### :arrows_counterclockwise: Automate via Git Pre-Commit Hooks
 
 To automatically run code quality validation on every commit (over to-be-committed
 files), run:
@@ -343,8 +351,8 @@ make install-pre-commit-hooks
 > or a file is modified by an auto-formatting job;
 > in the latter case, you may simply repeat the commit and it should pass.
 
-Documentation
---------------
+:memo: Documentation
+--------------------
 
 ```shell script
 make docs-clean docs-html
@@ -376,18 +384,18 @@ stuff.
 
 ---
 
-:page_facing_up: Legal
-======================
+:judge: Legal
+=============
 
-License
--------
+:page_facing_up: License
+------------------------
 
 Structlog-Sentry-Logger is licensed under the Apache License, Version 2.0.
 See [LICENSE](./LICENSE) for the full license text.
 
 
-Credits
--------
+:busts_in_silhouette: Credits
+-----------------------------
 
 This project was generated from
 [`@TeoZosa`'s](https://github.com/TeoZosa)
