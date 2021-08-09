@@ -103,9 +103,9 @@ Table of Contents
   * [:memo: Documentation](#memo-documentation)
 - [:clipboard: Summary](#clipboard-summary)
 - [:books: Further Reading](#books-further-reading)
-  * [`structlog`](#structlog-structured-logging-for-python)
-  * [`Sentry`](#sentry-monitor-and-fix-crashes-in-realtime)
-  * [`structlog-sentry`](#structlog-sentry-provides-the-structlog-sentryprocessor-for-sentry-integration)
+  * [`structlog`: Structured Logging for Python](#structlog-structured-logging-for-python)
+  * [`Sentry`: Monitor and fix crashes in realtime](#sentry-monitor-and-fix-crashes-in-realtime)
+  * [`structlog-sentry`: Provides the `structlog` integration for Sentry](#structlog-sentry-provides-the-structlog-integration-for-sentry)
 - [:judge: Legal](#judge-legal)
   * [:page_facing_up: License](#page_facing_up-license)
   * [:busts_in_silhouette: Credits](#busts_in_silhouette-credits)
@@ -374,13 +374,16 @@ stuff.
 =======================
 <img src="https://www.structlog.org/en/stable/_static/structlog_logo_small.png" width="200">
 
-## [`structlog`](https://www.structlog.org/en/stable/#): Structured Logging for Python
+## `structlog`: Structured Logging for Python
+- [https://www.structlog.org/en/stable/](https://www.structlog.org/en/stable/#)
 
 <img src="https://camo.githubusercontent.com/2dfeafbee0904d6df16ddf7200993dace1629e60/68747470733a2f2f73656e7472792d6272616e642e73746f726167652e676f6f676c65617069732e636f6d2f73656e7472792d6c6f676f2d626c61636b2e706e67" width="400">
 
-## [`Sentry`](https://sentry.io/welcome/): Monitor and fix crashes in realtime.
+## `Sentry`: Monitor and fix crashes in realtime
+- [https://sentry.io/welcome/](https://sentry.io/welcome/)
 
-## [`structlog-sentry`](https://github.com/kiwicom/structlog-sentry): Provides the [`structlog`](https://www.structlog.org/en/stable/#) `SentryProcessor` for [Sentry](https://sentry.io/welcome/) integration.
+## `structlog-sentry`: Provides the `structlog` integration for Sentry
+- [https://github.com/kiwicom/structlog-sentry](https://github.com/kiwicom/structlog-sentry)
 
 ---
 
