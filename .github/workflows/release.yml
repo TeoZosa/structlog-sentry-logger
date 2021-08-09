@@ -216,7 +216,7 @@ jobs:
           function install_test_pypi() { pip install ${TEST_PYPI_PACKAGE} --no-deps && install_pypi; }
           function install_pypi() { pip install --upgrade ${PYPI_PACKAGE}; }
 
-          until (install_test_pypi || install_pypi) &> /dev/null
+          until (install_test_pypi || install_pypi)
           do
              echo "Waiting for Python Package Index to serve current package-under-test: ${PYPI_PACKAGE}"
              sleep 10
