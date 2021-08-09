@@ -88,6 +88,8 @@ Automatically add much richer context to your Sentry reports.
 
 Table of Contents
 
+<!-- toc -->
+
 - [:tada: Installation](#tada-installation)
 - [:rocket: Usage](#rocket-usage)
   * [Pure `structlog` Logging (Without Sentry)](#pure-structlog-logging-without-sentry)
@@ -109,6 +111,8 @@ Table of Contents
 - [:judge: Legal](#judge-legal)
   * [:page_facing_up: License](#page_facing_up-license)
   * [:busts_in_silhouette: Credits](#busts_in_silhouette-credits)
+
+<!-- tocstop -->
 
 :tada: Installation
 ===================
