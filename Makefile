@@ -125,10 +125,6 @@ bump-commit-and-push-project-version-number-%:
 		git push \
 	|| git checkout HEAD -- $(VERSION_NUM_FILE) # Rollback `VERSION_NUM_FILE` file on failure
 
-ifeq (${CI}, true)
-export TOX_PARALLEL_NO_SPINNER=1
-endif
-
 .PHONY: build
 ## Build project package(s)
 build:
@@ -142,6 +138,9 @@ tox-%: clean update-dependencies generate-requirements
 
 .PHONY: test
 ## Test via tox in poetry env
+ifeq (${CI}, true)
+test: export TOX_PARALLEL_NO_SPINNER=1
+endif
 test: clean update-dependencies generate-requirements
 	poetry run tox --parallel
 	$(MAKE) clean-requirements
