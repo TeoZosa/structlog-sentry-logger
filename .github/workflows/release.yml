@@ -112,6 +112,9 @@ jobs:
           pip install --constraint=.github/workflows/constraints.txt tox
           tox --version
 
+      # Update the project version number to the dev version that was
+      # generated upstream (only used in non-release builds; else project
+      # already set to the correct version number)
       - name: Use dev project version for testing
         id: use-dev-version-for-testing
         if: "needs.get-tag-xor-dev-version.outputs.dev-version"
