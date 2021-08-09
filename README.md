@@ -19,16 +19,16 @@ Structlog-Sentry-Logger
 ---
 
 
-Overview
---------
+:teacher: Overview
+------------------
 
 A multi-purpose, pre-configured,
 performance-optimized [`structlog`](https://www.structlog.org/en/stable/) logger with (
 optional) [Sentry](https://sentry.io/welcome/) integration
 via [`structlog-sentry`](https://github.com/kiwicom/structlog-sentry).
 
-Features
---------
+:sparkles: Features
+-------------------
 
 1. Makes logging as easy as using print statements, but prettier and less smelly!
 2. Highly opinionated! There are
@@ -36,8 +36,8 @@ Features
 3. Structured logs in JSON format means they are ready to be ingested by many of your
    favorite log analysis tools!
 
-What You Get
-------------
+:confetti_ball: What You Get
+----------------------------
 
 ### :muscle: Powerful Automatic Context Fields
 
@@ -88,26 +88,31 @@ Automatically add much richer context to your Sentry reports.
 
 Table of Contents
 
+<!-- toc -->
+
 - [:tada: Installation](#tada-installation)
 - [:rocket: Usage](#rocket-usage)
-  * [Pure `structlog` Logging (Without Sentry)](#pure-structlog-logging-without-sentry)
-  * [Sentry Integration](#sentry-integration)
-    + [Log Custom Context Directly to Sentry](#log-custom-context-directly-to-sentry)
+  * [:loud_sound: Pure `structlog` Logging (Without Sentry)](#loud_sound-pure-structlog-logging-without-sentry)
+  * [:goal_net: Sentry Integration](#goal_net-sentry-integration)
+    + [:outbox_tray: Log Custom Context Directly to Sentry](#outbox_tray-log-custom-context-directly-to-sentry)
 - [:chart_with_downwards_trend: Output: Formatting & Storage](#chart_with_downwards_trend-output-formatting--storage)
 - [:wrench: Development](#wrench-development)
-  * [Package and Dependencies Installation](#package-and-dependencies-installation)
-  * [Testing](#testing)
-  * [Code Quality](#code-quality)
-    + [Automate via Git Pre-Commit Hooks](#automate-via-git-pre-commit-hooks)
-  * [Documentation](#documentation)
+  * [:building_construction: Package and Dependencies Installation](#building_construction-package-and-dependencies-installation)
+  * [:package: Python Module to C-Extension Compilation](#package-python-module-to-c-extension-compilation)
+  * [:white_check_mark: Testing](#white_check_mark-testing)
+  * [:rotating_light: Code Quality](#rotating_light-code-quality)
+    + [:arrows_counterclockwise: Automate via Git Pre-Commit Hooks](#arrows_counterclockwise-automate-via-git-pre-commit-hooks)
+  * [:memo: Documentation](#memo-documentation)
 - [:clipboard: Summary](#clipboard-summary)
 - [:books: Further Reading](#books-further-reading)
-  * [`structlog`](#structlog-structured-logging-for-python)
-  * [`Sentry`](#sentry-monitor-and-fix-crashes-in-realtime)
-  * [`structlog-sentry`](#structlog-sentry-provides-the-structlog-sentryprocessor-for-sentry-integration)
-- [:page_facing_up: Legal](#page_facing_up-legal)
-  * [License](#license)
-  * [Credits](#credits)
+  * [:one: `structlog`: Structured Logging for Python](#one-structlog-structured-logging-for-python)
+  * [:two: `Sentry`: Monitor and fix crashes in realtime](#two-sentry-monitor-and-fix-crashes-in-realtime)
+  * [:three: `structlog-sentry`: Provides the `structlog` integration for Sentry](#three-structlog-sentry-provides-the-structlog-integration-for-sentry)
+- [:judge: Legal](#judge-legal)
+  * [:page_facing_up: License](#page_facing_up-license)
+  * [:busts_in_silhouette: Credits](#busts_in_silhouette-credits)
+
+<!-- tocstop -->
 
 :tada: Installation
 ===================
@@ -118,8 +123,8 @@ pip install structlog-sentry-logger
 
 :rocket: Usage
 ==============
-Pure `structlog` Logging (Without Sentry)
-------------------------------------------
+:loud_sound: Pure `structlog` Logging (Without Sentry)
+------------------------------------------------------
 At the top of your Python module, import and instantiate the logger:
 
 ```python
@@ -153,8 +158,8 @@ Which automatically produces this:
 }
 ```
 
-Sentry Integration
-------------------
+:goal_net: Sentry Integration
+-----------------------------
 Export your [Sentry DSN](https://docs.sentry.io/platforms/python/#configure)
 into your local environment.
 
@@ -180,7 +185,7 @@ import structlog_sentry_logger
 LOGGER = structlog_sentry_logger.get_logger()
 ```
 
-### Log Custom Context Directly to Sentry
+### :outbox_tray: Log Custom Context Directly to Sentry
 
 With `structlog`, you can even incorporate custom messages in your exception handling
 which will automatically be reported to Sentry (thanks to the `structlog-sentry`
@@ -269,8 +274,8 @@ encapsulated in single [Make](https://www.gnu.org/software/make/) targets.
 > Invoking `make` without any arguments will display
 > auto-generated documentation on available commands.
 
-Package and Dependencies Installation
---------------------------------------
+:building_construction: Package and Dependencies Installation
+-------------------------------------------------------------
 
 Make sure you have Python 3.7+ and [`poetry`](https://python-poetry.org/)
 installed and configured.
@@ -285,8 +290,15 @@ make provision-environment
 > Invoking the above without `poetry` installed will emit a
 > helpful error message letting you know how you can install poetry.
 
-Testing
-------------
+:package: Python Module to C-Extension Compilation
+--------------------------------------------------
+The projects's [build.py](./build.py) file specifies which modules to package.
+
+For manual per-module compilation, see:
+[Mypyc Documentation: Getting started - Compiling and running](https://mypyc.readthedocs.io/en/latest/getting_started.html#compiling-and-running)
+
+:white_check_mark: Testing
+--------------------------
 
 We use [`tox`](https://tox.readthedocs.io/en/latest/)
 and [`pytest`](https://pytest.readthedocs.io/) for our test automation and testing
@@ -311,8 +323,8 @@ make test-mutations
 > subsequent mutation test runs will be much faster; new mutations will only
 > be applied to modified code paths.
 
-Code Quality
-------------
+:rotating_light: Code Quality
+-----------------------------
 
 We use [`pre-commit`](https://pre-commit.com/) for our static analysis automation and
 management framework.
@@ -328,7 +340,7 @@ make lint
 > so it is recommended to automatically run the above locally
 > prior to every commit that is pushed.
 
-### Automate via Git Pre-Commit Hooks
+### :arrows_counterclockwise: Automate via Git Pre-Commit Hooks
 
 To automatically run code quality validation on every commit (over to-be-committed
 files), run:
@@ -343,8 +355,8 @@ make install-pre-commit-hooks
 > or a file is modified by an auto-formatting job;
 > in the latter case, you may simply repeat the commit and it should pass.
 
-Documentation
---------------
+:memo: Documentation
+--------------------
 
 ```shell script
 make docs-clean docs-html
@@ -366,28 +378,31 @@ stuff.
 =======================
 <img src="https://www.structlog.org/en/stable/_static/structlog_logo_small.png" width="200">
 
-## [`structlog`](https://www.structlog.org/en/stable/#): Structured Logging for Python
+## :one: `structlog`: Structured Logging for Python
+- [https://www.structlog.org/en/stable/](https://www.structlog.org/en/stable/#)
 
 <img src="https://camo.githubusercontent.com/2dfeafbee0904d6df16ddf7200993dace1629e60/68747470733a2f2f73656e7472792d6272616e642e73746f726167652e676f6f676c65617069732e636f6d2f73656e7472792d6c6f676f2d626c61636b2e706e67" width="400">
 
-## [`Sentry`](https://sentry.io/welcome/): Monitor and fix crashes in realtime.
+## :two: `Sentry`: Monitor and fix crashes in realtime
+- [https://sentry.io/welcome/](https://sentry.io/welcome/)
 
-## [`structlog-sentry`](https://github.com/kiwicom/structlog-sentry): Provides the [`structlog`](https://www.structlog.org/en/stable/#) `SentryProcessor` for [Sentry](https://sentry.io/welcome/) integration.
+## :three: `structlog-sentry`: Provides the `structlog` integration for Sentry
+- [https://github.com/kiwicom/structlog-sentry](https://github.com/kiwicom/structlog-sentry)
 
 ---
 
-:page_facing_up: Legal
-======================
+:judge: Legal
+=============
 
-License
--------
+:page_facing_up: License
+------------------------
 
 Structlog-Sentry-Logger is licensed under the Apache License, Version 2.0.
 See [LICENSE](./LICENSE) for the full license text.
 
 
-Credits
--------
+:busts_in_silhouette: Credits
+-----------------------------
 
 This project was generated from
 [`@TeoZosa`'s](https://github.com/TeoZosa)

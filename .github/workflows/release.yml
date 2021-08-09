@@ -112,6 +112,9 @@ jobs:
           pip install --constraint=.github/workflows/constraints.txt tox
           tox --version
 
+      # Update the project version number to the dev version that was
+      # generated upstream (only used in non-release builds; else project
+      # already set to the correct version number)
       - name: Use dev project version for testing
         id: use-dev-version-for-testing
         if: "needs.get-tag-xor-dev-version.outputs.dev-version"
@@ -213,7 +216,7 @@ jobs:
           function install_test_pypi() { pip install ${TEST_PYPI_PACKAGE} --no-deps && install_pypi; }
           function install_pypi() { pip install --upgrade ${PYPI_PACKAGE}; }
 
-          until (install_test_pypi || install_pypi) &> /dev/null
+          until (install_test_pypi || install_pypi)
           do
              echo "Waiting for Python Package Index to serve current package-under-test: ${PYPI_PACKAGE}"
              sleep 10
