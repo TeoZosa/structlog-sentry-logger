@@ -36,8 +36,8 @@ via [`structlog-sentry`](https://github.com/kiwicom/structlog-sentry).
 3. Structured logs in JSON format means they are ready to be ingested by many of your
    favorite log analysis tools!
 
-What You Get
-------------
+:confetti_ball: What You Get
+----------------------------
 
 ### :muscle: Powerful Automatic Context Fields
 
@@ -92,9 +92,9 @@ Table of Contents
 
 - [:tada: Installation](#tada-installation)
 - [:rocket: Usage](#rocket-usage)
-  * [Pure `structlog` Logging (Without Sentry)](#pure-structlog-logging-without-sentry)
-  * [Sentry Integration](#sentry-integration)
-    + [Log Custom Context Directly to Sentry](#log-custom-context-directly-to-sentry)
+  * [:loud_sound: Pure `structlog` Logging (Without Sentry)](#loud_sound-pure-structlog-logging-without-sentry)
+  * [:goal_net: Sentry Integration](#goal_net-sentry-integration)
+    + [:outbox_tray: Log Custom Context Directly to Sentry](#outbox_tray-log-custom-context-directly-to-sentry)
 - [:chart_with_downwards_trend: Output: Formatting & Storage](#chart_with_downwards_trend-output-formatting--storage)
 - [:wrench: Development](#wrench-development)
   * [:building_construction: Package and Dependencies Installation](#building_construction-package-and-dependencies-installation)
@@ -105,9 +105,9 @@ Table of Contents
   * [:memo: Documentation](#memo-documentation)
 - [:clipboard: Summary](#clipboard-summary)
 - [:books: Further Reading](#books-further-reading)
-  * [`structlog`: Structured Logging for Python](#structlog-structured-logging-for-python)
-  * [`Sentry`: Monitor and fix crashes in realtime](#sentry-monitor-and-fix-crashes-in-realtime)
-  * [`structlog-sentry`: Provides the `structlog` integration for Sentry](#structlog-sentry-provides-the-structlog-integration-for-sentry)
+  * [:one: `structlog`: Structured Logging for Python](#one-structlog-structured-logging-for-python)
+  * [:two: `Sentry`: Monitor and fix crashes in realtime](#two-sentry-monitor-and-fix-crashes-in-realtime)
+  * [:three: `structlog-sentry`: Provides the `structlog` integration for Sentry](#three-structlog-sentry-provides-the-structlog-integration-for-sentry)
 - [:judge: Legal](#judge-legal)
   * [:page_facing_up: License](#page_facing_up-license)
   * [:busts_in_silhouette: Credits](#busts_in_silhouette-credits)
@@ -123,8 +123,8 @@ pip install structlog-sentry-logger
 
 :rocket: Usage
 ==============
-Pure `structlog` Logging (Without Sentry)
-------------------------------------------
+:loud_sound: Pure `structlog` Logging (Without Sentry)
+------------------------------------------------------
 At the top of your Python module, import and instantiate the logger:
 
 ```python
@@ -158,8 +158,8 @@ Which automatically produces this:
 }
 ```
 
-Sentry Integration
-------------------
+:goal_net: Sentry Integration
+-----------------------------
 Export your [Sentry DSN](https://docs.sentry.io/platforms/python/#configure)
 into your local environment.
 
@@ -185,7 +185,7 @@ import structlog_sentry_logger
 LOGGER = structlog_sentry_logger.get_logger()
 ```
 
-### Log Custom Context Directly to Sentry
+### :outbox_tray: Log Custom Context Directly to Sentry
 
 With `structlog`, you can even incorporate custom messages in your exception handling
 which will automatically be reported to Sentry (thanks to the `structlog-sentry`
@@ -378,15 +378,15 @@ stuff.
 =======================
 <img src="https://www.structlog.org/en/stable/_static/structlog_logo_small.png" width="200">
 
-## `structlog`: Structured Logging for Python
+## :one: `structlog`: Structured Logging for Python
 - [https://www.structlog.org/en/stable/](https://www.structlog.org/en/stable/#)
 
 <img src="https://camo.githubusercontent.com/2dfeafbee0904d6df16ddf7200993dace1629e60/68747470733a2f2f73656e7472792d6272616e642e73746f726167652e676f6f676c65617069732e636f6d2f73656e7472792d6c6f676f2d626c61636b2e706e67" width="400">
 
-## `Sentry`: Monitor and fix crashes in realtime
+## :two: `Sentry`: Monitor and fix crashes in realtime
 - [https://sentry.io/welcome/](https://sentry.io/welcome/)
 
-## `structlog-sentry`: Provides the `structlog` integration for Sentry
+## :three: `structlog-sentry`: Provides the `structlog` integration for Sentry
 - [https://github.com/kiwicom/structlog-sentry](https://github.com/kiwicom/structlog-sentry)
 
 ---
