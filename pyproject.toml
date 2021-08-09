@@ -58,8 +58,8 @@ types-emoji = { version = "^1.2.4", optional = true} # PEP 561 compliant stub pa
 cruft = "^2.6.0" # Automated Cookiecutter template synchronization
 
 # Type Checking and Data Validation
-mypy = "^0.910" # Static type checker
-typeguard = "^2.12.1" # Runtime type checker
+mypy = "^0.910" # Static type checker (includes Mypyc Python module to C-Extension compiler, enabled by standard Python type annotations)
+typeguard = "^2.12.1" # Runtime type checker; Note: Mypyc-compiled C-extensions also perform runtime type checking.
 
 # Testing
 pytest = "^6.2.4"
