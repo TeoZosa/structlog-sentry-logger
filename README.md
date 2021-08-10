@@ -43,11 +43,11 @@ via [`structlog-sentry`](https://github.com/kiwicom/structlog-sentry).
 
 The pre-configured options include:
 
-1. Timestamps
+1. :watch: Timestamps
     - `DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"`
-2. Log levels
+2. :vertical_traffic_light: Log levels
     - Added to the JSON context for filtering and categorization
-3. Logger names
+3. :mag: Logger names
     - Automatically assigned to namespaced versions of the initializing python
       modules (`.py` files), relative to your project directory.
         - e.g., the logger in `docs_src/sentry_integration.py` is
