@@ -176,6 +176,15 @@ profile = "black"
 atomic = true
 combine_as_imports = true
 
+[tool.mypy]
+disallow_untyped_defs = true
+files = "**/*.py"
+ignore_missing_imports = true
+pretty = true
+show_column_numbers = true
+show_error_context = true
+show_error_codes = true
+
 [tool.pylint.basic]
 extension-pkg-allow-list = ["orjson"]
 good-names-rgxs = ["^Test_.*$", "^.*DSN.*$"]
