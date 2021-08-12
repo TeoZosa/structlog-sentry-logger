@@ -62,7 +62,7 @@ repos:
         name: mypy
         language: system
         entry: .tox/precommit/bin/mypy
-        args: [--cache-dir=/dev/null, --config-file=tox.ini]
+        args: [--cache-dir=/dev/null, --config-file=pyproject.toml]
         types: [python]
 
   - repo: local
