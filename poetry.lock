@@ -1655,7 +1655,7 @@ python-versions = ">= 3.5"
 
 [[package]]
 name = "tox"
-version = "3.24.2"
+version = "3.24.3"
 description = "tox is a generic virtualenv management and test command line tool"
 category = "dev"
 optional = false
@@ -1883,7 +1883,7 @@ docs = ["emoji", "importlib-metadata", "myst-parser", "pygments", "sphinx", "sph
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "8a74d80c818ae9a5da7be61f5222d20f8355e72c3e8dc433f1e1c8e478bc33c3"
+content-hash = "2c28651423299123f0bb1c5c8fc9e645cedf543dfb05fa3734a3f9da3ee02fc1"
 
 [metadata.files]
 alabaster = [
@@ -2787,8 +2787,8 @@ tornado = [
     {file = "tornado-6.1.tar.gz", hash = "sha256:33c6e81d7bd55b468d2e793517c909b139960b6c790a60b7991b9b6b76fb9791"},
 ]
 tox = [
-    {file = "tox-3.24.2-py2.py3-none-any.whl", hash = "sha256:d45d39203b10fdb2f6887c6779865e31de82cea07419a739844cc4bd4b3493e2"},
-    {file = "tox-3.24.2.tar.gz", hash = "sha256:ae442d4d51d5a3afb3711e4c7d94f5ca8461afd27c53f5dd994aba34896cf02d"},
+    {file = "tox-3.24.3-py2.py3-none-any.whl", hash = "sha256:9fbf8e2ab758b2a5e7cb2c72945e4728089934853076f67ef18d7575c8ab6b88"},
+    {file = "tox-3.24.3.tar.gz", hash = "sha256:c6c4e77705ada004283610fd6d9ba4f77bc85d235447f875df9f0ba1bc23b634"},
 ]
 tox-gh-actions = [
     {file = "tox-gh-actions-2.6.0.tar.gz", hash = "sha256:69735d2f436341d7c33a02581f463331f4472830eb9753c288a6145cd71b07e0"},
