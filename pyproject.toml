@@ -62,7 +62,7 @@ mypy = "^0.910" # Static type checker (includes Mypyc Python module to C-Extensi
 typeguard = "^2.12.1" # Runtime type checker; Note: Mypyc-compiled C-extensions also perform runtime type checking.
 
 # Testing
-pytest = "^6.2.4"
+pytest = "^6.2.5"
 pytest-cov = "^2.12.1"
 # Fixes:
 #   ```
