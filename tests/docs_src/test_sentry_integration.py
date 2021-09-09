@@ -32,7 +32,7 @@ def expected_output_truncated() -> List[JSONOutputType]:
             "exception": (
                 "Traceback (most recent call last):\n  "
                 f'File "{file_under_test}"'
-                f", line 10, in <module>\n"
+                f", line 13, in <module>\n"
                 "    x = 1 / 0\nZeroDivisionError: division by zero"
             ),
             "level": "error",
