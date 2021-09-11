@@ -129,7 +129,7 @@ Excerpt from [1]:
       logged at the FATAL level. Include relevant context about the program’s state;
       locations of recovery or diagnostic-related data should be logged.
 
-    Here’s an INFO-level log emitted in Python:
+    Here’s an INFO-level log emitted in Rust:
 
     .. highlight:: bash
     .. code-block:: bash
