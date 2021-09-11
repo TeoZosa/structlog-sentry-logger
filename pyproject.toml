@@ -50,7 +50,8 @@ sphinx = { version = "^4.1.2", optional = true}
 sphinx-autoapi = { version = "^1.8.1", optional = true}
 sphinx-rtd-theme = { version = "^0.5.1", optional = true}
 sphinxcontrib-confluencebuilder = { version = "^1.5.0", optional = true}
-types-emoji = { version = "^1.2.4", optional = true} # PEP 561 compliant stub package for mypy
+# PEP 561 compliant stub packages for mypy
+types-emoji = { version = "^1.2.4", optional = true}
 
 [tool.poetry.dev-dependencies]
 # Standardized Developer Workflow Orchestration
