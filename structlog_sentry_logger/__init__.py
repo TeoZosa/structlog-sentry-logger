@@ -95,6 +95,52 @@ Getting insight into e.g., a rate limiting problem, becomes as simple as
 .. _`When are you truly forced to use UUID as part of the design?`: https://stackoverflow.com/a/786541
 .. _Splunk: https://www.splunk.com/en_us
 .. _`built-in query language`: https://docs.splunk.com/Documentation/Splunk/8.1.1/SearchTutorial/Usethesearchlanguage
+
+A Quick Primer on Log Levels
+--------------------------------
+Excerpt from [1]:
+
+    You must use the appropriate criticality for each log message for log levels to be
+    useful. While log levels are not completely standard, the following levels are common:
+
+    - **TRACE** This is an extremely fine level of detail that only gets turned on for specific
+      packages or classes. This is rarely used outside of development. If you need
+      line-by-line logs or data structure dumps, this level is for you. If you find yourself
+      using TRACE frequently, you should consider using a debugger to step through code
+      instead.
+    - **DEBUG** This is used when the message will be useful during a production issue but not
+      during normal operations. Don’t use debug-level logging so much that the output is
+      unusable when debugging; save that for TRACE.
+    - **INFO** This is nice-to-have information about the state of the application but not
+      indicative of any problems. Application state messages like “Service started” and
+      “Listening on port 5050” go here. INFO is the default log level. Don’t emit frivolous
+      logs with INFO—“just in case” logging goes into TRACE or DEBUG. INFO logging should
+      tell us something useful during normal operations.
+    - **WARN** These are messages about potentially problematic situations. A resource nearing
+      its capacity merits a warning. Whenever you log a warning, there should be a concrete
+      action you want the person seeing the message to take. If the warning is not
+      actionable, log it to INFO.
+    - **ERROR** These messages indicate that an error that needs attention is occurring. An
+      unwritable database usually merits an ERROR log. ERROR logs should be detailed enough
+      to diagnose problems. Log explicit details, including relevant stack traces and the
+      resulting actions the software is performing.
+    - **FATAL** These are the “last gasp” log messages. If the program encounters a condition so
+      severe that it must exit immediately, a message about the cause of the problem can be
+      logged at the FATAL level. Include relevant context about the program’s state;
+      locations of recovery or diagnostic-related data should be logged.
+
+    Here’s an INFO-level log emitted in Python:
+
+    .. highlight:: bash
+    .. code-block:: bash
+
+        info!("Failed request: {}, retrying", e);
+
+    The log line includes the error that causes the request to fail. The INFO level is used
+    because the application is automatically retrying; no operator action is needed.
+
+[1] C. Riccomini and D. Ryaboy, The Missing README: A Guide for the New Software Engineer, Paperback. No Starch Press, 2021.
+
 """
 from typing import List
 
