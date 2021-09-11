@@ -132,9 +132,9 @@ bump-commit-and-push-project-version-number-%:
 		git push \
 	|| git checkout HEAD -- $(VERSION_NUM_FILE) # Rollback `VERSION_NUM_FILE` file on failure
 
-.PHONY: build
+.PHONY: package
 ## Build project package(s)
-build:
+package:
 	tox -e package
 
 .PHONY: tox-%
