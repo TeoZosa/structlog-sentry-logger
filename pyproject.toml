@@ -210,6 +210,9 @@ ignore-imports = "yes"
 [tool.pytest.ini_options]
 addopts = ["-rfsxX", "-l", "--tb=short", "--strict-markers", "-vv", "--emoji", "--xdoctest"]
 xfail_strict = true
+markers = [
+  "pure_python_only: mocker-based tests which are not compatible with compiled C extensions",
+]
 testpaths = ["tests",]
 norecursedirs = [".*", "*.egg", "build", "dist",]
 

@@ -111,6 +111,7 @@ def test_get_config_dict() -> None:
 
 
 # pylint: disable=protected-access
+@pytest.mark.pure_python_only
 def test_invalid_git_repository(mocker: MockerFixture) -> None:
     test_file_dir = Path(__file__)
 
@@ -288,6 +289,7 @@ class TestCallerNameInference:
 class TestCorrectNamespacing:
     # pylint: disable=protected-access
     @staticmethod
+    @pytest.mark.pure_python_only
     def test_unpatched_is_caller_main_and_typeguard_enabled(
         mocker: MockerFixture,
     ) -> None:
@@ -312,6 +314,7 @@ class TestCorrectNamespacing:
         )
 
     @staticmethod
+    @pytest.mark.pure_python_only
     @pytest.mark.usefixtures(
         "patch_get_caller_name_from_frames_for_typeguard_compatibility"
     )
