@@ -231,8 +231,8 @@ class SentryBreadcrumbJsonProcessor(structlog_sentry.SentryJsonProcessor):
 
     def __init__(  # pylint: disable=too-many-arguments
         self,
-        level: int = logging.WARNING,
         breadcrumb_level: int = logging.INFO,
+        level: int = logging.WARNING,
         active: bool = True,
         as_extra: bool = True,
         tag_keys: Union[  # pylint: disable=unsubscriptable-object
