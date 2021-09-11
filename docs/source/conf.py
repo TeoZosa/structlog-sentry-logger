@@ -102,7 +102,7 @@ autoapi_options = [
 ]
 autoapi_python_class_content = "both"  # Concatenate __init__ and class docstrings
 autoapi_python_use_implicit_namespaces = True  # APIDOC config
-# autoapi_template_dir = "_templates"
+autoapi_template_dir = "_templates"
 autoapi_type = "python"
 autodoc_typehints = "description"  # Show typehints as content of function or method
 
