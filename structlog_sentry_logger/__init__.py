@@ -198,7 +198,7 @@ Excerpt from [#]_:
 
     .. note::
         If `Sentry`_ integration is enabled, logging events with a severity greater than
-        :bash:`ERROR` will be automatically sent to `Sentry`_.
+        or equal to :bash:`ERROR` will be automatically sent to `Sentry`_.
 
     .. _`httpx`: https://www.python-httpx.org/
     .. _`Sentry`: https://sentry.io/welcome/
