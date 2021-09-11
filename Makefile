@@ -74,6 +74,7 @@ update-dependencies:
 ifneq (${CI}, true)
 	poetry install --extras docs
 endif
+	$(MAKE) clean
 
 .PHONY: generate-requirements
 ## Generate project requirements files from `pyproject.toml`
@@ -92,6 +93,8 @@ clean-requirements:
 clean:
 	find . -type f -name "*.py[co]" -delete
 	find . -type d -name "__pycache__" -delete
+	find . -type f -name "*.so" -delete -maxdepth 2
+	find . -type f -name "*.pyd" -delete -maxdepth 2
 
 #################################################################################
 # COMMANDS                                                                      #
