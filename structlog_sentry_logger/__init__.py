@@ -98,7 +98,7 @@ Getting insight into e.g., a rate limiting problem, becomes as simple as
 
 A Quick Primer on Log Levels
 --------------------------------
-Excerpt from [1]:
+Excerpt from [#]_:
 
     You must use the appropriate criticality for each log message for log levels to be
     useful. While log levels are not completely standard, the following levels are common:
@@ -139,7 +139,9 @@ Excerpt from [1]:
     The log line includes the error that causes the request to fail. The INFO level is used
     because the application is automatically retrying; no operator action is needed.
 
-[1] C. Riccomini and D. Ryaboy, The Missing README: A Guide for the New Software Engineer, Paperback. No Starch Press, 2021.
+.. [#] `C. Riccomini and D. Ryaboy, The Missing README: A Guide for the New Software Engineer, Paperback. No Starch Press, 2021.`_
+
+.. _`C. Riccomini and D. Ryaboy, The Missing README: A Guide for the New Software Engineer, Paperback. No Starch Press, 2021.`: https://themissingreadme.com/
 
 """
 from typing import List
