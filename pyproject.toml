@@ -25,7 +25,7 @@ classifiers = [
 
 [tool.poetry.build]
 script = "build.py"
-generate-setup-file = false
+generate-setup-file = true
 
 [tool.poetry.urls]
 Changelog = "https://github.com/TeoZosa/structlog-sentry-logger/releases"
@@ -212,5 +212,5 @@ testpaths = ["tests",]
 norecursedirs = [".*", "*.egg", "build", "dist",]
 
 [build-system]
-requires = ["poetry-core>=1.0.0", "mypy"]
+requires = ["poetry-core>=1.0.0", "mypy", "setuptools"]
 build-backend = "poetry.core.masonry.api"
