@@ -36,6 +36,12 @@ TAG := $(shell date +v%Y%m%d)-$(GIT_VERSION)
 # HELPER TARGETS                                                                #
 #################################################################################
 
+.PHONY: strong-version-tag
+strong-version-tag: get-make-var-TAG
+
+.PHONY: strong-version-tag-dateless
+strong-version-tag-dateless: get-make-var-GIT_VERSION
+
 .PHONY: get-make-var-%
 get-make-var-%:
 	@echo $($*)
@@ -58,12 +64,6 @@ ifeq ($(shell command -v poetry),)
 else
 	@echo "Using $(shell poetry --version) in $(shell which poetry)"
 endif
-
-.PHONY: strong-version-tag
-strong-version-tag: get-make-var-TAG
-
-.PHONY: strong-version-tag-dateless
-strong-version-tag-dateless: get-make-var-GIT_VERSION
 
 .PHONY: update-dependencies
 ## Install Python dependencies,
