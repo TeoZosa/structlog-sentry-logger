@@ -131,8 +131,8 @@ Excerpt from [1]:
 
     Here’s an INFO-level log emitted in Rust:
 
-    .. highlight:: bash
-    .. code-block:: bash
+    .. highlight:: rust
+    .. code-block:: rust
 
         info!("Failed request: {}, retrying", e);
 
