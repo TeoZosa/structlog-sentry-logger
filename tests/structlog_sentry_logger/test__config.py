@@ -291,6 +291,13 @@ class TestCorrectNamespacing:
     def test_unpatched_is_caller_main_and_typeguard_enabled(
         mocker: MockerFixture,
     ) -> None:
+        mocker.patch.object(
+            structlog_sentry_logger._config,
+            "get_caller_name_from_frames",
+            lambda stack_frames: structlog_sentry_logger._config.get_caller_name(
+                stack_frames[1]
+            ),
+        )
         expected_logger = structlog_sentry_logger.get_logger()
         mocker.patch.object(
             structlog_sentry_logger._config, "is_caller_main", lambda _: True
