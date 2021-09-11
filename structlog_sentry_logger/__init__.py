@@ -129,7 +129,7 @@ Excerpt from [#]_:
       logged at the FATAL level. Include relevant context about the program’s state;
       locations of recovery or diagnostic-related data should be logged.
 
-    Here’s an INFO-level log emitted in Rust:
+    Here’s an INFO-level log emitted in Rust [*]_:
 
     .. highlight:: rust
     .. code-block:: rust
@@ -140,6 +140,68 @@ Excerpt from [#]_:
     because the application is automatically retrying; no operator action is needed.
 
 .. [#] `C. Riccomini and D. Ryaboy, The Missing README: A Guide for the New Software Engineer, Paperback. No Starch Press, 2021.`_
+
+.. [*] The same log in Python:
+
+    .. highlight:: python
+    .. code-block:: python
+
+        import structlog_sentry_logger
+
+        logger = structlog_sentry_logger.getLogger()
+        ...
+        logger.info(f"Failed request: {e}, retrying")
+
+    With structured logging:
+
+    .. highlight:: python
+    .. code-block:: python
+
+        logger.info("Failed request", error=e, retrying=True)
+
+    And for even more granularity (e.g., if using the HTTP client library `httpx`_):
+
+    .. highlight:: python
+    .. code-block:: python
+
+        import httpx
+
+        transport = httpx.HTTPTransport(retries=2)
+        client = httpx.Client(transport=transport)
+
+        # Get response
+        try:
+            response = client.get(url)
+        except httpx.RequestError as exc:
+            logger.fatal(
+                "Failed request",
+                error=exc,
+                request=vars(exc.request),
+                exc_info=True,
+            )
+            raise
+
+        # Log response details
+        try:
+            response.raise_for_status()  # raise HTTPStatusError on 4xx and 5xx responses
+        except httpx.HTTPStatusError as exc:
+            # Log more details for responses with error status codes
+            logger.error(
+                "Error response",
+                error=exc,
+                response=vars(exc.response),
+                request=vars(exc.request),
+                exc_info=True,
+            )
+        else:
+            logger.debug("Success", response=vars(response))
+
+    .. note::
+        If `Sentry`_ integration is enabled, logging events with a severity greater than
+        :bash:`ERROR` will be automatically sent to `Sentry`_.
+
+    .. _`httpx`: https://www.python-httpx.org/
+    .. _`Sentry`: https://sentry.io/welcome/
 
 .. _`C. Riccomini and D. Ryaboy, The Missing README: A Guide for the New Software Engineer, Paperback. No Starch Press, 2021.`: https://themissingreadme.com/
 
