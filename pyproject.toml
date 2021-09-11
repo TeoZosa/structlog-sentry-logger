@@ -40,7 +40,6 @@ orjson = "^3.4.0"
 python-dotenv = "^0.19.0"
 sentry-sdk = ">0.17.0"
 structlog = "^21.1.0"
-structlog-sentry = "^1.2.2"
 
 # Documentation
 emoji = { version = "^1.4.2", optional = true}
@@ -125,6 +124,9 @@ exclude_lines =[
     "if __name__ == .__main__.:",
 ]
 fail_under = 100
+omit =[
+    "structlog_sentry_logger/structlog_sentry.py",
+]
 show_missing = true
 skip_covered = true
 

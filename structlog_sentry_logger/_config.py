@@ -11,7 +11,8 @@ import git
 import orjson
 import sentry_sdk
 import structlog
-import structlog_sentry
+
+from structlog_sentry_logger import structlog_sentry
 
 
 def get_git_root() -> pathlib.Path:
@@ -264,7 +265,7 @@ class SentryBreadcrumbJsonProcessor(structlog_sentry.SentryJsonProcessor):
 
     def __call__(
         self, logger: Any, method: str, event_dict: structlog.types.EventDict
-    ) -> dict:
+    ) -> structlog.types.EventDict:
         do_breadcrumb = (
             getattr(logging, event_dict["level"].upper()) >= self.breadcrumb_level
         )
