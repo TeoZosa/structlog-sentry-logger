@@ -1,4 +1,17 @@
-""" Users should strive to implement canonical log lines
+r"""
+=======================================================================================================
+PLACEHOLDER THAT WILL BE EATEN BY SPHINX (note: purposely broken across two lines)
+see: https://stackoverflow.com/questions/27965192/python-sphinx-skips-first-section-when-generating-pdf
+=======================================================================================================
+
+\:four_leaf_clover\: Recommended Best Practices
+================================================
+
+
+Canonical Log Lines
+-------------------
+
+Users should strive to implement canonical log lines
 (when it makes sense).
 
 - Note: the below is a quick primer on the topic; see the
