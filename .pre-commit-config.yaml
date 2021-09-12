@@ -35,6 +35,7 @@ repos:
     rev: v.0.8.0
     hooks:
       - id: flakehell
+        exclude: ^(docs/source/recommendedbestpractices.rst)$
 
   # Docstring coverage tool
   - repo: https://github.com/econchick/interrogate
