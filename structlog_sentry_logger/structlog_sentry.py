@@ -1,3 +1,13 @@
+"""Fork of `structlog-sentry`_ which adds full type information
+
+- Necessary for proper Mypyc C extension compilation.
+- Will directly depend on `structlog-sentry`_ once associated PR is merged upstream
+(see: `kiwicom/structlog-sentry#44`_).
+
+.. _`structlog-sentry`: https://github.com/kiwicom/structlog-sentry
+.. _`kiwicom/structlog-sentry#44`: https://github.com/kiwicom/structlog-sentry/pull/44
+
+"""
 # pylint: disable=unsubscriptable-object
 import logging
 import sys
