@@ -21,3 +21,11 @@ def lots_of_logging(logger: Any) -> None:
 def test_logging_orjson_serializer(benchmark: BenchmarkFixture) -> None:
     logger = structlog_sentry_logger.get_logger()
     benchmark(lots_of_logging, logger=logger)
+
+
+def test_logging_stdlib_json_serializer(benchmark: BenchmarkFixture) -> None:
+    structlog_sentry_logger._config._toggle_json_library(  # pylint: disable=protected-access
+        use_orjson=False
+    )
+    logger = structlog_sentry_logger.get_logger()
+    benchmark(lots_of_logging, logger=logger)
