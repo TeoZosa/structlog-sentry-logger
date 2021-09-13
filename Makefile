@@ -153,8 +153,13 @@ test: update-dependencies generate-requirements
 	$(MAKE) clean-requirements
 
 .PHONY: test-%
+test-%: export TEST_COMMAND=$(MAKE) tox-$*
 test-%:
-	$(MAKE) tox-$*,coverage
+	@if ! test -n "$(findstring benchmark,$(TEST_COMMAND))"; then \
+		TEST_COMMAND="$(TEST_COMMAND),coverage"; \
+	fi; \
+	echo "$${TEST_COMMAND}"; \
+	$${TEST_COMMAND};
 
 .PHONY: test-mutations
 ## Test against mutated code to validate test suite robustness
