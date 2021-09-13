@@ -145,13 +145,22 @@ jobs:
           poetry config --list
 
       - name: Install dependencies
-        run: |
-          make provision-environment
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: |
+            make provision-environment
 
       - name: Run tox targets for ${{ matrix.python-version }}
-        run: |
-          git fetch origin master:refs/remotes/origin/master
-          make test
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          shell: bash
+          command: |
+            git fetch origin master:refs/remotes/origin/master
+            make test
 
       - name: Upload coverage to Codecov
         if: "contains(matrix.os, env.USING_COVERAGE_OS) &&
