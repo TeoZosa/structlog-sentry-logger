@@ -1,5 +1,6 @@
 import datetime
 import inspect
+import json
 import logging
 import logging.config
 import os
@@ -34,6 +35,11 @@ ROOT_DIR = get_root_dir()
 LOG_DATA_DIR = ROOT_DIR / ".logs"
 LOG_DATA_DIR.mkdir(exist_ok=True)
 DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+_CONFIGS = {"USE_ORJSON": True}
+
+
+def _toggle_json_library(use_orjson: bool = True) -> None:
+    _CONFIGS["USE_ORJSON"] = use_orjson
 
 
 def get_namespaced_module_name(__file__: Union[pathlib.Path, str]) -> str:
@@ -156,7 +162,9 @@ def serializer(
     default: Optional[Callable[[Any], Any]] = None,
     option: Optional[int] = orjson.OPT_SORT_KEYS,
 ) -> str:
-    return orjson.dumps(*args, default=default, option=option).decode()  # type: ignore[misc]
+    if _CONFIGS["USE_ORJSON"]:
+        return orjson.dumps(*args, default=default, option=option).decode()  # type: ignore[misc]
+    return json.dumps(*args, sort_keys=True)
 
 
 def get_handlers(module_name: str) -> dict:
