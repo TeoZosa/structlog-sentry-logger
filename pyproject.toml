@@ -63,6 +63,7 @@ typeguard = "^2.12.1" # Runtime type checker; Note: Mypyc-compiled C-extensions 
 
 # Testing
 pytest = "^6.2.5"
+pytest-benchmark = {extras = ["histogram"], version = "^3.4.1"}
 pytest-cov = "^2.12.1"
 # Fixes:
 #   ```
