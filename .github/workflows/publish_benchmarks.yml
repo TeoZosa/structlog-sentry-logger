@@ -1,0 +1,100 @@
+---
+name: Publish Performance Testing Benchmarks
+on:  # yamllint disable-line rule:truthy
+  workflow_run:
+    workflows:
+      # Upstream workflow runs on pushes to main/master and always completes;
+      # needed because Dependabot-initiated pushes to master do not have access
+      # to repository secrets on which this workflow relies.
+      # see: dependabot/dependabot-core/issues/3253
+      - Dependabot Trunk Push Check
+    types:
+      - completed
+
+jobs:
+  build-and-publish-benchmarks:
+    strategy:
+      matrix:
+        os: ["ubuntu-latest", "windows-latest", "macos-latest"]
+        python-version: ["3.7", "3.8", "3.9"]
+        library-type: ["pure_python", "c_library"]
+
+    # yamllint disable-line rule:line-length
+    name: Performance testing for Python ${{ matrix.python-version }} (${{ matrix.os }}) [${{ matrix.library-type }}]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2.3.3
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v2.2.2
+        with:
+          # yamllint disable-line rule:braces
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install Poetry
+        run: |
+          pip install --constraint=.github/workflows/constraints.txt poetry
+          poetry --version
+
+      - name: Configure Poetry
+        run: |
+          poetry config cache-dir "${GITHUB_WORKSPACE}/.cache/pypoetry"
+          poetry config virtualenvs.in-project true
+          poetry config --list
+
+      - name: Install dependencies
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: |
+            make provision-environment
+
+      - name: Run benchmarks for ${{ matrix.python-version }}
+        id: performance-testing
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          shell: bash
+          # yamllint disable rule:line-length
+          command: |
+            TOX_COMPATIBLE_VERSION=$(\
+              echo ${{ matrix.python-version }} \
+              | tr -d '.')
+            TOX_ENVNAME="py${TOX_COMPATIBLE_VERSION}-benchmark-${{ matrix.library-type }}"
+            make "test-${TOX_ENVNAME}"
+
+
+            SYS_PLATFORM=$(python -c "import sys; print(sys.platform.title())")
+            OUTPUT_DIR="${SYS_PLATFORM}-Cpython${{ matrix.python-version }}"
+            BENCHMARK_FILE_TAG=${{ matrix.library-type }}-$(make strong-version-tag)
+            BENCHMARK_FILE_PREFIX=".benchmarks/${OUTPUT_DIR}/${BENCHMARK_FILE_TAG}"
+            echo "::set-output name=benchmark_file_path::${BENCHMARK_FILE_PREFIX}.json"
+
+            NAMESPACED_TARGET_OUTPUT_DIR="${{ matrix.os }}/CPython${{ matrix.python-version }}/${{ matrix.library-type }}"
+            echo "::set-output name=target_output_dir::${NAMESPACED_TARGET_OUTPUT_DIR}"
+
+          # yamllint enable rule:line-length
+
+      - name: Reset Poetry lockfile for Checkout
+        run: |
+          git checkout poetry.lock || echo "Skipping step"
+
+      # yamllint disable rule:line-length
+      - name: Publish benchmarks to GH pages
+        uses: TeoZosa/github-action-benchmark@v1.8.2
+        with:
+          tool: 'pytest'
+          benchmark-data-dir-path: dev/bench/${{ steps.performance-testing.outputs.target_output_dir }}
+          # yamllint disable-line rule:braces
+          output-file-path: ${{ steps.performance-testing.outputs.benchmark_file_path }}
+          # yamllint disable-line rule:braces
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          # Push and deploy GitHub pages branch automatically
+          auto-push: true
+      # yamllint enable rule:line-length
