@@ -81,6 +81,12 @@ jobs:
 
           # yamllint enable rule:line-length
 
+      - name: Store the environment-specific benchmarks
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: benchmark-data-files
+          path: .benchmarks
+
       - name: Reset Poetry lockfile for Checkout
         run: |
           git checkout poetry.lock || echo "Skipping step"
