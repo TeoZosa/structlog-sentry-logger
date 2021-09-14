@@ -104,3 +104,102 @@ jobs:
           # Push and deploy GitHub pages branch automatically
           auto-push: true
       # yamllint enable rule:line-length
+
+  # Plot aggregate benchmarks table ----------------------
+  plot-benchmarks-table:
+    name: Plot aggregated benchmarks table
+    runs-on: ubuntu-latest
+    needs:
+      - build-and-publish-benchmarks
+    env:
+      BENCHMARK_OPTS: "--name=normal --sort=name --group-by=name --histogram"
+      PY_COLORS: 1
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2.3.3
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v2.2.2
+        with:
+          python-version: "3.9"
+
+      - name: Upgrade pip
+        run: |
+          pip install --constraint=.github/workflows/constraints.txt pip
+          pip --version
+
+      - name: Install pytest-benchmark
+        run: |
+          pip install pytest-benchmark[histogram]
+
+      - name: Download the benchmarks
+        uses: actions/download-artifact@v2.0.10
+        with:
+          name: benchmark-data-files
+          path: .benchmarks
+
+      - name: List benchmark data files
+        run: |
+          find .benchmarks
+
+      # yamllint disable rule:line-length
+      - name: Plot aggregate results tables (by Python interpreter)
+        run: |
+          # Disable '\n' field splitting for proper downstream command substitutions
+          IFS=' '
+          BENCHMARK_DATA_DIRS=$(ls .benchmarks | grep -v "^.*bit$" | sed 's/\(.*\)/\1\/*/')
+
+          echo "**By Python versions**"
+          for MINOR_VER in 7 8 9;
+          do
+            PY_VER=Cpython3.${MINOR_VER}
+            PY_VER_BENCH_DIRS=$(echo ${BENCHMARK_DATA_DIRS} | grep "^.*${PY_VER}.*$" | tr '\n' ' ')
+            echo "${PY_VER} benchmark data directories: ${PY_VER_BENCH_DIRS}"
+
+            pytest-benchmark compare ${PY_VER_BENCH_DIRS} ${{ env.BENCHMARK_OPTS }}
+          done
+
+      - name: Plot aggregate results tables (by platform)
+        run: |
+          # Disable '\n' field splitting for proper downstream command substitutions
+          IFS=' '
+          BENCHMARK_DATA_DIRS=$(ls .benchmarks | grep -v "^.*bit$" | sed 's/\(.*\)/\1\/*/')
+
+          for SYS_PLATFORM in Linux Darwin Win32;
+          do
+            SYS_PLATFORM_BENCH_DIRS=$(echo ${BENCHMARK_DATA_DIRS} | grep  "^${SYS_PLATFORM}.*$" | tr '\n' ' ')
+            echo "${SYS_PLATFORM} benchmark data directories: ${SYS_PLATFORM_BENCH_DIRS}"
+
+            pytest-benchmark compare ${SYS_PLATFORM_BENCH_DIRS} ${{ env.BENCHMARK_OPTS }}
+          done
+
+      - name: Plot aggregate results tables (platform x Python interpreter)
+        run: |
+          # Disable '\n' field splitting for proper downstream command substitutions
+          IFS=' '
+          BENCHMARK_DATA_DIRS=$(ls .benchmarks | grep -v "^.*bit$" | sed 's/\(.*\)/\1\/*/')
+
+          echo "**Pure Python vs C Library (platform x Python interpreter)**"
+          for DIR in $(echo ${BENCHMARK_DATA_DIRS} | tr '\n' ' ');
+          do
+            echo "Platform x Python intepreter: ${DIR}"
+            pytest-benchmark compare ${DIR} ${{ env.BENCHMARK_OPTS }}
+          done
+
+      - name: Plot aggregate results tables (by library type)
+        run: |
+          # Disable '\n' field splitting for proper downstream command substitutions
+          IFS=' '
+          BENCHMARK_DATA_DIRS=$(ls .benchmarks | grep -v "^.*bit$" | sed 's/\(.*\)/\1\/*/')
+
+          echo "**Pure Python (All)**"
+          pytest-benchmark compare pure_python ${{ env.BENCHMARK_OPTS }}
+
+          echo "**C Library**"
+          pytest-benchmark compare c_library ${{ env.BENCHMARK_OPTS }}
+
+          echo "**Pure Python vs. C library (Aggregate)**"
+          pytest-benchmark compare pure_python c_library ${{ env.BENCHMARK_OPTS }}
+     # yamllint enable rule:line-length
