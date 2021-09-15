@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1631732622437,
+  "lastUpdate": 1631734044728,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -612,6 +612,40 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.003891475120425024",
             "extra": "mean: 107.92667999999975 msec\nrounds: 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "TeoZosa",
+            "username": "TeoZosa"
+          },
+          "committer": {
+            "name": "TeoZosa",
+            "username": "TeoZosa"
+          },
+          "id": "73e0262733bd756b011a546a05760b316a6abe24",
+          "message": "👷‍♀️ 📝 Add Performance Testing and Benchmarks",
+          "timestamp": "2021-09-14T13:16:10Z",
+          "url": "https://github.com/TeoZosa/structlog-sentry-logger/pull/258/commits/73e0262733bd756b011a546a05760b316a6abe24"
+        },
+        "date": 1631734041846,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 57.82468539271636,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0037465888007528953",
+            "extra": "mean: 17.29365223880597 msec\nrounds: 67"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 9.676515068898258,
+            "unit": "iter/sec",
+            "range": "stddev: 0.003806021936776362",
+            "extra": "mean: 103.3429899999998 msec\nrounds: 10"
           }
         ]
       }
