@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1631750841569,
+  "lastUpdate": 1631752107425,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -34,6 +34,40 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.009369387179009115",
             "extra": "mean: 103.54887272727272 msec\nrounds: 11"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "committer": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "id": "d1de2c1e99203a89cc0ea8fc7370573b98579c65",
+          "message": ":arrow_up: Update `poetry.lock` lockfile",
+          "timestamp": "2021-09-15T23:45:24Z",
+          "tree_id": "2e0959051952ebba8d8c206d6603f5236a15bc86"
+        },
+        "date": 1631752104284,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 67.29376767422727,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0009413890413841114",
+            "extra": "mean: 14.860217142857174 msec\nrounds: 70"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 9.96176583710212,
+            "unit": "iter/sec",
+            "range": "stddev: 0.01043056429494181",
+            "extra": "mean: 100.38380909090914 msec\nrounds: 11"
           }
         ]
       }
