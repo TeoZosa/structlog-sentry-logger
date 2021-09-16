@@ -69,22 +69,16 @@ jobs:
           shell: bash
           # yamllint disable rule:line-length
           command: |
-            TOX_COMPATIBLE_VERSION=$(\
-              echo ${{ matrix.python-version }} \
-              | tr -d '.')
+            TOX_COMPATIBLE_VERSION=$(echo ${{ matrix.python-version }} | tr -d '.')
             TOX_ENVNAME="py${TOX_COMPATIBLE_VERSION}-benchmark-${{ matrix.library-type }}"
             make "test-${TOX_ENVNAME}"
 
+            BENCHMARK_FILE=$(find .benchmarks -maxdepth 2 -type f -name "*.json" | tail -n 1)
+            echo "::set-output name=benchmark_file_path::${BENCHMARK_FILE}"
 
-            SYS_PLATFORM=$(python -c "import sys; print(sys.platform.title())")
-            OUTPUT_DIR="${SYS_PLATFORM}-Cpython${{ matrix.python-version }}"
-            BENCHMARK_FILE_TAG=${{ matrix.library-type }}-$(make strong-version-tag)
-            BENCHMARK_FILE_PREFIX=".benchmarks/${OUTPUT_DIR}/${BENCHMARK_FILE_TAG}"
-            echo "::set-output name=benchmark_file_path::${BENCHMARK_FILE_PREFIX}.json"
-
-            NAMESPACED_TARGET_OUTPUT_DIR="${{ matrix.os }}/CPython${{ matrix.python-version }}/${{ matrix.library-type }}"
+            ENV_DIR_NAME=$(basename "${BENCHMARK_FILE%/*}" | tr '-' '/')
+            NAMESPACED_TARGET_OUTPUT_DIR="${ENV_DIR_NAME}/${{ matrix.library-type }}"
             echo "::set-output name=target_output_dir::${NAMESPACED_TARGET_OUTPUT_DIR}"
-
           # yamllint enable rule:line-length
 
       - name: Store the environment-specific benchmarks
