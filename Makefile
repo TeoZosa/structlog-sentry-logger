@@ -168,6 +168,16 @@ test: generate-requirements
 	poetry run tox --parallel
 	$(MAKE) clean-requirements
 
+.PHONY: performance-benchmarks
+## Run performance benchmark tests
+performance-benchmarks:
+	$(MAKE) performance-benchmarks-"{pure_python,c_library}"
+
+.PHONY: performance-benchmarks-%
+# Run library-specific (viz. Python or C) performance benchmark tests
+performance-benchmarks-%:
+	$(MAKE) tox-"py3{7,8,9}-benchmark-$*"
+
 .PHONY: test-%
 test-%: export TEST_COMMAND=$(MAKE) tox-$*
 test-%:
