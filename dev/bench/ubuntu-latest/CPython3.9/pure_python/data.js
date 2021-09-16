@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1631754716282,
+  "lastUpdate": 1631755778012,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -34,6 +34,40 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.005489835192676182",
             "extra": "mean: 55.51507209999982 msec\nrounds: 20"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "committer": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "id": "4cc61459ec5c5a6f91481c6ff85a23300f099946",
+          "message": ":construction_worker: Benchmark based on process time\n\nGiven that benchmarks run automatically on cloud instances during CI,\nresource contention may confound metrics. Benchmarking based on process\ntime will lead to more accurate results within and between environment.\n\nNote: logging is inherently I/O-bound and process time, by definition,\nexcludes time spent waiting on I/O, so these benchmarks are *not*\na good indication of real-world performance. Instead, they are meant to\ncompare performance across different combinations of Python\ninterpreters, platforms, and library types (viz. Python and C).",
+          "timestamp": "2021-09-16T01:00:37Z",
+          "tree_id": "addd2c89830236692cba95e762cb2fb0018b4598"
+        },
+        "date": 1631755777252,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 106.83240798881296,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0003942555191101791",
+            "extra": "mean: 9.360455491228054 msec\nrounds: 114"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 23.423916485470023,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0009767823570972323",
+            "extra": "mean: 42.69140904 msec\nrounds: 25"
           }
         ]
       }
