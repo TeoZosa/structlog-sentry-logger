@@ -58,14 +58,14 @@ With fields sorted by key for easier at-a-glance analysis.
 ### :zap: Performance
 
 `structlog-sentry-logger` is fully-tuned and
-leverages [`ORJSON`](https://github.com/ijl/orjson)
+leverages [`orjson`](https://github.com/ijl/orjson)
 as the JSON serializer for lightning-fast logging (more than a 4x speedup over Python's
 built-in JSON library[[1]](#1)). It's 2021, you don't have to let your obligate
 cross-cutting concerns cripple performance any longer!
 
 For further reference, see:
 
-- "[`ORJSON`: Serialize](https://github.com/ijl/orjson#serialize)" for benchmarks
+- "[`orjson`: Serialize](https://github.com/ijl/orjson#serialize)" for benchmarks
 - "[`structlog`: Performance](https://www.structlog.org/en/stable/performance.html)" for
   salient performance-related configurations.
 
