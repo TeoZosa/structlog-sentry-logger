@@ -60,7 +60,9 @@ With fields sorted by key for easier at-a-glance analysis.
 `structlog-sentry-logger` is C-compiled and fully-tuned,
 leveraging [`orjson`](https://github.com/ijl/orjson)
 as the JSON serializer for lightning-fast logging (more than a 4x speedup over Python's
-built-in JSON library[[1]](#1)). It's 2021, you don't have to let your obligate
+built-in JSON library[[1]](#1); see
+[here]((https://teozosa.github.io/structlog-sentry-logger/dev/bench/ubuntu-latest/CPython3.8/c_library/))
+for sample performance benchmarks). It's 2021, you don't have to let your obligate
 cross-cutting concerns cripple performance any longer!
 
 For further reference, see:
