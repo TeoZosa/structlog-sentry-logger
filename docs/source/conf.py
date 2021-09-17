@@ -57,7 +57,7 @@ extensions = [
     "sphinxcontrib.confluencebuilder",  # Build Confluence supported format files (e.g. storage format) and optionally publish them to a Confluence instance (https://sphinxcontrib-confluencebuilder.readthedocs.io/en/stable/)
 ]
 
-rst_prolog = pathlib.Path("global.rst").read_text()
+rst_prolog = pathlib.Path("global.rst").read_text(encoding="utf-8")
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
