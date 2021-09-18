@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1631929794898,
+  "lastUpdate": 1631931445161,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -272,6 +272,40 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.001695050165659363",
             "extra": "mean: 74.27469230769222 msec\nrounds: 13"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "2cbc574e1735d50fb1a9c8bc047e15b2ce725f8a",
+          "message": "Merge pull request #263 from TeoZosa/dependabot/pip/tox-3.24.4",
+          "timestamp": "2021-09-18T01:33:51Z",
+          "tree_id": "5f076b277ecb6ca479b07bbb00aa9ffb04fd7c0c"
+        },
+        "date": 1631931444156,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 72.24468818643905,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0009104573109665761",
+            "extra": "mean: 13.841848101265784 msec\nrounds: 79"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 13.597487184368402,
+            "unit": "iter/sec",
+            "range": "stddev: 0.005683947720757822",
+            "extra": "mean: 73.5429999999996 msec\nrounds: 14"
           }
         ]
       }
