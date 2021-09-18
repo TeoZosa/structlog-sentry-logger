@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1631927819403,
+  "lastUpdate": 1631928671790,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -238,6 +238,40 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.00354710988856668",
             "extra": "mean: 46.18468204166651 msec\nrounds: 24"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "fecaf63d91064bb0453d2246ff3bc30801074690",
+          "message": "Merge pull request #264 from TeoZosa/dependabot/pip/pylint-2.11.1",
+          "timestamp": "2021-09-18T00:04:26Z",
+          "tree_id": "40ef8ad8a56ad319a91e5f5335b1c1c387ae8062"
+        },
+        "date": 1631928670710,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 76.28631512145914,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0007540062366218431",
+            "extra": "mean: 13.10851098795179 msec\nrounds: 83"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 18.975382801355522,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0015254438771498788",
+            "extra": "mean: 52.69985910000004 msec\nrounds: 20"
           }
         ]
       }
