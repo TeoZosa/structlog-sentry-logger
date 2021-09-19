@@ -15,6 +15,10 @@ on:  # yamllint disable-line rule:truthy
 jobs:
 
   docs:
+    strategy:
+      matrix:
+        python-version: ["3.9"]
+
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repository
@@ -23,7 +27,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2.2.2
         with:
-          python-version: "3.9"
+          python-version: ${{ matrix.python-version }}
 
       - name: Install Poetry
         run: |
@@ -44,7 +48,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: .venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+          # yamllint disable-line rule:line-length
+          key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Install dependencies
         run: |

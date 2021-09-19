@@ -16,6 +16,10 @@ jobs:
 
   # Quality jobs ----------------------
   code-quality:
+    strategy:
+      matrix:
+        python-version: ["3.9"]
+
     name: Code Quality
     runs-on: "ubuntu-latest"
     steps:
@@ -25,7 +29,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2.2.2
         with:
-          python-version: "3.9"
+          python-version: ${{ matrix.python-version }}
 
       - name: Install Poetry
         run: |
@@ -74,6 +78,10 @@ jobs:
 
   # Security jobs ----------------------
   dependency-security-vulnerability-analysis:
+    strategy:
+      matrix:
+        python-version: ["3.9"]
+
     name: Dependency Security Vulnerability Analysis
     runs-on: "ubuntu-latest"
     steps:
@@ -83,7 +91,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2.2.2
         with:
-          python-version: "3.9"
+          python-version: ${{ matrix.python-version }}
 
       - name: Install Poetry
         run: |
@@ -270,6 +278,10 @@ jobs:
 
   # Mutation testing jobs ------------------------
   test-mutations:
+    strategy:
+      matrix:
+        python-version: ["3.9"]
+
     name: Mutation testing
     runs-on: "ubuntu-latest"
 
@@ -282,7 +294,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2.2.2
         with:
-          python-version: "3.9"
+          python-version: ${{ matrix.python-version }}
 
       - name: Install Poetry
         run: |
@@ -303,7 +315,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: .venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+          # yamllint disable-line rule:line-length
+          key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Install Tox
         run: |
