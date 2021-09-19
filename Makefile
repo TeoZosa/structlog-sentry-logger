@@ -78,12 +78,12 @@ endif
 .PHONY: install-dependencies
 ## Install Python dependencies specified in `poetry.lock`
 install-dependencies:
-	poetry install --no-interaction --no-root --extras docs
+	poetry install --no-interaction --no-root --extras docs -vv
 
 .PHONY: install-project
 ## Install structlog-sentry-logger source code (in editable mode)
 install-project:
-	poetry install --no-interaction
+	poetry install --no-interaction -vv
 	$(MAKE) clean
 
 .PHONY: generate-requirements
