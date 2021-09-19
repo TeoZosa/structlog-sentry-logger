@@ -112,9 +112,7 @@ clean:
 
 .PHONY: provision-environment
 ## Set up Python virtual environment with installed project dependencies
-provision-environment: _validate_poetry_installation
-	poetry update --lock -vv
-	poetry install --extras docs -vv
+provision-environment: _validate_poetry_installation install-dependencies install-project
 
 .PHONY: install-pre-commit-hooks
 ## Install git pre-commit hooks locally
