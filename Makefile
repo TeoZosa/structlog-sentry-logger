@@ -66,14 +66,24 @@ else
 endif
 
 .PHONY: update-dependencies
-## Install Python dependencies,
-## updating packages in `poetry.lock` with any newer versions specified in
-## `pyproject.toml`, and install structlog-sentry-logger source code
+## Update and install Python dependencies,
+## updating packages in `poetry.lock` with any newer versions
+## that adhere to `pyproject.toml` version range constraints
 update-dependencies:
 	poetry update --lock
 ifneq (${CI}, true)
-	poetry install --extras docs
+	$(MAKE) install-dependencies
 endif
+
+.PHONY: install-dependencies
+## Install Python dependencies specified in `poetry.lock`
+install-dependencies:
+	poetry install --no-interaction --no-root --extras docs
+
+.PHONY: install-project
+## Install structlog-sentry-logger source code (in editable mode)
+install-project:
+	poetry install --no-interaction
 	$(MAKE) clean
 
 .PHONY: generate-requirements
