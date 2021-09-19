@@ -38,6 +38,17 @@ jobs:
           poetry config virtualenvs.in-project true
           poetry config --list
 
+      #----------------------------------------------
+      #       load cached venv if cache exists
+      #----------------------------------------------
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v2
+        with:
+          path: .venv
+          # yamllint disable-line rule:line-length
+          key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+
       - name: Install Tox
         run: |
           pip install --constraint=.github/workflows/constraints.txt tox
@@ -84,6 +95,17 @@ jobs:
           poetry config cache-dir "${GITHUB_WORKSPACE}/.cache/pypoetry"
           poetry config virtualenvs.in-project true
           poetry config --list
+
+      #----------------------------------------------
+      #       load cached venv if cache exists
+      #----------------------------------------------
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v2
+        with:
+          path: .venv
+          # yamllint disable-line rule:line-length
+          key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Install Tox
         run: |
@@ -146,6 +168,17 @@ jobs:
           poetry config virtualenvs.in-project true
           poetry config --list
 
+      #----------------------------------------------
+      #       load cached venv if cache exists
+      #----------------------------------------------
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v2
+        with:
+          path: .venv
+          # yamllint disable-line rule:line-length
+          key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+
       - name: Install Tox & Tox GH Actions Plugin
         # yamllint disable rule:line-length
         run: |
@@ -203,6 +236,17 @@ jobs:
           poetry config virtualenvs.in-project true
           poetry config --list
 
+      #----------------------------------------------
+      #       load cached venv if cache exists
+      #----------------------------------------------
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v2
+        with:
+          path: .venv
+          # yamllint disable-line rule:line-length
+          key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+
       - name: Install Tox
         run: |
           pip install --constraint=.github/workflows/constraints.txt tox
@@ -250,6 +294,16 @@ jobs:
           poetry config cache-dir "${GITHUB_WORKSPACE}/.cache/pypoetry"
           poetry config virtualenvs.in-project true
           poetry config --list
+
+      #----------------------------------------------
+      #       load cached venv if cache exists
+      #----------------------------------------------
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v2
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Install Tox
         run: |
