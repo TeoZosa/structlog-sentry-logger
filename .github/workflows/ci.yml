@@ -38,6 +38,17 @@ jobs:
           poetry config virtualenvs.in-project true
           poetry config --list
 
+      #----------------------------------------------
+      #       load cached venv if cache exists
+      #----------------------------------------------
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v2
+        with:
+          path: .venv
+          # yamllint disable-line rule:line-length
+          key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+
       - name: Install dependencies
         run: |
           make provision-environment
@@ -83,6 +94,17 @@ jobs:
           poetry config cache-dir "${GITHUB_WORKSPACE}/.cache/pypoetry"
           poetry config virtualenvs.in-project true
           poetry config --list
+
+      #----------------------------------------------
+      #       load cached venv if cache exists
+      #----------------------------------------------
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v2
+        with:
+          path: .venv
+          # yamllint disable-line rule:line-length
+          key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Install dependencies
         run: |
@@ -144,6 +166,17 @@ jobs:
           poetry config virtualenvs.in-project true
           poetry config --list
 
+      #----------------------------------------------
+      #       load cached venv if cache exists
+      #----------------------------------------------
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v2
+        with:
+          path: .venv
+          # yamllint disable-line rule:line-length
+          key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+
       - name: Install dependencies
         uses: nick-invision/retry@v2
         with:
@@ -202,6 +235,17 @@ jobs:
           poetry config virtualenvs.in-project true
           poetry config --list
 
+      #----------------------------------------------
+      #       load cached venv if cache exists
+      #----------------------------------------------
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v2
+        with:
+          path: .venv
+          # yamllint disable-line rule:line-length
+          key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+
       - name: Install dependencies
         uses: nick-invision/retry@v2
         with:
@@ -252,6 +296,16 @@ jobs:
           poetry config cache-dir "${GITHUB_WORKSPACE}/.cache/pypoetry"
           poetry config virtualenvs.in-project true
           poetry config --list
+
+      #----------------------------------------------
+      #       load cached venv if cache exists
+      #----------------------------------------------
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v2
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Install dependencies
         run: |
