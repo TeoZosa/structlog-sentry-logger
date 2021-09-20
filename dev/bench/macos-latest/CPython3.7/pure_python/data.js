@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1632098001908,
+  "lastUpdate": 1632156060088,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -340,6 +340,40 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0013476020542812536",
             "extra": "mean: 75.93528571428568 msec\nrounds: 14"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "a5ed13d385ce7ebbf37ca0d0148dcfee66e6eccf",
+          "message": "Merge pull request #268 from TeoZosa/dependabot/pip/poetry-1.1.9",
+          "timestamp": "2021-09-20T14:22:55Z",
+          "tree_id": "f7c8029ca6980f5a60d16dc991f01f3897d87584"
+        },
+        "date": 1632156058469,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 69.39021808730718,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0013658126487539138",
+            "extra": "mean: 14.411253164556916 msec\nrounds: 79"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 13.11190448539525,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0009601577365837131",
+            "extra": "mean: 76.2665714285712 msec\nrounds: 14"
           }
         ]
       }
