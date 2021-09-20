@@ -47,13 +47,9 @@ jobs:
           poetry config --list
 
       - name: Install Tox
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: |
-            pip install --constraint=.github/workflows/constraints.txt tox
-            tox --version
+        run: |
+          pip install --constraint=.github/workflows/constraints.txt tox
+          tox --version
 
       - name: Run benchmarks for ${{ matrix.python-version }}
         id: performance-testing

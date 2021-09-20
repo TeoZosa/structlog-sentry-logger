@@ -147,15 +147,11 @@ jobs:
           poetry config --list
 
       - name: Install Tox & Tox GH Actions Plugin
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          # yamllint disable rule:line-length
-          command: |
-            pip install --constraint=.github/workflows/constraints.txt tox tox-gh-actions
-            tox --version
-          # yamllint enable rule:line-length
+        # yamllint disable rule:line-length
+        run: |
+          pip install --constraint=.github/workflows/constraints.txt tox tox-gh-actions
+          tox --version
+        # yamllint enable rule:line-length
 
       - name: Run tox targets for ${{ matrix.python-version }}
         uses: nick-invision/retry@v2
@@ -208,13 +204,9 @@ jobs:
           poetry config --list
 
       - name: Install Tox
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: |
-            pip install --constraint=.github/workflows/constraints.txt tox
-            tox --version
+        run: |
+          pip install --constraint=.github/workflows/constraints.txt tox
+          tox --version
 
       - name: Run benchmarks for ${{ matrix.python-version }}
         id: performance-testing
