@@ -57,13 +57,14 @@ jobs:
           # yamllint disable-line rule:line-length
           key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
-      - name: Install dependencies
+      - name: Install Tox
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
           command: |
-            make install-dependencies
+            pip install --constraint=.github/workflows/constraints.txt tox
+            tox --version
 
       - name: Run benchmarks for ${{ matrix.python-version }}
         id: performance-testing
