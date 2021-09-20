@@ -63,7 +63,7 @@ jobs:
           timeout_minutes: 10
           max_attempts: 3
           command: |
-            make provision-environment
+            make install-dependencies
 
       - name: Run benchmarks for ${{ matrix.python-version }}
         id: performance-testing

@@ -53,7 +53,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          make provision-environment
+          make install-dependencies
 
       - name: Build Documentation
         run: |
