@@ -104,6 +104,7 @@ jobs:
       # yamllint disable rule:line-length
       - name: Publish benchmarks to GH pages
         uses: TeoZosa/github-action-benchmark@v1.8.2
+        if: github.ref == 'refs/heads/master'
         with:
           tool: 'pytest'
           benchmark-data-dir-path: dev/bench/${{ steps.performance-testing.outputs.target_output_dir }}
