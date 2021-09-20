@@ -47,7 +47,6 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            .venv
             .tox
           # yamllint disable-line rule:line-length
           key: venv-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
@@ -108,7 +107,6 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            .venv
             .tox
           # yamllint disable-line rule:line-length
           key: venv-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
@@ -179,7 +177,6 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            .venv
             .tox
           # yamllint disable-line rule:line-length
           key: venv-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
@@ -248,7 +245,6 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            .venv
             .tox
           # yamllint disable-line rule:line-length
           key: venv-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
@@ -314,7 +310,6 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            .venv
             .tox
           # yamllint disable-line rule:line-length
           key: venv-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
