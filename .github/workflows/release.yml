@@ -112,9 +112,6 @@ jobs:
           pip install --constraint=.github/workflows/constraints.txt tox
           tox --version
 
-      #----------------------------------------------
-      #       load cached venv if cache exists
-      #----------------------------------------------
       - name: Load cached venv
         id: cached-poetry-dependencies
         uses: actions/cache@v2
