@@ -40,7 +40,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          make provision-environment
+          make install-dependencies
 
       - name: Install Go for pre-commit hook (shfmt)
         run: |
@@ -86,7 +86,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          make provision-environment
+          make install-dependencies
 
       - name: Run dependency security vulnerability analysis
         run: |
@@ -150,7 +150,7 @@ jobs:
           timeout_minutes: 10
           max_attempts: 3
           command: |
-            make provision-environment
+            make install-dependencies
 
       - name: Run tox targets for ${{ matrix.python-version }}
         uses: nick-invision/retry@v2
@@ -208,7 +208,7 @@ jobs:
           timeout_minutes: 10
           max_attempts: 3
           command: |
-            make provision-environment
+            make install-dependencies
 
       - name: Run benchmarks for ${{ matrix.python-version }}
         id: performance-testing
@@ -255,7 +255,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          make provision-environment
+          make install-dependencies
 
       - name: Run mutation testing
         run: |
