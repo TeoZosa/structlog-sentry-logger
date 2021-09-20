@@ -47,14 +47,14 @@ jobs:
           pip install --constraint=.github/workflows/constraints.txt tox
           tox --version
 
-      - name: Load cached venv(s) (if they exist)
+      - name: Load cached tox testenv(s) (if they exist)
         id: cached-poetry-dependencies
         uses: actions/cache@v2
         with:
           path: |
             .tox
           # yamllint disable-line rule:line-length
-          key: venv-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+          key: tox-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Install Go for pre-commit hook (shfmt)
         run: |
@@ -107,14 +107,14 @@ jobs:
           pip install --constraint=.github/workflows/constraints.txt tox
           tox --version
 
-      - name: Load cached venv(s) (if they exist)
+      - name: Load cached tox testenv(s) (if they exist)
         id: cached-poetry-dependencies
         uses: actions/cache@v2
         with:
           path: |
             .tox
           # yamllint disable-line rule:line-length
-          key: venv-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+          key: tox-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Run dependency security vulnerability analysis
         run: |
@@ -183,14 +183,14 @@ jobs:
             tox --version
           # yamllint enable rule:line-length
 
-      - name: Load cached venv(s) (if they exist)
+      - name: Load cached tox testenv(s) (if they exist)
         id: cached-poetry-dependencies
         uses: actions/cache@v2
         with:
           path: |
             .tox
           # yamllint disable-line rule:line-length
-          key: venv-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+          key: tox-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Run tox targets for ${{ matrix.python-version }}
         uses: nick-invision/retry@v2
@@ -251,14 +251,14 @@ jobs:
             pip install --constraint=.github/workflows/constraints.txt tox
             tox --version
 
-      - name: Load cached venv(s) (if they exist)
+      - name: Load cached tox testenv(s) (if they exist)
         id: cached-poetry-dependencies
         uses: actions/cache@v2
         with:
           path: |
             .tox
           # yamllint disable-line rule:line-length
-          key: venv-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+          key: tox-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Run benchmarks for ${{ matrix.python-version }}
         id: performance-testing
@@ -312,14 +312,14 @@ jobs:
           pip install --constraint=.github/workflows/constraints.txt tox
           tox --version
 
-      - name: Load cached venv(s) (if they exist)
+      - name: Load cached tox testenv(s) (if they exist)
         id: cached-poetry-dependencies
         uses: actions/cache@v2
         with:
           path: |
             .tox
           # yamllint disable-line rule:line-length
-          key: venv-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+          key: tox-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Run mutation testing
         run: |
