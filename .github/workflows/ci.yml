@@ -172,14 +172,16 @@ jobs:
           poetry config virtualenvs.in-project true
           poetry config --list
 
-      - name: Install Tox
+      - name: Install Tox & Tox GH Actions Plugin
         uses: nick-invision/retry@v2
         with:
           timeout_minutes: 10
           max_attempts: 3
+          # yamllint disable rule:line-length
           command: |
-            pip install --constraint=.github/workflows/constraints.txt tox
+            pip install --constraint=.github/workflows/constraints.txt tox tox-gh-actions
             tox --version
+          # yamllint enable rule:line-length
 
       - name: Load cached venv(s) (if they exist)
         id: cached-poetry-dependencies
