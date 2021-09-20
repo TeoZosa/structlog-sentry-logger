@@ -46,15 +46,6 @@ jobs:
           poetry config virtualenvs.in-project true
           poetry config --list
 
-      - name: Load cached venv(s) (if they exist)
-        id: cached-poetry-dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            .tox
-          # yamllint disable-line rule:line-length
-          key: venv-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
-
       - name: Install Tox
         uses: nick-invision/retry@v2
         with:
@@ -63,6 +54,15 @@ jobs:
           command: |
             pip install --constraint=.github/workflows/constraints.txt tox
             tox --version
+
+      - name: Load cached venv(s) (if they exist)
+        id: cached-poetry-dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            .tox
+          # yamllint disable-line rule:line-length
+          key: venv-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Run benchmarks for ${{ matrix.python-version }}
         id: performance-testing
