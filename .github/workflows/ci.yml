@@ -38,9 +38,6 @@ jobs:
           poetry config virtualenvs.in-project true
           poetry config --list
 
-      #----------------------------------------------
-      #       load cached venv if cache exists
-      #----------------------------------------------
       - name: Load cached venv
         id: cached-poetry-dependencies
         uses: actions/cache@v2
@@ -98,9 +95,6 @@ jobs:
           poetry config virtualenvs.in-project true
           poetry config --list
 
-      #----------------------------------------------
-      #       load cached venv if cache exists
-      #----------------------------------------------
       - name: Load cached venv
         id: cached-poetry-dependencies
         uses: actions/cache@v2
@@ -172,9 +166,6 @@ jobs:
           poetry config virtualenvs.in-project true
           poetry config --list
 
-      #----------------------------------------------
-      #       load cached venv if cache exists
-      #----------------------------------------------
       - name: Load cached venv
         id: cached-poetry-dependencies
         uses: actions/cache@v2
@@ -244,9 +235,6 @@ jobs:
           poetry config virtualenvs.in-project true
           poetry config --list
 
-      #----------------------------------------------
-      #       load cached venv if cache exists
-      #----------------------------------------------
       - name: Load cached venv
         id: cached-poetry-dependencies
         uses: actions/cache@v2
@@ -313,9 +301,6 @@ jobs:
           poetry config virtualenvs.in-project true
           poetry config --list
 
-      #----------------------------------------------
-      #       load cached venv if cache exists
-      #----------------------------------------------
       - name: Load cached venv
         id: cached-poetry-dependencies
         uses: actions/cache@v2
