@@ -40,6 +40,10 @@ jobs:
         run: |
           make install-dependencies
 
+      - name: Install project
+        run: |
+          make install-project
+
       - name: Build Documentation
         run: |
           make docs-html
