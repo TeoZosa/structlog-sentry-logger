@@ -119,7 +119,7 @@ jobs:
           path: |
             .tox
           # yamllint disable-line rule:line-length
-          key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+          key: venv-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
       # Update the project version number to the dev version that was
       # generated upstream (only used in non-release builds; else project
