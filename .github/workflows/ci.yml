@@ -203,6 +203,56 @@ jobs:
           file: ./.tox/coverage.xml
           fail_ci_if_error: true
 
+  # Documentation build testing jobs ------------------------
+  test-documentation-building:
+    strategy:
+      matrix:
+        python-version: ["3.9"]
+
+    name: Documentation build testing
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2.3.3
+
+      - name: Set up Python
+        uses: actions/setup-python@v2.2.2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install Poetry
+        run: |
+          pip install --constraint=.github/workflows/constraints.txt poetry
+          poetry --version
+
+      - name: Configure Poetry
+        run: |
+          poetry config cache-dir "${GITHUB_WORKSPACE}/.cache/pypoetry"
+          poetry config virtualenvs.in-project true
+          poetry config --list
+
+      - name: Load cached venv(s) (if they exist)
+        id: cached-poetry-dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            .venv
+          # yamllint disable-line rule:line-length
+          key: venv-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+
+      - name: Install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: |
+          make install-dependencies
+
+      - name: Install project
+        run: |
+          make install-project
+
+      - name: Build Documentation
+        run: |
+          make docs-html
+
   # Mutation testing jobs ------------------------
   test-mutations:
     strategy:
