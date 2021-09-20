@@ -50,7 +50,7 @@ jobs:
             .venv
             .tox
           # yamllint disable-line rule:line-length
-          key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+          key: venv-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Install Tox
         run: |
@@ -111,7 +111,7 @@ jobs:
             .venv
             .tox
           # yamllint disable-line rule:line-length
-          key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+          key: venv-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Install Tox
         run: |
@@ -182,7 +182,7 @@ jobs:
             .venv
             .tox
           # yamllint disable-line rule:line-length
-          key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+          key: venv-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Install Tox & Tox GH Actions Plugin
         # yamllint disable rule:line-length
@@ -249,7 +249,7 @@ jobs:
             .venv
             .tox
           # yamllint disable-line rule:line-length
-          key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+          key: venv-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Install Tox
         run: |
@@ -311,7 +311,7 @@ jobs:
             .venv
             .tox
           # yamllint disable-line rule:line-length
-          key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+          key: venv-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Install Tox
         run: |
