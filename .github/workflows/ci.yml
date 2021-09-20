@@ -42,6 +42,11 @@ jobs:
           poetry config virtualenvs.in-project true
           poetry config --list
 
+      - name: Install Tox
+        run: |
+          pip install --constraint=.github/workflows/constraints.txt tox
+          tox --version
+
       - name: Load cached venv(s) (if they exist)
         id: cached-poetry-dependencies
         uses: actions/cache@v2
@@ -50,11 +55,6 @@ jobs:
             .tox
           # yamllint disable-line rule:line-length
           key: venv-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
-
-      - name: Install Tox
-        run: |
-          pip install --constraint=.github/workflows/constraints.txt tox
-          tox --version
 
       - name: Install Go for pre-commit hook (shfmt)
         run: |
@@ -102,6 +102,11 @@ jobs:
           poetry config virtualenvs.in-project true
           poetry config --list
 
+      - name: Install Tox
+        run: |
+          pip install --constraint=.github/workflows/constraints.txt tox
+          tox --version
+
       - name: Load cached venv(s) (if they exist)
         id: cached-poetry-dependencies
         uses: actions/cache@v2
@@ -110,11 +115,6 @@ jobs:
             .tox
           # yamllint disable-line rule:line-length
           key: venv-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
-
-      - name: Install Tox
-        run: |
-          pip install --constraint=.github/workflows/constraints.txt tox
-          tox --version
 
       - name: Run dependency security vulnerability analysis
         run: |
@@ -172,6 +172,13 @@ jobs:
           poetry config virtualenvs.in-project true
           poetry config --list
 
+      - name: Install Tox & Tox GH Actions Plugin
+        # yamllint disable rule:line-length
+        run: |
+          pip install --constraint=.github/workflows/constraints.txt tox tox-gh-actions
+          tox --version
+        # yamllint enable rule:line-length
+
       - name: Load cached venv(s) (if they exist)
         id: cached-poetry-dependencies
         uses: actions/cache@v2
@@ -180,13 +187,6 @@ jobs:
             .tox
           # yamllint disable-line rule:line-length
           key: venv-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
-
-      - name: Install Tox & Tox GH Actions Plugin
-        # yamllint disable rule:line-length
-        run: |
-          pip install --constraint=.github/workflows/constraints.txt tox tox-gh-actions
-          tox --version
-        # yamllint enable rule:line-length
 
       - name: Run tox targets for ${{ matrix.python-version }}
         uses: nick-invision/retry@v2
@@ -238,6 +238,11 @@ jobs:
           poetry config virtualenvs.in-project true
           poetry config --list
 
+      - name: Install Tox
+        run: |
+          pip install --constraint=.github/workflows/constraints.txt tox
+          tox --version
+
       - name: Load cached venv(s) (if they exist)
         id: cached-poetry-dependencies
         uses: actions/cache@v2
@@ -246,11 +251,6 @@ jobs:
             .tox
           # yamllint disable-line rule:line-length
           key: venv-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
-
-      - name: Install Tox
-        run: |
-          pip install --constraint=.github/workflows/constraints.txt tox
-          tox --version
 
       - name: Run benchmarks for ${{ matrix.python-version }}
         id: performance-testing
@@ -299,6 +299,11 @@ jobs:
           poetry config virtualenvs.in-project true
           poetry config --list
 
+      - name: Install Tox
+        run: |
+          pip install --constraint=.github/workflows/constraints.txt tox
+          tox --version
+
       - name: Load cached venv(s) (if they exist)
         id: cached-poetry-dependencies
         uses: actions/cache@v2
@@ -307,11 +312,6 @@ jobs:
             .tox
           # yamllint disable-line rule:line-length
           key: venv-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
-
-      - name: Install Tox
-        run: |
-          pip install --constraint=.github/workflows/constraints.txt tox
-          tox --version
 
       - name: Run mutation testing
         run: |
