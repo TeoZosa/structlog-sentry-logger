@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1632181355086,
+  "lastUpdate": 1632181841703,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -544,6 +544,40 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0028879366312091017",
             "extra": "mean: 61.1236414999999 msec\nrounds: 18"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "committer": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "id": "05efc63e15c973b365bd9fe8035f22673ad07ede",
+          "message": ":construction_worker: Disable retries for simple `pip install`s",
+          "timestamp": "2021-09-20T23:45:10Z",
+          "tree_id": "b43e9b53a969dc66fbbe0a4e53fab8c561850581"
+        },
+        "date": 1632181839967,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 77.0091243269466,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0004323756657404644",
+            "extra": "mean: 12.985474237500005 msec\nrounds: 80"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 18.016553338010407,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00032115513230794563",
+            "extra": "mean: 55.50451194736848 msec\nrounds: 19"
           }
         ]
       }
