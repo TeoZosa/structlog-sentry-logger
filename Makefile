@@ -176,6 +176,9 @@ test-%:
 	echo "$${TEST_COMMAND}"; \
 	$${TEST_COMMAND};
 
+# Mutation testing modifies the code in small ways that should produce incorrect semantics
+# If a test suite is sufficiently strong, this "mutated" code should caught by the suite,
+# thus causing tests to fail.
 .PHONY: test-mutations
 ## Test against mutated code to validate test suite robustness
 test-mutations:
