@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1632253852323,
+  "lastUpdate": 1632256806903,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -986,6 +986,40 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.004944857926380619",
             "extra": "mean: 80.75928571428547 msec\nrounds: 14"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "committer": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "id": "3c1c0b28d5995d293a125e9243023a304740dc23",
+          "message": ":construction_worker: Namespace CI jobs caches\n\nReduces the size of each cache and ensures cache hits occur if and only\nif jobs had previously succeeded (thus implying that job-specific\ntestenvs had been correctly provisioned in `.tox`).",
+          "timestamp": "2021-09-21T20:34:11Z",
+          "tree_id": "b3fc8320f3d29c2a91e9e44da4d81b04b187efd8"
+        },
+        "date": 1632256803780,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 76.64793050587649,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0004839716933870668",
+            "extra": "mean: 13.046666666666642 msec\nrounds: 81"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 13.895051601589968,
+            "unit": "iter/sec",
+            "range": "stddev: 0.001987150776746501",
+            "extra": "mean: 71.96806666666664 msec\nrounds: 15"
           }
         ]
       }
