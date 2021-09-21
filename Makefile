@@ -111,7 +111,7 @@ clean:
 #################################################################################
 
 .PHONY: provision-environment
-## Set up Python virtual environment with installed project dependencies
+## Set up a Python virtual environment with installed project dependencies
 provision-environment: _validate_poetry_installation install-dependencies install-project
 
 .PHONY: install-pre-commit-hooks
