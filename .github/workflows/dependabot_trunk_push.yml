@@ -2,13 +2,10 @@
 # Needed because Dependabot-initiated pushes to master do not have access
 # to repository secrets on which downstream workflows rely.
 # see: dependabot/dependabot-core/issues/3253
-name: Dependabot Trunk Push Check
+name: Dependabot Push Check
 
 on:  # yamllint disable-line rule:truthy
   push:
-    branches:
-      - main  # forward-compatibility with new GitHub default branch naming
-      - master  # backward-compatibility with old GitHub default branch naming
 
 jobs:
   check_dependabot:
@@ -16,4 +13,4 @@ jobs:
     # yamllint disable-line rule:braces
     if: ${{ github.actor == 'dependabot[bot]' }}
     steps:
-      - run: echo "Push (merge) to trunk initiated by Dependabot"
+      - run: echo "Push initiated by Dependabot"

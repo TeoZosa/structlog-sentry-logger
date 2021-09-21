@@ -1,14 +1,13 @@
 ---
 name: Publish Performance Testing Benchmarks
 on:  # yamllint disable-line rule:truthy
-  push:
   workflow_run:
     workflows:
-      # Upstream workflow runs on pushes to main/master and always completes;
+      # Upstream workflow runs on pushes and always completes;
       # needed because Dependabot-initiated pushes to master do not have access
       # to repository secrets on which this workflow relies.
       # see: dependabot/dependabot-core/issues/3253
-      - Dependabot Trunk Push Check
+      - Dependabot Push Check
     types:
       - completed
 
