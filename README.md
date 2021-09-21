@@ -61,7 +61,7 @@ With fields sorted by key for easier at-a-glance analysis.
 leveraging [`orjson`](https://github.com/ijl/orjson)
 as the JSON serializer for lightning-fast logging (more than a 4x speedup over Python's
 built-in JSON library[[1]](#1); see
-[here](https://teozosa.github.io/structlog-sentry-logger/dev/bench/ubuntu-latest/CPython3.8/c_library/)
+[here](https://teozosa.github.io/structlog-sentry-logger/dev/bench/Linux/CPython/3.8/64bit/c_library/)
 for sample performance benchmarks). Don't let your obligate cross-cutting concerns
 cripple performance any longer!
 
