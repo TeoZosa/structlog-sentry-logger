@@ -203,10 +203,10 @@ pre-commit-%:
 
 .PHONY: docs-%
 ## Build documentation in the format specified after `-`
-## e.g.,
+## (e.g.,
 ## `make docs-html` builds the docs in HTML format,
 ## `make docs-confluence` builds and publishes the docs on confluence (see `docs/source/conf.py` for details),
-## `make docs-clean` cleans the docs build directory
+## `make docs-clean` cleans the docs build directory)
 docs-%:
 	$(MAKE) $* -C docs
 
