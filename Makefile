@@ -179,13 +179,8 @@ performance-benchmarks-%:
 	$(MAKE) tox-"py3{7,8,9}-benchmark-$*"
 
 .PHONY: test-%
-test-%: export TEST_COMMAND=$(MAKE) tox-$*
 test-%:
-	@if ! test -n "$(findstring benchmark,$(TEST_COMMAND))"; then \
-		TEST_COMMAND="$(TEST_COMMAND),coverage"; \
-	fi; \
-	echo "$${TEST_COMMAND}"; \
-	$${TEST_COMMAND};
+	$(MAKE) tox-$*,coverage
 
 # Mutation testing modifies the code in small ways that should produce incorrect semantics
 # If a test suite is sufficiently strong, this "mutated" code should caught by the suite,
