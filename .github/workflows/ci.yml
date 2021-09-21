@@ -47,7 +47,7 @@ jobs:
           path: |
             .tox
           # yamllint disable-line rule:line-length
-          key: tox-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+          key: tox-${{ github.workflow }}-${{ github.job }}-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Install Go for pre-commit hook (shfmt)
         run: |
@@ -107,7 +107,7 @@ jobs:
           path: |
             .tox
           # yamllint disable-line rule:line-length
-          key: tox-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+          key: tox-${{ github.workflow }}-${{ github.job }}-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Run dependency security vulnerability analysis
         run: |
@@ -179,7 +179,7 @@ jobs:
           path: |
             .tox
           # yamllint disable-line rule:line-length
-          key: tox-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+          key: tox-${{ github.workflow }}-${{ github.job }}-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Run tox targets for ${{ matrix.python-version }}
         uses: nick-invision/retry@v2
@@ -292,7 +292,7 @@ jobs:
           path: |
             .tox
           # yamllint disable-line rule:line-length
-          key: tox-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+          key: tox-${{ github.workflow }}-${{ github.job }}-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Run mutation testing
         run: |
