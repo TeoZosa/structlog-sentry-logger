@@ -124,11 +124,18 @@ install-pre-commit-hooks:
 get-project-version-number:
 	@poetry version --short
 
+#  Note: The new version should ideally be a valid semver string or a valid bump rule:
+#  "patch", "minor", "major", "prepatch", "preminor", "premajor", "prerelease".
 .PHONY: bump-commit-and-push-project-version-number-%
-##  Bumps the version of the project, writes the new version back to
-##  pyproject.toml if a valid bump rule is provided, commits it to VCS, and pushes it to the remote repository.
-##  The new version should ideally be a valid semver string or a valid bump rule:
-##  "patch", "minor", "major", "prepatch", "preminor", "premajor", "prerelease".
+##  *ATOMICALLY*:
+##  1.) Bump the version of the project
+##  2.) Write the new version back to `pyproject.toml` (assuming a valid bump rule is provided)
+##  3.) Commit the version bump to VCS
+##  4.) Push the commit to the remote repository
+##  (e.g.,
+##  `bump-commit-and-push-project-version-number-patch`,
+##  `bump-commit-and-push-project-version-number-minor`,
+##  etc.)
 bump-commit-and-push-project-version-number-%: VERSION_NUM_FILE:=pyproject.toml
 bump-commit-and-push-project-version-number-%:
 	# shell out to ensure next line gets updated version number;
