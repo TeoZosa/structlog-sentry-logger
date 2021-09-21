@@ -78,7 +78,7 @@ coverage = {version = "^6.0b1", allow-prereleases = true}
 pytest-emoji = "^0.2.0"
 pytest-mock = "^3.6.1"
 pytest-sugar = "^0.9.4"
-pytest-xdist = "^2.3.0"
+pytest-xdist = "^2.4.0"
 mutmut = "^2.2.0"
 xdoctest = {extras = ["all"], version = "^0.15.8"}
 tox = "^3.24.4"
