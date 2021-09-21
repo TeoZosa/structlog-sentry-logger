@@ -152,7 +152,7 @@ tox-%: generate-requirements
 	$(MAKE) clean-requirements
 
 .PHONY: test
-## Test via tox in poetry env
+## Run pre-defined test suite via tox
 ifeq (${CI}, true)
 test: export TOX_PARALLEL_NO_SPINNER=1
 endif
