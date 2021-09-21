@@ -179,6 +179,7 @@ performance-benchmarks-%:
 	$(MAKE) tox-"py3{7,8,9}-benchmark-$*"
 
 .PHONY: test-%
+## Run Python version-specific tests (e.g., `make test-py39`)
 test-%:
 	$(MAKE) tox-$*,coverage
 
