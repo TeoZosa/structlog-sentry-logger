@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1631820621421,
+  "lastUpdate": 1632257972391,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -38,6 +38,40 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0037572668974295773",
             "extra": "mean: 56.50237057894723 msec\nrounds: 19"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "committer": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "id": "a208950b450fd4bf11b08fcb9cd8671f83ca42d5",
+          "message": ":construction_worker: Invoke `tox-%` target directly when benchmarking in CI",
+          "timestamp": "2021-09-21T20:55:29Z",
+          "tree_id": "1c37749a5fb85d6155bbe2f0ae768542dc655be8"
+        },
+        "date": 1632257971559,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 75.16785123819263,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0009020911851644113",
+            "extra": "mean: 13.303559746987979 msec\nrounds: 83"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 18.315015648271494,
+            "unit": "iter/sec",
+            "range": "stddev: 0.002279591592311001",
+            "extra": "mean: 54.600007950000105 msec\nrounds: 20"
           }
         ]
       }
