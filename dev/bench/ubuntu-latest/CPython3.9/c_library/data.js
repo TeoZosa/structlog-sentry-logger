@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1632232747714,
+  "lastUpdate": 1632233198130,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -782,6 +782,40 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.005092219961814578",
             "extra": "mean: 55.860142750000065 msec\nrounds: 20"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "aa7ee9e570c6ee091f255b6cef84d89fdf0abd16",
+          "message": "Merge pull request #276 from TeoZosa/dependabot/pip/sentry-sdk-1.4.0",
+          "timestamp": "2021-09-21T13:31:33Z",
+          "tree_id": "e35f66b1b2ccb595a98807cb7552912be12648bf"
+        },
+        "date": 1632233197292,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 75.15115164878256,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0012335104370827582",
+            "extra": "mean: 13.3065159756098 msec\nrounds: 82"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 18.552851528655527,
+            "unit": "iter/sec",
+            "range": "stddev: 0.003213526789791858",
+            "extra": "mean: 53.90007021052613 msec\nrounds: 19"
           }
         ]
       }
