@@ -148,7 +148,7 @@ package:
 .PHONY: tox-%
 ## Run specified tox testenvs
 tox-%: generate-requirements
-	poetry run tox -e $* -- $(POSARGS)
+	poetry run tox -e "$*" -- $(POSARGS)
 	$(MAKE) clean-requirements
 
 .PHONY: test
