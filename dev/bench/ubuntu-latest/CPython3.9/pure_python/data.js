@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1632251128502,
+  "lastUpdate": 1632252436565,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -884,6 +884,40 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0009442908878675584",
             "extra": "mean: 54.968995157894675 msec\nrounds: 19"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "committer": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "id": "4366858835a6c743efd691fefb3df3e67c2f62fa",
+          "message": ":memo: Update help text: `bump-commit-and-push-project-version-number-%`\n\nNote: Cannot put the \"Note\" section underneath the help text as the help\n text must directly precede a valid target name (and not other comments)\n to be rendered properly.",
+          "timestamp": "2021-09-21T19:23:50Z",
+          "tree_id": "07399c0cf318486dadf19ecb850eca1864daf18f"
+        },
+        "date": 1632252435243,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 75.4345481672875,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0010848851600785013",
+            "extra": "mean: 13.256525349397586 msec\nrounds: 83"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 19.28338840604783,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0016760443077037232",
+            "extra": "mean: 51.85810600000003 msec\nrounds: 20"
           }
         ]
       }
