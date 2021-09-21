@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1632256881620,
+  "lastUpdate": 1632257259069,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -1020,6 +1020,40 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.00225475749527493",
             "extra": "mean: 68.30618750000006 msec\nrounds: 16"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "committer": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "id": "a4559f8431061ad1283159a520d28aaaa29cf6e8",
+          "message": ":construction_worker: Run CI mutation testing on MacOS runner\n\nSince MacOS is the default developer OS, ensure maximal `.mutmut`\ncache-consistency in order to shorten mutation testing job times in CI.",
+          "timestamp": "2021-09-21T20:37:13Z",
+          "tree_id": "60fb4d43a0269d983444569658694f1610d0734d"
+        },
+        "date": 1632257258014,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 72.80897965127271,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0008385381462133777",
+            "extra": "mean: 13.73456962025315 msec\nrounds: 79"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 14.031936687901636,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0021030536981119655",
+            "extra": "mean: 71.26600000000013 msec\nrounds: 15"
           }
         ]
       }
