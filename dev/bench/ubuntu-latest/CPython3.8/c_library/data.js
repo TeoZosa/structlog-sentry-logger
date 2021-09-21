@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1632181832752,
+  "lastUpdate": 1632182989032,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -578,6 +578,40 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0024115416485737387",
             "extra": "mean: 49.89988500000018 msec\nrounds: 21"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "committer": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "id": "849668599cf92a51dace04fab335022e2cfafad1",
+          "message": ":construction_worker: Differentiate `.tox` cache from `.venv` cache",
+          "timestamp": "2021-09-21T00:04:44Z",
+          "tree_id": "85b7467d729a77c429b9ad02f77e872a46f0cd4d"
+        },
+        "date": 1632182987893,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 75.39301933617737,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0005948014776880444",
+            "extra": "mean: 13.263827457831356 msec\nrounds: 83"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 18.870153529159612,
+            "unit": "iter/sec",
+            "range": "stddev: 0.002551317456640866",
+            "extra": "mean: 52.993739476190434 msec\nrounds: 21"
           }
         ]
       }
