@@ -70,8 +70,8 @@ jobs:
           # yamllint disable rule:line-length
           command: |
             TOX_COMPATIBLE_VERSION=$(echo ${{ matrix.python-version }} | tr -d '.')
-            TOX_ENVNAME="py${TOX_COMPATIBLE_VERSION}-benchmark-${{ matrix.library-type }}"
-            make "test-${TOX_ENVNAME}"
+            TOX_TESTENV="py${TOX_COMPATIBLE_VERSION}-benchmark-${{ matrix.library-type }}"
+            make "test-${TOX_TESTENV}"
 
             BENCHMARK_FILE=$(find .benchmarks -maxdepth 2 -type f -name "*.json" | tail -n 1)
             echo "::set-output name=benchmark_file_path::${BENCHMARK_FILE}"
