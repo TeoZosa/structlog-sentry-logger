@@ -9,7 +9,6 @@ on:  # yamllint disable-line rule:truthy
       # have access to repository secrets on which this workflow relies.
       # see: dependabot/dependabot-core/issues/3253
       - Dependabot Push Check
-      - Dependabot PR Check
     types:
       - completed
 
