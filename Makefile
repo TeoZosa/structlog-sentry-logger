@@ -103,6 +103,7 @@ clean-requirements:
 clean:
 	find . -type f -name "*.py[co]" -delete
 	find . -type d -name "__pycache__" -delete
+	# Clean up files in source directories that may have been generated from C extension compilation
 	find . -type f -name "*.so" -delete -maxdepth 2
 	find . -type f -name "*.pyd" -delete -maxdepth 2
 
