@@ -180,7 +180,7 @@ test-%:
 # If a test suite is sufficiently strong, this "mutated" code should caught by the suite,
 # thus causing tests to fail.
 .PHONY: test-mutations
-## Test against mutated code to validate test suite robustness
+## Run mutation testing to validate test suite robustness
 test-mutations:
 	$(MAKE) tox-mutmut
 
