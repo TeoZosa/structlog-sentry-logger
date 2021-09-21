@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1632183209096,
+  "lastUpdate": 1632184552362,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -578,6 +578,40 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0021092142428454762",
             "extra": "mean: 67.8125 msec\nrounds: 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "committer": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "id": "3919b79fbefdde2ff81ecf5ea9c3c6f60e81599b",
+          "message": ":fire: Remove redundant PR-triggered workflow trigger",
+          "timestamp": "2021-09-21T00:30:02Z",
+          "tree_id": "cbb01e6bafef410a4f20e5086374804001801735"
+        },
+        "date": 1632184549563,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 71.72413793103448,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000620670408046061",
+            "extra": "mean: 13.942307692307693 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 11.228070175438596,
+            "unit": "iter/sec",
+            "range": "stddev: 0.004034357652299392",
+            "extra": "mean: 89.0625 msec\nrounds: 10"
           }
         ]
       }
