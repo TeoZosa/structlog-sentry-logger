@@ -259,6 +259,7 @@ the [Sentry Integration](#sentry-integration) section):
 
 ```bash
 CI_ENVIRONMENT_SLUG=dev-local
+echo "CI_ENVIRONMENT_SLUG=${CI_ENVIRONMENT_SLUG}" >> .env
 ```
 
 In doing so, with our previous exception handling example we would get:
