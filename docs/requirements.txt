@@ -1,2 +1,2 @@
-poetry==1.1.9
+poetry==1.1.10
 types-orjson==3.6.0
