@@ -254,7 +254,8 @@ stream [like a proper 12 Factor App](https://12factor.net/logs).
 For local development, it often helps to prettify logging to stdout and save JSON logs
 to a `.logs` folder at the root of your project directory for later debugging. To enable
 this behavior, set the following environment variable
-(e.g. via [`python-dotenv`](https://github.com/theskumar/python-dotenv) as in
+(assuming you are populating environment variables via a `.env` file and
+[`python-dotenv`](https://github.com/theskumar/python-dotenv), as in
 the [Sentry Integration](#sentry-integration) section):
 
 ```bash
