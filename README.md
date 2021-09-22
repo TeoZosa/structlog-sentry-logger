@@ -23,14 +23,14 @@ Structlog-Sentry-Logger
 ------------------
 
 A multi-purpose, pre-configured,
-performance-optimized [`structlog`](https://www.structlog.org/en/stable/) logger with (
-optional) [Sentry](https://sentry.io/welcome/) integration
+performance-optimized [`structlog`](https://www.structlog.org/en/stable/) logger with
+(optional) [Sentry](https://sentry.io/welcome/) integration
 via [`structlog-sentry`](https://github.com/kiwicom/structlog-sentry).
 
 :sparkles: Features
 -------------------
 
-1. Makes logging as easy as using print statements, but prettier and less smelly!
+1. Makes logging as easy as using print statements, but prettier and easier to capture and filter!
 2. Highly opinionated! There are
    only [two (2) distinct configurations](#chart_with_downwards_trend-output-formatting--storage).
 3. Structured logs in JSON format means they are ready to be ingested by many of your
