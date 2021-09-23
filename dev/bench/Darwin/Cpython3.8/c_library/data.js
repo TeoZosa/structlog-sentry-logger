@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1632404738506,
+  "lastUpdate": 1632433052888,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -306,6 +306,40 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.005265358639257095",
             "extra": "mean: 70.99820000000025 msec\nrounds: 15"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "committer": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "id": "acb1ab34f25829565d1ee774a670a5ca76be55fb",
+          "message": ":memo: Fix erroneous tox `c_library` testenv description",
+          "timestamp": "2021-09-23T21:33:28Z",
+          "tree_id": "6b95a17c32e23290ac799793ec932c69bade4627"
+        },
+        "date": 1632433052104,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 76.80506116906736,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0005001426790253449",
+            "extra": "mean: 13.019975308642058 msec\nrounds: 81"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 14.571411085735296,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0012380912075021374",
+            "extra": "mean: 68.62753333333322 msec\nrounds: 15"
           }
         ]
       }
