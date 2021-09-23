@@ -35,6 +35,7 @@ via [`structlog-sentry`](https://github.com/kiwicom/structlog-sentry).
    only [two (2) distinct configurations](#chart_with_downwards_trend-output-formatting--storage).
 3. Structured logs in JSON format means they are ready to be ingested by many of your
    favorite log analysis tools!
+4. [Cloud Logging compatible](#cloud-cloud-logging-compatibility)!
 
 :confetti_ball: What You Get
 ----------------------------
@@ -97,6 +98,7 @@ Table of Contents
   * [:loud_sound: Pure `structlog` Logging (Without Sentry)](#loud_sound-pure-structlog-logging-without-sentry)
   * [:goal_net: Sentry Integration](#goal_net-sentry-integration)
     + [:outbox_tray: Log Custom Context Directly to Sentry](#outbox_tray-log-custom-context-directly-to-sentry)
+  * [:cloud: Cloud Logging Compatibility](#cloud-cloud-logging-compatibility)
 - [:chart_with_downwards_trend: Output: Formatting & Storage](#chart_with_downwards_trend-output-formatting--storage)
 - [:wrench: Development](#wrench-development)
   * [:building_construction: Package and Dependencies Installation](#building_construction-package-and-dependencies-installation)
@@ -246,6 +248,26 @@ RuntimeError: I threw an error on purpose for this example!
 Now throwing another that explicitly chains from that one!
 ```
 
+:cloud: Cloud Logging Compatibility
+-----------------------------------
+The logger will attempt to infer if an application is running in a cloud environment by
+inspecting for the presence of environment variables that may be automatically injected
+by cloud providers (namely, `KUBERNETES_SERVICE_HOST`, `GCP_PROJECT`,
+and `GOOGLE_CLOUD_PROJECT`).
+
+If any of these environment variables are detected, log levels will be duplicated to a
+reserved `severity` key in the emitted logs to enable parsing of the log level and
+the remaining log context (as `jsonPayload`) by [Cloud Logging](https://cloud.google.com/logging) (see: [Cloud Logging: Structured logging](https://cloud.google.com/logging/docs/structured-logging)).
+
+> :memo: **️Note**  
+> This behavior can also be manually enabled by adding the
+> `CLOUD_LOGGING_COMPATIBILITY_MODE_ON` variable to your environment.
+
+> :warning:️ **Warning**  
+> If a user manually specifies a value for the `severity` key, it will be overwritten!
+> Avoid using this key if possible to preempt any future issues.
+
+
 :chart_with_downwards_trend: Output: Formatting & Storage
 =========================================================
 The default behavior is to stream JSON logs directly to the standard output
@@ -353,7 +375,7 @@ files), run:
 make install-pre-commit-hooks
 ```
 
-> :warning:️ Warning  
+> :warning:️ **Warning**  
 > This will prevent commits if any single pre-commit hook fails
 > (unless it is allowed to fail)
 > or a file is modified by an auto-formatting job;
