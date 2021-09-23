@@ -214,6 +214,7 @@ disable = [
 [tool.pylint.similarities]
 # Ignore imports when computing similarities.
 ignore-imports = "yes"
+min-similarity-lines = 5
 
 [tool.pytest.ini_options]
 addopts = ["-rfsxX", "-l", "--tb=short", "--strict-markers", "-vv", "--emoji", "--xdoctest"]
