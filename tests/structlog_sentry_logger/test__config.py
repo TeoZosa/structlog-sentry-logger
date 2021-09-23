@@ -203,6 +203,136 @@ class TestBasicLogging:  # pylint: disable=too-few-public-methods
                 raise NotImplementedError("Captured log message not a supported type")
 
 
+class TestCloudLogging:  # pylint: disable=too-few-public-methods
+    cloud_logging_compatibility_mode_env_vars = [
+        "CLOUD_LOGGING_COMPATIBILITY_MODE_ON",
+        "KUBERNETES_SERVICE_HOST",
+        "GCP_PROJECT",
+        "GOOGLE_CLOUD_PROJECT",
+    ]
+
+    @staticmethod
+    @pytest.fixture(scope="function", autouse=True)
+    def delete_all_cloud_logging_compatibility_mode_env_vars_from_environment(
+        monkeypatch: MonkeyPatch,
+    ) -> None:
+        for env_var in TestCloudLogging.cloud_logging_compatibility_mode_env_vars:
+            monkeypatch.delenv(env_var, raising=False)
+
+    @staticmethod
+    @pytest.mark.parametrize(
+        "test_data",
+        [{k: v} for k, v in TestBasicLogging.test_data.items()],
+        ids=TestBasicLogging.test_data.keys(),
+    )
+    def test_cloud_logging_log_key_not_added_in_normal_logging(
+        caplog: LogCaptureFixture,
+        test_data: dict,
+    ) -> None:
+
+        # Initialize non-Cloud Logging-compatible logger and perform logging
+        logger = structlog_sentry_logger.get_logger()
+        logger.debug("Testing non-Cloud Logging-compatible logger", **test_data)
+
+        assert caplog.records
+        # Parse logs and validate schema
+        for test_log in [record.msg for record in caplog.records]:
+            if isinstance(test_log, dict):  # structlog logger
+                assert "severity" not in test_log
+            else:
+                raise NotImplementedError("Captured log message not a supported type")
+
+    @staticmethod
+    @pytest.mark.parametrize(
+        "cloud_logging_compatibility_mode_env_var",
+        cloud_logging_compatibility_mode_env_vars,
+    )
+    @pytest.mark.parametrize(
+        "test_data",
+        [{k: v} for k, v in TestBasicLogging.test_data.items()],
+        ids=TestBasicLogging.test_data.keys(),
+    )
+    def test_cloud_logging_log_key_added(
+        caplog: LogCaptureFixture,
+        monkeypatch: MonkeyPatch,
+        test_data: dict,
+        cloud_logging_compatibility_mode_env_var: str,
+    ) -> None:
+        # Enable Cloud Logging compatibility mode
+        monkeypatch.setenv(cloud_logging_compatibility_mode_env_var, "ANY_VALUE")
+
+        # Initialize Cloud Logging-compatible logger and perform logging
+        logger = structlog_sentry_logger.get_logger()
+        logger.debug("Testing Cloud Logging-compatible logger", **test_data)
+
+        assert caplog.records
+        # Parse logs and validate schema
+        for test_log in [record.msg for record in caplog.records]:
+            if isinstance(test_log, dict):  # structlog logger
+                for k in test_data:
+                    assert test_log[k] == test_data[k]
+                assert "severity" in test_log
+                assert test_log["level"] == test_log["severity"]
+            else:
+                raise NotImplementedError("Captured log message not a supported type")
+
+    @staticmethod
+    @pytest.mark.usefixtures(
+        "patch_get_caller_name_from_frames_for_typeguard_compatibility"
+    )
+    @pytest.mark.parametrize(
+        "cloud_logging_compatibility_mode_env_var",
+        cloud_logging_compatibility_mode_env_vars,
+    )
+    @pytest.mark.parametrize(
+        "test_data",
+        [{k: v} for k, v in TestBasicLogging.test_data.items()],
+        ids=TestBasicLogging.test_data.keys(),
+    )
+    def test_cloud_logging_log_key_overwritten(
+        caplog: LogCaptureFixture,
+        monkeypatch: MonkeyPatch,
+        test_data: dict,
+        cloud_logging_compatibility_mode_env_var: str,
+    ) -> None:
+        # Enable Cloud Logging compatibility mode
+        monkeypatch.setenv(cloud_logging_compatibility_mode_env_var, "ANY_VALUE")
+
+        # Initialize Cloud Logging-compatible logger and perform logging
+        logger = structlog_sentry_logger.get_logger()
+        orig_cloud_logging_log_key_value = "DUMMY_VALUE_FOR_TESTING"
+        logger.debug(
+            "Testing Cloud Logging-compatible logger",
+            **test_data,
+            severity=orig_cloud_logging_log_key_value
+        )
+
+        # Parse logs
+        library_log, test_log = (record.msg for record in caplog.records)
+        if not (isinstance(test_log, dict) and isinstance(library_log, dict)):
+            raise NotImplementedError("Captured log messages not a supported type")
+
+        cloud_logging_log_level_key, python_log_level_key = "severity", "level"
+        # Validate Cloud Logging key correctly overwritten
+        assert (
+            test_log[python_log_level_key]
+            == test_log[cloud_logging_log_level_key]
+            != orig_cloud_logging_log_key_value
+        )
+
+        # Validate debug log schema
+        assert (
+            library_log[python_log_level_key]
+            == "warning"
+            != orig_cloud_logging_log_key_value
+        )
+        assert library_log["src_key"] == python_log_level_key
+        assert library_log["dest_key"] == cloud_logging_log_level_key
+        assert library_log["old_value"] == orig_cloud_logging_log_key_value
+        assert library_log["new_value"] == "debug"
+        assert library_log["logger_name"] == logger.name
+
+
 class TestLoggerSchema:
     @staticmethod
     @pytest.mark.usefixtures(
