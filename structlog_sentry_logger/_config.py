@@ -239,31 +239,6 @@ def add_severity_field_from_level_if_in_cloud_environment(
     `level` to the `severity` field in the logger's event dictionary.
     """
 
-    def is_cloud_logging_compatibility_mode_requested() -> bool:
-        return "CLOUD_LOGGING_COMPATIBILITY_MODE_ON" in os.environ
-
-    def is_probably_in_cloud_environment() -> bool:
-        """Returns True if it is *likely* (but not guaranteed) logging is occurring in the context of a Cloud Logging environment"""
-        for env_var in [
-            # GKE
-            # There are no GKE-specific environment variable that definitively imply we are
-            # running in GKE... Falling back to detecting Kubernetes-injected environment
-            # variables since those are the only ones present in GKE pods that *could* imply
-            # we are running in GKE.
-            # Kubernetes
-            # see: https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/#environment-variables
-            "KUBERNETES_SERVICE_HOST",
-            # Cloud Function
-            # see: https://cloud.google.com/functions/docs/configuring/env-var#runtime_environment_variables_set_automatically
-            "GCP_PROJECT",
-            # GAE
-            # see: https://cloud.google.com/functions/docs/configuring/env-var#runtime_environment_variables_set_automatically
-            "GOOGLE_CLOUD_PROJECT",
-        ]:
-            if env_var in os.environ:
-                return True
-        return False
-
     if (
         is_cloud_logging_compatibility_mode_requested()
         or is_probably_in_cloud_environment()
@@ -284,6 +259,33 @@ def add_severity_field_from_level_if_in_cloud_environment(
             )
         event_dict[cloud_logging_log_level_key] = event_dict[python_log_level_key]
     return event_dict
+
+
+def is_cloud_logging_compatibility_mode_requested() -> bool:
+    return "CLOUD_LOGGING_COMPATIBILITY_MODE_ON" in os.environ
+
+
+def is_probably_in_cloud_environment() -> bool:
+    """Returns True if it is *likely* (but not guaranteed) logging is occurring in the context of a Cloud Logging environment"""
+    for env_var in [
+        # GKE
+        # There are no GKE-specific environment variable that definitively imply we are
+        # running in GKE... Falling back to detecting Kubernetes-injected environment
+        # variables since those are the only ones present in GKE pods that *could* imply
+        # we are running in GKE.
+        # Kubernetes
+        # see: https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/#environment-variables
+        "KUBERNETES_SERVICE_HOST",
+        # Cloud Function
+        # see: https://cloud.google.com/functions/docs/configuring/env-var#runtime_environment_variables_set_automatically
+        "GCP_PROJECT",
+        # GAE
+        # see: https://cloud.google.com/functions/docs/configuring/env-var#runtime_environment_variables_set_automatically
+        "GOOGLE_CLOUD_PROJECT",
+    ]:
+        if env_var in os.environ:
+            return True
+    return False
 
 
 class SentryBreadcrumbJsonProcessor(structlog_sentry.SentryJsonProcessor):
