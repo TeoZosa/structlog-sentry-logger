@@ -261,7 +261,8 @@ the remaining log context (as `jsonPayload`) by [Cloud Logging](https://cloud.go
 
 > :memo: **️Note**  
 > This behavior can also be manually enabled by adding the
-> `CLOUD_LOGGING_COMPATIBILITY_MODE_ON` variable to your environment.
+> `STRUCTLOG_SENTRY_LOGGER_CLOUD_LOGGING_COMPATIBILITY_MODE_ON`
+> variable to your environment.
 
 > :warning:️ **Warning**  
 > If a user manually specifies a value for the `severity` key, it will be overwritten!

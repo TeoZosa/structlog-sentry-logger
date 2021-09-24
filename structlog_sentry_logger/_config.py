@@ -262,7 +262,7 @@ def add_severity_field_from_level_if_in_cloud_environment(
 
 
 def is_cloud_logging_compatibility_mode_requested() -> bool:
-    return "CLOUD_LOGGING_COMPATIBILITY_MODE_ON" in os.environ
+    return "STRUCTLOG_SENTRY_LOGGER_CLOUD_LOGGING_COMPATIBILITY_MODE_ON" in os.environ
 
 
 def is_probably_in_cloud_environment() -> bool:

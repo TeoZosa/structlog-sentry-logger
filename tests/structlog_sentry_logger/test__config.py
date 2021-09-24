@@ -205,7 +205,7 @@ class TestBasicLogging:  # pylint: disable=too-few-public-methods
 
 class TestCloudLogging:  # pylint: disable=too-few-public-methods
     cloud_logging_compatibility_mode_env_vars = [
-        "CLOUD_LOGGING_COMPATIBILITY_MODE_ON",
+        "STRUCTLOG_SENTRY_LOGGER_CLOUD_LOGGING_COMPATIBILITY_MODE_ON",
         "KUBERNETES_SERVICE_HOST",
         "GCP_PROJECT",
         "GOOGLE_CLOUD_PROJECT",
