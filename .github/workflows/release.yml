@@ -239,7 +239,11 @@ jobs:
         run: |
           echo "Default output (JSON)"
           python ./docs_src/pure_structlog_logging_without_sentry.py
-          echo "dev-local output (formatted)"
+          echo "Cloud Logging compatibility mode (JSON)"
+          export CLOUD_LOGGING_COMPATIBILITY_MODE_ON=
+          python ./docs_src/pure_structlog_logging_without_sentry.py
+          echo "dev-local output (formatted) \
+            (with Cloud Logging compatibility mode still activated)"
           export CI_ENVIRONMENT_SLUG=dev-local
           python ./docs_src/pure_structlog_logging_without_sentry.py
         shell: bash
