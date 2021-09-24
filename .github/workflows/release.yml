@@ -244,7 +244,8 @@ jobs:
           python ./docs_src/pure_structlog_logging_without_sentry.py
           echo "dev-local output (formatted) \
             (with Cloud Logging compatibility mode still activated)"
-          export CI_ENVIRONMENT_SLUG=dev-local
+          export \
+            STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON=dev-local
           python ./docs_src/pure_structlog_logging_without_sentry.py
         shell: bash
 
