@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1632510260395,
+  "lastUpdate": 1632515173740,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -544,6 +544,40 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0008196387880384037",
             "extra": "mean: 68.91719999999998 msec\nrounds: 15"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "5cb1945063e7cbb980063c7ac36de4034f2aafaa",
+          "message": "Merge pull request #289 from TeoZosa/namespace-local-dev-formatting-option-flag-user-and-simplify-workflow\n\n✨ Rename Local Development Formatting Option Flag and Simplify Workflow",
+          "timestamp": "2021-09-24T20:21:39Z",
+          "tree_id": "2f92d8bab16aebf909dd690e70ce414297a713a1"
+        },
+        "date": 1632515172418,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 70.35028044179973,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0008087356986557741",
+            "extra": "mean: 14.214584415584424 msec\nrounds: 77"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 14.286938880475534,
+            "unit": "iter/sec",
+            "range": "stddev: 0.001118359896072303",
+            "extra": "mean: 69.99399999999969 msec\nrounds: 15"
           }
         ]
       }
