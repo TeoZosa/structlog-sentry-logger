@@ -202,6 +202,7 @@ def set_structlog_config(timestamper: structlog.processors.TimeStamper) -> None:
         timestamper,
         structlog.processors.StackInfoRenderer(),
         structlog.processors.format_exc_info,
+        add_severity_field_from_level_if_in_cloud_environment,
     ]
     stdlib_log_compatibility_processors = [
         structlog.stdlib.add_log_level,
@@ -225,6 +226,66 @@ def set_structlog_config(timestamper: structlog.processors.TimeStamper) -> None:
         wrapper_class=structlog.stdlib.BoundLogger,
         cache_logger_on_first_use=True,
     )
+
+
+def add_severity_field_from_level_if_in_cloud_environment(
+    logger: Any,  # pylint: disable=unused-argument
+    method: str,  # pylint: disable=unused-argument
+    event_dict: structlog.types.EventDict,
+) -> structlog.types.EventDict:
+    """A custom processor for structlog for Cloud Logging compatibility
+
+    Since Cloud Logging infers log levels from the `severity` key, simply duplicates
+    `level` to the `severity` field in the logger's event dictionary.
+    """
+
+    if (
+        is_cloud_logging_compatibility_mode_requested()
+        or is_probably_in_cloud_environment()
+    ):
+        cloud_logging_log_level_key, python_log_level_key = "severity", "level"
+        if cloud_logging_log_level_key in event_dict:
+            # Dogfood by instantiating a local logger with own library.
+            # Note: NO infinite loop since the below log message does *NOT* use
+            # `severity` as a key in the emitted event.
+            local_logger = get_logger()
+            local_logger.warning(
+                "Existing log value being overwritten",
+                src_key=python_log_level_key,
+                dest_key=cloud_logging_log_level_key,
+                old_value=event_dict[cloud_logging_log_level_key],
+                new_value=event_dict[python_log_level_key],
+                logger_name=logger.name,
+            )
+        event_dict[cloud_logging_log_level_key] = event_dict[python_log_level_key]
+    return event_dict
+
+
+def is_cloud_logging_compatibility_mode_requested() -> bool:
+    return "STRUCTLOG_SENTRY_LOGGER_CLOUD_LOGGING_COMPATIBILITY_MODE_ON" in os.environ
+
+
+def is_probably_in_cloud_environment() -> bool:
+    """Returns True if it is *likely* (but not guaranteed) logging is occurring in the context of a Cloud Logging environment"""
+    for env_var in [
+        # GKE
+        # There are no GKE-specific environment variable that definitively imply we are
+        # running in GKE... Falling back to detecting Kubernetes-injected environment
+        # variables since those are the only ones present in GKE pods that *could* imply
+        # we are running in GKE.
+        # Kubernetes
+        # see: https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/#environment-variables
+        "KUBERNETES_SERVICE_HOST",
+        # Cloud Function
+        # see: https://cloud.google.com/functions/docs/configuring/env-var#runtime_environment_variables_set_automatically
+        "GCP_PROJECT",
+        # GAE
+        # see: https://cloud.google.com/functions/docs/configuring/env-var#runtime_environment_variables_set_automatically
+        "GOOGLE_CLOUD_PROJECT",
+    ]:
+        if env_var in os.environ:
+            return True
+    return False
 
 
 class SentryBreadcrumbJsonProcessor(structlog_sentry.SentryJsonProcessor):
