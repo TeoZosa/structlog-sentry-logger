@@ -64,6 +64,6 @@ def reload_module_non_dev_local_env(
 def reload_module_dev_local_env(monkeypatch: MonkeyPatch, module: ModuleType) -> None:
     structlog.reset_defaults()
     monkeypatch.setenv(
-        "STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON", "dev-local"
+        "STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON", "ANY_VALUE"
     )
     importlib.reload(module)
