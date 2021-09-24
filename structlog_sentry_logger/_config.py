@@ -176,7 +176,7 @@ def get_handlers(module_name: str) -> dict:
             "stream": "ext://sys.stdout",
         }
     }
-    if os.environ.get("CI_ENVIRONMENT_SLUG", "").lower() == "dev-local":
+    if "STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON" in os.environ:
         # Prettify stdout/stderr streams
         base_handlers[default_key]["formatter"] = "colored"
         # Add filename handler

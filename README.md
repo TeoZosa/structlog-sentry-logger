@@ -282,8 +282,7 @@ this behavior, set the following environment variable
 the [Sentry Integration](#sentry-integration) section):
 
 ```bash
-CI_ENVIRONMENT_SLUG=dev-local
-echo "CI_ENVIRONMENT_SLUG=${CI_ENVIRONMENT_SLUG}" >> .env
+echo "STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON=" >> .env
 ```
 
 In doing so, with our previous exception handling example we would get:
