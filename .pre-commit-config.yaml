@@ -9,7 +9,7 @@ repos:
   # For IDE-integration outside of the pre-commit hook,
   # see: https://black.readthedocs.io/en/stable/editor_integration.html
   - repo: https://github.com/ambv/black
-    rev: 21.8b0
+    rev: 21.9b0
     hooks:
       - id: black
 
@@ -39,7 +39,7 @@ repos:
 
   # Docstring coverage tool
   - repo: https://github.com/econchick/interrogate
-    rev: 1.4.0
+    rev: 1.5.0
     hooks:
       - id: interrogate
         # adjust `fail-under` value as quality standards permit
@@ -82,7 +82,7 @@ repos:
       - id: script-must-not-have-extension
 
   - repo: https://github.com/asottile/pyupgrade
-    rev: v2.25.0
+    rev: v2.27.0
     hooks:
       - id: pyupgrade
         args: [--py38-plus]
