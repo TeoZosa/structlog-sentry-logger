@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1632495348216,
+  "lastUpdate": 1632508162340,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -510,6 +510,40 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0012325166214790886",
             "extra": "mean: 75.3125 msec\nrounds: 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "59bec1743c18c5ddcd86b68ff9615b19467ee85a",
+          "message": "Merge pull request #285 from TeoZosa/add-cloud-logging-compatibility-support\n\n✨ Add Cloud Logging Compatibility Support",
+          "timestamp": "2021-09-24T18:25:20Z",
+          "tree_id": "542f07a9b21af752a2a87f10c518e7496caf8d9d"
+        },
+        "date": 1632508156618,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 64,
+            "unit": "iter/sec",
+            "range": "stddev: 0.001063146589749643",
+            "extra": "mean: 15.625 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 10.40650406504065,
+            "unit": "iter/sec",
+            "range": "stddev: 0.005273035607113694",
+            "extra": "mean: 96.09375 msec\nrounds: 10"
           }
         ]
       }
