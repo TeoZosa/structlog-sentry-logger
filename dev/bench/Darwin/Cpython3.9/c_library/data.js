@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1632516874543,
+  "lastUpdate": 1632750822025,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -680,6 +680,40 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0018679248939727747",
             "extra": "mean: 70.10886666666666 msec\nrounds: 15"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "c62c74f1bc14c5022f51b22420dfe4184330cabc",
+          "message": "Merge pull request #290 from TeoZosa/dependabot/pip/sphinxcontrib-confluencebuilder-1.6.0",
+          "timestamp": "2021-09-27T13:15:16Z",
+          "tree_id": "ea8da77f2cee6148e5d12aa828bc3f1f3e32404f"
+        },
+        "date": 1632750820886,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 69.25858213451176,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0006794932623708173",
+            "extra": "mean: 14.438643835616396 msec\nrounds: 73"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 12.755555272098764,
+            "unit": "iter/sec",
+            "range": "stddev: 0.005307799242313694",
+            "extra": "mean: 78.39721428571434 msec\nrounds: 14"
           }
         ]
       }
