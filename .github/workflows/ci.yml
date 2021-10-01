@@ -46,7 +46,6 @@ jobs:
         with:
           path: |
             .tox
-          # yamllint disable-line rule:line-length
           key: tox-${{ github.workflow }}-${{ github.job }}-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Install Go for pre-commit hook (shfmt)
@@ -106,7 +105,6 @@ jobs:
         with:
           path: |
             .tox
-          # yamllint disable-line rule:line-length
           key: tox-${{ github.workflow }}-${{ github.job }}-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Run dependency security vulnerability analysis
@@ -166,11 +164,9 @@ jobs:
           poetry config --list
 
       - name: Install Tox & Tox GH Actions Plugin
-        # yamllint disable rule:line-length
         run: |
           pip install --constraint=.github/workflows/constraints.txt tox tox-gh-actions
           tox --version
-        # yamllint enable rule:line-length
 
       - name: Load cached tox testenv(s) (if they exist)
         id: cached-poetry-dependencies
@@ -178,7 +174,6 @@ jobs:
         with:
           path: |
             .tox
-          # yamllint disable-line rule:line-length
           key: tox-${{ github.workflow }}-${{ github.job }}-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Run tox targets for ${{ matrix.python-version }}
@@ -233,7 +228,6 @@ jobs:
         with:
           path: |
             .venv
-          # yamllint disable-line rule:line-length
           key: venv-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Install dependencies
@@ -291,7 +285,6 @@ jobs:
         with:
           path: |
             .tox
-          # yamllint disable-line rule:line-length
           key: tox-${{ github.workflow }}-${{ github.job }}-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Run mutation testing

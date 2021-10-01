@@ -19,7 +19,6 @@ jobs:
         python-version: ["3.7", "3.8", "3.9"]
         library-type: ["pure_python", "c_library"]
 
-    # yamllint disable-line rule:line-length
     name: Performance testing for Python ${{ matrix.python-version }} (${{ matrix.os }}) [${{ matrix.library-type }}]
     runs-on: ${{ matrix.os }}
 
@@ -57,7 +56,6 @@ jobs:
         with:
           path: |
             .tox
-          # yamllint disable-line rule:line-length
           key: tox-${{ github.workflow }}-${{ github.job }}-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Run benchmarks for ${{ matrix.python-version }}
@@ -67,7 +65,6 @@ jobs:
           timeout_minutes: 10
           max_attempts: 3
           shell: bash
-          # yamllint disable rule:line-length
           command: |
             TOX_COMPATIBLE_VERSION=$(echo ${{ matrix.python-version }} | tr -d '.')
             TOX_TESTENV="py${TOX_COMPATIBLE_VERSION}-benchmark-${{ matrix.library-type }}"
@@ -79,7 +76,6 @@ jobs:
             ENV_DIR_NAME=$(basename "${BENCHMARK_FILE%/*}" | tr '-' '/')
             NAMESPACED_TARGET_OUTPUT_DIR="${ENV_DIR_NAME}/${{ matrix.library-type }}"
             echo "::set-output name=target_output_dir::${NAMESPACED_TARGET_OUTPUT_DIR}"
-          # yamllint enable rule:line-length
 
       - name: Store the environment-specific benchmarks
         uses: actions/upload-artifact@v2.2.4
@@ -91,7 +87,6 @@ jobs:
         run: |
           git checkout poetry.lock || echo "Skipping step"
 
-      # yamllint disable rule:line-length
       - name: Publish benchmarks to GH pages
         uses: TeoZosa/github-action-benchmark@v1.8.2
         if: github.event.workflow_run.head_branch == 'master'
@@ -104,7 +99,6 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           # Push and deploy GitHub pages branch automatically
           auto-push: true
-      # yamllint enable rule:line-length
 
   # Plot aggregate benchmarks table ----------------------
   plot-benchmarks-table:
@@ -145,7 +139,6 @@ jobs:
         run: |
           find .benchmarks
 
-      # yamllint disable rule:line-length
       - name: Plot aggregate results tables (by Python interpreter)
         run: |
           # Disable '\n' field splitting for proper downstream command substitutions
@@ -203,4 +196,3 @@ jobs:
 
           echo "**Pure Python vs. C library (Aggregate)**"
           pytest-benchmark compare pure_python c_library ${{ env.BENCHMARK_OPTS }}
-     # yamllint enable rule:line-length
