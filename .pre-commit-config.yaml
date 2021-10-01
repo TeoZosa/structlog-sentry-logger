@@ -31,7 +31,7 @@ repos:
       - id: detect-secrets
         exclude: ^(poetry\.lock|\.cruft\.json)$
 
-  - repo: https://github.com/life4/flakehell
+  - repo: https://github.com/flakehell/flakehell
     rev: v.0.8.0
     hooks:
       - id: flakehell
