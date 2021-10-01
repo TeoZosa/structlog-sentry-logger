@@ -102,6 +102,7 @@ repos:
     rev: v1.26.3
     hooks:
       - id: yamllint
+        args: ['-d {extends: default, rules: {line-length: {max: 120, level: warning}}}']
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.0.1
