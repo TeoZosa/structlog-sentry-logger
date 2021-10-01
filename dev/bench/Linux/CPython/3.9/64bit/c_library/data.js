@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1633008010316,
+  "lastUpdate": 1633059833252,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -816,6 +816,40 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.00006198300498439772",
             "extra": "mean: 42.000190291666684 msec\nrounds: 24"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "committer": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "id": "a5ec72f567f51305b8136c6f0dffe7ae454762cd",
+          "message": ":coffin: Remove redundant SKIP flag\n\nExit code ignored in `pre-commit` config.",
+          "timestamp": "2021-10-01T03:41:06Z",
+          "tree_id": "80e658be0e3340acb740c077c9d1b7fc265e636b"
+        },
+        "date": 1633059831876,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 76.82912446189921,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0009983469095466797",
+            "extra": "mean: 13.015897382716055 msec\nrounds: 81"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 18.275396185003753,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0030935804443173336",
+            "extra": "mean: 54.71837599999995 msec\nrounds: 21"
           }
         ]
       }
