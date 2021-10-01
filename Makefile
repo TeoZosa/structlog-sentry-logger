@@ -168,6 +168,11 @@ test: generate-requirements
 	poetry run tox --parallel
 	$(MAKE) clean-requirements
 
+.PHONY: test-%
+## Run Python version-specific tests (e.g., `make test-py39`)
+test-%:
+	$(MAKE) tox-$*,coverage
+
 .PHONY: performance-benchmarks
 ## Run performance benchmark tests
 performance-benchmarks:
@@ -177,11 +182,6 @@ performance-benchmarks:
 # Run library-specific (viz. Python or C) performance benchmark tests
 performance-benchmarks-%:
 	$(MAKE) tox-"py3{7,8,9}-benchmark-$*"
-
-.PHONY: test-%
-## Run Python version-specific tests (e.g., `make test-py39`)
-test-%:
-	$(MAKE) tox-$*,coverage
 
 # Mutation testing modifies the code in small ways that should produce incorrect semantics
 # If a test suite is sufficiently strong, this "mutated" code should caught by the suite,
