@@ -226,5 +226,5 @@ testpaths = ["tests",]
 norecursedirs = [".*", "*.egg", "build", "dist",]
 
 [build-system]
-requires = ["poetry-core>=1.0.0", "mypy", "setuptools"]
+requires = ["poetry-core>=1.0.0", "mypy", "setuptools", "types-orjson"]
 build-backend = "poetry.core.masonry.api"
