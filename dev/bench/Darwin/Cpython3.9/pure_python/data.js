@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1633060250913,
+  "lastUpdate": 1633203939078,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -816,6 +816,40 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0018207969845894692",
             "extra": "mean: 84.36124999999994 msec\nrounds: 12"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "committer": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "id": "d24810ea303a3d051ed08e88d725061bc976ceed",
+          "message": ":pushpin: Add version specifiers to build dependencies",
+          "timestamp": "2021-10-02T19:35:50Z",
+          "tree_id": "171fb77ea956ed50022c0f9bfa9ed164bb35a660"
+        },
+        "date": 1633203931451,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 64.83040546016075,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000820662190637818",
+            "extra": "mean: 15.424861111111126 msec\nrounds: 72"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 10.83517531313659,
+            "unit": "iter/sec",
+            "range": "stddev: 0.010177155914104973",
+            "extra": "mean: 92.2919999999998 msec\nrounds: 13"
           }
         ]
       }
