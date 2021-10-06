@@ -80,7 +80,7 @@ pytest-mock = "^3.6.1"
 pytest-sugar = "^0.9.4"
 pytest-xdist = "^2.4.0"
 mutmut = "^2.2.0"
-xdoctest = {extras = ["all"], version = "^0.15.9"}
+xdoctest = {extras = ["all"], version = "^0.15.10"}
 tox = "^3.24.4"
 tox-wheel = "^0.6.0"
 
