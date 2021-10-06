@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1633529380514,
+  "lastUpdate": 1633532050525,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -986,6 +986,40 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0020456462174502396",
             "extra": "mean: 87.334583333333 msec\nrounds: 12"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "4f69af02ecbbfbfae0e136f83ad479b6b386e46c",
+          "message": "Merge pull request #300 from TeoZosa/dependabot/pip/xdoctest-0.15.10",
+          "timestamp": "2021-10-06T13:44:55Z",
+          "tree_id": "8b30ac83a96e77c23bc0dc3658e54100fd6a90fb"
+        },
+        "date": 1633532049322,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 66.55460310522163,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0011006195274171511",
+            "extra": "mean: 15.025256756756823 msec\nrounds: 74"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 12.041876087242448,
+            "unit": "iter/sec",
+            "range": "stddev: 0.003116627707833006",
+            "extra": "mean: 83.04353846153859 msec\nrounds: 13"
           }
         ]
       }
