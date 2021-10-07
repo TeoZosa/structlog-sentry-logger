@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1633529814292,
+  "lastUpdate": 1633632257662,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -68,6 +68,40 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.001252644871523877",
             "extra": "mean: 55.1893277894736 msec\nrounds: 19"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "764d015c2fbf5cee6de562a0ca91be3bc38f1fc6",
+          "message": "Merge pull request #301 from TeoZosa/dependabot/pip/coverage-6.0.1\n\n⬆️ Bump coverage from 6.0b1 to 6.0.1",
+          "timestamp": "2021-10-07T18:42:08Z",
+          "tree_id": "7a05a3eb5596f02f3c0e1725d43be0ca44e05943"
+        },
+        "date": 1633632256592,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 91.92686919219906,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00018088084420788325",
+            "extra": "mean: 10.878212309278345 msec\nrounds: 97"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 19.597998025305763,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0006531182092657983",
+            "extra": "mean: 51.02561999999988 msec\nrounds: 21"
           }
         ]
       }
