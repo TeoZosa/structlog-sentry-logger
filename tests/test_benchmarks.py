@@ -1,5 +1,6 @@
-from typing import Any
+from typing import Any, Generator
 
+import pytest
 from pytest_benchmark.fixture import BenchmarkFixture
 
 import structlog_sentry_logger
@@ -31,13 +32,20 @@ def test_logging_orjson_serializer(benchmark: BenchmarkFixture) -> None:
     _basic_logging_helper_method(benchmark)
 
 
+@pytest.mark.usefixtures("temporarily_set_stlib_json_as_default_serializer")
 def test_logging_stdlib_json_serializer(benchmark: BenchmarkFixture) -> None:
+    _basic_logging_helper_method(benchmark)
+
+
+@pytest.fixture(scope="function")
+def temporarily_set_stlib_json_as_default_serializer() -> Generator:
     # Setup
     structlog_sentry_logger._config._toggle_json_library(  # pylint: disable=protected-access
         use_orjson=False
     )
 
-    _basic_logging_helper_method(benchmark)
+    # Pass control back to calling function
+    yield
 
     # Teardown
     structlog_sentry_logger._config._toggle_json_library(  # pylint: disable=protected-access
