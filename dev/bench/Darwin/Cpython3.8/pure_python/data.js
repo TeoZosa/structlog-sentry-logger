@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1633632504329,
+  "lastUpdate": 1633814538478,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -1054,6 +1054,40 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.002232064696126201",
             "extra": "mean: 82.11484615384634 msec\nrounds: 13"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "committer": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "id": "e2b620812dcfdbcf5ff0a31141998660e8ae54e5",
+          "message": ":green_heart: Allow spurious interrogate failures\n\nThis hook works fine locally, but recent runs throw spurious error.\n\nExample error log:\n```\n\ninterrogate..........................................................................Failed\n- hook id: interrogate\n- duration: 0.24s\n- exit code: 2\n\nUsage: interrogate [OPTIONS] [PATHS]...\n\nError: Invalid value for '[PATHS]...': Path 'tests/structlog_sentry_logger/child_module_1.py' does not exist.\n```",
+          "timestamp": "2021-10-09T21:08:10Z",
+          "tree_id": "44c0682dacb9aed51a382f8e2099e69f28999f8d"
+        },
+        "date": 1633814536249,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 59.33687176012067,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0010992811330036228",
+            "extra": "mean: 16.852927536231924 msec\nrounds: 69"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 11.028692061455537,
+            "unit": "iter/sec",
+            "range": "stddev: 0.004124842133802004",
+            "extra": "mean: 90.67258333333344 msec\nrounds: 12"
           }
         ]
       }
