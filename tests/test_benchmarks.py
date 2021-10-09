@@ -44,15 +44,13 @@ def lots_of_logging(logger: Any, test_cases: dict) -> None:
 
 @pytest.fixture(scope="function")
 def temporarily_set_stlib_json_as_default_serializer() -> Generator:
+    # pylint: disable=protected-access
     # Setup
-    structlog_sentry_logger._config._toggle_json_library(  # pylint: disable=protected-access
-        use_orjson=False
-    )
+    structlog_sentry_logger._config._toggle_json_library(use_orjson=False)
 
     # Pass control back to calling function
     yield
 
     # Teardown
-    structlog_sentry_logger._config._toggle_json_library(  # pylint: disable=protected-access
-        use_orjson=True
-    )
+    structlog_sentry_logger._config._toggle_json_library(use_orjson=True)
+    # pylint: enable=protected-access
