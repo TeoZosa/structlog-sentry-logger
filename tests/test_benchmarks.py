@@ -37,3 +37,14 @@ def test_logging_stdlib_json_serializer(benchmark: BenchmarkFixture) -> None:
         logger=logger,
         test_cases=test__config.TestBasicLogging.test_cases,
     )
+
+
+def test_logging_orjson_serializer_non_str_keys(benchmark: BenchmarkFixture) -> None:
+    logger = structlog_sentry_logger.get_logger()
+    benchmark(
+        lots_of_logging,
+        logger=logger,
+        test_cases={
+            "dummy kwarg for dict unpacking in log function": test__config.TestBasicLoggingNonStringKeys.test_cases
+        },
+    )
