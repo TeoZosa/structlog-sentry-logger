@@ -1,6 +1,7 @@
+import datetime
+import enum
 import inspect
 import uuid
-from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, MutableMapping, Union
 
@@ -65,8 +66,8 @@ def test_pytest_caplog_and_structlog_patching_equivalence(
         return captured_logs
 
     def validate_timestamps_approx_equal(timestamp1: str, timestamp2: str) -> None:
-        def convert_time(timestamp: str) -> datetime:
-            return datetime.strptime(
+        def convert_time(timestamp: str) -> datetime.datetime:
+            return datetime.datetime.strptime(
                 timestamp,
                 structlog_sentry_logger._config.DATETIME_FORMAT,  # pylint: disable=protected-access
             )
@@ -199,6 +200,53 @@ class TestBasicLogging:  # pylint: disable=too-few-public-methods
             if isinstance(log, dict):  # structlog logger
                 for k in test_data:
                     assert log[k] == test_data[k]
+            else:
+                raise NotImplementedError("Captured log message not a supported type")
+
+
+class TestBasicLoggingNonStringKeys:  # pylint: disable=too-few-public-methods
+    """Non-str orjson-serializable keys"""
+
+    class DummyEnum(enum.Enum):
+        DUMMY_ENUM_KEY = "DUMMY_ENUM_VALUE"
+
+    test_cases = {
+        143: "integer key",
+        3.14: "float key",
+        True: "boolean key",
+        None: "None key",
+        datetime.datetime(1985, 1, 1, 0, 0, 0): "datetime.datetime key",
+        datetime.date(1985, 1, 1): "datetime.date key",
+        datetime.time(0, 0, 0): "datetime.time key",
+        DummyEnum.DUMMY_ENUM_KEY: repr(DummyEnum.DUMMY_ENUM_KEY),
+        uuid.UUID("7202d115-7ff3-4c81-a7c1-2a1f067b1ece"): "uuid.UUID key",
+    }
+
+    test_data: Dict[Any, Union[str, dict]] = {
+        **test_cases,
+        "all test cases simultaneously": test_cases,
+    }
+
+    @staticmethod
+    @pytest.mark.parametrize(
+        "test_data",
+        [{k: v} for k, v in test_data.items()],
+        ids=(str(k) for k in test_data.keys()),
+    )
+    def test(caplog: LogCaptureFixture, test_data: dict) -> None:
+        if "all test cases simultaneously" in test_data:
+            test_data = test_data["all test cases simultaneously"]
+
+        logger = structlog_sentry_logger.get_logger()
+        # nest non-str dict under a `test_data` kwarg; orjson can serialize non-str
+        # keys, but these are not valid python kwarg keys
+        logger.debug("Testing main Logger", test_data=test_data)
+        assert caplog.records
+        for record in caplog.records:
+            log = record.msg
+            if isinstance(log, dict):  # structlog logger
+                for k in test_data:
+                    assert log["test_data"][k] == test_data[k]
             else:
                 raise NotImplementedError("Captured log message not a supported type")
 
