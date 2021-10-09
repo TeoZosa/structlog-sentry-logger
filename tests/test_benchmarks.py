@@ -6,7 +6,7 @@ import structlog_sentry_logger
 from tests.structlog_sentry_logger import test__config
 
 
-def lots_of_logging(logger: Any) -> None:
+def lots_of_logging(logger: Any, test_cases: dict) -> None:
     for i in range(10):
         for log_level_fn in [
             logger.debug,
@@ -15,12 +15,16 @@ def lots_of_logging(logger: Any) -> None:
             logger.error,
             logger.fatal,
         ]:
-            log_level_fn(f"iter: {i}", **test__config.TestBasicLogging.test_cases)
+            log_level_fn(f"iter: {i}", **test_cases)
 
 
 def test_logging_orjson_serializer(benchmark: BenchmarkFixture) -> None:
     logger = structlog_sentry_logger.get_logger()
-    benchmark(lots_of_logging, logger=logger)
+    benchmark(
+        lots_of_logging,
+        logger=logger,
+        test_cases=test__config.TestBasicLogging.test_cases,
+    )
 
 
 def test_logging_stdlib_json_serializer(benchmark: BenchmarkFixture) -> None:
@@ -28,4 +32,8 @@ def test_logging_stdlib_json_serializer(benchmark: BenchmarkFixture) -> None:
         use_orjson=False
     )
     logger = structlog_sentry_logger.get_logger()
-    benchmark(lots_of_logging, logger=logger)
+    benchmark(
+        lots_of_logging,
+        logger=logger,
+        test_cases=test__config.TestBasicLogging.test_cases,
+    )
