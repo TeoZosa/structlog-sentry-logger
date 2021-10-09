@@ -144,7 +144,7 @@ def get_formatters(timestamper: structlog.processors.TimeStamper) -> dict:
             "()": structlog.stdlib.ProcessorFormatter,
             "processor": structlog.processors.JSONRenderer(
                 serializer=serializer,
-                option=orjson.OPT_SORT_KEYS,
+                option=orjson.OPT_NON_STR_KEYS | orjson.OPT_SORT_KEYS,
             ),
             "foreign_pre_chain": pre_chain,
         },
@@ -160,7 +160,7 @@ def get_formatters(timestamper: structlog.processors.TimeStamper) -> dict:
 def serializer(
     *args: Any,
     default: Optional[Callable[[Any], Any]] = None,
-    option: Optional[int] = orjson.OPT_SORT_KEYS,
+    option: Optional[int] = orjson.OPT_NON_STR_KEYS | orjson.OPT_SORT_KEYS,
 ) -> str:
     if _CONFIGS["USE_ORJSON"]:
         return orjson.dumps(*args, default=default, option=option).decode()  # type: ignore[misc]
