@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1633814560830,
+  "lastUpdate": 1633815814614,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -1088,6 +1088,40 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.003028091753343276",
             "extra": "mean: 84.41300000000024 msec\nrounds: 13"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "b73fc2c6870cb9d950061342359b6a6bc7818919",
+          "message": "Merge pull request #303 from TeoZosa/add-non-str-key-serialization-functionality\n\n✨  Enable Non-String Key JSON Serialization",
+          "timestamp": "2021-10-09T21:36:31Z",
+          "tree_id": "1d60d5d7b2cd69e4bba934a6a28c39159fefba23"
+        },
+        "date": 1633815813182,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 68.17047709335627,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00046629110421910744",
+            "extra": "mean: 14.669106666666671 msec\nrounds: 75"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 12.751611362274321,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0013061455773494054",
+            "extra": "mean: 78.42146153846116 msec\nrounds: 13"
           }
         ]
       }
