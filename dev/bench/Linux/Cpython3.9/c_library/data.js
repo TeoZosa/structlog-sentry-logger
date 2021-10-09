@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1633632284983,
+  "lastUpdate": 1633813826225,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -102,6 +102,40 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0023804943747531694",
             "extra": "mean: 46.51302191304339 msec\nrounds: 23"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "committer": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "id": "e2b620812dcfdbcf5ff0a31141998660e8ae54e5",
+          "message": ":green_heart: Allow spurious interrogate failures\n\nThis hook works fine locally, but recent runs throw spurious error.\n\nExample error log:\n```\n\ninterrogate..........................................................................Failed\n- hook id: interrogate\n- duration: 0.24s\n- exit code: 2\n\nUsage: interrogate [OPTIONS] [PATHS]...\n\nError: Invalid value for '[PATHS]...': Path 'tests/structlog_sentry_logger/child_module_1.py' does not exist.\n```",
+          "timestamp": "2021-10-09T21:08:10Z",
+          "tree_id": "44c0682dacb9aed51a382f8e2099e69f28999f8d"
+        },
+        "date": 1633813825011,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 71.26169656940071,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0009296973595243694",
+            "extra": "mean: 14.032784064102582 msec\nrounds: 78"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 19.001802859702355,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0010209979019650782",
+            "extra": "mean: 52.62658535 msec\nrounds: 20"
           }
         ]
       }
