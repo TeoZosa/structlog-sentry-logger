@@ -7,13 +7,9 @@ import structlog_sentry_logger
 from tests.structlog_sentry_logger import test__config
 
 
-def _basic_logging_helper_method(benchmark: BenchmarkFixture) -> None:
+def _basic_logging_helper_method(benchmark: BenchmarkFixture, test_cases: dict) -> None:
     logger = structlog_sentry_logger.get_logger()
-    benchmark(
-        lots_of_logging,
-        logger=logger,
-        test_cases=test__config.TestBasicLogging.test_cases,
-    )
+    benchmark(lots_of_logging, logger=logger, test_cases=test_cases)
 
 
 def lots_of_logging(logger: Any, test_cases: dict) -> None:
@@ -29,12 +25,14 @@ def lots_of_logging(logger: Any, test_cases: dict) -> None:
 
 
 def test_logging_orjson_serializer(benchmark: BenchmarkFixture) -> None:
-    _basic_logging_helper_method(benchmark)
+    test_cases = test__config.TestBasicLogging.test_cases
+    _basic_logging_helper_method(benchmark, test_cases=test_cases)
 
 
 @pytest.mark.usefixtures("temporarily_set_stlib_json_as_default_serializer")
 def test_logging_stdlib_json_serializer(benchmark: BenchmarkFixture) -> None:
-    _basic_logging_helper_method(benchmark)
+    test_cases = test__config.TestBasicLogging.test_cases
+    _basic_logging_helper_method(benchmark, test_cases=test_cases)
 
 
 @pytest.fixture(scope="function")
