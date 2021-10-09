@@ -67,7 +67,7 @@ typeguard = "^2.12.1" # Runtime type checker; Note: Mypyc-compiled C-extensions 
 # Testing
 pytest = "^6.2.5"
 pytest-benchmark = {extras = ["histogram"], version = "^3.4.1"}
-pytest-cov = "^2.12.1"
+pytest-cov = "^3.0.0"
 # Fixes:
 #   ```
 #   Coverage 6.0b1 starts to use a modern hash algorithm (sha256) when
