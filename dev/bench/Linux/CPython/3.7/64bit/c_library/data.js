@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1633355646619,
+  "lastUpdate": 1633838441658,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -1020,6 +1020,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.00006971677431715818",
             "extra": "mean: 40.03757928000013 msec\nrounds: 25"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "committer": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "id": "579c3b009cdf31b969ff038a94c39d6561e2a00b",
+          "message": ":green_heart: Fix benchmark file mapping\n\nPreviously, non-deterministic ordering from `find` mapped benchmarks\nfrom non-identical directories across platforms.",
+          "timestamp": "2021-10-10T03:59:04Z",
+          "tree_id": "eda9c3ea3aa8215836518e6712a03af8f8c09fd6"
+        },
+        "date": 1633838440784,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 113.78887682442014,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00007542570803758259",
+            "extra": "mean: 8.788205208695677 msec\nrounds: 115"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 104.22445843798852,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00007158043240987326",
+            "extra": "mean: 9.594676863636382 msec\nrounds: 110"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 21.794803407960597,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00008286502076591823",
+            "extra": "mean: 45.88249690909108 msec\nrounds: 22"
           }
         ]
       }
