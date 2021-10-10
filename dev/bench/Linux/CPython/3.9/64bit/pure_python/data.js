@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1633355735308,
+  "lastUpdate": 1633838528454,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -1020,6 +1020,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.002224865180007696",
             "extra": "mean: 56.78319742105248 msec\nrounds: 19"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "committer": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "id": "579c3b009cdf31b969ff038a94c39d6561e2a00b",
+          "message": ":green_heart: Fix benchmark file mapping\n\nPreviously, non-deterministic ordering from `find` mapped benchmarks\nfrom non-identical directories across platforms.",
+          "timestamp": "2021-10-10T03:59:04Z",
+          "tree_id": "eda9c3ea3aa8215836518e6712a03af8f8c09fd6"
+        },
+        "date": 1633838525298,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 85.48537519006237,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0009473796458907476",
+            "extra": "mean: 11.697907364583335 msec\nrounds: 96"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 79.81244816165456,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0008910701895199206",
+            "extra": "mean: 12.52937383870959 msec\nrounds: 93"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 18.977899731985147,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0025427915674939025",
+            "extra": "mean: 52.69286981818177 msec\nrounds: 22"
           }
         ]
       }
