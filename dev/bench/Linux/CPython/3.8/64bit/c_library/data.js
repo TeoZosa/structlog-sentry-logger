@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1633355648600,
+  "lastUpdate": 1633838468206,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -1020,6 +1020,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0009056126849478668",
             "extra": "mean: 46.68730304347841 msec\nrounds: 23"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "committer": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "id": "579c3b009cdf31b969ff038a94c39d6561e2a00b",
+          "message": ":green_heart: Fix benchmark file mapping\n\nPreviously, non-deterministic ordering from `find` mapped benchmarks\nfrom non-identical directories across platforms.",
+          "timestamp": "2021-10-10T03:59:04Z",
+          "tree_id": "eda9c3ea3aa8215836518e6712a03af8f8c09fd6"
+        },
+        "date": 1633838466755,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 55.500281140004084,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0023462219721539675",
+            "extra": "mean: 18.01792674666668 msec\nrounds: 75"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 46.578183160674705,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0031807984068620817",
+            "extra": "mean: 21.46927879411762 msec\nrounds: 68"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 15.254716079376824,
+            "unit": "iter/sec",
+            "range": "stddev: 0.011946738285107053",
+            "extra": "mean: 65.55349800000023 msec\nrounds: 15"
           }
         ]
       }
