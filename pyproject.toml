@@ -68,13 +68,6 @@ typeguard = "^2.12.1" # Runtime type checker; Note: Mypyc-compiled C-extensions 
 pytest = "^6.2.5"
 pytest-benchmark = {extras = ["histogram"], version = "^3.4.1"}
 pytest-cov = "^3.0.0"
-# Fixes:
-#   ```
-#   Coverage 6.0b1 starts to use a modern hash algorithm (sha256) when
-#   fingerprinting for high-security environments.
-#   ```
-# Temporary fix until official 6.0 version is released included and in `pytest-cov`;
-coverage = {version = "^6.0", allow-prereleases = true}
 pytest-emoji = "^0.2.0"
 pytest-mock = "^3.6.1"
 pytest-sugar = "^0.9.4"
