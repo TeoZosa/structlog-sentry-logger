@@ -1944,7 +1944,7 @@ docs = ["emoji", "importlib-metadata", "myst-parser", "pygments", "sphinx", "sph
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "5bc504eac45797aafdefd05dc949ea74ab7552ed2267e96b174fa8693f13e5e2"
+content-hash = "f3382e18464e6b82bf0d622729a08f687770ef32fb60524a8f45a07535bebb47"
 
 [metadata.files]
 alabaster = [
