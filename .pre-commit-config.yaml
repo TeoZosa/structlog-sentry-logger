@@ -31,8 +31,8 @@ repos:
       - id: detect-secrets
         exclude: ^(poetry\.lock|\.cruft\.json)$
 
-  - repo: https://github.com/flakehell/flakehell
-    rev: v.0.8.0
+  - repo: https://github.com/KPLauritzen/flakehell
+    rev: d644612
     hooks:
       - id: flakehell
         exclude: ^(docs/source/recommendedbestpractices.rst)$
