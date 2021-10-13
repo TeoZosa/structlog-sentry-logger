@@ -6,6 +6,7 @@ import sentry_sdk
 from dotenv import find_dotenv, load_dotenv
 
 from structlog_sentry_logger._config import (
+    _ENV_VARS_REQUIRED_BY_LIBRARY,
     get_config_dict,
     get_logger,
     get_namespaced_module_name,

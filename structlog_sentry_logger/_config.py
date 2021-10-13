@@ -176,7 +176,7 @@ def get_handlers(module_name: str) -> dict:
             "stream": "ext://sys.stdout",
         }
     }
-    if "STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON" in os.environ:
+    if _ENV_VARS_REQUIRED_BY_LIBRARY[get_handlers] in os.environ:
         # Prettify stdout/stderr streams
         base_handlers[default_key]["formatter"] = "colored"
         # Add filename handler
@@ -262,7 +262,10 @@ def add_severity_field_from_level_if_in_cloud_environment(
 
 
 def is_cloud_logging_compatibility_mode_requested() -> bool:
-    return "STRUCTLOG_SENTRY_LOGGER_CLOUD_LOGGING_COMPATIBILITY_MODE_ON" in os.environ
+    return (
+        _ENV_VARS_REQUIRED_BY_LIBRARY[is_cloud_logging_compatibility_mode_requested]
+        in os.environ
+    )
 
 
 def is_probably_in_cloud_environment() -> bool:
@@ -286,6 +289,13 @@ def is_probably_in_cloud_environment() -> bool:
         if env_var in os.environ:
             return True
     return False
+
+
+_ENV_VARS_REQUIRED_BY_LIBRARY = {
+    get_handlers: "STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON",
+    is_cloud_logging_compatibility_mode_requested: "STRUCTLOG_SENTRY_LOGGER_CLOUD_LOGGING_COMPATIBILITY_MODE_ON",
+    sentry_sdk.init: "SENTRY_DSN",
+}
 
 
 class SentryBreadcrumbJsonProcessor(structlog_sentry.SentryJsonProcessor):
