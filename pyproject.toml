@@ -190,6 +190,12 @@ show_error_codes = true
 
 [tool.pylint.basic]
 extension-pkg-allow-list = ["orjson"]
+good-names = [
+    # default `pylint` values
+    "i", "j", "k", "ex", "Run", "_",
+    # project-added values
+    "v"
+]
 good-names-rgxs = ["^Test_.*$", "^.*DSN.*$"]
 
 [tool.pylint.messages_control]
