@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1634096764552,
+  "lastUpdate": 1634097196594,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -123,6 +123,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0013667900350825032",
             "extra": "mean: 79.96799999999998 msec\nrounds: 13"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "517775d778bf4dff722d354f4af11cd4ddbef359",
+          "message": "Merge pull request #307 from TeoZosa/dependabot/pip/dot-github/workflows/pip-21.3\n\n⬆️ Bump pip from 21.2.4 to 21.3 in /.github/workflows",
+          "timestamp": "2021-10-13T03:36:04Z",
+          "tree_id": "d4f8eecaa51b5570a5891ed3989da8e6910af976"
+        },
+        "date": 1634097190136,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 73.45898587044627,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0004329730936214464",
+            "extra": "mean: 13.613038461538524 msec\nrounds: 78"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 71.01535570499097,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0002203273062472014",
+            "extra": "mean: 14.081461538461602 msec\nrounds: 78"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 12.605999486063165,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0009379333118277041",
+            "extra": "mean: 79.32730769230727 msec\nrounds: 13"
           }
         ]
       }
