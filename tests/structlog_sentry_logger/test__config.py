@@ -543,3 +543,13 @@ class TestCorrectNamespacing:
                 == child_module.MODULE_NAME  # type: ignore[attr-defined]
                 == child_module.__name__
             )
+
+
+def test__load_library_specific_env_vars() -> None:
+    structlog_sentry_logger._load_library_specific_env_vars()  # pylint: disable=protected-access
+    raise NotImplementedError
+
+
+def test___init_sentry() -> None:
+    structlog_sentry_logger._init_sentry()  # pylint: disable=protected-access
+    raise NotImplementedError
