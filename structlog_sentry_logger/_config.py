@@ -8,11 +8,11 @@ import pathlib
 from types import ModuleType
 from typing import Any, Callable, List, Optional, Union
 
+import dotenv
 import git
 import orjson  # type: ignore
 import sentry_sdk
 import structlog
-from dotenv import dotenv_values, find_dotenv
 
 from structlog_sentry_logger import structlog_sentry
 
@@ -356,7 +356,7 @@ def _load_library_specific_env_vars() -> None:
     # we manually update/add to the the environment ONLY the keys in a user's `.env` for
     # which the library is inspecting (i.e., the set intersection between the
     # aforementioned), and only if they weren't already defined in the environment.
-    users_dotenv_values = dotenv_values(find_dotenv())
+    users_dotenv_values = dotenv.dotenv_values(dotenv.find_dotenv())
     legal_env_vars_keys = (
         _ENV_VARS_REQUIRED_BY_LIBRARY.values() & users_dotenv_values.keys()
     )
