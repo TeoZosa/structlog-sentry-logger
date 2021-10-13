@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1634094692850,
+  "lastUpdate": 1634096191988,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -1136,6 +1136,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0037465968065672614",
             "extra": "mean: 49.427572590909136 msec\nrounds: 22"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "97f8c3fcfa1a906a4b3626c34e132f4ef9b85a36",
+          "message": "Merge pull request #312 from TeoZosa/fix-source-build-dependencies-installation\n\n🚑 Fix Source Build `mypyc` Compilation Errors",
+          "timestamp": "2021-10-13T03:34:52Z",
+          "tree_id": "4592b0c8f2af56637df3c25ea99d744a91bace06"
+        },
+        "date": 1634096190582,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 85.30894320833755,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0013338864254383738",
+            "extra": "mean: 11.722100431578976 msec\nrounds: 95"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 79.80074095005351,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0010599792548014418",
+            "extra": "mean: 12.531211967391254 msec\nrounds: 92"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 20.271813250641152,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0039444034976887634",
+            "extra": "mean: 49.329578347826 msec\nrounds: 23"
           }
         ]
       }
