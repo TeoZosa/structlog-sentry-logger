@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1634094700630,
+  "lastUpdate": 1634096190105,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -1102,6 +1102,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.005516296663700219",
             "extra": "mean: 68.28209241176478 msec\nrounds: 17"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "97f8c3fcfa1a906a4b3626c34e132f4ef9b85a36",
+          "message": "Merge pull request #312 from TeoZosa/fix-source-build-dependencies-installation\n\n🚑 Fix Source Build `mypyc` Compilation Errors",
+          "timestamp": "2021-10-13T03:34:52Z",
+          "tree_id": "4592b0c8f2af56637df3c25ea99d744a91bace06"
+        },
+        "date": 1634096188803,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 72.16713771255019,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0008142222537447162",
+            "extra": "mean: 13.856722487499951 msec\nrounds: 80"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 68.71635647187156,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0010569397811172828",
+            "extra": "mean: 14.55257599999996 msec\nrounds: 81"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 16.755843529439094,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0030837641197027253",
+            "extra": "mean: 59.68067189473661 msec\nrounds: 19"
           }
         ]
       }
