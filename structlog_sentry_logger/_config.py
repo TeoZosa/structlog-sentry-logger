@@ -12,6 +12,7 @@ import git
 import orjson  # type: ignore
 import sentry_sdk
 import structlog
+from dotenv import dotenv_values, find_dotenv
 
 from structlog_sentry_logger import structlog_sentry
 
@@ -348,3 +349,26 @@ class SentryBreadcrumbJsonProcessor(structlog_sentry.SentryJsonProcessor):
             self.save_breadcrumb(logger, event_dict)
 
         return super().__call__(logger=logger, method=method, event_dict=event_dict)
+
+
+def _load_library_specific_env_vars() -> None:
+    # Inject into the environment ONLY the env vars required by the library;
+    # we manually update/add to the the environment ONLY the keys in a user's `.env` for
+    # which the library is inspecting (i.e., the set intersection between the
+    # aforementioned), and only if they weren't already defined in the environment.
+    users_dotenv_values = dotenv_values(find_dotenv())
+    legal_env_vars_keys = (
+        _ENV_VARS_REQUIRED_BY_LIBRARY.values() & users_dotenv_values.keys()
+    )
+
+    for k in legal_env_vars_keys:
+        v = users_dotenv_values[k]
+        # Any env-var-to-add already defined in the environment will take precedent over
+        # what is defined in a user's `.env` file.
+        if k not in os.environ and v is not None:
+            os.environ[k] = v
+
+
+def _init_sentry() -> None:
+    # Note: if DSN isn't defined, will silently not transmit telemetry
+    sentry_sdk.init()  # pylint: disable=abstract-class-instantiated
