@@ -9,7 +9,7 @@ from types import ModuleType
 from typing import Any, Callable, List, Optional, Union
 
 import git
-import orjson
+import orjson  # type: ignore
 import sentry_sdk
 import structlog
 
