@@ -61,7 +61,7 @@ With fields sorted by key for easier at-a-glance analysis.
 `structlog-sentry-logger` is C-compiled and fully-tuned,
 leveraging [`orjson`](https://github.com/ijl/orjson)
 as the JSON serializer for lightning-fast logging (more than a 4x speedup over Python's
-built-in JSON library[[1]](#1); see
+built-in JSON library[^1]; see
 [here](https://teozosa.github.io/structlog-sentry-logger/dev/bench/Linux/CPython/3.8/64bit/c_library/)
 for sample performance benchmarks). Don't let your obligate cross-cutting concerns
 cripple performance any longer!
@@ -72,9 +72,7 @@ For further reference, see:
 - "[`structlog`: Performance](https://www.structlog.org/en/stable/performance.html)" for
   salient performance-related configurations.
 
-<a id="1">[1]</a>
-source:
-[Choosing a faster JSON library for Python: Benchmarking](https://pythonspeed.com/articles/faster-json-library/#step-4-benchmarking)
+[^1]: Source: [Choosing a faster JSON library for Python: Benchmarking](https://pythonspeed.com/articles/faster-json-library/#step-4-benchmarking)
 
 ### :robot: Built-in Sentry Integration (Optional)
 
@@ -167,7 +165,7 @@ Which automatically produces this:
 Export your [Sentry DSN](https://docs.sentry.io/platforms/python/#configure)
 into your local environment.
 
-- An easy way to do this is to put it into a local `.env` file[*](#automatic-env-loading):
+- An easy way to do this is to put it into a local `.env` file[^2]:
 
  ```shell script
 # On the command line:
@@ -257,7 +255,7 @@ remaining log context (as `jsonPayload`) by [Cloud Logging](https://cloud.google
 > :memo: **️Note**  
 > This behavior can also be manually enabled by adding the
 > `STRUCTLOG_SENTRY_LOGGER_CLOUD_LOGGING_COMPATIBILITY_MODE_ON`
-> variable to your environment, e.g., via a `.env` file[*](#automatic-env-loading).
+> variable to your environment, e.g., via a `.env` file[^2].
 
 > :warning:️ **Warning**  
 > If a user manually specifies a value for the `severity` key, it will be overwritten!
@@ -272,7 +270,7 @@ stream [like a proper 12 Factor App](https://12factor.net/logs).
 For local development, it often helps to prettify logging to stdout and save JSON logs
 to a `.logs` folder at the root of your project directory for later debugging. To enable
 this behavior, set the following environment variable
-(assuming you are populating environment variables via a `.env` file[*](#automatic-env-loading), as in
+(assuming you are populating environment variables via a `.env` file[^2], as in
 the [Sentry Integration](#sentry-integration) section):
 
 ```bash
@@ -283,10 +281,8 @@ In doing so, with our previous exception handling example we would get:
 
 ![Output_Formatting_example](./.static/Output_Formatting_example.png)
 
-<a name="automatic-env-loading">
-    * This library uses [`python-dotenv`](https://github.com/theskumar/python-dotenv)
+[^2]: This library uses [`python-dotenv`](https://github.com/theskumar/python-dotenv)
 to automatically populate your environment with this variable (if it exists)
-</a>
 
 :wrench: Development
 ====================
