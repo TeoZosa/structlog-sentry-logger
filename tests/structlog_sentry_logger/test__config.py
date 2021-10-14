@@ -1,12 +1,15 @@
 import datetime
 import enum
 import inspect
+import os
 import uuid
 from pathlib import Path
 from typing import Any, Dict, List, MutableMapping, Union
 
+import dotenv
 import git
 import pytest
+import sentry_sdk.utils
 import structlog
 from _pytest.logging import LogCaptureFixture
 from _pytest.monkeypatch import MonkeyPatch
@@ -352,7 +355,7 @@ class TestCloudLogging:  # pylint: disable=too-few-public-methods
         logger.debug(
             "Testing Cloud Logging-compatible logger",
             **test_data,
-            severity=orig_cloud_logging_log_key_value
+            severity=orig_cloud_logging_log_key_value,
         )
 
         # Parse logs
@@ -545,11 +548,83 @@ class TestCorrectNamespacing:
             )
 
 
-def test__load_library_specific_env_vars() -> None:
-    structlog_sentry_logger._load_library_specific_env_vars()  # pylint: disable=protected-access
-    raise NotImplementedError
+# pylint: disable=protected-access,attribute-defined-outside-init
+class TestLoadingDotenv:
+    @pytest.fixture(scope="function", autouse=True)
+    def setup(self, tmp_path: Path, monkeypatch: MonkeyPatch) -> None:
+        self.dotenv_file = tmp_path / ".env"
+        monkeypatch.setattr(dotenv, "find_dotenv", lambda: self.dotenv_file)
+
+        self.good_test_env_vars = (
+            structlog_sentry_logger._config._ENV_VARS_REQUIRED_BY_LIBRARY.values()
+        )
+        for env_var in self.good_test_env_vars:
+            self._append_var_to_dotenv_file(env_var)
+
+    def test__load_library_specific_env_vars_valid(self) -> None:
+        structlog_sentry_logger._config._load_library_specific_env_vars()
+
+        for env_var in self.good_test_env_vars:
+            assert env_var in os.environ
+
+    def test__load_library_specific_env_vars_already_set(
+        self, monkeypatch: MonkeyPatch
+    ) -> None:
+        already_set_value = "ALREADY SET"
+        for env_var in self.good_test_env_vars:
+            monkeypatch.setenv(env_var, already_set_value)
+
+        structlog_sentry_logger._config._load_library_specific_env_vars()
+
+        for env_var in self.good_test_env_vars:
+            assert os.environ[env_var] == already_set_value
+
+    def test__load_library_specific_env_vars_bad_env_var(self) -> None:
+        bad_test_env_var = "BAD_TEST_ENV_VAR"
+        self._append_var_to_dotenv_file(bad_test_env_var)
+
+        structlog_sentry_logger._config._load_library_specific_env_vars()
+
+        assert bad_test_env_var not in os.environ
+
+    def _append_var_to_dotenv_file(self, env_var: str, encoding: str = "utf-8") -> None:
+        try:
+            current_values = self.dotenv_file.read_text(encoding=encoding)
+        except FileNotFoundError:
+            current_values = ""
+
+        self.dotenv_file.write_text(
+            current_values + f"{env_var}=''\n", encoding=encoding
+        )
 
 
-def test___init_sentry() -> None:
-    structlog_sentry_logger._init_sentry()  # pylint: disable=protected-access
-    raise NotImplementedError
+# pylint: enable=attribute-defined-outside-init
+
+
+class TestSentryInitialization:
+    @staticmethod
+    def get_dummy_dsn(scheme: str = "https") -> str:
+        project_id = 1234
+        path = f"/{project_id}"
+        username, hostname = "USERNAME", "hostdomain.ingest.sentry.io"
+        netloc = f"{username}@{hostname}"
+        good_dummy_dsn = f"{scheme}://{netloc}{path}"
+        return good_dummy_dsn
+
+    def test___init_sentry_bad_dsn(self, monkeypatch: MonkeyPatch) -> None:
+        unsupported_scheme = "UNSUPPORTED_SCHEME"
+        unsupported_dsn = self.get_dummy_dsn(scheme=unsupported_scheme)
+        monkeypatch.setenv("SENTRY_DSN", unsupported_dsn)
+        with pytest.raises(sentry_sdk.utils.BadDsn) as exc_info:
+            _ = structlog_sentry_logger._config._init_sentry()
+        assert exc_info.value.args[0] == "Unsupported scheme ''"
+
+    def test___init_sentry_good_dsn(self, monkeypatch: MonkeyPatch) -> None:
+        monkeypatch.setenv("SENTRY_DSN", self.get_dummy_dsn())
+        assert (
+            structlog_sentry_logger._config._init_sentry()._client.dsn  # type: ignore[attr-defined]
+            == self.get_dummy_dsn()
+        )
+
+
+# pylint: enable=protected-access
