@@ -165,7 +165,7 @@ Which automatically produces this:
 Export your [Sentry DSN](https://docs.sentry.io/platforms/python/#configure)
 into your local environment.
 
-- An easy way to do this is to put it into a local `.env` file[^*]:
+- An easy way to do this is to put it into a local `.env` file[^2]:
 
  ```shell script
 # On the command line:
@@ -255,7 +255,7 @@ remaining log context (as `jsonPayload`) by [Cloud Logging](https://cloud.google
 > :memo: **️Note**  
 > This behavior can also be manually enabled by adding the
 > `STRUCTLOG_SENTRY_LOGGER_CLOUD_LOGGING_COMPATIBILITY_MODE_ON`
-> variable to your environment, e.g., via a `.env` file[^*].
+> variable to your environment, e.g., via a `.env` file[^2].
 
 > :warning:️ **Warning**  
 > If a user manually specifies a value for the `severity` key, it will be overwritten!
@@ -270,7 +270,7 @@ stream [like a proper 12 Factor App](https://12factor.net/logs).
 For local development, it often helps to prettify logging to stdout and save JSON logs
 to a `.logs` folder at the root of your project directory for later debugging. To enable
 this behavior, set the following environment variable
-(assuming you are populating environment variables via a `.env` file[^*], as in
+(assuming you are populating environment variables via a `.env` file[^2], as in
 the [Sentry Integration](#sentry-integration) section):
 
 ```bash
@@ -281,7 +281,7 @@ In doing so, with our previous exception handling example we would get:
 
 ![Output_Formatting_example](./.static/Output_Formatting_example.png)
 
-[^*]: This library uses [`python-dotenv`](https://github.com/theskumar/python-dotenv)
+[^2]: This library uses [`python-dotenv`](https://github.com/theskumar/python-dotenv)
 to automatically populate your environment with this variable (if it exists)
 
 :wrench: Development
