@@ -151,7 +151,7 @@ LOGGER.info(LOG_MSG, extra_field="extra_value")
 
 Which automatically produces this:
 
-```
+```json
 {
     "event": "Information that's useful for future me and others",
     "extra_field": "extra_value",
@@ -209,7 +209,7 @@ except ZeroDivisionError as err:
     raise RuntimeError(ERR_MSG) from err
 ```
 
-```
+```json lines
 {
     "event": "A dummy error for testing purposes is about to be thrown!",
     "level": "warning",
