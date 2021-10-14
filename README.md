@@ -171,7 +171,7 @@ into your local environment.
 
  ```shell script
 # On the command line:
-SENTRY_DSN=YOUR_SENTRY_DSN
+ SENTRY_DSN=YOUR_SENTRY_DSN
  echo "SENTRY_DSN=${SENTRY_DSN}" >> .env
 ```
 
