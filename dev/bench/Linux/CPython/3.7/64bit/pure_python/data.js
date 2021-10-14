@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1634237077578,
+  "lastUpdate": 1634250104757,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -1430,6 +1430,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.00004671764181981041",
             "extra": "mean: 45.40382640909088 msec\nrounds: 22"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "f7cc5406ca9c3896cccf9b4efe34187cee73156e",
+          "message": "Merge pull request #316 from TeoZosa/write-local-logfiles-as-json-lines\n\n💥  Write Local Log Files as JSON Lines Format",
+          "timestamp": "2021-10-14T22:20:07Z",
+          "tree_id": "2f095cebc7ab2a12cd5dede5ab10d7431fa2acc0"
+        },
+        "date": 1634250103286,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 75.18777826698741,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0007994519701654567",
+            "extra": "mean: 13.300033902439017 msec\nrounds: 82"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 64.7975399706518,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0016017494316292863",
+            "extra": "mean: 15.432684642857145 msec\nrounds: 84"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 16.353529689019545,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0014345244329235706",
+            "extra": "mean: 61.14887850000006 msec\nrounds: 18"
           }
         ]
       }
