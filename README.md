@@ -250,8 +250,9 @@ by cloud providers (namely, `KUBERNETES_SERVICE_HOST`, `GCP_PROJECT`,
 and `GOOGLE_CLOUD_PROJECT`).
 
 If any of these environment variables are detected, log levels will be duplicated to a
-reserved `severity` key in the emitted logs to enable parsing of the log level and
-the remaining log context (as `jsonPayload`) by [Cloud Logging](https://cloud.google.com/logging) (see: [Cloud Logging: Structured logging](https://cloud.google.com/logging/docs/structured-logging)).
+reserved `severity` key in the emitted logs to enable parsing of the log level and the
+remaining log context (as `jsonPayload`) by [Cloud Logging](https://cloud.google.com/logging)
+(see: [Cloud Logging: Structured logging](https://cloud.google.com/logging/docs/structured-logging)).
 
 > :memo: **️Note**  
 > This behavior can also be manually enabled by adding the
@@ -283,7 +284,8 @@ In doing so, with our previous exception handling example we would get:
 ![Output_Formatting_example](./.static/Output_Formatting_example.png)
 
 <a name="automatic-env-loading">
-    * this library uses [`python-dotenv`](https://github.com/theskumar/python-dotenv) to automatically populate your environment with this variable (if it exists)
+    * This library uses [`python-dotenv`](https://github.com/theskumar/python-dotenv)
+to automatically populate your environment with this variable (if it exists)
 </a>
 
 :wrench: Development
