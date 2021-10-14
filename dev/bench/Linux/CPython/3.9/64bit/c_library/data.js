@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1634191122326,
+  "lastUpdate": 1634237105009,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -1423,6 +1423,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0006461115858249819",
             "extra": "mean: 49.086387857142974 msec\nrounds: 21"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "c0de823f8580f5aab3807353204471dfe332a701",
+          "message": "Merge pull request #315 from TeoZosa/migrate-to-github-md-footnote-syntax\n\n📝 Migrate Footnotes to GitHub Markdown Syntax",
+          "timestamp": "2021-10-14T18:39:41Z",
+          "tree_id": "2358815771dfe3fa4282d363aae3fbbdcb790d48"
+        },
+        "date": 1634237101370,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 118.75454273236721,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00007461492449184801",
+            "extra": "mean: 8.420730500000019 msec\nrounds: 120"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 108.12300385906663,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00006044982581316535",
+            "extra": "mean: 9.248725657894726 msec\nrounds: 114"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 23.508330646151457,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000041196348378741074",
+            "extra": "mean: 42.538111916666864 msec\nrounds: 24"
           }
         ]
       }
