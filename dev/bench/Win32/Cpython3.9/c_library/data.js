@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1634237231323,
+  "lastUpdate": 1634250264559,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -451,6 +451,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.006431817205848161",
             "extra": "mean: 103.90625 msec\nrounds: 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "f7cc5406ca9c3896cccf9b4efe34187cee73156e",
+          "message": "Merge pull request #316 from TeoZosa/write-local-logfiles-as-json-lines\n\n💥  Write Local Log Files as JSON Lines Format",
+          "timestamp": "2021-10-14T22:20:07Z",
+          "tree_id": "2f095cebc7ab2a12cd5dede5ab10d7431fa2acc0"
+        },
+        "date": 1634250261329,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 54.237288135593225,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0006588078458684115",
+            "extra": "mean: 18.4375 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 51.61290322580645,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0008068715304598793",
+            "extra": "mean: 19.375 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 9.846153846153847,
+            "unit": "iter/sec",
+            "range": "stddev: 0.005208333333333333",
+            "extra": "mean: 101.5625 msec\nrounds: 10"
           }
         ]
       }
