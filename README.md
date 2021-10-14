@@ -72,7 +72,7 @@ For further reference, see:
 - "[`structlog`: Performance](https://www.structlog.org/en/stable/performance.html)" for
   salient performance-related configurations.
 
-[^1]: source: [Choosing a faster JSON library for Python: Benchmarking](https://pythonspeed.com/articles/faster-json-library/#step-4-benchmarking)
+[^1]: Source: [Choosing a faster JSON library for Python: Benchmarking](https://pythonspeed.com/articles/faster-json-library/#step-4-benchmarking)
 
 ### :robot: Built-in Sentry Integration (Optional)
 
