@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1634191594292,
+  "lastUpdate": 1634237816544,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -369,6 +369,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.00078764338539949",
             "extra": "mean: 81.61546153846135 msec\nrounds: 13"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "c0de823f8580f5aab3807353204471dfe332a701",
+          "message": "Merge pull request #315 from TeoZosa/migrate-to-github-md-footnote-syntax\n\n📝 Migrate Footnotes to GitHub Markdown Syntax",
+          "timestamp": "2021-10-14T18:39:41Z",
+          "tree_id": "2358815771dfe3fa4282d363aae3fbbdcb790d48"
+        },
+        "date": 1634237814851,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 73.1584525447106,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00023328325790989053",
+            "extra": "mean: 13.668960526315844 msec\nrounds: 76"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 67.42675546888648,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0008389065927762521",
+            "extra": "mean: 14.830907894736857 msec\nrounds: 76"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 12.036301485279578,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0010335811530791383",
+            "extra": "mean: 83.08200000000016 msec\nrounds: 13"
           }
         ]
       }
