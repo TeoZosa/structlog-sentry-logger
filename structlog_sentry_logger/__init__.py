@@ -18,4 +18,4 @@ __all__: List[str] = [
 ]
 
 _load_library_specific_env_vars()
-_init_sentry()
+_ = _init_sentry()

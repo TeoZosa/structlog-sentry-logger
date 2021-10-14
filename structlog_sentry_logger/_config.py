@@ -6,7 +6,7 @@ import logging.config
 import os
 import pathlib
 from types import ModuleType
-from typing import Any, Callable, List, Optional, Union
+from typing import Any, Callable, ContextManager, List, Optional, Union
 
 import dotenv
 import git
@@ -369,6 +369,6 @@ def _load_library_specific_env_vars() -> None:
             os.environ[k] = v
 
 
-def _init_sentry() -> None:
+def _init_sentry() -> ContextManager[Any]:
     # Note: if DSN isn't defined, will silently not transmit telemetry
-    sentry_sdk.init()  # pylint: disable=abstract-class-instantiated
+    return sentry_sdk.init()  # pylint: disable=abstract-class-instantiated
