@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1634131564716,
+  "lastUpdate": 1634190526570,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -1266,6 +1266,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0015360109843298448",
             "extra": "mean: 52.360199149999964 msec\nrounds: 20"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "d5da6e730f3c9758110d5925960e5cfd204ccada",
+          "message": "Merge pull request #314 from TeoZosa/fix-gratuitous-env-var-loading\n\n🐛 Fix Gratuitous Global `.env` Loading",
+          "timestamp": "2021-10-14T05:46:35Z",
+          "tree_id": "02e2d0f8ef540539e5676260c20731a2b3213f3b"
+        },
+        "date": 1634190525735,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 73.40961461957147,
+            "unit": "iter/sec",
+            "range": "stddev: 0.001644563788233019",
+            "extra": "mean: 13.622193839080495 msec\nrounds: 87"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 72.32281212238057,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0013237237552636393",
+            "extra": "mean: 13.826895977272795 msec\nrounds: 88"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 16.764976976961506,
+            "unit": "iter/sec",
+            "range": "stddev: 0.003406247772032937",
+            "extra": "mean: 59.648158263158 msec\nrounds: 19"
           }
         ]
       }
