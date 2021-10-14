@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1634191315762,
+  "lastUpdate": 1634237289418,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -369,6 +369,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.003682847818679935",
             "extra": "mean: 109.375 msec\nrounds: 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "c0de823f8580f5aab3807353204471dfe332a701",
+          "message": "Merge pull request #315 from TeoZosa/migrate-to-github-md-footnote-syntax\n\n📝 Migrate Footnotes to GitHub Markdown Syntax",
+          "timestamp": "2021-10-14T18:39:41Z",
+          "tree_id": "2358815771dfe3fa4282d363aae3fbbdcb790d48"
+        },
+        "date": 1634237286039,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 56.63716814159292,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0010546071214227381",
+            "extra": "mean: 17.656250000000004 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 53.333333333333336,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0010416666666666664",
+            "extra": "mean: 18.75 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 9.696969696969697,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0032940392293420617",
+            "extra": "mean: 103.125 msec\nrounds: 10"
           }
         ]
       }
