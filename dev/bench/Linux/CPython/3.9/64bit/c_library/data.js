@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1634190495934,
+  "lastUpdate": 1634190823171,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -1341,6 +1341,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0016748191519287395",
             "extra": "mean: 57.51625111111104 msec\nrounds: 18"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "committer": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "id": "e87f42e723ef448c4ef625e2e00d4ce935d85593",
+          "message": ":memo: Add `json` to JSON-formatted fenced code blocks",
+          "timestamp": "2021-10-14T05:51:48Z",
+          "tree_id": "0e4a45d936d7ad69c605a49f513b3dbbe07dbb18"
+        },
+        "date": 1634190821938,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 81.27511262244302,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0010551437003204597",
+            "extra": "mean: 12.303889440860198 msec\nrounds: 93"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 82.87049814823766,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0006196487295203009",
+            "extra": "mean: 12.067020500000051 msec\nrounds: 88"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 20.687025414171682,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0029779372836202323",
+            "extra": "mean: 48.33947752173922 msec\nrounds: 23"
           }
         ]
       }
