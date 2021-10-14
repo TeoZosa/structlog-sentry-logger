@@ -182,7 +182,7 @@ def get_handlers(module_name: str) -> dict:
         base_handlers[default_key]["formatter"] = "colored"
         # Add filename handler
         file_timestamp = datetime.datetime.utcnow().strftime("%Y-%m-%d")
-        log_file_name = f"{file_timestamp}_{module_name}.json"
+        log_file_name = f"{file_timestamp}_{module_name}.jsonl"
         log_file_path = LOG_DATA_DIR / log_file_name
         base_handlers["filename"] = {
             "level": "DEBUG",
