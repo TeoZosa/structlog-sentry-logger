@@ -6,8 +6,9 @@ import logging.config
 import os
 import pathlib
 from types import ModuleType
-from typing import Any, Callable, List, Optional, Union
+from typing import Any, Callable, ContextManager, List, Optional, Union
 
+import dotenv
 import git
 import orjson  # type: ignore
 import sentry_sdk
@@ -176,7 +177,7 @@ def get_handlers(module_name: str) -> dict:
             "stream": "ext://sys.stdout",
         }
     }
-    if "STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON" in os.environ:
+    if _ENV_VARS_REQUIRED_BY_LIBRARY[get_handlers] in os.environ:
         # Prettify stdout/stderr streams
         base_handlers[default_key]["formatter"] = "colored"
         # Add filename handler
@@ -262,7 +263,10 @@ def add_severity_field_from_level_if_in_cloud_environment(
 
 
 def is_cloud_logging_compatibility_mode_requested() -> bool:
-    return "STRUCTLOG_SENTRY_LOGGER_CLOUD_LOGGING_COMPATIBILITY_MODE_ON" in os.environ
+    return (
+        _ENV_VARS_REQUIRED_BY_LIBRARY[is_cloud_logging_compatibility_mode_requested]
+        in os.environ
+    )
 
 
 def is_probably_in_cloud_environment() -> bool:
@@ -286,6 +290,13 @@ def is_probably_in_cloud_environment() -> bool:
         if env_var in os.environ:
             return True
     return False
+
+
+_ENV_VARS_REQUIRED_BY_LIBRARY = {
+    get_handlers: "STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON",
+    is_cloud_logging_compatibility_mode_requested: "STRUCTLOG_SENTRY_LOGGER_CLOUD_LOGGING_COMPATIBILITY_MODE_ON",
+    sentry_sdk.init: "SENTRY_DSN",
+}
 
 
 class SentryBreadcrumbJsonProcessor(structlog_sentry.SentryJsonProcessor):
@@ -338,3 +349,26 @@ class SentryBreadcrumbJsonProcessor(structlog_sentry.SentryJsonProcessor):
             self.save_breadcrumb(logger, event_dict)
 
         return super().__call__(logger=logger, method=method, event_dict=event_dict)
+
+
+def _load_library_specific_env_vars() -> None:
+    # Inject into the environment ONLY the env vars required by the library;
+    # we manually update/add to the the environment ONLY the keys in a user's `.env` for
+    # which the library is inspecting (i.e., the set intersection between the
+    # aforementioned), and only if they weren't already defined in the environment.
+    users_dotenv_values = dotenv.dotenv_values(dotenv.find_dotenv())
+    legal_env_vars_keys = (
+        _ENV_VARS_REQUIRED_BY_LIBRARY.values() & users_dotenv_values.keys()
+    )
+
+    for k in legal_env_vars_keys:
+        v = users_dotenv_values[k]
+        # Any env-var-to-add already defined in the environment will take precedent over
+        # what is defined in a user's `.env` file.
+        if k not in os.environ and v is not None:
+            os.environ[k] = v
+
+
+def _init_sentry() -> ContextManager[Any]:
+    # Note: if DSN isn't defined, will silently not transmit telemetry
+    return sentry_sdk.init()  # pylint: disable=abstract-class-instantiated
