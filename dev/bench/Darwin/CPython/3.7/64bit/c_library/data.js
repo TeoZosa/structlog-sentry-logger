@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1634252410234,
+  "lastUpdate": 1635032786308,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -492,6 +492,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0023389107410383457",
             "extra": "mean: 89.73500000000013 msec\nrounds: 12"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "6085bf6ab82764dab475fc7c780cdb77904ba2f0",
+          "message": "Merge pull request #318 from TeoZosa/set-default-global-tracked-log-level-to-warning\n\n🐛 Set Default Global Tracked Log Level to `WARNING`",
+          "timestamp": "2021-10-23T23:39:09Z",
+          "tree_id": "9f5567c16041af9b8b473013c02d5a686f4c525e"
+        },
+        "date": 1635032783749,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 70.38288288288307,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0006173732691206752",
+            "extra": "mean: 14.207999999999961 msec\nrounds: 74"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 66.35788132556489,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0009388564061406556",
+            "extra": "mean: 15.069800000000035 msec\nrounds: 75"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 11.234734804084988,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0017741658902311185",
+            "extra": "mean: 89.00966666666636 msec\nrounds: 12"
           }
         ]
       }
