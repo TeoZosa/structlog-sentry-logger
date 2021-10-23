@@ -83,7 +83,9 @@ def get_logger() -> Any:
         timestamper = structlog.processors.TimeStamper(fmt=DATETIME_FORMAT)
         set_logging_config(caller_name, timestamper)
         set_structlog_config(timestamper)
-    return structlog.get_logger(caller_name)
+    logger = structlog.get_logger(caller_name)
+    logger.setLevel(logging.DEBUG)
+    return logger
 
 
 getLogger = get_logger
@@ -121,7 +123,11 @@ def get_logging_config(
         "formatters": (get_formatters(timestamper)),
         "handlers": handlers,
         "loggers": {
-            "": {"handlers": list(handlers.keys()), "level": "DEBUG", "propagate": True}
+            "": {
+                "handlers": list(handlers.keys()),
+                "level": "WARNING",
+                "propagate": True,
+            }
         },
     }
 
