@@ -121,7 +121,11 @@ def get_logging_config(
         "formatters": (get_formatters(timestamper)),
         "handlers": handlers,
         "loggers": {
-            "": {"handlers": list(handlers.keys()), "level": "DEBUG", "propagate": True}
+            "": {
+                "handlers": list(handlers.keys()),
+                "level": "WARNING",
+                "propagate": True,
+            }
         },
     }
 
