@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1634252438519,
+  "lastUpdate": 1635032581361,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -1512,6 +1512,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0034599092487329584",
             "extra": "mean: 56.46543847368438 msec\nrounds: 19"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "6085bf6ab82764dab475fc7c780cdb77904ba2f0",
+          "message": "Merge pull request #318 from TeoZosa/set-default-global-tracked-log-level-to-warning\n\n🐛 Set Default Global Tracked Log Level to `WARNING`",
+          "timestamp": "2021-10-23T23:39:09Z",
+          "tree_id": "9f5567c16041af9b8b473013c02d5a686f4c525e"
+        },
+        "date": 1635032580613,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 116.82638356624554,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00006349462364556778",
+            "extra": "mean: 8.559710310924393 msec\nrounds: 119"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 106.04476592495988,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00005158740559007894",
+            "extra": "mean: 9.42997979464283 msec\nrounds: 112"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 23.292683902210552,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000077771794196231",
+            "extra": "mean: 42.93193537499973 msec\nrounds: 24"
           }
         ]
       }
