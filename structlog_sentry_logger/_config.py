@@ -83,7 +83,9 @@ def get_logger() -> Any:
         timestamper = structlog.processors.TimeStamper(fmt=DATETIME_FORMAT)
         set_logging_config(caller_name, timestamper)
         set_structlog_config(timestamper)
-    return structlog.get_logger(caller_name)
+    logger = structlog.get_logger(caller_name)
+    logger.setLevel(logging.DEBUG)
+    return logger
 
 
 getLogger = get_logger
