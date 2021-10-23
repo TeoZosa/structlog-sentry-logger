@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1635032513023,
+  "lastUpdate": 1635032855372,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -1553,6 +1553,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.00004515782720941628",
             "extra": "mean: 42.8095527083332 msec\nrounds: 24"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "committer": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "id": "4ccc2dcccfafccf3b9f0aa60870d37d9967ad5a9",
+          "message": ":bento: Update `.mutmut-cache`",
+          "timestamp": "2021-10-23T23:45:42Z",
+          "tree_id": "a3b506a2ff86512c3cd377d5e6abd60d690a51b0"
+        },
+        "date": 1635032854073,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 71.16117994761541,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0012927229696577083",
+            "extra": "mean: 14.052605658536576 msec\nrounds: 82"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 65.84052750830509,
+            "unit": "iter/sec",
+            "range": "stddev: 0.001640983351397593",
+            "extra": "mean: 15.188213670886226 msec\nrounds: 79"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 16.64057668013074,
+            "unit": "iter/sec",
+            "range": "stddev: 0.004993182232413276",
+            "extra": "mean: 60.0940712105263 msec\nrounds: 19"
           }
         ]
       }
