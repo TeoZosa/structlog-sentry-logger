@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1634252621987,
+  "lastUpdate": 1635033037101,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -492,6 +492,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.001615383668803159",
             "extra": "mean: 78.98430769230777 msec\nrounds: 13"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "6085bf6ab82764dab475fc7c780cdb77904ba2f0",
+          "message": "Merge pull request #318 from TeoZosa/set-default-global-tracked-log-level-to-warning\n\n🐛 Set Default Global Tracked Log Level to `WARNING`",
+          "timestamp": "2021-10-23T23:39:09Z",
+          "tree_id": "9f5567c16041af9b8b473013c02d5a686f4c525e"
+        },
+        "date": 1635033033664,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 71.89884859129633,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0007533887901826998",
+            "extra": "mean: 13.908428571428534 msec\nrounds: 77"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 70.33177255408091,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00044718016008044877",
+            "extra": "mean: 14.218324999999966 msec\nrounds: 80"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 12.565886325125943,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00181656404673705",
+            "extra": "mean: 79.58053846153804 msec\nrounds: 13"
           }
         ]
       }
