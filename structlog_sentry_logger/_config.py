@@ -65,7 +65,7 @@ def deduce_module(prev_stack_frame: inspect.FrameInfo) -> Optional[ModuleType]:
 
 
 def get_caller_name_from_frames(stack_frames: List[inspect.FrameInfo]) -> str:
-    prev_stack_frame = stack_frames[0]
+    prev_stack_frame = stack_frames[1] if __file__.endswith(".py") else stack_frames[0]
     return get_caller_name(prev_stack_frame)
 
 
