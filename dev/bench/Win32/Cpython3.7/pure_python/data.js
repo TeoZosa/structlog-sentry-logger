@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1635182907226,
+  "lastUpdate": 1635202563893,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -738,6 +738,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.004034357652299392",
             "extra": "mean: 82.8125 msec\nrounds: 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "33f30e1c7acf7788b867eac6978bf5bd83bfb332",
+          "message": "Merge pull request #324 from TeoZosa/refactor/unify-test-suite-across-python-and-c-extension-environments\n\n✅  Unify Test Suite Across Pure Python and C Extension Environments",
+          "timestamp": "2021-10-25T22:51:14Z",
+          "tree_id": "e5e9d6ea632907aecaa7aff36dbca8a59001abdd"
+        },
+        "date": 1635202560428,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 83.47826086956522,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0005490065382236778",
+            "extra": "mean: 11.979166666666666 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 77.7570093457944,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0005805840042543842",
+            "extra": "mean: 12.860576923076923 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 12.427184466019417,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0037737960276534996",
+            "extra": "mean: 80.46875 msec\nrounds: 10"
           }
         ]
       }
