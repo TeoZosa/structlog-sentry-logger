@@ -212,6 +212,7 @@ def set_structlog_config(timestamper: structlog.processors.TimeStamper) -> None:
         add_severity_field_from_level_if_in_cloud_environment,
     ]
     stdlib_log_compatibility_processors = [
+        structlog.stdlib.filter_by_level,
         structlog.stdlib.add_log_level,
         structlog.stdlib.add_logger_name,
         structlog.stdlib.PositionalArgumentsFormatter(),
