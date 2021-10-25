@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1635183330903,
+  "lastUpdate": 1635202783764,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -738,6 +738,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0006667004698389403",
             "extra": "mean: 77.3451428571431 msec\nrounds: 14"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "33f30e1c7acf7788b867eac6978bf5bd83bfb332",
+          "message": "Merge pull request #324 from TeoZosa/refactor/unify-test-suite-across-python-and-c-extension-environments\n\n✅  Unify Test Suite Across Pure Python and C Extension Environments",
+          "timestamp": "2021-10-25T22:51:14Z",
+          "tree_id": "e5e9d6ea632907aecaa7aff36dbca8a59001abdd"
+        },
+        "date": 1635202781436,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 60.032620322523464,
+            "unit": "iter/sec",
+            "range": "stddev: 0.002810291163768279",
+            "extra": "mean: 16.657610389610344 msec\nrounds: 77"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 68.93863665891578,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0007735301743108594",
+            "extra": "mean: 14.505653846153784 msec\nrounds: 78"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 11.570468603978464,
+            "unit": "iter/sec",
+            "range": "stddev: 0.003224653016515605",
+            "extra": "mean: 86.42692307692307 msec\nrounds: 13"
           }
         ]
       }
