@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1635202563893,
+  "lastUpdate": 1635202777755,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -779,6 +779,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0037737960276534996",
             "extra": "mean: 80.46875 msec\nrounds: 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "31d6574baf19c95f88c29af43624f68071c141a0",
+          "message": "Merge pull request #320 from TeoZosa/dependabot/github_actions/ahmadnassri/action-dependabot-auto-merge-2.6\n\n⬆️ Bump ahmadnassri/action-dependabot-auto-merge from 2.4 to 2.6",
+          "timestamp": "2021-10-25T22:51:25Z",
+          "tree_id": "a7ef645b4cefe7faebb60805b9442109b05dce8e"
+        },
+        "date": 1635202774563,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 68.57142857142857,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0005490065382236772",
+            "extra": "mean: 14.583333333333334 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 64.53781512605042,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00041175490366775793",
+            "extra": "mean: 15.494791666666668 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 10.32258064516129,
+            "unit": "iter/sec",
+            "range": "stddev: 0.004034357652299392",
+            "extra": "mean: 96.875 msec\nrounds: 10"
           }
         ]
       }
