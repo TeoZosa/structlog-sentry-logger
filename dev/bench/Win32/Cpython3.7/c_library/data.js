@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1635178242030,
+  "lastUpdate": 1635182884511,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -690,6 +690,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0005067752660526254",
             "extra": "mean: 13.461538461538462 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 12.307692307692308,
+            "unit": "iter/sec",
+            "range": "stddev: 0.004034357652299392",
+            "extra": "mean: 81.25 msec\nrounds: 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "919230def3b78ffdcea00e1b726bfaba03b006b9",
+          "message": "Merge pull request #323 from TeoZosa/feat/use-iso-8601-timestamps\n\n✨  Use ISO 8601 Timestamps For Logs and Filenames",
+          "timestamp": "2021-10-25T17:23:55Z",
+          "tree_id": "9502247c1c55e8c91c2c351bbfbc500657870fa6"
+        },
+        "date": 1635182878625,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 81.35593220338984,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00043920523057894225",
+            "extra": "mean: 12.291666666666668 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 74.95495495495496,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0006822670819682053",
+            "extra": "mean: 13.341346153846153 msec\nrounds: 10"
           },
           {
             "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
