@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1635177177953,
+  "lastUpdate": 1635178141895,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -1710,6 +1710,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0006409259453122555",
             "extra": "mean: 43.52637445833333 msec\nrounds: 24"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "d7de46eced36f14e38f711ea2bedc247662fecc0",
+          "message": "Merge pull request #322 from TeoZosa/feat/improve-logfile-timestamp-precision\n\n✨  Add Seconds to Log File Timestamp Suffix",
+          "timestamp": "2021-10-25T16:05:23Z",
+          "tree_id": "8e9e2d75b4ec73d98d3f1525bb3e9262ee728c37"
+        },
+        "date": 1635178137785,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 99.62604957868096,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00006748381877202563",
+            "extra": "mean: 10.037535405940563 msec\nrounds: 101"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 90.44535483764793,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0000706194727926777",
+            "extra": "mean: 11.056399765306129 msec\nrounds: 98"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 20.217680025376083,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00010264539073311924",
+            "extra": "mean: 49.46165923809541 msec\nrounds: 21"
           }
         ]
       }
