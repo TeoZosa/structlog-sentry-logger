@@ -17,8 +17,6 @@ from pytest_mock import MockerFixture
 
 import structlog_sentry_logger
 
-_ = structlog_sentry_logger.get_logger()
-
 # Note: the below methods use `pytest`'s `caplog` fixture to properly capture the
 # logs.
 #
