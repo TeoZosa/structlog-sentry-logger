@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1635178141895,
+  "lastUpdate": 1635182756423,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -1751,6 +1751,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.00010264539073311924",
             "extra": "mean: 49.46165923809541 msec\nrounds: 21"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "919230def3b78ffdcea00e1b726bfaba03b006b9",
+          "message": "Merge pull request #323 from TeoZosa/feat/use-iso-8601-timestamps\n\n✨  Use ISO 8601 Timestamps For Logs and Filenames",
+          "timestamp": "2021-10-25T17:23:55Z",
+          "tree_id": "9502247c1c55e8c91c2c351bbfbc500657870fa6"
+        },
+        "date": 1635182755024,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 70.1381361959991,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0017196290837260383",
+            "extra": "mean: 14.257578747252813 msec\nrounds: 91"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 68.14858004461672,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0012038089587240593",
+            "extra": "mean: 14.673820046511638 msec\nrounds: 86"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 17.268037054088413,
+            "unit": "iter/sec",
+            "range": "stddev: 0.003779179689799481",
+            "extra": "mean: 57.91046178947352 msec\nrounds: 19"
           }
         ]
       }
