@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1635202580864,
+  "lastUpdate": 1635202799237,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -1840,6 +1840,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0002448645357947696",
             "extra": "mean: 45.51297163636348 msec\nrounds: 22"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "444b87b2e1ba225b0a7cebd882c1760faf0e7273",
+          "message": "Merge pull request #319 from TeoZosa/dependabot/pip/dot-github/workflows/pip-21.3.1\n\n⬆️ Bump pip from 21.3 to 21.3.1 in /.github/workflows",
+          "timestamp": "2021-10-25T22:51:43Z",
+          "tree_id": "e21841ff28fcdb31853a47e11c5d97644aa07332"
+        },
+        "date": 1635202797369,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 119.454087907695,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00007924226793148716",
+            "extra": "mean: 8.371417148760315 msec\nrounds: 121"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 107.87845753212555,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00011791884921634414",
+            "extra": "mean: 9.269691307017492 msec\nrounds: 114"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 21.867936687512355,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00026051289970113143",
+            "extra": "mean: 45.729051363636344 msec\nrounds: 22"
           }
         ]
       }
