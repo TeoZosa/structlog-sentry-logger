@@ -35,7 +35,7 @@ def get_root_dir() -> pathlib.Path:
 ROOT_DIR = get_root_dir()
 LOG_DATA_DIR = ROOT_DIR / ".logs"
 LOG_DATA_DIR.mkdir(exist_ok=True)
-DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+DATETIME_FORMAT = "iso"
 _CONFIGS = {"USE_ORJSON": True}
 
 
@@ -187,7 +187,7 @@ def get_handlers(module_name: str) -> dict:
         # Prettify stdout/stderr streams
         base_handlers[default_key]["formatter"] = "colored"
         # Add filename handler
-        file_timestamp = datetime.datetime.utcnow().strftime("%Y-%m-%d-%s")
+        file_timestamp = datetime.datetime.utcnow().isoformat().replace(":", "-")
         log_file_name = f"{file_timestamp}_{module_name}.jsonl"
         log_file_path = LOG_DATA_DIR / log_file_name
         base_handlers["filename"] = {
