@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1635061764298,
+  "lastUpdate": 1635177362449,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -615,6 +615,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.005764568651348608",
             "extra": "mean: 110.15625 msec\nrounds: 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "ef1b8e434a4083dc584fa4bc5fcc485955f88425",
+          "message": "Merge pull request #321 from TeoZosa/performance/elide-processing-of-logs-under-global-logging-level-thresholds\n\n⚡  Elide Log Processing for Logs Under the Global Log Level Threshold",
+          "timestamp": "2021-10-25T15:49:45Z",
+          "tree_id": "bcaad415753f7f47970e713bdc030718816b991b"
+        },
+        "date": 1635177358334,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 52.03252032520326,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0007547592055307006",
+            "extra": "mean: 19.21875 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 50.00000000000001,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0009882117688026187",
+            "extra": "mean: 20 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 9.142857142857142,
+            "unit": "iter/sec",
+            "range": "stddev: 0.003682847818679935",
+            "extra": "mean: 109.375 msec\nrounds: 10"
           }
         ]
       }
