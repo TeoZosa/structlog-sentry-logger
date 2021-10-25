@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1635202356284,
+  "lastUpdate": 1635202580864,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -1799,6 +1799,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0000623914351952173",
             "extra": "mean: 45.20061327272702 msec\nrounds: 22"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "31d6574baf19c95f88c29af43624f68071c141a0",
+          "message": "Merge pull request #320 from TeoZosa/dependabot/github_actions/ahmadnassri/action-dependabot-auto-merge-2.6\n\n⬆️ Bump ahmadnassri/action-dependabot-auto-merge from 2.4 to 2.6",
+          "timestamp": "2021-10-25T22:51:25Z",
+          "tree_id": "a7ef645b4cefe7faebb60805b9442109b05dce8e"
+        },
+        "date": 1635202579517,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 117.59988818879341,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00014638584712983976",
+            "extra": "mean: 8.503409445378148 msec\nrounds: 119"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 107.01201969517089,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0001545322458250027",
+            "extra": "mean: 9.34474466371675 msec\nrounds: 113"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 21.97175802955108,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0002448645357947696",
+            "extra": "mean: 45.51297163636348 msec\nrounds: 22"
           }
         ]
       }
