@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1635177272013,
+  "lastUpdate": 1635178242030,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -656,6 +656,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.00546254608421954",
             "extra": "mean: 98.4375 msec\nrounds: 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "d7de46eced36f14e38f711ea2bedc247662fecc0",
+          "message": "Merge pull request #322 from TeoZosa/feat/improve-logfile-timestamp-precision\n\n✨  Add Seconds to Log File Timestamp Suffix",
+          "timestamp": "2021-10-25T16:05:23Z",
+          "tree_id": "8e9e2d75b4ec73d98d3f1525bb3e9262ee728c37"
+        },
+        "date": 1635178238763,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 78.68852459016394,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0004392052305789415",
+            "extra": "mean: 12.708333333333334 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 74.28571428571429,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0005067752660526254",
+            "extra": "mean: 13.461538461538462 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 12.307692307692308,
+            "unit": "iter/sec",
+            "range": "stddev: 0.004034357652299392",
+            "extra": "mean: 81.25 msec\nrounds: 10"
           }
         ]
       }
