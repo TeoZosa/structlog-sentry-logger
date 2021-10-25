@@ -441,23 +441,26 @@ class TestCallerNameInference:
 
     # pylint: disable=protected-access
     @staticmethod
+    @pytest.fixture(scope="class")
+    def expected() -> str:
+        return structlog_sentry_logger._config.get_namespaced_module_name(__file__)
+
+    @staticmethod
     def test_get_caller_name_deducable_module(
-        prev_stack_frame: inspect.FrameInfo,
+        prev_stack_frame: inspect.FrameInfo, expected: str
     ) -> None:
         module = structlog_sentry_logger._config.deduce_module(prev_stack_frame)
         if module is None:
             raise ValueError("Module cannot be determined")
 
-        expected = structlog_sentry_logger._config.get_namespaced_module_name(__file__)
         actual = structlog_sentry_logger._config.get_caller_name(prev_stack_frame)
         assert actual == expected == module.__name__
 
     @staticmethod
     def test_get_caller_name_non_deducable_module(
-        monkeypatch: MonkeyPatch, prev_stack_frame: inspect.FrameInfo
+        monkeypatch: MonkeyPatch, prev_stack_frame: inspect.FrameInfo, expected: str
     ) -> None:
         monkeypatch.setattr(inspect, "getmodule", lambda _: None)
-        expected = structlog_sentry_logger._config.get_namespaced_module_name(__file__)
         actual = structlog_sentry_logger._config.get_caller_name(prev_stack_frame)
         assert actual == expected
 
