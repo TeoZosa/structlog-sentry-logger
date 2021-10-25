@@ -69,7 +69,7 @@ def get_caller_name_from_frames(stack_frames: List[inspect.FrameInfo]) -> str:
     return get_caller_name(prev_stack_frame)
 
 
-def get_logger() -> Any:
+def get_logger(name: Optional[str] = None) -> Any:
     """
     Convenience function that returns a logger
 
@@ -77,6 +77,7 @@ def get_logger() -> Any:
     the __name__ of the calling module
 
     """
+    del name
     stack_frames = inspect.stack()
     caller_name = get_caller_name_from_frames(stack_frames)
     if not structlog.is_configured():
