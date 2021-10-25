@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1635061572414,
+  "lastUpdate": 1635177120053,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -1635,6 +1635,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0030059520565057607",
             "extra": "mean: 55.4907501052631 msec\nrounds: 19"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "ef1b8e434a4083dc584fa4bc5fcc485955f88425",
+          "message": "Merge pull request #321 from TeoZosa/performance/elide-processing-of-logs-under-global-logging-level-thresholds\n\n⚡  Elide Log Processing for Logs Under the Global Log Level Threshold",
+          "timestamp": "2021-10-25T15:49:45Z",
+          "tree_id": "bcaad415753f7f47970e713bdc030718816b991b"
+        },
+        "date": 1635177118272,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 112.60995832719445,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00006568940601996633",
+            "extra": "mean: 8.880209307017457 msec\nrounds: 114"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 104.51875670613713,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00006671075150782911",
+            "extra": "mean: 9.567660690909099 msec\nrounds: 110"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 21.890853800980718,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00006341130096953775",
+            "extra": "mean: 45.68117849999984 msec\nrounds: 22"
           }
         ]
       }
