@@ -435,7 +435,9 @@ class TestCallerNameInference:
     @pytest.fixture(scope="function")
     def prev_stack_frame() -> inspect.FrameInfo:
         stack_frames = inspect.stack()
-        return stack_frames[0]
+        prev_stack_frame = stack_frames[0]
+        assert prev_stack_frame.filename == __file__
+        return prev_stack_frame
 
     # pylint: disable=protected-access
     @staticmethod
