@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1635203300137,
+  "lastUpdate": 1635204766610,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -861,6 +861,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0038345421322022177",
             "extra": "mean: 93.2581818181817 msec\nrounds: 11"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "committer": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "id": "384982ae333fa792d54e83602a1b54d166043a53",
+          "message": ":bookmark: Bump version number to `0.14.1`",
+          "timestamp": "2021-10-25T23:30:18Z",
+          "tree_id": "bde55008b0149a864a2a23b4e379fe290bcaef6f"
+        },
+        "date": 1635204764544,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 73.14350851361912,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0005542117720797218",
+            "extra": "mean: 13.6717532467533 msec\nrounds: 77"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 69.76712984289023,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0007184968859070826",
+            "extra": "mean: 14.333397435897346 msec\nrounds: 78"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 10.90142027337127,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0024775963730757715",
+            "extra": "mean: 91.73116666666677 msec\nrounds: 12"
           }
         ]
       }
