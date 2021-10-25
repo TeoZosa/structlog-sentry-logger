@@ -448,18 +448,16 @@ class TestCallerNameInference:
         if module is None:
             raise ValueError("Module cannot be determined")
 
-        expected = module.__name__
+        expected = structlog_sentry_logger._config.get_namespaced_module_name(__file__)
         actual = structlog_sentry_logger._config.get_caller_name(prev_stack_frame)
-        assert actual == expected
+        assert actual == expected == module.__name__
 
     @staticmethod
     def test_get_caller_name_non_deducable_module(
         monkeypatch: MonkeyPatch, prev_stack_frame: inspect.FrameInfo
     ) -> None:
         monkeypatch.setattr(inspect, "getmodule", lambda _: None)
-        expected = structlog_sentry_logger._config.get_namespaced_module_name(
-            prev_stack_frame.filename
-        )
+        expected = structlog_sentry_logger._config.get_namespaced_module_name(__file__)
         actual = structlog_sentry_logger._config.get_caller_name(prev_stack_frame)
         assert actual == expected
 
