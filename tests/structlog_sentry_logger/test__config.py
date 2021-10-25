@@ -17,8 +17,6 @@ from pytest_mock import MockerFixture
 
 import structlog_sentry_logger
 
-_ = structlog_sentry_logger.get_logger()
-
 # Note: the below methods use `pytest`'s `caplog` fixture to properly capture the
 # logs.
 #
@@ -115,7 +113,6 @@ def test_get_config_dict() -> None:
 
 
 # pylint: disable=protected-access
-@pytest.mark.pure_python_only
 def test_invalid_git_repository(mocker: MockerFixture) -> None:
     test_file_dir = Path(__file__)
 
@@ -438,29 +435,32 @@ class TestCallerNameInference:
     @pytest.fixture(scope="function")
     def prev_stack_frame() -> inspect.FrameInfo:
         stack_frames = inspect.stack()
-        return stack_frames[1]
+        prev_stack_frame = stack_frames[0]
+        assert prev_stack_frame.filename == __file__
+        return prev_stack_frame
 
     # pylint: disable=protected-access
     @staticmethod
+    @pytest.fixture(scope="class")
+    def expected() -> str:
+        return structlog_sentry_logger._config.get_namespaced_module_name(__file__)
+
+    @staticmethod
     def test_get_caller_name_deducable_module(
-        prev_stack_frame: inspect.FrameInfo,
+        prev_stack_frame: inspect.FrameInfo, expected: str
     ) -> None:
         module = structlog_sentry_logger._config.deduce_module(prev_stack_frame)
         if module is None:
             raise ValueError("Module cannot be determined")
 
-        expected = module.__name__
         actual = structlog_sentry_logger._config.get_caller_name(prev_stack_frame)
-        assert actual == expected
+        assert actual == expected == module.__name__
 
     @staticmethod
     def test_get_caller_name_non_deducable_module(
-        monkeypatch: MonkeyPatch, prev_stack_frame: inspect.FrameInfo
+        monkeypatch: MonkeyPatch, prev_stack_frame: inspect.FrameInfo, expected: str
     ) -> None:
         monkeypatch.setattr(inspect, "getmodule", lambda _: None)
-        expected = structlog_sentry_logger._config.get_namespaced_module_name(
-            prev_stack_frame.filename
-        )
         actual = structlog_sentry_logger._config.get_caller_name(prev_stack_frame)
         assert actual == expected
 
@@ -470,7 +470,6 @@ class TestCallerNameInference:
 class TestCorrectNamespacing:
     # pylint: disable=protected-access
     @staticmethod
-    @pytest.mark.pure_python_only
     def test_unpatched_is_caller_main_and_typeguard_enabled(
         mocker: MockerFixture,
     ) -> None:
@@ -495,7 +494,6 @@ class TestCorrectNamespacing:
         )
 
     @staticmethod
-    @pytest.mark.pure_python_only
     @pytest.mark.usefixtures(
         "patch_get_caller_name_from_frames_for_typeguard_compatibility"
     )
