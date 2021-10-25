@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1635202598270,
+  "lastUpdate": 1635202807918,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -1840,6 +1840,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0021725445463965875",
             "extra": "mean: 52.6082567142858 msec\nrounds: 21"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "444b87b2e1ba225b0a7cebd882c1760faf0e7273",
+          "message": "Merge pull request #319 from TeoZosa/dependabot/pip/dot-github/workflows/pip-21.3.1\n\n⬆️ Bump pip from 21.3 to 21.3.1 in /.github/workflows",
+          "timestamp": "2021-10-25T22:51:43Z",
+          "tree_id": "e21841ff28fcdb31853a47e11c5d97644aa07332"
+        },
+        "date": 1635202805863,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 76.90908713821504,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0004795745197828745",
+            "extra": "mean: 13.002364703703709 msec\nrounds: 81"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 68.9511326085417,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0007269617128034785",
+            "extra": "mean: 14.503025000000065 msec\nrounds: 81"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 16.859111646539013,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0017256630052520654",
+            "extra": "mean: 59.31510633333333 msec\nrounds: 18"
           }
         ]
       }
