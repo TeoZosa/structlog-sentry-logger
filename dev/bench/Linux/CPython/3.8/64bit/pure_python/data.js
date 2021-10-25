@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1635177215181,
+  "lastUpdate": 1635178152569,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -1676,6 +1676,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.00217279186935702",
             "extra": "mean: 57.05817626315788 msec\nrounds: 19"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "d7de46eced36f14e38f711ea2bedc247662fecc0",
+          "message": "Merge pull request #322 from TeoZosa/feat/improve-logfile-timestamp-precision\n\n✨  Add Seconds to Log File Timestamp Suffix",
+          "timestamp": "2021-10-25T16:05:23Z",
+          "tree_id": "8e9e2d75b4ec73d98d3f1525bb3e9262ee728c37"
+        },
+        "date": 1635178149635,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 117.74632913749915,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00011631434026595198",
+            "extra": "mean: 8.492833766666667 msec\nrounds: 120"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 107.35822389492553,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00009391571097386485",
+            "extra": "mean: 9.314610131579 msec\nrounds: 114"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 23.282461655835117,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000044433686352622584",
+            "extra": "mean: 42.950784791666436 msec\nrounds: 24"
           }
         ]
       }
