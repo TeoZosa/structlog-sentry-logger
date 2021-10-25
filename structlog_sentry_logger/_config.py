@@ -35,7 +35,7 @@ def get_root_dir() -> pathlib.Path:
 ROOT_DIR = get_root_dir()
 LOG_DATA_DIR = ROOT_DIR / ".logs"
 LOG_DATA_DIR.mkdir(exist_ok=True)
-DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+DATETIME_FORMAT = "iso"
 _CONFIGS = {"USE_ORJSON": True}
 
 

@@ -70,10 +70,10 @@ def test_pytest_caplog_and_structlog_patching_equivalence(
 
     def validate_timestamps_approx_equal(timestamp1: str, timestamp2: str) -> None:
         def convert_time(timestamp: str) -> datetime.datetime:
-            return datetime.datetime.strptime(
-                timestamp,
-                structlog_sentry_logger._config.DATETIME_FORMAT,  # pylint: disable=protected-access
-            )
+            # Make `structlog.processors.TimeStamper(fmt="iso")` timestamps compatible
+            # with `datetime` ISO 8601-format string parser (i.e., remove trailing "Z").
+            datetime_compatible_iso_format = timestamp[:-1]
+            return datetime.datetime.fromisoformat(datetime_compatible_iso_format)
 
         time_delta = convert_time(timestamp1) - convert_time(timestamp2)
         assert pytest.approx(time_delta.total_seconds(), 0)

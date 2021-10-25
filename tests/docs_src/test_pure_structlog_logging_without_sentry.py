@@ -65,7 +65,7 @@ def test_dev_local(
             "\x1b[36msentry\x1b[0m=\x1b[35mskipped\x1b[0m [in <module>]\n"
         )
 
-    example_timestamp_substr = "\x1b[2m2020-10-17 22:27:09\x1b"
+    example_timestamp_substr = "\x1b[2m2021-10-25T16:15:30.993152Z\x1b"
     # Ignore timestamped portion
     relevant_actual = capsys.readouterr().out[len(example_timestamp_substr) :]
     assert relevant_expected == relevant_actual
