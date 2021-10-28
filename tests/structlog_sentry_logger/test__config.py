@@ -150,7 +150,6 @@ def test_sentry_DSN_integration(caplog: LogCaptureFixture) -> None:
                 if isinstance(log, dict):  # structlog logger
                     assert log["level"] == "error" == record.levelname.lower()
                     assert log["sentry"] == "sent"
-                    assert err_msg in log["exception"]
                     assert "sentry_id" in log
                 elif isinstance(log, str):
                     # other stdlib-based logger initialized BEFORE our structlog logger;

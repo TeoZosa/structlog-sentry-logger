@@ -1,4 +1,3 @@
-from pathlib import Path
 from typing import List
 
 import pytest
@@ -15,8 +14,6 @@ _ = structlog_sentry_logger.get_logger()
 
 @pytest.fixture(scope="function")
 def expected_output_truncated() -> List[JSONOutputType]:
-    project_root_dir = Path(__file__).parents[2]
-    file_under_test = str(Path(f"{project_root_dir}/docs_src/sentry_integration.py"))
     return [
         {
             "event": "A dummy error for testing purposes is about to be thrown!\n",
@@ -25,15 +22,10 @@ def expected_output_truncated() -> List[JSONOutputType]:
             "sentry": "skipped",
         },
         {
+            "exc_info": True,
             "event": (
                 "I threw an error on purpose for this example!\n"
                 "Now throwing another that explicitly chains from that one!\n"
-            ),
-            "exception": (
-                "Traceback (most recent call last):\n  "
-                f'File "{file_under_test}"'
-                f", line 13, in <module>\n"
-                "    x = 1 / 0\nZeroDivisionError: division by zero"
             ),
             "level": "error",
             "logger": "docs_src.sentry_integration",

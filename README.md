@@ -279,7 +279,8 @@ echo "STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON=" >> .env
 
 In doing so, with our previous exception handling example we would get:
 
-![Output_Formatting_example](./.static/Output_Formatting_example.png)
+![Output_Formatting_example_0](./.static/Output_Formatting_example_0.png)
+![Output_Formatting_example_1](./.static/Output_Formatting_example_1.png)
 
 [^2]: This library uses [`python-dotenv`](https://github.com/theskumar/python-dotenv)
 to automatically populate your environment with this variable (if it exists)
