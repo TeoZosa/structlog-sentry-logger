@@ -136,7 +136,8 @@ def get_logging_config(
 def set_logging_config(
     module_name: str, timestamper: structlog.processors.TimeStamper
 ) -> None:
-    logging.config.dictConfig(get_logging_config(module_name, timestamper))
+    config_dict = get_logging_config(module_name, timestamper)
+    logging.config.dictConfig(config_dict)
 
 
 def get_formatters(timestamper: structlog.processors.TimeStamper) -> dict:
