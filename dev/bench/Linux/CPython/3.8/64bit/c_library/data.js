@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1635204729496,
+  "lastUpdate": 1635449323624,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -1922,6 +1922,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.002576226303683211",
             "extra": "mean: 56.722975894736855 msec\nrounds: 19"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "e7283c51cf0e6d984ece818e3a810455184c6cb7",
+          "message": "Merge pull request #325 from TeoZosa/feat/add-pretty-printed-dev-rendered-exceptions-via-rich\n\n✨ Add Pretty-Printed Exceptions for Local Development via `rich`",
+          "timestamp": "2021-10-28T19:26:59Z",
+          "tree_id": "c81f5ef4064ac8008263ac5794666c64c950c233"
+        },
+        "date": 1635449322761,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 72.92917974146633,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0011694092387540724",
+            "extra": "mean: 13.711932638554229 msec\nrounds: 83"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 68.90347834060618,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0012780092801939116",
+            "extra": "mean: 14.513055423076953 msec\nrounds: 78"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 17.230354177750794,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0012115351276483547",
+            "extra": "mean: 58.03711227777776 msec\nrounds: 18"
           }
         ]
       }
