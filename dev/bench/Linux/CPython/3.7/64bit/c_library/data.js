@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1635204763373,
+  "lastUpdate": 1635449346243,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -1922,6 +1922,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.001800805480376284",
             "extra": "mean: 57.87703240000006 msec\nrounds: 20"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "e7283c51cf0e6d984ece818e3a810455184c6cb7",
+          "message": "Merge pull request #325 from TeoZosa/feat/add-pretty-printed-dev-rendered-exceptions-via-rich\n\n✨ Add Pretty-Printed Exceptions for Local Development via `rich`",
+          "timestamp": "2021-10-28T19:26:59Z",
+          "tree_id": "c81f5ef4064ac8008263ac5794666c64c950c233"
+        },
+        "date": 1635449344779,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 114.56797270434814,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0006904308882259775",
+            "extra": "mean: 8.728442830882418 msec\nrounds: 136"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 109.0872448547948,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000542779950506119",
+            "extra": "mean: 9.166974574626872 msec\nrounds: 134"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 20.445669385388644,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0009537886990861249",
+            "extra": "mean: 48.91011300000004 msec\nrounds: 23"
           }
         ]
       }
