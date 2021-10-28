@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1635204908749,
+  "lastUpdate": 1635449557320,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -902,6 +902,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.005273035607113694",
             "extra": "mean: 99.21875 msec\nrounds: 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "e7283c51cf0e6d984ece818e3a810455184c6cb7",
+          "message": "Merge pull request #325 from TeoZosa/feat/add-pretty-printed-dev-rendered-exceptions-via-rich\n\n✨ Add Pretty-Printed Exceptions for Local Development via `rich`",
+          "timestamp": "2021-10-28T19:26:59Z",
+          "tree_id": "c81f5ef4064ac8008263ac5794666c64c950c233"
+        },
+        "date": 1635449553777,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 58.71559633027524,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0004941058844013098",
+            "extra": "mean: 17.03125 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 53.333333333333336,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0012757759076995716",
+            "extra": "mean: 18.75 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 9.078014184397164,
+            "unit": "iter/sec",
+            "range": "stddev: 0.004434736032793334",
+            "extra": "mean: 110.15625 msec\nrounds: 10"
           }
         ]
       }
