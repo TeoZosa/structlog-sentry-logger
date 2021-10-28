@@ -209,7 +209,6 @@ def set_structlog_config(timestamper: structlog.processors.TimeStamper) -> None:
     structlog_processors = [
         timestamper,
         structlog.processors.StackInfoRenderer(),
-        structlog.processors.format_exc_info,
         add_severity_field_from_level_if_in_cloud_environment,
     ]
     stdlib_log_compatibility_processors = [
