@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1635204987705,
+  "lastUpdate": 1635449712051,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -902,6 +902,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.002839935713100966",
             "extra": "mean: 92.04236363636346 msec\nrounds: 11"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "e7283c51cf0e6d984ece818e3a810455184c6cb7",
+          "message": "Merge pull request #325 from TeoZosa/feat/add-pretty-printed-dev-rendered-exceptions-via-rich\n\n✨ Add Pretty-Printed Exceptions for Local Development via `rich`",
+          "timestamp": "2021-10-28T19:26:59Z",
+          "tree_id": "c81f5ef4064ac8008263ac5794666c64c950c233"
+        },
+        "date": 1635449710894,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 73.34570616596008,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0007587300344480388",
+            "extra": "mean: 13.63406329113922 msec\nrounds: 79"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 67.93680179013424,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0014589737059060028",
+            "extra": "mean: 14.719562500000105 msec\nrounds: 80"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 11.033782684133124,
+            "unit": "iter/sec",
+            "range": "stddev: 0.002983933466386271",
+            "extra": "mean: 90.63075000000016 msec\nrounds: 12"
           }
         ]
       }
