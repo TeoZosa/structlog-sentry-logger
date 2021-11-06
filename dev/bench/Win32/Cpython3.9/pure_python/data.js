@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1635945903676,
+  "lastUpdate": 1636165084571,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -1025,6 +1025,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.004941058844013093",
             "extra": "mean: 107.8125 msec\nrounds: 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "5078378966a6bc30190546533450686662cf2a93",
+          "message": "Merge pull request #326 from TeoZosa/dependabot/pip/black-21.10b0\n\n⬆️ Bump black from 21.9b0 to 21.10b0",
+          "timestamp": "2021-11-06T02:14:25Z",
+          "tree_id": "5cbe2f3189c0ed1b6f892fd72369c7f67afab76c"
+        },
+        "date": 1636165081534,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 95.43859649122805,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0004746303120352228",
+            "extra": "mean: 10.477941176470589 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 87.27272727272727,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0004910463758239917",
+            "extra": "mean: 11.458333333333332 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 13.195876288659795,
+            "unit": "iter/sec",
+            "range": "stddev: 0.001104854345603983",
+            "extra": "mean: 75.78125 msec\nrounds: 10"
           }
         ]
       }
