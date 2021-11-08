@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1636165046029,
+  "lastUpdate": 1636383869996,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -1066,6 +1066,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.001935652619687286",
             "extra": "mean: 81.44169230769208 msec\nrounds: 13"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "c601d9874a1c25e852be8afa585dee4141db1e60",
+          "message": "Merge pull request #328 from TeoZosa/dependabot/pip/cruft-2.10.0",
+          "timestamp": "2021-11-08T14:14:22Z",
+          "tree_id": "79e255273ad2b6010e0faa848ef66ac73ae7a8e7"
+        },
+        "date": 1636383860840,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 73.79460253199525,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0007425187620367748",
+            "extra": "mean: 13.551126582278538 msec\nrounds: 79"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 69.89489016578861,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0010041627410404665",
+            "extra": "mean: 14.307197530864268 msec\nrounds: 81"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 10.871544547512688,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0020760420877237533",
+            "extra": "mean: 91.98325000000034 msec\nrounds: 12"
           }
         ]
       }
