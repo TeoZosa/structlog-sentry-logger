@@ -283,7 +283,14 @@ In doing so, with our previous exception handling example we would get:
 ![Output_Formatting_example_1](./.static/Output_Formatting_example_1.png)
 
 [^2]: This library uses [`python-dotenv`](https://github.com/theskumar/python-dotenv)
-to automatically populate your environment with this variable (if it exists)
+to automatically populate your environment with this variable (if it exists) from the
+local `.env` file. Alternatively, you may use
+[`direnv`](https://github.com/direnv/direnv) and a `.envrc` file. A sample `.envrc` file
+(with all features enabled) has been provided at the root of the repository
+([`.envrc.sample`](./.envrc.sample)). If [`direnv`](https://github.com/direnv/direnv) is
+already installed, it's as simple as copying [`.envrc.sample`](./.envrc.sample) to the
+root of your project, editing it to reflect your desired configurations, renaming it
+to `.envrc`, and running `direnv allow` :tada:
 
 :wrench: Development
 ====================

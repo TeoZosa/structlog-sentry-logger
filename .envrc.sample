@@ -1,0 +1,22 @@
+# Environment variables to read by `direnv` shell extension go here
+# see: https://github.com/direnv/direnv
+
+# Load environment variables from .env file
+dotenv
+
+# If you wish to enable Sentry exception monitoring for your application,
+# sign up at https://sentry.io/signup/, create a new Sentry project for your
+# application, and fill in the `SENTRY_DSN` field with your project-specific
+# Data Source Name (DSN). The Sentry client will be automatically initialized
+# with this DSN by the code in the application's `__init__.py` upon each
+# application startup.
+#   See Also: https://docs.sentry.io/product/sentry-basics/dsn-explainer/
+SENTRY_DSN=
+
+# Enable Cloud Logging Compatibility (https://github.com/TeoZosa/structlog-sentry-logger#cloud-cloud-logging-compatibility)
+STRUCTLOG_SENTRY_LOGGER_CLOUD_LOGGING_COMPATIBILITY_MODE_ON=
+
+# Enable local development configs (https://github.com/TeoZosa/structlog-sentry-logger#chart_with_downwards_trend-output-formatting--storage):
+# 1. Pretty-printed formatting for console-rendered logs
+# 2. JSON logs stored on-disk (.logs/)
+STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON=
