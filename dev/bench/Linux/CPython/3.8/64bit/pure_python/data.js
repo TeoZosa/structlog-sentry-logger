@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1636641091238,
+  "lastUpdate": 1636744932399,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -2291,6 +2291,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0029063330431242295",
             "extra": "mean: 47.401378869565285 msec\nrounds: 23"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "99a7a5f6c217fd17e1087bb42b2cc448aa149908",
+          "message": "Merge pull request #335 from TeoZosa/feat/add-direnv-compatibility\n\n📝 Document library configuration via `direnv`",
+          "timestamp": "2021-11-12T19:19:52Z",
+          "tree_id": "ecc24346b99da9112be21247329f826e45d02406"
+        },
+        "date": 1636744931501,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 123.71605264392676,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00015718385105349073",
+            "extra": "mean: 8.083025433070913 msec\nrounds: 127"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 112.09800974288615,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0002060531131229569",
+            "extra": "mean: 8.9207649831933 msec\nrounds: 119"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 23.400248335720494,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000341222274575615",
+            "extra": "mean: 42.73458920833328 msec\nrounds: 24"
           }
         ]
       }
