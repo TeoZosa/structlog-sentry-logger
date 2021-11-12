@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1636641182553,
+  "lastUpdate": 1636745037901,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -1271,6 +1271,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0037737960276534996",
             "extra": "mean: 91.40625 msec\nrounds: 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "99a7a5f6c217fd17e1087bb42b2cc448aa149908",
+          "message": "Merge pull request #335 from TeoZosa/feat/add-direnv-compatibility\n\n📝 Document library configuration via `direnv`",
+          "timestamp": "2021-11-12T19:19:52Z",
+          "tree_id": "ecc24346b99da9112be21247329f826e45d02406"
+        },
+        "date": 1636745034325,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 64.53781512605042,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0007391226721322222",
+            "extra": "mean: 15.494791666666668 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 58.71559633027524,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0004941058844013098",
+            "extra": "mean: 17.03125 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 9.20863309352518,
+            "unit": "iter/sec",
+            "range": "stddev: 0.004434736032793334",
+            "extra": "mean: 108.59375 msec\nrounds: 10"
           }
         ]
       }
