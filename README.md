@@ -173,12 +173,11 @@ into your local environment.
  echo "SENTRY_DSN=${SENTRY_DSN}" >> .env
 ```
 
-Then load the `.env` file in your Python code prior to instantiating the logger, e.g.:
+- And it will be automatically picked up when the library is first imported:
 
 ```python
+# The below automatically sources library-relevant values from your local `.env` file
 import structlog_sentry_logger
-
-LOGGER = structlog_sentry_logger.get_logger()
 ```
 
 ### :outbox_tray: Log Custom Context Directly to Sentry
