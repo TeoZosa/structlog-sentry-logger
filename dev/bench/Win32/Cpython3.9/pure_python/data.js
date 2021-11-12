@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1636745037901,
+  "lastUpdate": 1636745482617,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -1312,6 +1312,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.004434736032793334",
             "extra": "mean: 108.59375 msec\nrounds: 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "committer": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "id": "01dfa7a636e3f73dc2a940cecb39c8674ef637f9",
+          "message": ":memo: Fix outdated documentation related to `.env` loading",
+          "timestamp": "2021-11-12T19:27:43Z",
+          "tree_id": "b34666d5d030cd5344a043cace9509631d45b425"
+        },
+        "date": 1636745478270,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 57.65765765765766,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0008869472065586663",
+            "extra": "mean: 17.34375 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 54.700854700854705,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0010546071214227381",
+            "extra": "mean: 18.28125 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 9.770992366412214,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0024705294220065464",
+            "extra": "mean: 102.34375 msec\nrounds: 10"
           }
         ]
       }
