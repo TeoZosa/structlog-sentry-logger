@@ -47,6 +47,8 @@ coverage.xml
 
 # DotEnv configuration
 .env
+# `direnv` default environment variable configuration file name (https://github.com/direnv/direnv#how-it-works)
+.envrc
 
 # Documentation builds
 docs/_build
