@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1637161280049,
+  "lastUpdate": 1637175106486,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -2496,6 +2496,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0018642846858200196",
             "extra": "mean: 53.57089786363653 msec\nrounds: 22"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "committer": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "id": "17326e71b6de04298508a50cb6df64249330a9ab",
+          "message": ":bug: Fix sample `.envrc` file syntax\n\nFixes #335",
+          "timestamp": "2021-11-17T18:49:29Z",
+          "tree_id": "3836b554db25a4d02c95ba5c25325cd53194d18e"
+        },
+        "date": 1637175105509,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 122.82821721104001,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00006819120291565753",
+            "extra": "mean: 8.141451717741926 msec\nrounds: 124"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 110.68337012042139,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00011149742986675322",
+            "extra": "mean: 9.0347809152542 msec\nrounds: 118"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 22.971908755434566,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00015543893169033053",
+            "extra": "mean: 43.53142834782616 msec\nrounds: 23"
           }
         ]
       }
