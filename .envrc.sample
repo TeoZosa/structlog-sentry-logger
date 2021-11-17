@@ -11,12 +11,12 @@ dotenv
 # with this DSN by the code in the application's `__init__.py` upon each
 # application startup.
 #   See Also: https://docs.sentry.io/product/sentry-basics/dsn-explainer/
-SENTRY_DSN=
+export SENTRY_DSN=
 
 # Enable Cloud Logging Compatibility (https://github.com/TeoZosa/structlog-sentry-logger#cloud-cloud-logging-compatibility)
-STRUCTLOG_SENTRY_LOGGER_CLOUD_LOGGING_COMPATIBILITY_MODE_ON=
+export STRUCTLOG_SENTRY_LOGGER_CLOUD_LOGGING_COMPATIBILITY_MODE_ON=
 
 # Enable local development configs (https://github.com/TeoZosa/structlog-sentry-logger#chart_with_downwards_trend-output-formatting--storage):
 # 1. Pretty-printed formatting for console-rendered logs
 # 2. JSON logs stored on-disk (.logs/)
-STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON=
+export STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON=
