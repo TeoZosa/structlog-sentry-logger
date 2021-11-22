@@ -1674,7 +1674,7 @@ test = ["pytest"]
 
 [[package]]
 name = "structlog"
-version = "21.2.0"
+version = "21.3.0"
 description = "Structured Logging for Python"
 category = "main"
 optional = false
@@ -1684,8 +1684,8 @@ python-versions = ">=3.6"
 typing-extensions = {version = "*", markers = "python_version < \"3.8\""}
 
 [package.extras]
-dev = ["coverage", "freezegun (>=0.2.8)", "pretend", "pytest-asyncio", "pytest (>=6.0)", "simplejson", "furo", "sphinx", "twisted", "pre-commit", "rich"]
-docs = ["furo", "sphinx", "twisted"]
+dev = ["pre-commit", "rich", "cogapp", "tomli", "coverage", "freezegun (>=0.2.8)", "pretend", "pytest-asyncio", "pytest (>=6.0)", "simplejson", "furo", "sphinx", "sphinx-notfound-page", "sphinxcontrib-mermaid", "twisted"]
+docs = ["furo", "sphinx", "sphinx-notfound-page", "sphinxcontrib-mermaid", "twisted"]
 tests = ["coverage", "freezegun (>=0.2.8)", "pretend", "pytest-asyncio", "pytest (>=6.0)", "simplejson"]
 
 [[package]]
@@ -2908,8 +2908,8 @@ sphinxcontrib-serializinghtml = [
     {file = "sphinxcontrib_serializinghtml-1.1.5-py2.py3-none-any.whl", hash = "sha256:352a9a00ae864471d3a7ead8d7d79f5fc0b57e8b3f95e9867eb9eb28999b92fd"},
 ]
 structlog = [
-    {file = "structlog-21.2.0-py2.py3-none-any.whl", hash = "sha256:63a7111a32e5b615671536bb745692ea02cebfea2b39dcb7d2617eed19437cfe"},
-    {file = "structlog-21.2.0.tar.gz", hash = "sha256:7ac42b565e1295712313f91edbcb64e0840a9037d888c8954f11fa6c43270e99"},
+    {file = "structlog-21.3.0-py3-none-any.whl", hash = "sha256:063216becff8e6f6558122a9b00734f7e50bfef309eb730c85a52c74ed861a96"},
+    {file = "structlog-21.3.0.tar.gz", hash = "sha256:4da2aec0aebf6dee7beb884eb0fda26ed9d6cce5338fcd523e8597d0f1826746"},
 ]
 termcolor = [
     {file = "termcolor-1.1.0.tar.gz", hash = "sha256:1d6d69ce66211143803fbc56652b41d73b4a400a2891d7bf7a1cdf4c02de613b"},
