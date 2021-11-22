@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1637529686419,
+  "lastUpdate": 1637590893358,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -2578,6 +2578,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.00038382463170235514",
             "extra": "mean: 43.15004387499988 msec\nrounds: 24"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "66b5c02dd550bbc44f50e3af87a70790126d317a",
+          "message": "Merge pull request #341 from TeoZosa/dependabot/pip/sphinxcontrib-confluencebuilder-1.7.0",
+          "timestamp": "2021-11-22T14:18:12Z",
+          "tree_id": "4c45e8a6e5e2c6deec46b5e523ed9613ca520df5"
+        },
+        "date": 1637590892010,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 138.456671975781,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00027697917148263284",
+            "extra": "mean: 7.222476069444462 msec\nrounds: 144"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 126.98992941310269,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00010701153471890917",
+            "extra": "mean: 7.874640175182435 msec\nrounds: 137"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 26.059085561806082,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00012797423632272774",
+            "extra": "mean: 38.37433196296289 msec\nrounds: 27"
           }
         ]
       }
