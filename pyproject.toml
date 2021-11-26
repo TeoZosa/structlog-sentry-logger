@@ -83,7 +83,7 @@ tox-wheel = "^0.6.0"
 black = "^21.11b1" # see: https://black.readthedocs.io/en/stable/editor_integration.html
 ## Code quality
 flakehell = "^0.9.0"
-pylint = "^2.11.1"
+pylint = "^2.12.1"
 ## Automation and management
 pre-commit = "^2.15.0"
 
