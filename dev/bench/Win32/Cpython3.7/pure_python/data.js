@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1638198691330,
+  "lastUpdate": 1638200385934,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -1831,6 +1831,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0005031728036871341",
             "extra": "mean: 12.1875 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 77.7570093457944,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0005805840042543842",
+            "extra": "mean: 12.860576923076923 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 12.673267326732674,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0024705294220065464",
+            "extra": "mean: 78.90625 msec\nrounds: 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "8ae69d635bcbac40ff851a7588babca02cd8247c",
+          "message": "Merge pull request #351 from TeoZosa/dependabot/pip/sphinx-4.3.1",
+          "timestamp": "2021-11-29T15:35:36Z",
+          "tree_id": "a9a5167da3a9b9bb00d4ee32f11f57b8bc67afd2"
+        },
+        "date": 1638200379621,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 83.47826086956522,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0005490065382236778",
+            "extra": "mean: 11.979166666666666 msec\nrounds: 10"
           },
           {
             "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
