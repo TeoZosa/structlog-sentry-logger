@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1638201370301,
+  "lastUpdate": 1638203216184,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -2947,6 +2947,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0031039085950336004",
             "extra": "mean: 54.15853494736847 msec\nrounds: 19"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "fb8f127b075a04ce667c73fc60dd6ce5e08d8f62",
+          "message": "Merge pull request #350 from TeoZosa/dependabot/pip/docs/poetry-1.1.12",
+          "timestamp": "2021-11-29T16:25:18Z",
+          "tree_id": "db380f56c1d84849a4caea106e3c86c1bfd92929"
+        },
+        "date": 1638203214630,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 118.95195724635894,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00008910667378635363",
+            "extra": "mean: 8.406755324999995 msec\nrounds: 120"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 106.420758390563,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00006057238734610834",
+            "extra": "mean: 9.396662973684244 msec\nrounds: 114"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 21.651866012040962,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00003599134986067414",
+            "extra": "mean: 46.185395727272805 msec\nrounds: 22"
           }
         ]
       }
