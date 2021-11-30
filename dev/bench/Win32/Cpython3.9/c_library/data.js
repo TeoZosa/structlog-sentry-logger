@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1638203318177,
+  "lastUpdate": 1638282028943,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -2009,6 +2009,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0024705294220065464",
             "extra": "mean: 85.15625 msec\nrounds: 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "031bc2499e113999d96410ea572c6dd9090e08fb",
+          "message": "Merge pull request #353 from TeoZosa/dependabot/pip/rich-10.15.1",
+          "timestamp": "2021-11-30T14:15:39Z",
+          "tree_id": "8fe728f390cb449cf5d14cdbdf03f6532a8be54b"
+        },
+        "date": 1638282023616,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 75.63636363636365,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0005665919721046054",
+            "extra": "mean: 13.221153846153847 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 69.18918918918918,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0009607614418914345",
+            "extra": "mean: 14.453125 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 11.130434782608695,
+            "unit": "iter/sec",
+            "range": "stddev: 0.005524271728019903",
+            "extra": "mean: 89.84375 msec\nrounds: 10"
           }
         ]
       }
