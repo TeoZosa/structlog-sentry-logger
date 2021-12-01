@@ -85,7 +85,7 @@ black = "^21.11b1" # see: https://black.readthedocs.io/en/stable/editor_integrat
 flakehell = "^0.9.0"
 pylint = "^2.12.1"
 ## Automation and management
-pre-commit = "^2.15.0"
+pre-commit = "^2.16.0"
 
 # CI/CD
 tox-gh-actions = "^2.8.1"
