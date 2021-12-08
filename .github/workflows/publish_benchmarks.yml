@@ -130,7 +130,7 @@ jobs:
           pip install pytest-benchmark[histogram]
 
       - name: Download the benchmarks
-        uses: actions/download-artifact@v2.0.10
+        uses: actions/download-artifact@v2.1.0
         with:
           name: benchmark-data-files
           path: .benchmarks

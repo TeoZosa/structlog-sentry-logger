@@ -171,7 +171,7 @@ jobs:
           pip --version
 
       - name: Download the binary wheels
-        uses: actions/download-artifact@v2.0.10
+        uses: actions/download-artifact@v2.1.0
         with:
           name: python-package-distributions
           path: dist
