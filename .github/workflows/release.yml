@@ -142,7 +142,7 @@ jobs:
           make package
 
       - name: Store the binary wheel
-        uses: actions/upload-artifact@v2.2.4
+        uses: actions/upload-artifact@v2.3.0
         with:
           name: python-package-distributions
           path: dist
