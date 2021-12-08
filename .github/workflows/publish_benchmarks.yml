@@ -78,7 +78,7 @@ jobs:
             echo "::set-output name=target_output_dir::${NAMESPACED_TARGET_OUTPUT_DIR}"
 
       - name: Store the environment-specific benchmarks
-        uses: actions/upload-artifact@v2.2.4
+        uses: actions/upload-artifact@v2.3.0
         with:
           name: benchmark-data-files
           path: .benchmarks
