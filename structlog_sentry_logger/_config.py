@@ -12,13 +12,12 @@ import dotenv
 import orjson  # type: ignore
 import sentry_sdk
 import structlog
-from pathlib import Path
 import platform
 import tempfile
 
 from structlog_sentry_logger import structlog_sentry
 
-ROOT_DIR = Path("/tmp" if platform.system() == "Darwin" else tempfile.gettempdir())
+ROOT_DIR = pathlib.Path("/tmp" if platform.system() == "Darwin" else tempfile.gettempdir())
 LOG_DATA_DIR = ROOT_DIR / ".logs"
 LOG_DATA_DIR.mkdir(exist_ok=True)
 DATETIME_FORMAT = "iso"
