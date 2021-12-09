@@ -9,30 +9,16 @@ from types import ModuleType
 from typing import Any, Callable, ContextManager, List, Optional, Union
 
 import dotenv
-import git
 import orjson  # type: ignore
 import sentry_sdk
 import structlog
+from pathlib import Path
+import platform
+import tempfile
 
 from structlog_sentry_logger import structlog_sentry
 
-
-def get_git_root() -> pathlib.Path:
-    git_repo = git.Repo(pathlib.Path.cwd(), search_parent_directories=True)
-    git_root = git_repo.git.rev_parse("--show-toplevel")
-    return pathlib.Path(git_root)
-
-
-def get_root_dir() -> pathlib.Path:
-    try:
-        return get_git_root()
-    except git.InvalidGitRepositoryError as err:
-        # the __str__() method on err returns the root descendant path, e.g., `/app`
-        root_dir = pathlib.Path(str(err)).resolve(strict=True)
-        return root_dir
-
-
-ROOT_DIR = get_root_dir()
+ROOT_DIR = Path("/tmp" if platform.system() == "Darwin" else tempfile.gettempdir())
 LOG_DATA_DIR = ROOT_DIR / ".logs"
 LOG_DATA_DIR.mkdir(exist_ok=True)
 DATETIME_FORMAT = "iso"
