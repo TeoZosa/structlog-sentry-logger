@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1639413330048,
+  "lastUpdate": 1639413779157,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -2542,6 +2542,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0009469879781547623",
             "extra": "mean: 79.21330769230799 msec\nrounds: 13"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "5ae6c73a2f706e1d005d1e5a0d35d7ed493f50ce",
+          "message": "Merge pull request #368 from TeoZosa/dependabot/pip/myst-parser-0.16.0",
+          "timestamp": "2021-12-13T16:14:12Z",
+          "tree_id": "6791d6ed5bc1bce50afaa1bdb3f5a417b5a49e48"
+        },
+        "date": 1639413775990,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 77.82568172484233,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0007575473956886675",
+            "extra": "mean: 12.849228915662621 msec\nrounds: 83"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 72.56001465358388,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00055569968550463",
+            "extra": "mean: 13.781695121951138 msec\nrounds: 82"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 12.559318627981389,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000905499479675322",
+            "extra": "mean: 79.62215384615384 msec\nrounds: 13"
           }
         ]
       }
