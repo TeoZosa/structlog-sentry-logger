@@ -63,7 +63,7 @@ cruft = "^2.10.0" # Automated Cookiecutter template synchronization
 
 # Type Checking and Data Validation
 mypy = "^0.910" # Static type checker (includes Mypyc Python module to C-Extension compiler, enabled by standard Python type annotations)
-typeguard = "^2.13.2" # Runtime type checker; Note: Mypyc-compiled C-extensions also perform runtime type checking.
+typeguard = "^2.13.3" # Runtime type checker; Note: Mypyc-compiled C-extensions also perform runtime type checking.
 
 # Testing
 pytest = "^6.2.5"
