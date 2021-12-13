@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1639413779157,
+  "lastUpdate": 1639419144916,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -2583,6 +2583,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.000905499479675322",
             "extra": "mean: 79.62215384615384 msec\nrounds: 13"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "committer": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "id": "0262b660b5ffd3b17a2c7b0ebafb54056dcc8a75",
+          "message": ":construction_worker: Run CI workflow on PRs\n\ni.e., from forks to upstream (this project).",
+          "timestamp": "2021-12-13T18:05:54Z",
+          "tree_id": "567a923f6434029c87afcc7ff6a1e76bf521ef36"
+        },
+        "date": 1639419143824,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 77.98183023355577,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00045356389153424626",
+            "extra": "mean: 12.823499999999969 msec\nrounds: 82"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 68.30057787476245,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0011526339449433219",
+            "extra": "mean: 14.641164556962073 msec\nrounds: 79"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 12.520224978811877,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000895287863747953",
+            "extra": "mean: 79.87076923076955 msec\nrounds: 13"
           }
         ]
       }
