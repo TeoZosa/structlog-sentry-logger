@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1639406284393,
+  "lastUpdate": 1639406955655,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -2460,6 +2460,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0024705294220065464",
             "extra": "mean: 78.90625 msec\nrounds: 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "39258623780e14fa587eb1f25665a381e56c8100",
+          "message": "Merge pull request #367 from TeoZosa/dependabot/pip/typeguard-2.13.3",
+          "timestamp": "2021-12-13T14:32:40Z",
+          "tree_id": "2fdaeb668138fe17b833cc78bb6e4224e53e48dc"
+        },
+        "date": 1639406951839,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 68.57142857142857,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0005490065382236772",
+            "extra": "mean: 14.583333333333334 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 64,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0010416666666666669",
+            "extra": "mean: 15.625 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 10.24,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0041175490366775775",
+            "extra": "mean: 97.65625 msec\nrounds: 10"
           }
         ]
       }
