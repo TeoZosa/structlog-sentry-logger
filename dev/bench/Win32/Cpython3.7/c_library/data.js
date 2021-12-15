@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1639419000599,
+  "lastUpdate": 1639578075590,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -2617,6 +2617,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0005067752660526246",
             "extra": "mean: 12.980769230769232 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 12.549019607843137,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0032940392293420617",
+            "extra": "mean: 79.6875 msec\nrounds: 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "c7ecf7083608f7fef6dc8f2c28dfc038dda1f921",
+          "message": "Merge pull request #370 from TeoZosa/dependabot/pip/rich-10.16.1",
+          "timestamp": "2021-12-15T14:17:06Z",
+          "tree_id": "3db67324511a26828c7f12961e3afe17d5eb4e21"
+        },
+        "date": 1639578072114,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 94.60869565217389,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0004844175337267739",
+            "extra": "mean: 10.569852941176471 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 89.18032786885244,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0003875340269814184",
+            "extra": "mean: 11.213235294117647 msec\nrounds: 10"
           },
           {
             "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
