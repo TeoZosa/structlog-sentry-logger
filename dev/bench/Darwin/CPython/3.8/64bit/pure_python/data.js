@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1639752353555,
+  "lastUpdate": 1640012422726,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -2870,6 +2870,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.003348271335465009",
             "extra": "mean: 88.04346153846126 msec\nrounds: 13"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "2c37246f9ce8e035080521cf7ef33c651eec098b",
+          "message": "Merge pull request #376 from TeoZosa/dependabot/pip/sphinx-4.3.2",
+          "timestamp": "2021-12-20T14:18:08Z",
+          "tree_id": "e65018616978085691a75d383d5d42b1764679ef"
+        },
+        "date": 1640012421063,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 67.86409084739617,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0013050348820204582",
+            "extra": "mean: 14.735333333333358 msec\nrounds: 78"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 68.18522744318969,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0007315228346796256",
+            "extra": "mean: 14.665933333333474 msec\nrounds: 75"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 11.473317366299966,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0026165729538323505",
+            "extra": "mean: 87.15875000000024 msec\nrounds: 12"
           }
         ]
       }
