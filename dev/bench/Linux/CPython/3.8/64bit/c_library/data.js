@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1639751108342,
+  "lastUpdate": 1640010797362,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -3849,6 +3849,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0001363015061535613",
             "extra": "mean: 43.1495333333333 msec\nrounds: 24"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "2c37246f9ce8e035080521cf7ef33c651eec098b",
+          "message": "Merge pull request #376 from TeoZosa/dependabot/pip/sphinx-4.3.2",
+          "timestamp": "2021-12-20T14:18:08Z",
+          "tree_id": "e65018616978085691a75d383d5d42b1764679ef"
+        },
+        "date": 1640010796430,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 140.84580565622935,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00013512379596646552",
+            "extra": "mean: 7.099962937062954 msec\nrounds: 143"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 126.0786902268223,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00010950028503796191",
+            "extra": "mean: 7.9315544776119316 msec\nrounds: 134"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 26.165534022074695,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00007115886724417289",
+            "extra": "mean: 38.21821481481496 msec\nrounds: 27"
           }
         ]
       }
