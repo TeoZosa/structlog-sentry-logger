@@ -153,10 +153,12 @@ Which automatically produces this:
 {
     "event": "Information that's useful for future me and others",
     "extra_field": "extra_value",
+    "funcName": "<module>",
     "level": "info",
+    "lineno": 5,
     "logger": "docs_src.pure_structlog_logging_without_sentry",
     "sentry": "skipped",
-    "timestamp": "2020-10-18 15:30:05"
+    "timestamp": "2022-01-06T04:48:40.795891Z"
 }
 ```
 
@@ -208,22 +210,26 @@ except ZeroDivisionError as err:
 
 ```json lines
 {
-    "event": "A dummy error for testing purposes is about to be thrown!",
+    "event": "A dummy error for testing purposes is about to be thrown!\n",
+    "funcName": "<module>",
     "level": "warning",
+    "lineno": 12,
     "logger": "docs_src.sentry_integration",
     "sentry": "skipped",
-    "timestamp": "2020-10-18 15:29:55",
-    "uuid": "181e0e00b9034732af4fed2b8424fb11"
+    "timestamp": "2022-01-06T04:50:07.627633Z",
+    "uuid": "fe2bdcbe2ed74432a87bc76bcdc9def4"
 }
 {
-    "event": "I threw an error on purpose for this example!\nNow throwing another that explicitly chains from that one!",
-    "exception": 'Traceback (most recent call last):\n  File "/app/structlog-sentry-logger/docs_src/sentry_integration.py", line 10, in <module>\n    x = 1 / 0\nZeroDivisionError: division by zero',
+    "event": "I threw an error on purpose for this example!\nNow throwing another that explicitly chains from that one!\n",
+    "exc_info": true,
+    "funcName": "<module>",
     "level": "error",
+    "lineno": 19,
     "logger": "docs_src.sentry_integration",
     "sentry": "sent",
     "sentry_id": null,
-    "timestamp": "2020-10-18 15:29:55",
-    "uuid": "181e0e00b9034732af4fed2b8424fb11"
+    "timestamp": "2022-01-06T04:50:07.628316Z",
+    "uuid": "fe2bdcbe2ed74432a87bc76bcdc9def4"
 }
 Traceback (most recent call last):
   File "/app/structlog-sentry-logger/docs_src/sentry_integration.py", line 10, in <module>
