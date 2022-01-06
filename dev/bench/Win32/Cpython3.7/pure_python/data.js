@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1641506826266,
+  "lastUpdate": 1641512331202,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -3396,6 +3396,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.000620670408046061",
             "extra": "mean: 13.942307692307693 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 12.307692307692308,
+            "unit": "iter/sec",
+            "range": "stddev: 0.004034357652299392",
+            "extra": "mean: 81.25 msec\nrounds: 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "5d4b6f1b73130c34941f4e3213a7dc8965039296",
+          "message": "Merge pull request #392 from TeoZosa/refactor/clean-and-reorganize\n\n♻️  📝  Clean up source code and update features documentation",
+          "timestamp": "2022-01-06T23:34:57Z",
+          "tree_id": "dbd83ba095d35fb9bc078399665b9c03802e7426"
+        },
+        "date": 1641512327923,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 76.3302752293578,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0006822670819682051",
+            "extra": "mean: 13.100961538461538 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 70.50847457627117,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0005067752660526254",
+            "extra": "mean: 14.182692307692308 msec\nrounds: 10"
           },
           {
             "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
