@@ -5,7 +5,7 @@ import logging
 import logging.config
 import os
 import pathlib
-from types import FrameType, ModuleType
+from types import FrameType
 from typing import Any, Callable, ContextManager, List, Optional, Tuple, Union
 
 import dotenv
@@ -49,20 +49,6 @@ def get_namespaced_module_name(__file__: Union[pathlib.Path, str]) -> str:
     prefix_dir = str(ROOT_DIR) if str(ROOT_DIR) in str(fully_qualified_path) else "/"
     namespaces = fully_qualified_path.relative_to(prefix_dir).with_suffix("").parts
     return ".".join(namespaces)
-
-
-def get_caller_name(prev_stack_frame: inspect.FrameInfo) -> str:
-    deduced_calling_module = deduce_module(prev_stack_frame)
-    return (
-        deduced_calling_module.__name__
-        if deduced_calling_module is not None
-        and not is_caller_main(deduced_calling_module.__name__)
-        else get_namespaced_module_name(prev_stack_frame.filename)
-    )
-
-
-def deduce_module(prev_stack_frame: inspect.FrameInfo) -> Optional[ModuleType]:
-    return inspect.getmodule(prev_stack_frame[0])
 
 
 def get_caller_name_from_frames() -> str:
