@@ -332,9 +332,6 @@ class TestCloudLogging:  # pylint: disable=too-few-public-methods
                 raise NotImplementedError("Captured log message not a supported type")
 
     @staticmethod
-    @pytest.mark.usefixtures(
-        "patch_get_caller_name_from_frames_for_typeguard_compatibility"
-    )
     @pytest.mark.parametrize(
         "cloud_logging_compatibility_mode_env_var",
         cloud_logging_compatibility_mode_env_vars,
@@ -390,9 +387,6 @@ class TestCloudLogging:  # pylint: disable=too-few-public-methods
 
 class TestLoggerSchema:
     @staticmethod
-    @pytest.mark.usefixtures(
-        "patch_get_caller_name_from_frames_for_typeguard_compatibility"
-    )
     def test_structlog_logger(
         caplog: LogCaptureFixture,
         random_log_msgs: List[uuid.UUID],
@@ -475,40 +469,14 @@ class TestCallerNameInference:
 
 
 class TestCorrectNamespacing:
-    # pylint: disable=protected-access
     @staticmethod
-    def test_unpatched_is_caller_main_and_typeguard_enabled(
-        mocker: MockerFixture,
-    ) -> None:
-        mocker.patch.object(
-            structlog_sentry_logger._config,
-            "get_caller_name_from_frames",
-            lambda stack_frames: structlog_sentry_logger._config.get_caller_name(
-                stack_frames[1]
-            ),
-        )
-        expected_logger = structlog_sentry_logger.get_logger()
-        mocker.patch.object(
-            structlog_sentry_logger._config, "is_caller_main", lambda _: True
-        )
-        actual_logger = structlog_sentry_logger.get_logger()
-
-        print(repr(expected_logger))
-        assert (
-            expected_logger.name == "typeguard"
-            and "typeguard" in actual_logger.name
-            and actual_logger.name != "__main__"
-        )
-
-    @staticmethod
-    @pytest.mark.usefixtures(
-        "patch_get_caller_name_from_frames_for_typeguard_compatibility"
-    )
     def test_main_module(mocker: MockerFixture) -> None:
         expected_logger = structlog_sentry_logger.get_logger()
+        # pylint: disable=protected-access
         mocker.patch.object(
             structlog_sentry_logger._config, "is_caller_main", lambda _: True
         )
+        # pylint: enable=protected-access
         actual_logger = structlog_sentry_logger.get_logger()
         assert repr(expected_logger) == repr(actual_logger)
         module_name = structlog_sentry_logger.get_namespaced_module_name(__file__)
@@ -520,12 +488,7 @@ class TestCorrectNamespacing:
             != "__main__"
         )
 
-    # pylint: enable=protected-access
-
     @staticmethod
-    @pytest.mark.usefixtures(
-        "patch_get_caller_name_from_frames_for_typeguard_compatibility"
-    )
     def test_child_loggers(caplog: LogCaptureFixture) -> None:
         from tests.structlog_sentry_logger import (  # pylint: disable=import-outside-toplevel
             child_module_1,

@@ -39,9 +39,6 @@ def actual_output(
     return utils.get_validated_json_output(capsys)
 
 
-@pytest.mark.usefixtures(
-    "patch_get_caller_name_from_frames_for_typeguard_compatibility"
-)
 def test_dev_local(
     capsys: CaptureFixture, caplog: LogCaptureFixture, monkeypatch: MonkeyPatch
 ) -> None:
@@ -76,9 +73,6 @@ def test_dev_local(
     assert relevant_actual == relevant_expected
 
 
-@pytest.mark.usefixtures(
-    "patch_get_caller_name_from_frames_for_typeguard_compatibility"
-)
 # pylint: disable=redefined-outer-name
 def test_pure_structlog_logging_without_sentry(
     expected_output_truncated: List[JSONOutputType],

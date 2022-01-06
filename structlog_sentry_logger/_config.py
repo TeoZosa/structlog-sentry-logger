@@ -65,9 +65,12 @@ def deduce_module(prev_stack_frame: inspect.FrameInfo) -> Optional[ModuleType]:
     return inspect.getmodule(prev_stack_frame[0])
 
 
-def get_caller_name_from_frames(stack_frames: List[inspect.FrameInfo]) -> str:
-    prev_stack_frame = stack_frames[1] if __file__.endswith(".py") else stack_frames[0]
-    return get_caller_name(prev_stack_frame)
+def get_caller_name_from_frames() -> str:
+    caller_frame, caller_name = _get_caller_stack_frame_and_name()
+    if is_caller_main(caller_name):
+        filename = inspect.getfile(caller_frame)
+        caller_name = get_namespaced_module_name(filename)
+    return caller_name
 
 
 def get_logger(name: Optional[str] = None) -> Any:
@@ -79,8 +82,7 @@ def get_logger(name: Optional[str] = None) -> Any:
 
     """
     del name
-    stack_frames = inspect.stack()
-    caller_name = get_caller_name_from_frames(stack_frames)
+    caller_name = get_caller_name_from_frames()
     if not structlog.is_configured():
         timestamper = structlog.processors.TimeStamper(fmt=DATETIME_FORMAT)
         set_logging_config(caller_name, timestamper)
@@ -105,8 +107,7 @@ def get_config_dict() -> dict:
     configure the Python logging library component of the logger
 
     """
-    stack_frames = inspect.stack()
-    caller_name = get_caller_name_from_frames(stack_frames)
+    caller_name = get_caller_name_from_frames()
     timestamper = structlog.processors.TimeStamper(fmt=DATETIME_FORMAT)
     return get_logging_config(caller_name, timestamper)
 
