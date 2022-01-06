@@ -36,8 +36,7 @@ def get_root_dir() -> pathlib.Path:
 ROOT_DIR = get_root_dir()
 LOG_DATA_DIR = ROOT_DIR / ".logs"
 LOG_DATA_DIR.mkdir(exist_ok=True)
-DATETIME_FORMAT = "iso"
-_TIMESTAMPER = structlog.processors.TimeStamper(fmt=DATETIME_FORMAT)
+_TIMESTAMPER = structlog.processors.TimeStamper(fmt="iso")
 _CONFIGS = {"USE_ORJSON": True}
 
 
