@@ -19,7 +19,9 @@ def expected_output_truncated() -> List[JSONOutputType]:
         {
             "event": "Information that's useful for future me and others",
             "extra_field": "extra_value",
+            "funcName": "<module>",
             "level": "info",
+            "lineno": 5,
             "logger": "docs_src.pure_structlog_logging_without_sentry",
             "sentry": "skipped",
         }
@@ -54,6 +56,8 @@ def test_dev_local(
             "future me and others "
             "[docs_src.pure_structlog_logging_without_sentry] "
             "extra_field=extra_value "
+            "funcName=<module> "
+            "lineno=5 "
             "sentry=skipped [in <module>]\n"
         )
     else:
@@ -62,6 +66,8 @@ def test_dev_local(
             "future me and others\x1b[0m "
             "[\x1b[34m\x1b[1mdocs_src.pure_structlog_logging_without_sentry\x1b[0m] "
             "\x1b[36mextra_field\x1b[0m=\x1b[35mextra_value\x1b[0m "
+            "\x1b[36mfuncName\x1b[0m=\x1b[35m<module>\x1b[0m "
+            "\x1b[36mlineno\x1b[0m=\x1b[35m5\x1b[0m "
             "\x1b[36msentry\x1b[0m=\x1b[35mskipped\x1b[0m [in <module>]\n"
         )
 

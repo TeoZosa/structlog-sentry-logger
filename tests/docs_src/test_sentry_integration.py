@@ -20,6 +20,8 @@ def expected_output_truncated() -> List[JSONOutputType]:
             "level": "warning",
             "logger": "docs_src.sentry_integration",
             "sentry": "skipped",
+            "lineno": 12,
+            "funcName": "<module>",
         },
         {
             "exc_info": True,
@@ -31,6 +33,8 @@ def expected_output_truncated() -> List[JSONOutputType]:
             "logger": "docs_src.sentry_integration",
             "sentry": "sent",
             "sentry_id": None,  # Note: `null` in json str converted to `None` by json.loads
+            "lineno": 19,
+            "funcName": "<module>",
         },
     ]
 
