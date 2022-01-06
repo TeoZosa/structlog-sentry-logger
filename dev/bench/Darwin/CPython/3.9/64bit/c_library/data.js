@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1641507058812,
+  "lastUpdate": 1641512456083,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -3403,6 +3403,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0015846676226767469",
             "extra": "mean: 81.05284615384602 msec\nrounds: 13"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "5d4b6f1b73130c34941f4e3213a7dc8965039296",
+          "message": "Merge pull request #392 from TeoZosa/refactor/clean-and-reorganize\n\n♻️  📝  Clean up source code and update features documentation",
+          "timestamp": "2022-01-06T23:34:57Z",
+          "tree_id": "dbd83ba095d35fb9bc078399665b9c03802e7426"
+        },
+        "date": 1641512454225,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 76.10994462050164,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0006741386063720304",
+            "extra": "mean: 13.138887499999985 msec\nrounds: 80"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 71.34841456776019,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0005213248270594425",
+            "extra": "mean: 14.015728395061837 msec\nrounds: 81"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 12.723405879583684,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0015725797480901143",
+            "extra": "mean: 78.59530769230798 msec\nrounds: 13"
           }
         ]
       }
