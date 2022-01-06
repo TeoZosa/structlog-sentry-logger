@@ -238,7 +238,7 @@ def set_structlog_config(timestamper: structlog.processors.TimeStamper) -> None:
 
 
 def add_severity_field_from_level_if_in_cloud_environment(
-    logger: Any,  # pylint: disable=unused-argument
+    logger: Any,
     method: str,  # pylint: disable=unused-argument
     event_dict: structlog.types.EventDict,
 ) -> structlog.types.EventDict:
