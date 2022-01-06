@@ -5,7 +5,7 @@ import logging
 import logging.config
 import os
 import pathlib
-from types import ModuleType
+from types import FrameType, ModuleType
 from typing import Any, Callable, ContextManager, List, Optional, Union
 
 import dotenv
@@ -13,6 +13,7 @@ import git
 import orjson  # type: ignore
 import sentry_sdk
 import structlog
+import structlog._frames
 
 from structlog_sentry_logger import structlog_sentry
 
@@ -210,6 +211,7 @@ def set_structlog_config(timestamper: structlog.processors.TimeStamper) -> None:
     structlog_processors = [
         timestamper,
         structlog.processors.StackInfoRenderer(),
+        add_line_number_and_func_name,
         add_severity_field_from_level_if_in_cloud_environment,
     ]
     stdlib_log_compatibility_processors = [
@@ -235,6 +237,26 @@ def set_structlog_config(timestamper: structlog.processors.TimeStamper) -> None:
         wrapper_class=structlog.stdlib.BoundLogger,
         cache_logger_on_first_use=True,
     )
+
+
+def add_line_number_and_func_name(
+    logger: Any,  # pylint: disable=unused-argument
+    method: str,  # pylint: disable=unused-argument
+    event_dict: structlog.types.EventDict,
+) -> structlog.types.EventDict:
+    caller_frame = _get_caller_stack_frame()
+    event_dict["lineno"] = caller_frame.f_lineno
+    event_dict["funcName"] = caller_frame.f_code.co_name
+    return event_dict
+
+
+def _get_caller_stack_frame() -> FrameType:
+    # pylint:disable=protected-access
+    caller_frame, _ = structlog._frames._find_first_app_frame_and_name(
+        additional_ignores=["structlog_sentry_logger", "typeguard"]
+    )
+    # pylint:enable=protected-access
+    return caller_frame
 
 
 def add_severity_field_from_level_if_in_cloud_environment(

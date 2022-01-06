@@ -91,6 +91,14 @@ def test_pytest_caplog_and_structlog_patching_equivalence(
         del structlog_captured_log["timestamp"]
         del pytest_captured_log["timestamp"]  # type: ignore[attr-defined]
 
+        # Validate captured function names and line numbers which WILL differ between logs
+        assert structlog_captured_log["funcName"] == "get_structlog_captured_logs"
+        assert pytest_captured_log["funcName"] == "get_pytest_captured_logs"  # type: ignore[index]
+        for log in structlog_captured_log, pytest_captured_log:
+            del log["lineno"]  # type: ignore[attr-defined]
+            del log["funcName"]  # type: ignore[attr-defined]
+
+        # Validate that remaining fields are identical
         assert pytest_captured_log == structlog_captured_log
 
 
