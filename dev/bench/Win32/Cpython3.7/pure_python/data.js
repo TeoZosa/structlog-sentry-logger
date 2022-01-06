@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1641498208440,
+  "lastUpdate": 1641506826266,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -3362,6 +3362,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.003193689524324144",
             "extra": "mean: 77.8125 msec\nrounds: 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "d52b3618b95a3b1bd92233e11c9ef0ba022db6ab",
+          "message": "Merge pull request #389 from TeoZosa/refactor/leverage-structlog-stack-introspection-for-logger-namespacing-and-remove-now-obsolete-typeguard-compatiblity-in-test-suite\n\n♻️ ✅ Simplify logger name inference and test suite",
+          "timestamp": "2022-01-06T22:03:19Z",
+          "tree_id": "938ae6323e0ded6254f9c1cb603dbc5983c884e2"
+        },
+        "date": 1641506822988,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 76.3302752293578,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0006822670819682051",
+            "extra": "mean: 13.100961538461538 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 71.72413793103448,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000620670408046061",
+            "extra": "mean: 13.942307692307693 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 12.307692307692308,
+            "unit": "iter/sec",
+            "range": "stddev: 0.004034357652299392",
+            "extra": "mean: 81.25 msec\nrounds: 10"
           }
         ]
       }
