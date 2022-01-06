@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1641494703062,
+  "lastUpdate": 1641498067445,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -4341,6 +4341,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.00145438142018526",
             "extra": "mean: 53.80852631578953 msec\nrounds: 19"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "350e4853afb9bfe41d1ffdd51074eca5616d3508",
+          "message": "Merge pull request #387 from TeoZosa/feat/add-line-numbers-and-function-names-to-logs\n\n✨ 💥 Add line numbers and function names to logs",
+          "timestamp": "2022-01-06T19:39:25Z",
+          "tree_id": "35a9f905fd02a774ab3824024228975f2262906f"
+        },
+        "date": 1641498065689,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 91.69820987535077,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00013948202728963712",
+            "extra": "mean: 10.905338297872358 msec\nrounds: 94"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 83.95104163905637,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00009518742386144473",
+            "extra": "mean: 11.911704494382022 msec\nrounds: 89"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 18.828194607030213,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0007336886368137749",
+            "extra": "mean: 53.11183684210553 msec\nrounds: 19"
           }
         ]
       }
