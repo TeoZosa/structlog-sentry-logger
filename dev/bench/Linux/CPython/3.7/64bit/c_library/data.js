@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1641506699933,
+  "lastUpdate": 1641512202476,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -4423,6 +4423,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0014718299532904368",
             "extra": "mean: 53.65221578947383 msec\nrounds: 19"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "5d4b6f1b73130c34941f4e3213a7dc8965039296",
+          "message": "Merge pull request #392 from TeoZosa/refactor/clean-and-reorganize\n\n♻️  📝  Clean up source code and update features documentation",
+          "timestamp": "2022-01-06T23:34:57Z",
+          "tree_id": "dbd83ba095d35fb9bc078399665b9c03802e7426"
+        },
+        "date": 1641512200684,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 66.7673168931148,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000551949249938357",
+            "extra": "mean: 14.977387837837803 msec\nrounds: 74"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 63.33907548144369,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0009983539952859465",
+            "extra": "mean: 15.788042253521175 msec\nrounds: 71"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 16.391285043000625,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0015449818230181883",
+            "extra": "mean: 61.008029411764646 msec\nrounds: 17"
           }
         ]
       }
