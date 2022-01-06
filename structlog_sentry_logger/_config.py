@@ -13,15 +13,8 @@ import git
 import orjson  # type: ignore
 import sentry_sdk
 import structlog
-import structlog._frames
 
 from structlog_sentry_logger import structlog_sentry
-
-
-def get_git_root() -> pathlib.Path:
-    git_repo = git.Repo(pathlib.Path.cwd(), search_parent_directories=True)
-    git_root = git_repo.git.rev_parse("--show-toplevel")
-    return pathlib.Path(git_root)
 
 
 def get_root_dir() -> pathlib.Path:
@@ -33,10 +26,16 @@ def get_root_dir() -> pathlib.Path:
         return root_dir
 
 
+def get_git_root() -> pathlib.Path:  # Gratuitous indirection for testing
+    git_repo = git.Repo(pathlib.Path.cwd(), search_parent_directories=True)
+    git_root = git_repo.git.rev_parse("--show-toplevel")
+    return pathlib.Path(git_root)
+
+
 ROOT_DIR = get_root_dir()
 LOG_DATA_DIR = ROOT_DIR / ".logs"
 LOG_DATA_DIR.mkdir(exist_ok=True)
-DATETIME_FORMAT = "iso"
+_TIMESTAMPER = structlog.processors.TimeStamper(fmt="iso")
 _CONFIGS = {"USE_ORJSON": True}
 
 
@@ -44,19 +43,17 @@ def _toggle_json_library(use_orjson: bool = True) -> None:
     _CONFIGS["USE_ORJSON"] = use_orjson
 
 
-def get_namespaced_module_name(__file__: Union[pathlib.Path, str]) -> str:
-    fully_qualified_path = pathlib.Path(__file__).resolve()
-    prefix_dir = str(ROOT_DIR) if str(ROOT_DIR) in str(fully_qualified_path) else "/"
-    namespaces = fully_qualified_path.relative_to(prefix_dir).with_suffix("").parts
-    return ".".join(namespaces)
+def get_config_dict() -> dict:
+    """
+    Convenience function to get the local logging configuration dictionary,
+    e.g., to help configure loggers from other libraries.
 
+    Returns: The logging configuration dictionary that would be used to
+    configure the Python logging library component of the logger
 
-def get_caller_name_from_frames() -> str:
-    caller_frame, caller_name = _get_caller_stack_frame_and_name()
-    if is_caller_main(caller_name):
-        filename = inspect.getfile(caller_frame)
-        caller_name = get_namespaced_module_name(filename)
-    return caller_name
+    """
+    caller_name = get_caller_name_from_frames()
+    return get_logging_config(caller_name)
 
 
 def get_logger(name: Optional[str] = None) -> Any:
@@ -70,9 +67,8 @@ def get_logger(name: Optional[str] = None) -> Any:
     del name
     caller_name = get_caller_name_from_frames()
     if not structlog.is_configured():
-        timestamper = structlog.processors.TimeStamper(fmt=DATETIME_FORMAT)
-        set_logging_config(caller_name, timestamper)
-        set_structlog_config(timestamper)
+        set_logging_config(caller_name)
+        set_structlog_config()
     logger = structlog.get_logger(caller_name)
     logger.setLevel(logging.DEBUG)
     return logger
@@ -84,32 +80,42 @@ CamelCase alias for `structlog_sentry_logger.get_logger`.
 """
 
 
-def get_config_dict() -> dict:
-    """
-    Convenience function to get the local logging configuration dictionary,
-    e.g., to help configure loggers from other libraries.
-
-    Returns: The logging configuration dictionary that would be used to
-    configure the Python logging library component of the logger
-
-    """
-    caller_name = get_caller_name_from_frames()
-    timestamper = structlog.processors.TimeStamper(fmt=DATETIME_FORMAT)
-    return get_logging_config(caller_name, timestamper)
+def get_caller_name_from_frames() -> str:
+    caller_frame, caller_name = _get_caller_stack_frame_and_name()
+    if is_caller_main(caller_name):
+        filename = inspect.getfile(caller_frame)
+        caller_name = get_namespaced_module_name(filename)
+    return caller_name
 
 
-def is_caller_main(caller_name: str) -> bool:
+def _get_caller_stack_frame_and_name() -> Tuple[FrameType, str]:
+    return structlog._frames._find_first_app_frame_and_name(  # pylint:disable=protected-access
+        additional_ignores=["structlog_sentry_logger", "typeguard"]
+    )
+
+
+def is_caller_main(caller_name: str) -> bool:  # Gratuitous indirection for testing
     return caller_name == "__main__"
 
 
-def get_logging_config(
-    module_name: str, timestamper: structlog.processors.TimeStamper
-) -> dict:
+def get_namespaced_module_name(__file__: Union[pathlib.Path, str]) -> str:
+    fully_qualified_path = pathlib.Path(__file__).resolve()
+    prefix_dir = str(ROOT_DIR) if str(ROOT_DIR) in str(fully_qualified_path) else "/"
+    namespaces = fully_qualified_path.relative_to(prefix_dir).with_suffix("").parts
+    return ".".join(namespaces)
+
+
+def set_logging_config(module_name: str) -> None:
+    config_dict = get_logging_config(module_name)
+    logging.config.dictConfig(config_dict)
+
+
+def get_logging_config(module_name: str) -> dict:
     handlers = get_handlers(module_name)
     return {
         "version": 1,
         "disable_existing_loggers": False,
-        "formatters": (get_formatters(timestamper)),
+        "formatters": (get_formatters()),
         "handlers": handlers,
         "loggers": {
             "": {
@@ -119,49 +125,6 @@ def get_logging_config(
             }
         },
     }
-
-
-def set_logging_config(
-    module_name: str, timestamper: structlog.processors.TimeStamper
-) -> None:
-    config_dict = get_logging_config(module_name, timestamper)
-    logging.config.dictConfig(config_dict)
-
-
-def get_formatters(timestamper: structlog.processors.TimeStamper) -> dict:
-    pre_chain = [
-        # Add the log level and a timestamp to the event_dict if the log
-        # entry is not from structlog.
-        structlog.stdlib.add_log_level,
-        timestamper,
-        structlog.stdlib.add_logger_name,
-    ]
-    return {
-        "plain": {
-            "()": structlog.stdlib.ProcessorFormatter,
-            "processor": structlog.processors.JSONRenderer(
-                serializer=serializer,
-                option=orjson.OPT_NON_STR_KEYS | orjson.OPT_SORT_KEYS,
-            ),
-            "foreign_pre_chain": pre_chain,
-        },
-        "colored": {
-            "()": structlog.stdlib.ProcessorFormatter,
-            "processor": structlog.dev.ConsoleRenderer(colors=True),
-            "format": "%(message)s [in %(funcName)s]",
-            "foreign_pre_chain": pre_chain,
-        },
-    }
-
-
-def serializer(
-    *args: Any,
-    default: Optional[Callable[[Any], Any]] = None,
-    option: Optional[int] = orjson.OPT_NON_STR_KEYS | orjson.OPT_SORT_KEYS,
-) -> str:
-    if _CONFIGS["USE_ORJSON"]:
-        return orjson.dumps(*args, default=default, option=option).decode()  # type: ignore[misc]
-    return json.dumps(*args, sort_keys=True)
 
 
 def get_handlers(module_name: str) -> dict:
@@ -194,9 +157,45 @@ def get_handlers(module_name: str) -> dict:
     return base_handlers
 
 
-def set_structlog_config(timestamper: structlog.processors.TimeStamper) -> None:
+def get_formatters() -> dict:
+    pre_chain = [
+        # Add the log level and a timestamp to the event_dict if the log
+        # entry is not from structlog.
+        structlog.stdlib.add_log_level,
+        _TIMESTAMPER,
+        structlog.stdlib.add_logger_name,
+    ]
+    return {
+        "plain": {
+            "()": structlog.stdlib.ProcessorFormatter,
+            "processor": structlog.processors.JSONRenderer(
+                serializer=serializer,
+                option=orjson.OPT_NON_STR_KEYS | orjson.OPT_SORT_KEYS,
+            ),
+            "foreign_pre_chain": pre_chain,
+        },
+        "colored": {
+            "()": structlog.stdlib.ProcessorFormatter,
+            "processor": structlog.dev.ConsoleRenderer(colors=True),
+            "format": "%(message)s [in %(funcName)s]",
+            "foreign_pre_chain": pre_chain,
+        },
+    }
+
+
+def serializer(
+    *args: Any,
+    default: Optional[Callable[[Any], Any]] = None,
+    option: Optional[int] = orjson.OPT_NON_STR_KEYS | orjson.OPT_SORT_KEYS,
+) -> str:
+    if _CONFIGS["USE_ORJSON"]:
+        return orjson.dumps(*args, default=default, option=option).decode()  # type: ignore[misc]
+    return json.dumps(*args, sort_keys=True)
+
+
+def set_structlog_config() -> None:
     structlog_processors = [
-        timestamper,
+        _TIMESTAMPER,
         structlog.processors.StackInfoRenderer(),
         add_line_number_and_func_name,
         add_severity_field_from_level_if_in_cloud_environment,
@@ -235,12 +234,6 @@ def add_line_number_and_func_name(
     event_dict["lineno"] = caller_frame.f_lineno
     event_dict["funcName"] = caller_frame.f_code.co_name
     return event_dict
-
-
-def _get_caller_stack_frame_and_name() -> Tuple[FrameType, str]:
-    return structlog._frames._find_first_app_frame_and_name(  # pylint:disable=protected-access
-        additional_ignores=["structlog_sentry_logger", "typeguard"]
-    )
 
 
 def add_severity_field_from_level_if_in_cloud_environment(
