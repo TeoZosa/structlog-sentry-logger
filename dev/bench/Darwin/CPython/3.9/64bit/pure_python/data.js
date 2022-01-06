@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1641507114650,
+  "lastUpdate": 1641512706804,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -3403,6 +3403,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0024143092126645274",
             "extra": "mean: 80.64515384615383 msec\nrounds: 13"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "5d4b6f1b73130c34941f4e3213a7dc8965039296",
+          "message": "Merge pull request #392 from TeoZosa/refactor/clean-and-reorganize\n\n♻️  📝  Clean up source code and update features documentation",
+          "timestamp": "2022-01-06T23:34:57Z",
+          "tree_id": "dbd83ba095d35fb9bc078399665b9c03802e7426"
+        },
+        "date": 1641512704930,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 68.46334913695651,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0006383637354769138",
+            "extra": "mean: 14.606355263157877 msec\nrounds: 76"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 64.93287008622785,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0006976881886628651",
+            "extra": "mean: 15.400520547945073 msec\nrounds: 73"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 11.82420947769514,
+            "unit": "iter/sec",
+            "range": "stddev: 0.007414512282433791",
+            "extra": "mean: 84.57224999999976 msec\nrounds: 12"
           }
         ]
       }
