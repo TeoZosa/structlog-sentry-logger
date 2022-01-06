@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1641498081295,
+  "lastUpdate": 1641506739033,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -4416,6 +4416,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.00006400399999496633",
             "extra": "mean: 38.4187192307695 msec\nrounds: 26"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "d52b3618b95a3b1bd92233e11c9ef0ba022db6ab",
+          "message": "Merge pull request #389 from TeoZosa/refactor/leverage-structlog-stack-introspection-for-logger-namespacing-and-remove-now-obsolete-typeguard-compatiblity-in-test-suite\n\n♻️ ✅ Simplify logger name inference and test suite",
+          "timestamp": "2022-01-06T22:03:19Z",
+          "tree_id": "938ae6323e0ded6254f9c1cb603dbc5983c884e2"
+        },
+        "date": 1641506737557,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 78.02131096379497,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0009081456467195612",
+            "extra": "mean: 12.817010989010942 msec\nrounds: 91"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 72.84017654087297,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0013797778640309752",
+            "extra": "mean: 13.728687209302242 msec\nrounds: 86"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 18.64262220344779,
+            "unit": "iter/sec",
+            "range": "stddev: 0.002496215855274814",
+            "extra": "mean: 53.64052272727271 msec\nrounds: 22"
           }
         ]
       }
