@@ -138,8 +138,7 @@ LOGGER = structlog_sentry_logger.get_logger()
 Now anytime you want to print anything, don't. Instead do this:
 
 ```python
-LOG_MSG = "Information that's useful for future me and others"
-LOGGER.info(LOG_MSG, extra_field="extra_value")
+LOGGER.info("Your log message", extra_field="extra_value")
 ```
 
 > :memo: **Note**  
@@ -151,7 +150,7 @@ Which automatically produces this:
 
 ```json
 {
-    "event": "Information that's useful for future me and others",
+    "event": "Your log message",
     "extra_field": "extra_value",
     "funcName": "<module>",
     "level": "info",

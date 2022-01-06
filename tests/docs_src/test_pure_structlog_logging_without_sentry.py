@@ -17,7 +17,7 @@ from tests.docs_src.utils import JSONOutputType
 def expected_output_truncated() -> List[JSONOutputType]:
     return [
         {
-            "event": "Information that's useful for future me and others",
+            "event": "Your log message",
             "extra_field": "extra_value",
             "funcName": "<module>",
             "level": "info",
@@ -52,8 +52,7 @@ def test_dev_local(
 
     if sys.platform == "win32":
         relevant_expected = (
-            "o     ] Information that's useful for "
-            "future me and others "
+            "o     ] Your log message               "
             "[docs_src.pure_structlog_logging_without_sentry] "
             "extra_field=extra_value "
             "funcName=<module> "
@@ -62,9 +61,9 @@ def test_dev_local(
         )
     else:
         relevant_expected = (
-            "[0m [\x1b[32m\x1b[1minfo     \x1b[0m] \x1b[1mInformation that's useful for "
-            "future me and others\x1b[0m "
-            "[\x1b[34m\x1b[1mdocs_src.pure_structlog_logging_without_sentry\x1b[0m] "
+            "[0m [\x1b[32m\x1b[1minfo     \x1b[0m] "
+            "\x1b[1mYour log message              \x1b[0m ["
+            "\x1b[34m\x1b[1mdocs_src.pure_structlog_logging_without_sentry\x1b[0m] "
             "\x1b[36mextra_field\x1b[0m=\x1b[35mextra_value\x1b[0m "
             "\x1b[36mfuncName\x1b[0m=\x1b[35m<module>\x1b[0m "
             "\x1b[36mlineno\x1b[0m=\x1b[35m5\x1b[0m "
