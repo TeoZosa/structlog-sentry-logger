@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1641494704862,
+  "lastUpdate": 1641498061645,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -4341,6 +4341,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.00211489317362575",
             "extra": "mean: 54.77758421052632 msec\nrounds: 19"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "350e4853afb9bfe41d1ffdd51074eca5616d3508",
+          "message": "Merge pull request #387 from TeoZosa/feat/add-line-numbers-and-function-names-to-logs\n\n✨ 💥 Add line numbers and function names to logs",
+          "timestamp": "2022-01-06T19:39:25Z",
+          "tree_id": "35a9f905fd02a774ab3824024228975f2262906f"
+        },
+        "date": 1641498060256,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 96.96752854308453,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00007942252843054548",
+            "extra": "mean: 10.312730612244913 msec\nrounds: 98"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 86.60997541688803,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00004719075757330698",
+            "extra": "mean: 11.5460141304348 msec\nrounds: 92"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 19.8931182542436,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00011222790440152945",
+            "extra": "mean: 50.26864 msec\nrounds: 20"
           }
         ]
       }
