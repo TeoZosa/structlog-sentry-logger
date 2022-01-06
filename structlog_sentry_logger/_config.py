@@ -27,7 +27,7 @@ def get_root_dir() -> pathlib.Path:
         return root_dir
 
 
-def get_git_root() -> pathlib.Path:
+def get_git_root() -> pathlib.Path:  # Gratuitous indirection for testing
     git_repo = git.Repo(pathlib.Path.cwd(), search_parent_directories=True)
     git_root = git_repo.git.rev_parse("--show-toplevel")
     return pathlib.Path(git_root)
@@ -95,7 +95,7 @@ def _get_caller_stack_frame_and_name() -> Tuple[FrameType, str]:
     )
 
 
-def is_caller_main(caller_name: str) -> bool:
+def is_caller_main(caller_name: str) -> bool:  # Gratuitous indirection for testing
     return caller_name == "__main__"
 
 
