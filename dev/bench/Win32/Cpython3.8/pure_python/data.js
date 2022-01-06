@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1641221151414,
+  "lastUpdate": 1641445622109,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -3198,6 +3198,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0010416666666666675",
             "extra": "mean: 76.5625 msec\nrounds: 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "committer": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "id": "49e12e88993ed6df75664562c09fcf5e31c0804a",
+          "message": ":art: Fix test actual to expected comparison order\n\nPer the standard comparison order convention of `actual == expected`.",
+          "timestamp": "2022-01-06T04:59:57Z",
+          "tree_id": "ba16ee9877581f21ddbb345ce94b87e3a10cca96"
+        },
+        "date": 1641445617948,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 71.72413793103448,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0008403917052645448",
+            "extra": "mean: 13.942307692307693 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 69.81818181818183,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0008680555555555554",
+            "extra": "mean: 14.322916666666666 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 10.666666666666666,
+            "unit": "iter/sec",
+            "range": "stddev: 0.003682847818679935",
+            "extra": "mean: 93.75 msec\nrounds: 10"
           }
         ]
       }
