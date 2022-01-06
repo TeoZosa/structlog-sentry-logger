@@ -57,11 +57,9 @@ def actual_output(
 
 
 # pylint: disable=redefined-outer-name
-@pytest.mark.usefixtures(
-    "patch_get_caller_name_from_frames_for_typeguard_compatibility"
-)
 def test_sentry_integration(
-    expected_output_truncated: List[JSONOutputType], actual_output: List[JSONOutputType]
+    expected_output_truncated: List[JSONOutputType],
+    actual_output: List[JSONOutputType],
 ) -> None:
     utils.validate_output(
         expected_output_truncated,

@@ -5,8 +5,8 @@ import logging
 import logging.config
 import os
 import pathlib
-from types import FrameType, ModuleType
-from typing import Any, Callable, ContextManager, List, Optional, Union
+from types import FrameType
+from typing import Any, Callable, ContextManager, List, Optional, Tuple, Union
 
 import dotenv
 import git
@@ -51,23 +51,12 @@ def get_namespaced_module_name(__file__: Union[pathlib.Path, str]) -> str:
     return ".".join(namespaces)
 
 
-def get_caller_name(prev_stack_frame: inspect.FrameInfo) -> str:
-    deduced_calling_module = deduce_module(prev_stack_frame)
-    return (
-        deduced_calling_module.__name__
-        if deduced_calling_module is not None
-        and not is_caller_main(deduced_calling_module.__name__)
-        else get_namespaced_module_name(prev_stack_frame.filename)
-    )
-
-
-def deduce_module(prev_stack_frame: inspect.FrameInfo) -> Optional[ModuleType]:
-    return inspect.getmodule(prev_stack_frame[0])
-
-
-def get_caller_name_from_frames(stack_frames: List[inspect.FrameInfo]) -> str:
-    prev_stack_frame = stack_frames[1] if __file__.endswith(".py") else stack_frames[0]
-    return get_caller_name(prev_stack_frame)
+def get_caller_name_from_frames() -> str:
+    caller_frame, caller_name = _get_caller_stack_frame_and_name()
+    if is_caller_main(caller_name):
+        filename = inspect.getfile(caller_frame)
+        caller_name = get_namespaced_module_name(filename)
+    return caller_name
 
 
 def get_logger(name: Optional[str] = None) -> Any:
@@ -79,8 +68,7 @@ def get_logger(name: Optional[str] = None) -> Any:
 
     """
     del name
-    stack_frames = inspect.stack()
-    caller_name = get_caller_name_from_frames(stack_frames)
+    caller_name = get_caller_name_from_frames()
     if not structlog.is_configured():
         timestamper = structlog.processors.TimeStamper(fmt=DATETIME_FORMAT)
         set_logging_config(caller_name, timestamper)
@@ -105,8 +93,7 @@ def get_config_dict() -> dict:
     configure the Python logging library component of the logger
 
     """
-    stack_frames = inspect.stack()
-    caller_name = get_caller_name_from_frames(stack_frames)
+    caller_name = get_caller_name_from_frames()
     timestamper = structlog.processors.TimeStamper(fmt=DATETIME_FORMAT)
     return get_logging_config(caller_name, timestamper)
 
@@ -244,19 +231,16 @@ def add_line_number_and_func_name(
     method: str,  # pylint: disable=unused-argument
     event_dict: structlog.types.EventDict,
 ) -> structlog.types.EventDict:
-    caller_frame = _get_caller_stack_frame()
+    caller_frame, _ = _get_caller_stack_frame_and_name()
     event_dict["lineno"] = caller_frame.f_lineno
     event_dict["funcName"] = caller_frame.f_code.co_name
     return event_dict
 
 
-def _get_caller_stack_frame() -> FrameType:
-    # pylint:disable=protected-access
-    caller_frame, _ = structlog._frames._find_first_app_frame_and_name(
+def _get_caller_stack_frame_and_name() -> Tuple[FrameType, str]:
+    return structlog._frames._find_first_app_frame_and_name(  # pylint:disable=protected-access
         additional_ignores=["structlog_sentry_logger", "typeguard"]
     )
-    # pylint:enable=protected-access
-    return caller_frame
 
 
 def add_severity_field_from_level_if_in_cloud_environment(
