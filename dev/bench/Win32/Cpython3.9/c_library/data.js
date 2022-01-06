@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1641506835985,
+  "lastUpdate": 1641512388697,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -3444,6 +3444,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0007365695637359876",
             "extra": "mean: 76.5625 msec\nrounds: 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "5d4b6f1b73130c34941f4e3213a7dc8965039296",
+          "message": "Merge pull request #392 from TeoZosa/refactor/clean-and-reorganize\n\n♻️  📝  Clean up source code and update features documentation",
+          "timestamp": "2022-01-06T23:34:57Z",
+          "tree_id": "dbd83ba095d35fb9bc078399665b9c03802e7426"
+        },
+        "date": 1641512383804,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 57.142857142857146,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000988211768802618",
+            "extra": "mean: 17.5 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 52.459016393442624,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0006588078458684129",
+            "extra": "mean: 19.0625 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 8.951048951048952,
+            "unit": "iter/sec",
+            "range": "stddev: 0.006431817205848161",
+            "extra": "mean: 111.71875 msec\nrounds: 10"
           }
         ]
       }
