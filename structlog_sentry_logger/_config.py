@@ -18,12 +18,6 @@ import structlog._frames
 from structlog_sentry_logger import structlog_sentry
 
 
-def get_git_root() -> pathlib.Path:
-    git_repo = git.Repo(pathlib.Path.cwd(), search_parent_directories=True)
-    git_root = git_repo.git.rev_parse("--show-toplevel")
-    return pathlib.Path(git_root)
-
-
 def get_root_dir() -> pathlib.Path:
     try:
         return get_git_root()
@@ -31,6 +25,12 @@ def get_root_dir() -> pathlib.Path:
         # the __str__() method on err returns the root descendant path, e.g., `/app`
         root_dir = pathlib.Path(str(err)).resolve(strict=True)
         return root_dir
+
+
+def get_git_root() -> pathlib.Path:
+    git_repo = git.Repo(pathlib.Path.cwd(), search_parent_directories=True)
+    git_root = git_repo.git.rev_parse("--show-toplevel")
+    return pathlib.Path(git_root)
 
 
 ROOT_DIR = get_root_dir()
@@ -44,19 +44,17 @@ def _toggle_json_library(use_orjson: bool = True) -> None:
     _CONFIGS["USE_ORJSON"] = use_orjson
 
 
-def get_namespaced_module_name(__file__: Union[pathlib.Path, str]) -> str:
-    fully_qualified_path = pathlib.Path(__file__).resolve()
-    prefix_dir = str(ROOT_DIR) if str(ROOT_DIR) in str(fully_qualified_path) else "/"
-    namespaces = fully_qualified_path.relative_to(prefix_dir).with_suffix("").parts
-    return ".".join(namespaces)
+def get_config_dict() -> dict:
+    """
+    Convenience function to get the local logging configuration dictionary,
+    e.g., to help configure loggers from other libraries.
 
+    Returns: The logging configuration dictionary that would be used to
+    configure the Python logging library component of the logger
 
-def get_caller_name_from_frames() -> str:
-    caller_frame, caller_name = _get_caller_stack_frame_and_name()
-    if is_caller_main(caller_name):
-        filename = inspect.getfile(caller_frame)
-        caller_name = get_namespaced_module_name(filename)
-    return caller_name
+    """
+    caller_name = get_caller_name_from_frames()
+    return get_logging_config(caller_name)
 
 
 def get_logger(name: Optional[str] = None) -> Any:
@@ -83,21 +81,34 @@ CamelCase alias for `structlog_sentry_logger.get_logger`.
 """
 
 
-def get_config_dict() -> dict:
-    """
-    Convenience function to get the local logging configuration dictionary,
-    e.g., to help configure loggers from other libraries.
+def get_caller_name_from_frames() -> str:
+    caller_frame, caller_name = _get_caller_stack_frame_and_name()
+    if is_caller_main(caller_name):
+        filename = inspect.getfile(caller_frame)
+        caller_name = get_namespaced_module_name(filename)
+    return caller_name
 
-    Returns: The logging configuration dictionary that would be used to
-    configure the Python logging library component of the logger
 
-    """
-    caller_name = get_caller_name_from_frames()
-    return get_logging_config(caller_name)
+def _get_caller_stack_frame_and_name() -> Tuple[FrameType, str]:
+    return structlog._frames._find_first_app_frame_and_name(  # pylint:disable=protected-access
+        additional_ignores=["structlog_sentry_logger", "typeguard"]
+    )
 
 
 def is_caller_main(caller_name: str) -> bool:
     return caller_name == "__main__"
+
+
+def get_namespaced_module_name(__file__: Union[pathlib.Path, str]) -> str:
+    fully_qualified_path = pathlib.Path(__file__).resolve()
+    prefix_dir = str(ROOT_DIR) if str(ROOT_DIR) in str(fully_qualified_path) else "/"
+    namespaces = fully_qualified_path.relative_to(prefix_dir).with_suffix("").parts
+    return ".".join(namespaces)
+
+
+def set_logging_config(module_name: str) -> None:
+    config_dict = get_logging_config(module_name)
+    logging.config.dictConfig(config_dict)
 
 
 def get_logging_config(module_name: str) -> dict:
@@ -117,9 +128,34 @@ def get_logging_config(module_name: str) -> dict:
     }
 
 
-def set_logging_config(module_name: str) -> None:
-    config_dict = get_logging_config(module_name)
-    logging.config.dictConfig(config_dict)
+def get_handlers(module_name: str) -> dict:
+    default_key = "default"
+    base_handlers = {
+        default_key: {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "stream": "ext://sys.stdout",
+        }
+    }
+    if _ENV_VARS_REQUIRED_BY_LIBRARY[get_handlers] in os.environ:
+        # Prettify stdout/stderr streams
+        base_handlers[default_key]["formatter"] = "colored"
+        # Add filename handler
+        file_timestamp = datetime.datetime.utcnow().isoformat().replace(":", "-")
+        log_file_name = f"{file_timestamp}_{module_name}.jsonl"
+        log_file_path = LOG_DATA_DIR / log_file_name
+        base_handlers["filename"] = {
+            "level": "DEBUG",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": str(log_file_path),
+            # 1 MB
+            "maxBytes": 1 << 20,  # type: ignore[dict-item]
+            "backupCount": 3,  # type: ignore[dict-item]
+            "formatter": "plain",
+        }
+    else:
+        base_handlers[default_key]["formatter"] = "plain"
+    return base_handlers
 
 
 def get_formatters() -> dict:
@@ -156,36 +192,6 @@ def serializer(
     if _CONFIGS["USE_ORJSON"]:
         return orjson.dumps(*args, default=default, option=option).decode()  # type: ignore[misc]
     return json.dumps(*args, sort_keys=True)
-
-
-def get_handlers(module_name: str) -> dict:
-    default_key = "default"
-    base_handlers = {
-        default_key: {
-            "level": "DEBUG",
-            "class": "logging.StreamHandler",
-            "stream": "ext://sys.stdout",
-        }
-    }
-    if _ENV_VARS_REQUIRED_BY_LIBRARY[get_handlers] in os.environ:
-        # Prettify stdout/stderr streams
-        base_handlers[default_key]["formatter"] = "colored"
-        # Add filename handler
-        file_timestamp = datetime.datetime.utcnow().isoformat().replace(":", "-")
-        log_file_name = f"{file_timestamp}_{module_name}.jsonl"
-        log_file_path = LOG_DATA_DIR / log_file_name
-        base_handlers["filename"] = {
-            "level": "DEBUG",
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": str(log_file_path),
-            # 1 MB
-            "maxBytes": 1 << 20,  # type: ignore[dict-item]
-            "backupCount": 3,  # type: ignore[dict-item]
-            "formatter": "plain",
-        }
-    else:
-        base_handlers[default_key]["formatter"] = "plain"
-    return base_handlers
 
 
 def set_structlog_config() -> None:
@@ -229,12 +235,6 @@ def add_line_number_and_func_name(
     event_dict["lineno"] = caller_frame.f_lineno
     event_dict["funcName"] = caller_frame.f_code.co_name
     return event_dict
-
-
-def _get_caller_stack_frame_and_name() -> Tuple[FrameType, str]:
-    return structlog._frames._find_first_app_frame_and_name(  # pylint:disable=protected-access
-        additional_ignores=["structlog_sentry_logger", "typeguard"]
-    )
 
 
 def add_severity_field_from_level_if_in_cloud_environment(
