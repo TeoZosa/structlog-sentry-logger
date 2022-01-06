@@ -37,6 +37,7 @@ ROOT_DIR = get_root_dir()
 LOG_DATA_DIR = ROOT_DIR / ".logs"
 LOG_DATA_DIR.mkdir(exist_ok=True)
 DATETIME_FORMAT = "iso"
+_TIMESTAMPER = structlog.processors.TimeStamper(fmt=DATETIME_FORMAT)
 _CONFIGS = {"USE_ORJSON": True}
 
 
@@ -70,9 +71,8 @@ def get_logger(name: Optional[str] = None) -> Any:
     del name
     caller_name = get_caller_name_from_frames()
     if not structlog.is_configured():
-        timestamper = structlog.processors.TimeStamper(fmt=DATETIME_FORMAT)
-        set_logging_config(caller_name, timestamper)
-        set_structlog_config(timestamper)
+        set_logging_config(caller_name)
+        set_structlog_config()
     logger = structlog.get_logger(caller_name)
     logger.setLevel(logging.DEBUG)
     return logger
@@ -94,22 +94,19 @@ def get_config_dict() -> dict:
 
     """
     caller_name = get_caller_name_from_frames()
-    timestamper = structlog.processors.TimeStamper(fmt=DATETIME_FORMAT)
-    return get_logging_config(caller_name, timestamper)
+    return get_logging_config(caller_name)
 
 
 def is_caller_main(caller_name: str) -> bool:
     return caller_name == "__main__"
 
 
-def get_logging_config(
-    module_name: str, timestamper: structlog.processors.TimeStamper
-) -> dict:
+def get_logging_config(module_name: str) -> dict:
     handlers = get_handlers(module_name)
     return {
         "version": 1,
         "disable_existing_loggers": False,
-        "formatters": (get_formatters(timestamper)),
+        "formatters": (get_formatters()),
         "handlers": handlers,
         "loggers": {
             "": {
@@ -121,19 +118,17 @@ def get_logging_config(
     }
 
 
-def set_logging_config(
-    module_name: str, timestamper: structlog.processors.TimeStamper
-) -> None:
-    config_dict = get_logging_config(module_name, timestamper)
+def set_logging_config(module_name: str) -> None:
+    config_dict = get_logging_config(module_name)
     logging.config.dictConfig(config_dict)
 
 
-def get_formatters(timestamper: structlog.processors.TimeStamper) -> dict:
+def get_formatters() -> dict:
     pre_chain = [
         # Add the log level and a timestamp to the event_dict if the log
         # entry is not from structlog.
         structlog.stdlib.add_log_level,
-        timestamper,
+        _TIMESTAMPER,
         structlog.stdlib.add_logger_name,
     ]
     return {
@@ -194,9 +189,9 @@ def get_handlers(module_name: str) -> dict:
     return base_handlers
 
 
-def set_structlog_config(timestamper: structlog.processors.TimeStamper) -> None:
+def set_structlog_config() -> None:
     structlog_processors = [
-        timestamper,
+        _TIMESTAMPER,
         structlog.processors.StackInfoRenderer(),
         add_line_number_and_func_name,
         add_severity_field_from_level_if_in_cloud_environment,
