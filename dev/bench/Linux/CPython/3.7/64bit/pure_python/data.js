@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1641494719484,
+  "lastUpdate": 1641498087298,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -4341,6 +4341,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.00007441879810123255",
             "extra": "mean: 46.02646818181819 msec\nrounds: 22"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "350e4853afb9bfe41d1ffdd51074eca5616d3508",
+          "message": "Merge pull request #387 from TeoZosa/feat/add-line-numbers-and-function-names-to-logs\n\n✨ 💥 Add line numbers and function names to logs",
+          "timestamp": "2022-01-06T19:39:25Z",
+          "tree_id": "35a9f905fd02a774ab3824024228975f2262906f"
+        },
+        "date": 1641498086128,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 103.95684946097929,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0006892018112664401",
+            "extra": "mean: 9.619375781250037 msec\nrounds: 128"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 87.58822323785608,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000297315975921949",
+            "extra": "mean: 11.417060000000033 msec\nrounds: 105"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 19.143768516468263,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0011445254753034552",
+            "extra": "mean: 52.236319047619 msec\nrounds: 21"
           }
         ]
       }
