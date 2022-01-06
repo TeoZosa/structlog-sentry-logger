@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1641494735721,
+  "lastUpdate": 1641498081295,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -4375,6 +4375,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0016730197121169505",
             "extra": "mean: 51.19013500000005 msec\nrounds: 20"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "350e4853afb9bfe41d1ffdd51074eca5616d3508",
+          "message": "Merge pull request #387 from TeoZosa/feat/add-line-numbers-and-function-names-to-logs\n\n✨ 💥 Add line numbers and function names to logs",
+          "timestamp": "2022-01-06T19:39:25Z",
+          "tree_id": "35a9f905fd02a774ab3824024228975f2262906f"
+        },
+        "date": 1641498079666,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 128.60547144183982,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00006004582490851794",
+            "extra": "mean: 7.775718939393937 msec\nrounds: 132"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 116.38972693172153,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00004192421359372283",
+            "extra": "mean: 8.591823577235788 msec\nrounds: 123"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 26.028978061275435,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00006400399999496633",
+            "extra": "mean: 38.4187192307695 msec\nrounds: 26"
           }
         ]
       }
