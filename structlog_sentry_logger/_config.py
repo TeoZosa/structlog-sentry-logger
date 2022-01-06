@@ -13,7 +13,6 @@ import git
 import orjson  # type: ignore
 import sentry_sdk
 import structlog
-import structlog._frames
 
 from structlog_sentry_logger import structlog_sentry
 
