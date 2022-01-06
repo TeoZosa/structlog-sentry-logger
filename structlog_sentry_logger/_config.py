@@ -54,7 +54,7 @@ def get_caller_name(prev_stack_frame: inspect.FrameInfo) -> str:
     deduced_calling_module = deduce_module(prev_stack_frame)
     return (
         deduced_calling_module.__name__
-        if deduced_calling_module
+        if deduced_calling_module is not None
         and not is_caller_main(deduced_calling_module.__name__)
         else get_namespaced_module_name(prev_stack_frame.filename)
     )
