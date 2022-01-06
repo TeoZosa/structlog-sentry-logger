@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1641480857745,
+  "lastUpdate": 1641494878937,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -3321,6 +3321,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.024923929404177914",
             "extra": "mean: 142.1875 msec\nrounds: 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "committer": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "id": "ba4c9a5e4a597c86aeb40fa9c52adeffb8ba9ff7",
+          "message": ":rotating_light: Explicitly check for `None`\n\nSee first bullet of https://google.github.io/styleguide/pyguide.html#2144-decision",
+          "timestamp": "2022-01-06T18:43:06Z",
+          "tree_id": "a67b452ba8718aae971ed68d3e4c91ab4ad64ea0"
+        },
+        "date": 1641494874582,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 58.18181818181818,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0007365695637359869",
+            "extra": "mean: 17.1875 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 53.781512605042025,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0008869472065586663",
+            "extra": "mean: 18.59375 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 8.47682119205298,
+            "unit": "iter/sec",
+            "range": "stddev: 0.005764568651348608",
+            "extra": "mean: 117.96875 msec\nrounds: 10"
           }
         ]
       }
