@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1641446750612,
+  "lastUpdate": 1641482332028,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -3239,6 +3239,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.001975115193005657",
             "extra": "mean: 83.6927692307691 msec\nrounds: 13"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "3152ed1406363d1ba22674da21cda87298ce7788",
+          "message": "Merge pull request #388 from TeoZosa/dependabot/pip/pygments-2.11.2",
+          "timestamp": "2022-01-06T14:49:17Z",
+          "tree_id": "efe3b44513643664ca932877bb5cf6eb80db9b40"
+        },
+        "date": 1641482330263,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 70.42667869566247,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0010558012442906197",
+            "extra": "mean: 14.19916455696198 msec\nrounds: 79"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 69.68376800421305,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0007688644440136594",
+            "extra": "mean: 14.350544303797413 msec\nrounds: 79"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 12.003726695457155,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0016028899221604638",
+            "extra": "mean: 83.30746153846145 msec\nrounds: 13"
           }
         ]
       }
