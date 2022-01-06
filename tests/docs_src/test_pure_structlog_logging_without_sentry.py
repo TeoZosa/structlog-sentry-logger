@@ -68,7 +68,7 @@ def test_dev_local(
     example_timestamp_substr = "\x1b[2m2021-10-25T16:15:30.993152Z\x1b"
     # Ignore timestamped portion
     relevant_actual = capsys.readouterr().out[len(example_timestamp_substr) :]
-    assert relevant_expected == relevant_actual
+    assert relevant_actual == relevant_expected
 
 
 @pytest.mark.usefixtures(

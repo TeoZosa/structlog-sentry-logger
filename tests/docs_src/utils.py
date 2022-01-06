@@ -48,7 +48,7 @@ def validate_output(
                 for key_to_copy in dynamic_keys_to_copy
             },
         }
-        assert expected_log == actual_log
+        assert actual_log == expected_log
 
 
 def reload_module_non_dev_local_env(
