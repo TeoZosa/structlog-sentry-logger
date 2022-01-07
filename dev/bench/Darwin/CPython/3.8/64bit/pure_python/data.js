@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1641568933790,
+  "lastUpdate": 1641570357444,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -3649,6 +3649,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0009151714215215235",
             "extra": "mean: 78.75769230769254 msec\nrounds: 13"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "1bede4717bb033962e0794a784e34c85d81613f1",
+          "message": "Merge pull request #396 from TeoZosa/dependabot/pip/types-emoji-1.2.7",
+          "timestamp": "2022-01-07T15:01:50Z",
+          "tree_id": "9b87e8253c7e8a722f46a9ab04bc9d105a68cc25"
+        },
+        "date": 1641570351439,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 69.5623273622451,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0005258675637838893",
+            "extra": "mean: 14.375597222222172 msec\nrounds: 72"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 64.28670815067409,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0011142587455931845",
+            "extra": "mean: 15.555315068493119 msec\nrounds: 73"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 10.521577124287623,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0033177510960235674",
+            "extra": "mean: 95.0427857142858 msec\nrounds: 14"
           }
         ]
       }
