@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1641512543479,
+  "lastUpdate": 1641520296597,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -3444,6 +3444,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.005678686606683076",
             "extra": "mean: 87.32992307692324 msec\nrounds: 13"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "99728b92f1dbd308a3fbbeaf428cc72fa9935911",
+          "message": "Merge pull request #393 from TeoZosa/feat/remove-automatic-sentry-initialization",
+          "timestamp": "2022-01-07T01:41:16Z",
+          "tree_id": "be055794c6fd25fcd54a6a8643510de266c6ea4d"
+        },
+        "date": 1641520294843,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 59.41729715020841,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0012042474405721468",
+            "extra": "mean: 16.830115942029057 msec\nrounds: 69"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 60.773754072926685,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0013078895791870126",
+            "extra": "mean: 16.454471428571452 msec\nrounds: 70"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 11.958253736206919,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0034848665847683562",
+            "extra": "mean: 83.62424999999989 msec\nrounds: 12"
           }
         ]
       }
