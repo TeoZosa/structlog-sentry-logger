@@ -99,6 +99,11 @@ Table of Contents
   * [:outbox_tray: Log Custom Context Directly to Sentry](#outbox_tray-log-custom-context-directly-to-sentry)
   * [:cloud: Cloud Logging Compatibility](#cloud-cloud-logging-compatibility)
 - [:chart_with_downwards_trend: Output: Formatting & Storage](#chart_with_downwards_trend-output-formatting--storage)
+- [:clipboard: Summary](#clipboard-summary)
+- [:books: Further Reading](#books-further-reading)
+  * [:one: `structlog`: Structured Logging for Python](#one-structlog-structured-logging-for-python)
+  * [:two: `Sentry`: Monitor and fix crashes in realtime](#two-sentry-monitor-and-fix-crashes-in-realtime)
+  * [:three: `structlog-sentry`: Provides the `structlog` integration for Sentry](#three-structlog-sentry-provides-the-structlog-integration-for-sentry)
 - [:wrench: Development](#wrench-development)
   * [:building_construction: Package and Dependencies Installation](#building_construction-package-and-dependencies-installation)
   * [:package: Python Module to C-Extension Compilation](#package-python-module-to-c-extension-compilation)
@@ -106,11 +111,6 @@ Table of Contents
   * [:rotating_light: Code Quality](#rotating_light-code-quality)
     + [:arrows_counterclockwise: Automate via Git Pre-Commit Hooks](#arrows_counterclockwise-automate-via-git-pre-commit-hooks)
   * [:memo: Documentation](#memo-documentation)
-- [:clipboard: Summary](#clipboard-summary)
-- [:books: Further Reading](#books-further-reading)
-  * [:one: `structlog`: Structured Logging for Python](#one-structlog-structured-logging-for-python)
-  * [:two: `Sentry`: Monitor and fix crashes in realtime](#two-sentry-monitor-and-fix-crashes-in-realtime)
-  * [:three: `structlog-sentry`: Provides the `structlog` integration for Sentry](#three-structlog-sentry-provides-the-structlog-integration-for-sentry)
 - [:judge: Legal](#judge-legal)
   * [:page_facing_up: License](#page_facing_up-license)
   * [:busts_in_silhouette: Credits](#busts_in_silhouette-credits)
@@ -285,6 +285,31 @@ already installed, it's as simple as copying [`.envrc.sample`](./.envrc.sample) 
 root of your project, editing it to reflect your desired configurations, renaming it
 to `.envrc`, and running `direnv allow` :tada:
 
+:clipboard: Summary
+===================
+That's it. Now no excuses. Get out there and program with pride knowing no one will
+laugh at you in production! For not logging properly, that is. You're on your own for
+that
+other [observability](https://devops.com/metrics-logs-and-traces-the-golden-triangle-of-observability-in-monitoring/)
+stuff.
+
+:books: Further Reading
+=======================
+<img src="https://www.structlog.org/en/stable/_static/structlog_logo_small.png" width="200">
+
+## :one: `structlog`: Structured Logging for Python
+- [https://www.structlog.org/en/stable/](https://www.structlog.org/en/stable/#)
+
+<img src="https://camo.githubusercontent.com/2dfeafbee0904d6df16ddf7200993dace1629e60/68747470733a2f2f73656e7472792d6272616e642e73746f726167652e676f6f676c65617069732e636f6d2f73656e7472792d6c6f676f2d626c61636b2e706e67" width="400">
+
+## :two: `Sentry`: Monitor and fix crashes in realtime
+- [https://sentry.io/welcome/](https://sentry.io/welcome/)
+
+## :three: `structlog-sentry`: Provides the `structlog` integration for Sentry
+- [https://github.com/kiwicom/structlog-sentry](https://github.com/kiwicom/structlog-sentry)
+
+---
+
 :wrench: Development
 ====================
 
@@ -387,31 +412,6 @@ make docs-clean docs-html
 > :fire: **Tip**  
 > For faster feedback loops, this will attempt to automatically open the newly
 > built documentation static HTML in your browser.
-
-:clipboard: Summary
-===================
-That's it. Now no excuses. Get out there and program with pride knowing no one will
-laugh at you in production! For not logging properly, that is. You're on your own for
-that
-other [observability](https://devops.com/metrics-logs-and-traces-the-golden-triangle-of-observability-in-monitoring/)
-stuff.
-
-:books: Further Reading
-=======================
-<img src="https://www.structlog.org/en/stable/_static/structlog_logo_small.png" width="200">
-
-## :one: `structlog`: Structured Logging for Python
-- [https://www.structlog.org/en/stable/](https://www.structlog.org/en/stable/#)
-
-<img src="https://camo.githubusercontent.com/2dfeafbee0904d6df16ddf7200993dace1629e60/68747470733a2f2f73656e7472792d6272616e642e73746f726167652e676f6f676c65617069732e636f6d2f73656e7472792d6c6f676f2d626c61636b2e706e67" width="400">
-
-## :two: `Sentry`: Monitor and fix crashes in realtime
-- [https://sentry.io/welcome/](https://sentry.io/welcome/)
-
-## :three: `structlog-sentry`: Provides the `structlog` integration for Sentry
-- [https://github.com/kiwicom/structlog-sentry](https://github.com/kiwicom/structlog-sentry)
-
----
 
 :judge: Legal
 =============
