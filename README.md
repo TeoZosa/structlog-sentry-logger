@@ -96,8 +96,7 @@ Table of Contents
 - [:tada: Installation](#tada-installation)
 - [:rocket: Usage](#rocket-usage)
   * [:loud_sound: Pure `structlog` Logging (Without Sentry)](#loud_sound-pure-structlog-logging-without-sentry)
-  * [:goal_net: Sentry Integration](#goal_net-sentry-integration)
-    + [:outbox_tray: Log Custom Context Directly to Sentry](#outbox_tray-log-custom-context-directly-to-sentry)
+  * [:outbox_tray: Log Custom Context Directly to Sentry](#outbox_tray-log-custom-context-directly-to-sentry)
   * [:cloud: Cloud Logging Compatibility](#cloud-cloud-logging-compatibility)
 - [:chart_with_downwards_trend: Output: Formatting & Storage](#chart_with_downwards_trend-output-formatting--storage)
 - [:wrench: Development](#wrench-development)
@@ -163,31 +162,11 @@ Which automatically produces this:
 }
 ```
 
-:goal_net: Sentry Integration
------------------------------
-Export your [Sentry DSN](https://docs.sentry.io/platforms/python/#configure)
-into your local environment.
+:outbox_tray: Log Custom Context Directly to Sentry
+------------------------------------------------
 
-- An easy way to do this is to put it into a local `.env` file[^2]:
-
- ```shell script
-# On the command line:
- SENTRY_DSN=YOUR_SENTRY_DSN
- echo "SENTRY_DSN=${SENTRY_DSN}" >> .env
-```
-
-- And it will be automatically picked up when the library is first imported:
-
-```python
-# The below automatically sources library-relevant values from your local `.env` file
-import structlog_sentry_logger
-```
-
-### :outbox_tray: Log Custom Context Directly to Sentry
-
-With `structlog`, you can even incorporate custom messages in your exception handling
-which will automatically be reported to Sentry (thanks to the `structlog-sentry`
-module):
+Incorporate custom messages in your exception handling which will automatically be
+reported to Sentry (thanks to the `structlog-sentry` module):
 
 ```python
 import uuid
@@ -275,12 +254,20 @@ stream [like a proper 12 Factor App](https://12factor.net/logs).
 
 For local development, it often helps to prettify logging to stdout and save JSON logs
 to a `.logs` folder at the root of your project directory for later debugging. To enable
-this behavior, set the following environment variable
-(assuming you are populating environment variables via a `.env` file[^2], as in
-the [Sentry Integration](#sentry-integration) section):
+this behavior, export the `STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON`
+environment variable.
+
+An easy way to do this is to put it into a local `.env` file[^2]:
 
 ```bash
 echo "STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON=" >> .env
+```
+
+And it will be automatically picked up when the library is first imported:
+
+```python
+# The below automatically sources library-relevant values from your local `.env` file
+import structlog_sentry_logger
 ```
 
 In doing so, with our previous exception handling example we would get:

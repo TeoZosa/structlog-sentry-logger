@@ -6,7 +6,7 @@ import logging.config
 import os
 import pathlib
 from types import FrameType
-from typing import Any, Callable, ContextManager, List, Optional, Tuple, Union
+from typing import Any, Callable, List, Optional, Tuple, Union
 
 import dotenv
 import git
@@ -302,7 +302,6 @@ def is_probably_in_cloud_environment() -> bool:
 _ENV_VARS_REQUIRED_BY_LIBRARY = {
     get_handlers: "STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON",
     is_cloud_logging_compatibility_mode_requested: "STRUCTLOG_SENTRY_LOGGER_CLOUD_LOGGING_COMPATIBILITY_MODE_ON",
-    sentry_sdk.init: "SENTRY_DSN",
 }
 
 
@@ -374,8 +373,3 @@ def _load_library_specific_env_vars() -> None:
         # what is defined in a user's `.env` file.
         if k not in os.environ and v is not None:
             os.environ[k] = v
-
-
-def _init_sentry() -> ContextManager[Any]:
-    # Note: if DSN isn't defined, will silently not transmit telemetry
-    return sentry_sdk.init()  # pylint: disable=abstract-class-instantiated
