@@ -46,13 +46,13 @@ strong-version-tag-dateless: get-make-var-GIT_VERSION
 get-make-var-%:
 	@echo $($*)
 
-.PHONY: _validate_poetry_installation
-_validate_poetry_installation:
+.PHONY: _validate-poetry-installation
+_validate-poetry-installation:
 ifeq ($(shell command -v poetry),)
 	@echo "poetry could not be found!"
 	@echo "Please install poetry!"
 	@echo "Ex.: 'curl -sSL \
-	https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py  | python - \
+	https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py  | python - \
 	&& source $$HOME/.local/env'"
 	@echo "see:"
 	@echo "- https://python-poetry.org/docs/#installation"
@@ -113,7 +113,7 @@ clean:
 
 .PHONY: provision-environment
 ## Set up a Python virtual environment with installed project dependencies
-provision-environment: _validate_poetry_installation install-dependencies install-project
+provision-environment: _validate-poetry-installation install-dependencies install-project
 
 .PHONY: install-pre-commit-hooks
 ## Install git pre-commit hooks locally
