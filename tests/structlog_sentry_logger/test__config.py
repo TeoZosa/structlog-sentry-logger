@@ -8,7 +8,6 @@ from typing import Any, Dict, List, MutableMapping, Union
 import dotenv
 import git
 import pytest
-import sentry_sdk.utils
 import structlog
 from _pytest.logging import LogCaptureFixture
 from _pytest.monkeypatch import MonkeyPatch
@@ -526,35 +525,3 @@ class TestLoadingDotenv:
         self.dotenv_file.write_text(
             current_values + f"{env_var}=''\n", encoding=encoding
         )
-
-
-# pylint: enable=attribute-defined-outside-init
-
-
-class TestSentryInitialization:
-    @staticmethod
-    def get_dummy_dsn(scheme: str = "https") -> str:
-        project_id = 1234
-        path = f"/{project_id}"
-        username, hostname = "USERNAME", "hostdomain.ingest.sentry.io"
-        netloc = f"{username}@{hostname}"
-        good_dummy_dsn = f"{scheme}://{netloc}{path}"
-        return good_dummy_dsn
-
-    def test___init_sentry_bad_dsn(self, monkeypatch: MonkeyPatch) -> None:
-        unsupported_scheme = "UNSUPPORTED_SCHEME"
-        unsupported_dsn = self.get_dummy_dsn(scheme=unsupported_scheme)
-        monkeypatch.setenv("SENTRY_DSN", unsupported_dsn)
-        with pytest.raises(sentry_sdk.utils.BadDsn) as exc_info:
-            _ = structlog_sentry_logger._config._init_sentry()
-        assert exc_info.value.args[0] == "Unsupported scheme ''"
-
-    def test___init_sentry_good_dsn(self, monkeypatch: MonkeyPatch) -> None:
-        monkeypatch.setenv("SENTRY_DSN", self.get_dummy_dsn())
-        assert (
-            structlog_sentry_logger._config._init_sentry()._client.dsn  # type: ignore[attr-defined]
-            == self.get_dummy_dsn()
-        )
-
-
-# pylint: enable=protected-access
