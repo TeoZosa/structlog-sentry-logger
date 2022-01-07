@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1641568904221,
+  "lastUpdate": 1641570103788,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -3608,6 +3608,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.004187064774307173",
             "extra": "mean: 91.16583333333361 msec\nrounds: 12"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "1bede4717bb033962e0794a784e34c85d81613f1",
+          "message": "Merge pull request #396 from TeoZosa/dependabot/pip/types-emoji-1.2.7",
+          "timestamp": "2022-01-07T15:01:50Z",
+          "tree_id": "9b87e8253c7e8a722f46a9ab04bc9d105a68cc25"
+        },
+        "date": 1641570100584,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 65.98637852614742,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0006155167273235285",
+            "extra": "mean: 15.154642857142786 msec\nrounds: 70"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 58.78949866190034,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0012169073581538082",
+            "extra": "mean: 17.009840579710016 msec\nrounds: 69"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 11.943885787051554,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0021037667743895325",
+            "extra": "mean: 83.72484615384607 msec\nrounds: 13"
           }
         ]
       }
