@@ -5,6 +5,7 @@ import logging
 import logging.config
 import os
 import pathlib
+import warnings
 from types import FrameType
 from typing import Any, Callable, List, Optional, Tuple, Union
 
@@ -252,6 +253,22 @@ def add_severity_field_from_level_if_in_cloud_environment(
     ):
         cloud_logging_log_level_key, python_log_level_key = "severity", "level"
         if cloud_logging_log_level_key in event_dict:
+            # Warn users that they should fix their application code
+            warnings.warn(
+                f"Existing field "
+                f"{cloud_logging_log_level_key}={event_dict[cloud_logging_log_level_key]} "
+                "being overwritten by log level "
+                f"({python_log_level_key}={event_dict[python_log_level_key]})",
+                RuntimeWarning,
+            )
+
+            # Also, redundantly log this warning to users.
+            #
+            # While best practice is to only log warnings which the user isn't expected
+            # to fix (https://docs.python.org/2/howto/logging.html#when-to-use-logging),
+            # many users rely on automated log parsing tools for their alerting and
+            # audit trails.
+            #
             # Dogfood by instantiating a local logger with own library.
             # Note: NO infinite loop since the below log message does *NOT* use
             # `severity` as a key in the emitted event.
