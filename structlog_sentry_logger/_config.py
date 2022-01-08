@@ -35,7 +35,7 @@ def get_git_root() -> pathlib.Path:  # Gratuitous indirection for testing
 ROOT_DIR = get_root_dir()
 LOG_DATA_DIR = ROOT_DIR / ".logs"
 LOG_DATA_DIR.mkdir(exist_ok=True)
-_TIMESTAMPER = structlog.processors.TimeStamper(fmt="iso")
+_TIMESTAMPER = structlog.processors.TimeStamper(fmt="iso", utc=True)
 _CONFIGS = {"USE_ORJSON": True}
 
 
