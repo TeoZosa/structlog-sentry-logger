@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1641567883603,
+  "lastUpdate": 1641679847216,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -4669,6 +4669,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.003505609089837463",
             "extra": "mean: 59.11016111111107 msec\nrounds: 18"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "committer": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "id": "cd679fec8ac6339102e7a5e03ebedbfe3b4df298",
+          "message": ":recycle: Explicitly specify UTC format\n\nSame as the default value, but now it is explicit to readers.",
+          "timestamp": "2022-01-08T22:06:22Z",
+          "tree_id": "80a163aca105b9357b1d0a1ac28ed2a5867b9cac"
+        },
+        "date": 1641679845331,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 85.2317873875656,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0015774849809695943",
+            "extra": "mean: 11.732711827956914 msec\nrounds: 93"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 80.30806172477594,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0007301834897721349",
+            "extra": "mean: 12.452050000000048 msec\nrounds: 88"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 19.05190663384522,
+            "unit": "iter/sec",
+            "range": "stddev: 0.003074647601420549",
+            "extra": "mean: 52.48818500000026 msec\nrounds: 20"
           }
         ]
       }
