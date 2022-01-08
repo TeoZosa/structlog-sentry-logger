@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1641567877216,
+  "lastUpdate": 1641679829203,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -4669,6 +4669,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0014650394021915468",
             "extra": "mean: 52.753594999999805 msec\nrounds: 20"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "committer": {
+            "email": "erinzosa@ucla.edu",
+            "name": "Teo Zosa"
+          },
+          "id": "cd679fec8ac6339102e7a5e03ebedbfe3b4df298",
+          "message": ":recycle: Explicitly specify UTC format\n\nSame as the default value, but now it is explicit to readers.",
+          "timestamp": "2022-01-08T22:06:22Z",
+          "tree_id": "80a163aca105b9357b1d0a1ac28ed2a5867b9cac"
+        },
+        "date": 1641679827475,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 108.70554523786238,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000052101840744968465",
+            "extra": "mean: 9.1991627272727 msec\nrounds: 110"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 97.65852776071577,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00006997333278175891",
+            "extra": "mean: 10.23976116504862 msec\nrounds: 103"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 23.683054419317234,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00006332747646445151",
+            "extra": "mean: 42.224283333333204 msec\nrounds: 24"
           }
         ]
       }
