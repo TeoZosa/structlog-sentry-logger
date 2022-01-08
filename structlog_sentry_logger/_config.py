@@ -69,7 +69,7 @@ def get_logger(name: Optional[str] = None) -> Any:
     if not structlog.is_configured():
         set_logging_config(caller_name)
         set_structlog_config()
-    logger = structlog.get_logger(caller_name)
+    logger = structlog.get_logger(caller_name).bind(logger=caller_name)
     logger.setLevel(logging.DEBUG)
     return logger
 
@@ -203,7 +203,6 @@ def set_structlog_config() -> None:
     stdlib_log_compatibility_processors = [
         structlog.stdlib.filter_by_level,
         structlog.stdlib.add_log_level,
-        structlog.stdlib.add_logger_name,
         structlog.stdlib.PositionalArgumentsFormatter(),
         SentryBreadcrumbJsonProcessor(level=logging.ERROR, tag_keys="__all__"),
     ]
@@ -237,7 +236,7 @@ def add_line_number_and_func_name(
 
 
 def add_severity_field_from_level_if_in_cloud_environment(
-    logger: Any,
+    logger: Any,  # pylint: disable=unused-argument
     method: str,  # pylint: disable=unused-argument
     event_dict: structlog.types.EventDict,
 ) -> structlog.types.EventDict:
@@ -263,7 +262,7 @@ def add_severity_field_from_level_if_in_cloud_environment(
                 dest_key=cloud_logging_log_level_key,
                 old_value=event_dict[cloud_logging_log_level_key],
                 new_value=event_dict[python_log_level_key],
-                logger_name=logger.name,
+                logger_name=event_dict["logger"],
             )
         event_dict[cloud_logging_log_level_key] = event_dict[python_log_level_key]
     return event_dict
