@@ -33,6 +33,7 @@ def get_git_root() -> pathlib.Path:  # Gratuitous indirection for testing
     return pathlib.Path(git_root)
 
 
+_LOG_LEVEL = logging.getLevelName(os.environ.get("LOG_LEVEL", "DEBUG"))
 ROOT_DIR = get_root_dir()
 LOG_DATA_DIR = ROOT_DIR / ".logs"
 LOG_DATA_DIR.mkdir(exist_ok=True)
@@ -71,7 +72,7 @@ def get_logger(name: Optional[str] = None) -> Any:
         set_logging_config(caller_name)
         set_structlog_config()
     logger = structlog.get_logger(caller_name).bind(logger=caller_name)
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(_LOG_LEVEL)
     return logger
 
 
