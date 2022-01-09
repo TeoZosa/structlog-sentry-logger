@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1641700604050,
+  "lastUpdate": 1641709593567,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -4751,6 +4751,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.00013267174416428922",
             "extra": "mean: 44.920147826087 msec\nrounds: 23"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "5693da0e3056522b719d7fb731499ddee8f03eea",
+          "message": "Merge pull request #398 from TeoZosa/feat/add-dynamic-log-level-configuration-from-env\n\n✨  Enable dynamic log level configuration via env var",
+          "timestamp": "2022-01-09T06:22:19Z",
+          "tree_id": "cce6fb32b4e06c0e95372d84a03248d19f192451"
+        },
+        "date": 1641709591950,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 71.88090133325787,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0010810976046931962",
+            "extra": "mean: 13.91190123456785 msec\nrounds: 81"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 67.54515393540565,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0014415162199051912",
+            "extra": "mean: 14.80491111111115 msec\nrounds: 81"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 19.09669010090949,
+            "unit": "iter/sec",
+            "range": "stddev: 0.004499920719246381",
+            "extra": "mean: 52.36509545454551 msec\nrounds: 22"
           }
         ]
       }
