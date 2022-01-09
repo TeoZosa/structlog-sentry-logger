@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1641700582233,
+  "lastUpdate": 1641709546209,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -4785,6 +4785,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0025776901160117693",
             "extra": "mean: 50.48344499999988 msec\nrounds: 20"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "5693da0e3056522b719d7fb731499ddee8f03eea",
+          "message": "Merge pull request #398 from TeoZosa/feat/add-dynamic-log-level-configuration-from-env\n\n✨  Enable dynamic log level configuration via env var",
+          "timestamp": "2022-01-09T06:22:19Z",
+          "tree_id": "cce6fb32b4e06c0e95372d84a03248d19f192451"
+        },
+        "date": 1641709544348,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 93.44066940895596,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0000617294900148848",
+            "extra": "mean: 10.701978124999965 msec\nrounds: 96"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 83.81774969872748,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00009040734595294845",
+            "extra": "mean: 11.930647191011166 msec\nrounds: 89"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 20.7812112516999,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0003655168476348564",
+            "extra": "mean: 48.12039047619037 msec\nrounds: 21"
           }
         ]
       }
