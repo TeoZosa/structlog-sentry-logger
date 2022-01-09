@@ -351,11 +351,13 @@ class TestCloudLogging:  # pylint: disable=too-few-public-methods
         # Initialize Cloud Logging-compatible logger and perform logging
         logger = structlog_sentry_logger.get_logger()
         orig_cloud_logging_log_key_value = "DUMMY_VALUE_FOR_TESTING"
-        logger.debug(
-            "Testing Cloud Logging-compatible logger",
-            **test_data,
-            severity=orig_cloud_logging_log_key_value,
-        )
+
+        with pytest.warns(RuntimeWarning):
+            logger.debug(
+                "Testing Cloud Logging-compatible logger",
+                **test_data,
+                severity=orig_cloud_logging_log_key_value,
+            )
 
         # Parse logs
         library_log, test_log = (record.msg for record in caplog.records)
