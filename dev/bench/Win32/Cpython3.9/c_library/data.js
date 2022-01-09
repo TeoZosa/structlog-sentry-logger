@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1641700735143,
+  "lastUpdate": 1641709700080,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -3772,6 +3772,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.005764568651348608",
             "extra": "mean: 86.71875 msec\nrounds: 10"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "5693da0e3056522b719d7fb731499ddee8f03eea",
+          "message": "Merge pull request #398 from TeoZosa/feat/add-dynamic-log-level-configuration-from-env\n\n✨  Enable dynamic log level configuration via env var",
+          "timestamp": "2022-01-09T06:22:19Z",
+          "tree_id": "cce6fb32b4e06c0e95372d84a03248d19f192451"
+        },
+        "date": 1641709696314,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 69.33333333333333,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0009813660828458246",
+            "extra": "mean: 14.423076923076923 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 60.37735849056604,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0008068715304598793",
+            "extra": "mean: 16.5625 msec\nrounds: 10"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 11.428571428571429,
+            "unit": "iter/sec",
+            "range": "stddev: 0.004941058844013093",
+            "extra": "mean: 87.5 msec\nrounds: 10"
           }
         ]
       }
