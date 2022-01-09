@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1641679858987,
+  "lastUpdate": 1641700925637,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -3690,6 +3690,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.003996438703107069",
             "extra": "mean: 88.62115384615372 msec\nrounds: 13"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "e303fa29243beb9caf7feb64f854497b48036c41",
+          "message": "Merge pull request #397 from TeoZosa/warn-on-cloud-logging-field-overwrites\n\n🔊  Warn on cloud logging mode field overwrites",
+          "timestamp": "2022-01-09T03:54:43Z",
+          "tree_id": "c53a2d4fae8755c4643bc36f52945f5cc3604a8e"
+        },
+        "date": 1641700923443,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 66.11552526551193,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0005750988107878909",
+            "extra": "mean: 15.125040540540535 msec\nrounds: 74"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 63.90819942198522,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0008343875528908876",
+            "extra": "mean: 15.647444444444595 msec\nrounds: 72"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 10.62244244270416,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0041428631682411945",
+            "extra": "mean: 94.14030769230787 msec\nrounds: 13"
           }
         ]
       }
