@@ -295,25 +295,28 @@ def is_cloud_logging_compatibility_mode_requested() -> bool:
 
 def is_probably_in_cloud_environment() -> bool:
     """Returns True if it is *likely* (but not guaranteed) logging is occurring in the context of a Cloud Logging environment"""
-    for env_var in [
-        # GKE
-        # There are no GKE-specific environment variable that definitively imply we are
-        # running in GKE... Falling back to detecting Kubernetes-injected environment
-        # variables since those are the only ones present in GKE pods that *could* imply
-        # we are running in GKE.
-        # Kubernetes
-        # see: https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/#environment-variables
-        "KUBERNETES_SERVICE_HOST",
-        # Cloud Function
-        # see: https://cloud.google.com/functions/docs/configuring/env-var#runtime_environment_variables_set_automatically
-        "GCP_PROJECT",
-        # GAE
-        # see: https://cloud.google.com/functions/docs/configuring/env-var#runtime_environment_variables_set_automatically
-        "GOOGLE_CLOUD_PROJECT",
-    ]:
+    for env_var in _CLOUD_ENV_INFERENCE_ENV_VARS:
         if env_var in os.environ:
             return True
     return False
+
+
+_CLOUD_ENV_INFERENCE_ENV_VARS = (
+    # GKE
+    # There are no GKE-specific environment variable that definitively imply we are
+    # running in GKE... Falling back to detecting Kubernetes-injected environment
+    # variables since those are the only ones present in GKE pods that *could* imply
+    # we are running in GKE.
+    # Kubernetes
+    # see: https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/#environment-variables
+    "KUBERNETES_SERVICE_HOST",
+    # Cloud Function
+    # see: https://cloud.google.com/functions/docs/configuring/env-var#runtime_environment_variables_set_automatically
+    "GCP_PROJECT",
+    # GAE
+    # see: https://cloud.google.com/functions/docs/configuring/env-var#runtime_environment_variables_set_automatically
+    "GOOGLE_CLOUD_PROJECT",
+)
 
 
 _ENV_VARS_REQUIRED_BY_LIBRARY = {
