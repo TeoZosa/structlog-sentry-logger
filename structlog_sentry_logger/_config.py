@@ -237,6 +237,39 @@ def set_stdlib_based_structlog_config() -> None:
     )
 
 
+def set_optimized_structlog_config() -> None:
+    processors = [
+        structlog.threadlocal.merge_threadlocal,
+        structlog.processors.add_log_level,
+        add_line_number_and_func_name,
+        add_severity_field_from_level_if_in_cloud_environment,
+        _TIMESTAMPER,
+        SentryBreadcrumbJsonProcessor(level=logging.ERROR, tag_keys="__all__"),
+        structlog.processors.JSONRenderer(
+            serializer=serializer_bytes,
+            option=orjson.OPT_NON_STR_KEYS | orjson.OPT_SORT_KEYS,
+        ),
+    ]
+    structlog.configure(
+        processors=processors,  # type: ignore[arg-type]
+        wrapper_class=structlog.make_filtering_bound_logger(_LOG_LEVEL),
+        logger_factory=structlog.BytesLoggerFactory(),
+        cache_logger_on_first_use=True,
+    )
+
+
+def serializer_bytes(
+    *args: Any,
+    default: Optional[Callable[[Any], Any]] = None,
+    option: Optional[int] = orjson.OPT_NON_STR_KEYS | orjson.OPT_SORT_KEYS,
+) -> bytes:
+    if _CONFIGS.use_orjson:
+        return orjson.dumps(*args, default=default, option=option)  # type: ignore[misc]
+    # pylint: disable=no-value-for-parameter
+    return json.dumps(*args, sort_keys=True).encode("utf-8")
+    # pylint: enable=no-value-for-parameter
+
+
 def add_line_number_and_func_name(
     logger: Any,  # pylint: disable=unused-argument
     method: str,  # pylint: disable=unused-argument
