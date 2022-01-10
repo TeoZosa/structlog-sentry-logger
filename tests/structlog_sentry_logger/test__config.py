@@ -315,7 +315,9 @@ class TestCloudLogging:  # pylint: disable=too-few-public-methods
     ) -> None:
         # Enable Cloud Logging compatibility mode
         structlog.reset_defaults()
-        monkeypatch.setenv("STRUCTLOG_SENTRY_LOGGER_STDLIB_BASED_LOGGER", "ANY_VALUE")
+        monkeypatch.setenv(
+            "_STRUCTLOG_SENTRY_LOGGER_STDLIB_BASED_LOGGER_MODE_ON", "ANY_VALUE"
+        )
         monkeypatch.setenv(cloud_logging_compatibility_mode_env_var, "ANY_VALUE")
 
         # Initialize Cloud Logging-compatible logger and perform logging
@@ -545,7 +547,9 @@ class TestBasicPerfLogging:
         monkeypatch.delenv(
             "STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON", raising=False
         )
-        monkeypatch.delenv("STRUCTLOG_SENTRY_LOGGER_STDLIB_BASED_LOGGER", raising=False)
+        monkeypatch.delenv(
+            "_STRUCTLOG_SENTRY_LOGGER_STDLIB_BASED_LOGGER_MODE_ON", raising=False
+        )
         for env_var in self.cloud_logging_compatibility_mode_env_vars:
             monkeypatch.delenv(env_var, raising=False)
 

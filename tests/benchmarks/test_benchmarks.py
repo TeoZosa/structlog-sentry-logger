@@ -29,12 +29,12 @@ class TestStructlogSentryLoggerBenchmarks:
 
         if is_stdlib_based_structlog_config_requested:
             monkeypatch.setenv(
-                "STRUCTLOG_SENTRY_LOGGER_STDLIB_BASED_LOGGER",
+                "_STRUCTLOG_SENTRY_LOGGER_STDLIB_BASED_LOGGER_MODE_ON",
                 "ANY_VALUE",
             )
         else:
             monkeypatch.delenv(
-                "STRUCTLOG_SENTRY_LOGGER_STDLIB_BASED_LOGGER",
+                "_STRUCTLOG_SENTRY_LOGGER_STDLIB_BASED_LOGGER_MODE_ON",
                 raising=False,
             )
 

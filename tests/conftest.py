@@ -51,4 +51,6 @@ def set_legacy_for_tests(monkeypatch: MonkeyPatch) -> None:
         # pylint:enable=protected-access
     ]:
         monkeypatch.delenv(env_var, raising=False)
-    monkeypatch.setenv("STRUCTLOG_SENTRY_LOGGER_STDLIB_BASED_LOGGER", "ANY_VALUE")
+    monkeypatch.setenv(
+        "_STRUCTLOG_SENTRY_LOGGER_STDLIB_BASED_LOGGER_MODE_ON", "ANY_VALUE"
+    )
