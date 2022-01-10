@@ -149,13 +149,6 @@ def get_handlers(module_name: str) -> dict:
     return base_handlers
 
 
-def is_prettified_output_formatting_requested() -> bool:
-    return (
-        _ENV_VARS_REQUIRED_BY_LIBRARY[is_prettified_output_formatting_requested]
-        in os.environ
-    )
-
-
 def get_dev_local_filename_handler(module_name: str) -> dict:
     file_timestamp = datetime.datetime.utcnow().isoformat().replace(":", "-")
     log_file_name = f"{file_timestamp}_{module_name}.jsonl"
@@ -298,13 +291,6 @@ def add_severity_field_from_level_if_in_cloud_environment(
     return event_dict
 
 
-def is_cloud_logging_compatibility_mode_requested() -> bool:
-    return (
-        _ENV_VARS_REQUIRED_BY_LIBRARY[is_cloud_logging_compatibility_mode_requested]
-        in os.environ
-    )
-
-
 def is_probably_in_cloud_environment() -> bool:
     """Returns True if it is *likely* (but not guaranteed) logging is occurring in the context of a Cloud Logging environment"""
     for env_var in _CLOUD_ENV_INFERENCE_ENV_VARS:
@@ -329,6 +315,18 @@ _CLOUD_ENV_INFERENCE_ENV_VARS = (
     # see: https://cloud.google.com/functions/docs/configuring/env-var#runtime_environment_variables_set_automatically
     "GOOGLE_CLOUD_PROJECT",
 )
+
+
+def is_cloud_logging_compatibility_mode_requested() -> bool:
+    return _is_required_env_var_set(is_cloud_logging_compatibility_mode_requested)
+
+
+def is_prettified_output_formatting_requested() -> bool:
+    return _is_required_env_var_set(is_prettified_output_formatting_requested)
+
+
+def _is_required_env_var_set(calling_fn: Callable) -> bool:
+    return _ENV_VARS_REQUIRED_BY_LIBRARY[calling_fn] in os.environ
 
 
 _ENV_VARS_REQUIRED_BY_LIBRARY = {
