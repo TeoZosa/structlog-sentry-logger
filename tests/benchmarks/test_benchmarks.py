@@ -23,7 +23,9 @@ def test_logging_orjson_serializer(benchmark: BenchmarkFixture) -> None:
 
 @pytest.mark.usefixtures("temporarily_set_stlib_json_as_default_serializer")
 def test_logging_stdlib_json_serializer(benchmark: BenchmarkFixture) -> None:
-    _benchmark_runner(benchmark, test_cases=test__config.TestBasicLogging.test_cases)
+    test_cases = test__config.TestBasicLogging.test_cases.copy()
+    test_cases["uuid"] = str(test_cases["uuid"])
+    _benchmark_runner(benchmark, test_cases=test_cases)
 
 
 def _benchmark_runner(benchmark: BenchmarkFixture, test_cases: dict) -> None:

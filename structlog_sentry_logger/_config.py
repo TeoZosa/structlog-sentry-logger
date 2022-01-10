@@ -79,9 +79,16 @@ def get_logger(name: Optional[str] = None) -> Any:
         set_logging_config(caller_name)
         _CONFIGS.stdlib_logging_config_already_configured = True
     if not structlog.is_configured():
-        set_stdlib_based_structlog_config()
+        if (
+            is_prettified_output_formatting_requested()
+            or is_stdlib_based_structlog_configuration_requested()
+        ):
+            set_stdlib_based_structlog_config()
+        else:
+            set_optimized_structlog_config()
     logger = structlog.get_logger(caller_name).bind(logger=caller_name)
-    logger.setLevel(_LOG_LEVEL)
+    if hasattr(logger, "setLevel"):  # stdlib-based logger
+        logger.setLevel(_LOG_LEVEL)
     return logger
 
 
