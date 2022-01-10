@@ -139,7 +139,7 @@ def get_handlers(module_name: str) -> dict:
         }
     }
     default_handler = base_handlers[default_key]
-    if _ENV_VARS_REQUIRED_BY_LIBRARY[get_handlers] in os.environ:
+    if is_prettified_output_formatting_requested():
         # Add logfile handler
         base_handlers["filename"] = get_dev_local_filename_handler(module_name)
         # Prettify stdout/stderr streams
@@ -147,6 +147,13 @@ def get_handlers(module_name: str) -> dict:
     else:
         default_handler["formatter"] = "plain"
     return base_handlers
+
+
+def is_prettified_output_formatting_requested() -> bool:
+    return (
+        _ENV_VARS_REQUIRED_BY_LIBRARY[is_prettified_output_formatting_requested]
+        in os.environ
+    )
 
 
 def get_dev_local_filename_handler(module_name: str) -> dict:
@@ -325,7 +332,7 @@ _CLOUD_ENV_INFERENCE_ENV_VARS = (
 
 
 _ENV_VARS_REQUIRED_BY_LIBRARY = {
-    get_handlers: "STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON",
+    is_prettified_output_formatting_requested: "STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON",
     is_cloud_logging_compatibility_mode_requested: "STRUCTLOG_SENTRY_LOGGER_CLOUD_LOGGING_COMPATIBILITY_MODE_ON",
 }
 
