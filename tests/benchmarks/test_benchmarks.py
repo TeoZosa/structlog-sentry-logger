@@ -23,7 +23,7 @@ class TestStructlogSentryLoggerBenchmarks:
     def setup(
         monkeypatch: MonkeyPatch,
         is_stdlib_based_structlog_config_requested: bool,
-    ) -> Generator:
+    ) -> None:
         # Setup
         structlog.reset_defaults()
         # pylint:disable=protected-access
@@ -42,12 +42,6 @@ class TestStructlogSentryLoggerBenchmarks:
                 "STRUCTLOG_SENTRY_LOGGER_STDLIB_BASED_LOGGER",
                 raising=False,
             )
-
-        # Pass control back to calling function
-        yield
-
-        # Teardown
-        structlog.reset_defaults()
 
     @staticmethod
     def test_orjson_serializer_non_str_keys(benchmark: BenchmarkFixture) -> None:
