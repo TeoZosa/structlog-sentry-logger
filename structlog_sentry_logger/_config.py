@@ -140,24 +140,28 @@ def get_handlers(module_name: str) -> dict:
     }
     default_handler = base_handlers[default_key]
     if _ENV_VARS_REQUIRED_BY_LIBRARY[get_handlers] in os.environ:
-        # Add filename handler
-        file_timestamp = datetime.datetime.utcnow().isoformat().replace(":", "-")
-        log_file_name = f"{file_timestamp}_{module_name}.jsonl"
-        log_file_path = LOG_DATA_DIR / log_file_name
-        base_handlers["filename"] = {
-            "level": "DEBUG",
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": str(log_file_path),
-            # 1 MB
-            "maxBytes": 1 << 20,  # type: ignore[dict-item]
-            "backupCount": 3,  # type: ignore[dict-item]
-            "formatter": "plain",
-        }
+        # Add logfile handler
+        base_handlers["filename"] = get_dev_local_filename_handler(module_name)
         # Prettify stdout/stderr streams
         default_handler["formatter"] = "colored"
     else:
         default_handler["formatter"] = "plain"
     return base_handlers
+
+
+def get_dev_local_filename_handler(module_name: str) -> dict:
+    file_timestamp = datetime.datetime.utcnow().isoformat().replace(":", "-")
+    log_file_name = f"{file_timestamp}_{module_name}.jsonl"
+    log_file_path = LOG_DATA_DIR / log_file_name
+    return {
+        "level": "DEBUG",
+        "class": "logging.handlers.RotatingFileHandler",
+        "filename": str(log_file_path),
+        # 1 MB
+        "maxBytes": 1 << 20,  # type: ignore[dict-item]
+        "backupCount": 3,  # type: ignore[dict-item]
+        "formatter": "plain",
+    }
 
 
 def get_formatters() -> dict:
