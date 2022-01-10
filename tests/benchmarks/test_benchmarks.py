@@ -50,20 +50,16 @@ class TestStructlogSentryLoggerBenchmarks:
         structlog.reset_defaults()
 
     @staticmethod
-    def test_logging_orjson_serializer_non_str_keys(
-        benchmark: BenchmarkFixture,
-    ) -> None:
+    def test_orjson_serializer_non_str_keys(benchmark: BenchmarkFixture) -> None:
         _benchmark_runner(benchmark, test_cases=TEST_CASES.non_str_keys)
 
     @staticmethod
-    def test_logging_orjson_serializer(
-        benchmark: BenchmarkFixture,
-    ) -> None:
+    def test_orjson_serializer(benchmark: BenchmarkFixture) -> None:
         _benchmark_runner(benchmark, test_cases=TEST_CASES.basic)
 
     @staticmethod
     @pytest.mark.usefixtures("temporarily_set_stlib_json_as_default_serializer")
-    def test_logging_stdlib_json_serializer(
+    def test_stdlib_json_serializer(
         benchmark: BenchmarkFixture,
         is_stdlib_based_structlog_config_requested: bool,
     ) -> None:
