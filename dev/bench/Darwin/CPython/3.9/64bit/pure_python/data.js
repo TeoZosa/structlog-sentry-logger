@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1641847624700,
+  "lastUpdate": 1641849590038,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -4018,6 +4018,47 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0027310375130042554",
             "extra": "mean: 81.69769230769248 msec\nrounds: 13"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "dceca5bf914e51f092456ab946d5710daeda830d",
+          "message": "Merge pull request #402 from TeoZosa/dependabot/pip/mypy-0.931",
+          "timestamp": "2022-01-10T20:50:56Z",
+          "tree_id": "c15f74c3f0ca2f5170e9e709a09170a8d914b642"
+        },
+        "date": 1641849587501,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer_non_str_keys",
+            "value": 59.31057388911297,
+            "unit": "iter/sec",
+            "range": "stddev: 0.001501231054255416",
+            "extra": "mean: 16.860399999999995 msec\nrounds: 70"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_orjson_serializer",
+            "value": 60.69268302690657,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0013144893608083104",
+            "extra": "mean: 16.47645070422534 msec\nrounds: 71"
+          },
+          {
+            "name": "tests/test_benchmarks.py::test_logging_stdlib_json_serializer",
+            "value": 11.475239082192696,
+            "unit": "iter/sec",
+            "range": "stddev: 0.003005013085001027",
+            "extra": "mean: 87.14415384615407 msec\nrounds: 13"
           }
         ]
       }
