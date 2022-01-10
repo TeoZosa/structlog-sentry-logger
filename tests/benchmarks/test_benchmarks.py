@@ -5,25 +5,22 @@ from pytest_benchmark.fixture import BenchmarkFixture
 
 import structlog_sentry_logger
 from tests.benchmarks import utils
-from tests.structlog_sentry_logger import test__config
+from tests.benchmarks.utils import TestCases
+
+TEST_CASES = TestCases()
 
 
 def test_logging_orjson_serializer_non_str_keys(benchmark: BenchmarkFixture) -> None:
-    _benchmark_runner(
-        benchmark,
-        test_cases={
-            "dummy kwarg for dict unpacking in log function": test__config.TestBasicLoggingNonStringKeys.test_cases
-        },
-    )
+    _benchmark_runner(benchmark, test_cases=TEST_CASES.non_str_keys)
 
 
 def test_logging_orjson_serializer(benchmark: BenchmarkFixture) -> None:
-    _benchmark_runner(benchmark, test_cases=test__config.TestBasicLogging.test_cases)
+    _benchmark_runner(benchmark, test_cases=TEST_CASES.basic)
 
 
 @pytest.mark.usefixtures("temporarily_set_stlib_json_as_default_serializer")
 def test_logging_stdlib_json_serializer(benchmark: BenchmarkFixture) -> None:
-    test_cases = test__config.TestBasicLogging.test_cases.copy()
+    test_cases = TEST_CASES.basic.copy()
     test_cases["uuid"] = str(test_cases["uuid"])
     _benchmark_runner(benchmark, test_cases=test_cases)
 

@@ -5,20 +5,17 @@ import structlog
 from pytest_benchmark.fixture import BenchmarkFixture
 
 from tests.benchmarks import utils
-from tests.structlog_sentry_logger import test__config
+from tests.benchmarks.utils import TestCases
+
+TEST_CASES = TestCases()
 
 
 def test_gold_standard_structlog_non_str_keys(benchmark: BenchmarkFixture) -> None:
-    _benchmark_runner(
-        benchmark,
-        test_cases={
-            "dummy kwarg for dict unpacking in log function": test__config.TestBasicLoggingNonStringKeys.test_cases
-        },
-    )
+    _benchmark_runner(benchmark, test_cases=TEST_CASES.non_str_keys)
 
 
 def test_gold_standard_structlog(benchmark: BenchmarkFixture) -> None:
-    _benchmark_runner(benchmark, test_cases=test__config.TestBasicLogging.test_cases)
+    _benchmark_runner(benchmark, test_cases=TEST_CASES.basic)
 
 
 def _benchmark_runner(benchmark: BenchmarkFixture, test_cases: dict) -> None:
