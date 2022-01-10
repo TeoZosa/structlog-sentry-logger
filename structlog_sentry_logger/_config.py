@@ -1,3 +1,4 @@
+import dataclasses
 import datetime
 import inspect
 import json
@@ -16,6 +17,11 @@ import sentry_sdk
 import structlog
 
 from structlog_sentry_logger import structlog_sentry
+
+
+@dataclasses.dataclass
+class Config:
+    use_orjson = True
 
 
 def get_root_dir() -> pathlib.Path:
@@ -38,11 +44,11 @@ ROOT_DIR = get_root_dir()
 LOG_DATA_DIR = ROOT_DIR / ".logs"
 LOG_DATA_DIR.mkdir(exist_ok=True)
 _TIMESTAMPER = structlog.processors.TimeStamper(fmt="iso", utc=True)
-_CONFIGS = {"USE_ORJSON": True}
+_CONFIGS = Config()
 
 
 def _toggle_json_library(use_orjson: bool = True) -> None:
-    _CONFIGS["USE_ORJSON"] = use_orjson
+    _CONFIGS.use_orjson = use_orjson
 
 
 def get_config_dict() -> dict:
@@ -195,7 +201,7 @@ def serializer(
     default: Optional[Callable[[Any], Any]] = None,
     option: Optional[int] = orjson.OPT_NON_STR_KEYS | orjson.OPT_SORT_KEYS,
 ) -> str:
-    if _CONFIGS["USE_ORJSON"]:
+    if _CONFIGS.use_orjson:
         return orjson.dumps(*args, default=default, option=option).decode()  # type: ignore[misc]
     return json.dumps(*args, sort_keys=True)
 
