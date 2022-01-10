@@ -138,9 +138,8 @@ def get_handlers(module_name: str) -> dict:
             "stream": "ext://sys.stdout",
         }
     }
+    default_handler = base_handlers[default_key]
     if _ENV_VARS_REQUIRED_BY_LIBRARY[get_handlers] in os.environ:
-        # Prettify stdout/stderr streams
-        base_handlers[default_key]["formatter"] = "colored"
         # Add filename handler
         file_timestamp = datetime.datetime.utcnow().isoformat().replace(":", "-")
         log_file_name = f"{file_timestamp}_{module_name}.jsonl"
@@ -154,8 +153,10 @@ def get_handlers(module_name: str) -> dict:
             "backupCount": 3,  # type: ignore[dict-item]
             "formatter": "plain",
         }
+        # Prettify stdout/stderr streams
+        default_handler["formatter"] = "colored"
     else:
-        base_handlers[default_key]["formatter"] = "plain"
+        default_handler["formatter"] = "plain"
     return base_handlers
 
 
