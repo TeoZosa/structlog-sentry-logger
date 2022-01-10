@@ -70,7 +70,7 @@ def get_logger(name: Optional[str] = None) -> Any:
     caller_name = get_caller_name_from_frames()
     if not structlog.is_configured():
         set_logging_config(caller_name)
-        set_structlog_config()
+        set_stdlib_based_structlog_config()
     logger = structlog.get_logger(caller_name).bind(logger=caller_name)
     logger.setLevel(_LOG_LEVEL)
     return logger
@@ -200,7 +200,7 @@ def serializer(
     return json.dumps(*args, sort_keys=True)
 
 
-def set_structlog_config() -> None:
+def set_stdlib_based_structlog_config() -> None:
     structlog_processors = [
         _TIMESTAMPER,
         structlog.processors.StackInfoRenderer(),
