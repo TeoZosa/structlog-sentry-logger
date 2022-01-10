@@ -364,6 +364,10 @@ def is_prettified_output_formatting_requested() -> bool:
     return _is_required_env_var_set(is_prettified_output_formatting_requested)
 
 
+def is_stdlib_based_structlog_configuration_requested() -> bool:
+    return _is_required_env_var_set(is_stdlib_based_structlog_configuration_requested)
+
+
 def _is_required_env_var_set(calling_fn: Callable) -> bool:
     return _ENV_VARS_REQUIRED_BY_LIBRARY[calling_fn] in os.environ
 
@@ -371,6 +375,7 @@ def _is_required_env_var_set(calling_fn: Callable) -> bool:
 _ENV_VARS_REQUIRED_BY_LIBRARY = {
     is_prettified_output_formatting_requested: "STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON",
     is_cloud_logging_compatibility_mode_requested: "STRUCTLOG_SENTRY_LOGGER_CLOUD_LOGGING_COMPATIBILITY_MODE_ON",
+    is_stdlib_based_structlog_configuration_requested: "STRUCTLOG_SENTRY_LOGGER_STDLIB_BASED_LOGGER",
 }
 
 
