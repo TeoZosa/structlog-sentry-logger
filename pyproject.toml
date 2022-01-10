@@ -125,7 +125,7 @@ exclude_lines =[
     "raise NotImplementedError",
     "if __name__ == .__main__.:",
 ]
-fail_under = 99
+fail_under = 100
 omit =[
     "structlog_sentry_logger/structlog_sentry.py",
 ]
