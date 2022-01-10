@@ -22,6 +22,7 @@ from structlog_sentry_logger import structlog_sentry
 @dataclasses.dataclass
 class Config:
     use_orjson = True
+    stdlib_logging_config_already_configured = False
 
 
 def get_root_dir() -> pathlib.Path:
@@ -74,8 +75,10 @@ def get_logger(name: Optional[str] = None) -> Any:
     """
     del name
     caller_name = get_caller_name_from_frames()
-    if not structlog.is_configured():
+    if not _CONFIGS.stdlib_logging_config_already_configured:
         set_logging_config(caller_name)
+        _CONFIGS.stdlib_logging_config_already_configured = True
+    if not structlog.is_configured():
         set_stdlib_based_structlog_config()
     logger = structlog.get_logger(caller_name).bind(logger=caller_name)
     logger.setLevel(_LOG_LEVEL)
