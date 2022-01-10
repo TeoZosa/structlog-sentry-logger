@@ -1,11 +1,11 @@
 from typing import Generator
 
 import pytest
-import structlog
 from _pytest.monkeypatch import MonkeyPatch
 from pytest_benchmark.fixture import BenchmarkFixture
 
 import structlog_sentry_logger
+import tests.utils
 from tests.benchmarks import utils
 from tests.benchmarks.utils import TestCases
 
@@ -25,12 +25,7 @@ class TestStructlogSentryLoggerBenchmarks:
         is_stdlib_based_structlog_config_requested: bool,
     ) -> None:
         # Setup
-        structlog.reset_defaults()
-        # pylint:disable=protected-access
-        structlog_sentry_logger._config._CONFIGS.stdlib_logging_config_already_configured = (
-            False
-        )
-        # pylint:enable=protected-access
+        tests.utils.reset_logging_configs()
 
         if is_stdlib_based_structlog_config_requested:
             monkeypatch.setenv(

@@ -4,7 +4,6 @@ from types import ModuleType
 from typing import Dict, List, Optional
 
 import orjson
-import structlog
 
 # Invoking tests on the command line (e.g. in CI) will capture logs directly
 # so they must be redirected back to sys.out/sys.err
@@ -13,7 +12,7 @@ from _pytest.capture import CaptureFixture
 from _pytest.logging import LogCaptureFixture
 from _pytest.monkeypatch import MonkeyPatch
 
-import structlog_sentry_logger
+import tests.utils
 
 JSONOutputType = Dict[str, Optional[str]]
 
@@ -56,7 +55,7 @@ def validate_output(
 def reload_module_non_dev_local_env(
     monkeypatch: MonkeyPatch, module: ModuleType
 ) -> None:
-    reset_logging_configs()
+    tests.utils.reset_logging_configs()
     monkeypatch.delenv(
         "STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON", raising=False
     )
@@ -64,17 +63,8 @@ def reload_module_non_dev_local_env(
 
 
 def reload_module_dev_local_env(monkeypatch: MonkeyPatch, module: ModuleType) -> None:
-    reset_logging_configs()
+    tests.utils.reset_logging_configs()
     monkeypatch.setenv(
         "STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON", "ANY_VALUE"
     )
     importlib.reload(module)
-
-
-def reset_logging_configs() -> None:
-    structlog.reset_defaults()
-    # pylint:disable=protected-access
-    structlog_sentry_logger._config._CONFIGS.stdlib_logging_config_already_configured = (
-        False
-    )
-    # pylint:enable=protected-access
