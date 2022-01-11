@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1641848002996,
+  "lastUpdate": 1641872034361,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -5079,6 +5079,82 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.00023379460503214887",
             "extra": "mean: 49.52189499999991 msec\nrounds: 20"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "590e6dcd1d545b7bb26b12bb64eb321af832003d",
+          "message": "Merge pull request #406 from TeoZosa/perf/improve-perf-for-default-json-logging\n\n⚡ Improve JSON-only logging performance",
+          "timestamp": "2022-01-11T03:31:15Z",
+          "tree_id": "a1c0965db83e7a864fc92fbdcd47762b969f04f4"
+        },
+        "date": 1641872032893,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/benchmarks/test_benchmarks.py::TestStructlogSentryLoggerBenchmarks::test_orjson_serializer_non_str_keys[stdlib-based config (Legacy)]",
+            "value": 156.76889387638874,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00001815453781865036",
+            "extra": "mean: 6.378816455696202 msec\nrounds: 158"
+          },
+          {
+            "name": "tests/benchmarks/test_benchmarks.py::TestStructlogSentryLoggerBenchmarks::test_orjson_serializer_non_str_keys[structlog-specific config (Optimized)]",
+            "value": 294.75311755822526,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00001423580966182714",
+            "extra": "mean: 3.392669798657722 msec\nrounds: 298"
+          },
+          {
+            "name": "tests/benchmarks/test_benchmarks.py::TestStructlogSentryLoggerBenchmarks::test_orjson_serializer[stdlib-based config (Legacy)]",
+            "value": 144.68557495718633,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000029065259208599508",
+            "extra": "mean: 6.911539041095895 msec\nrounds: 146"
+          },
+          {
+            "name": "tests/benchmarks/test_benchmarks.py::TestStructlogSentryLoggerBenchmarks::test_orjson_serializer[structlog-specific config (Optimized)]",
+            "value": 285.42158700943594,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000013401910601770231",
+            "extra": "mean: 3.5035892361110736 msec\nrounds: 288"
+          },
+          {
+            "name": "tests/benchmarks/test_benchmarks.py::TestStructlogSentryLoggerBenchmarks::test_stdlib_json_serializer[stdlib-based config (Legacy)]",
+            "value": 22.25445139826157,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00004781017802208996",
+            "extra": "mean: 44.93483043478287 msec\nrounds: 23"
+          },
+          {
+            "name": "tests/benchmarks/test_benchmarks.py::TestStructlogSentryLoggerBenchmarks::test_stdlib_json_serializer[structlog-specific config (Optimized)]",
+            "value": 222.579008128586,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000020776622336289187",
+            "extra": "mean: 4.492786666666654 msec\nrounds: 225"
+          },
+          {
+            "name": "tests/benchmarks/test_structlog_benchmarks.py::test_gold_standard_structlog_non_str_keys",
+            "value": 1328.4694666675582,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000005981163638284696",
+            "extra": "mean: 752.7459419210304 usec\nrounds: 1343"
+          },
+          {
+            "name": "tests/benchmarks/test_structlog_benchmarks.py::test_gold_standard_structlog",
+            "value": 1145.590264154474,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000005970935440989301",
+            "extra": "mean: 872.9124463518989 usec\nrounds: 1165"
           }
         ]
       }
