@@ -18,7 +18,7 @@ def lots_of_logging(logger: Any, test_cases: dict) -> None:
         for log_level_fn in [
             logger.debug,
             logger.info,
-            logger.warn,
+            logger.warning,
             logger.error,
             logger.fatal,
         ]:
