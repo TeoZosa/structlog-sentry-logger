@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1641848825093,
+  "lastUpdate": 1641872041754,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -4059,6 +4059,82 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.0022176458816523677",
             "extra": "mean: 83.79861538461488 msec\nrounds: 13"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "TeoZosa@users.noreply.github.com",
+            "name": "Teofilo Zosa"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub"
+          },
+          "id": "590e6dcd1d545b7bb26b12bb64eb321af832003d",
+          "message": "Merge pull request #406 from TeoZosa/perf/improve-perf-for-default-json-logging\n\n⚡ Improve JSON-only logging performance",
+          "timestamp": "2022-01-11T03:31:15Z",
+          "tree_id": "a1c0965db83e7a864fc92fbdcd47762b969f04f4"
+        },
+        "date": 1641872039674,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/benchmarks/test_benchmarks.py::TestStructlogSentryLoggerBenchmarks::test_orjson_serializer_non_str_keys[stdlib-based config (Legacy)]",
+            "value": 105.7497519478647,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0007751199993709572",
+            "extra": "mean: 9.456286956521717 msec\nrounds: 115"
+          },
+          {
+            "name": "tests/benchmarks/test_benchmarks.py::TestStructlogSentryLoggerBenchmarks::test_orjson_serializer_non_str_keys[structlog-specific config (Optimized)]",
+            "value": 185.32298676358934,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0003128716043206954",
+            "extra": "mean: 5.39598469387755 msec\nrounds: 196"
+          },
+          {
+            "name": "tests/benchmarks/test_benchmarks.py::TestStructlogSentryLoggerBenchmarks::test_orjson_serializer[stdlib-based config (Legacy)]",
+            "value": 96.61482541439986,
+            "unit": "iter/sec",
+            "range": "stddev: 0.001209668557566334",
+            "extra": "mean: 10.350378378378315 msec\nrounds: 111"
+          },
+          {
+            "name": "tests/benchmarks/test_benchmarks.py::TestStructlogSentryLoggerBenchmarks::test_orjson_serializer[structlog-specific config (Optimized)]",
+            "value": 179.81849688772132,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0003050189164235924",
+            "extra": "mean: 5.561163157894708 msec\nrounds: 190"
+          },
+          {
+            "name": "tests/benchmarks/test_benchmarks.py::TestStructlogSentryLoggerBenchmarks::test_stdlib_json_serializer[stdlib-based config (Legacy)]",
+            "value": 10.627680470091379,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0028417078827549323",
+            "extra": "mean: 94.09390909090831 msec\nrounds: 11"
+          },
+          {
+            "name": "tests/benchmarks/test_benchmarks.py::TestStructlogSentryLoggerBenchmarks::test_stdlib_json_serializer[structlog-specific config (Optimized)]",
+            "value": 148.54385246624764,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00047797719047528266",
+            "extra": "mean: 6.732018749999913 msec\nrounds: 160"
+          },
+          {
+            "name": "tests/benchmarks/test_structlog_benchmarks.py::test_gold_standard_structlog_non_str_keys",
+            "value": 488.9552530719358,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0001622386484242632",
+            "extra": "mean: 2.045176923077005 msec\nrounds: 520"
+          },
+          {
+            "name": "tests/benchmarks/test_structlog_benchmarks.py::test_gold_standard_structlog",
+            "value": 466.84344224182087,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0001326477823409322",
+            "extra": "mean: 2.1420457256460907 msec\nrounds: 503"
           }
         ]
       }
