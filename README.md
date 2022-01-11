@@ -128,7 +128,7 @@ pip install structlog-sentry-logger
 ==============
 :loud_sound: Pure `structlog` Logging (Without Sentry)
 ------------------------------------------------------
-At the top of your Python module, import and instantiate the logger:
+Simply import and instantiate the logger:
 
 ```python
 import structlog_sentry_logger
@@ -136,7 +136,7 @@ import structlog_sentry_logger
 LOGGER = structlog_sentry_logger.get_logger()
 ```
 
-Now anytime you want to print anything, don't. Instead do this:
+Now you can start adding logs as easily as print statements:
 
 ```python
 LOGGER.info("Your log message", extra_field="extra_value")
