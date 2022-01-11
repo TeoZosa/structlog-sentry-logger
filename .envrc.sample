@@ -13,6 +13,9 @@ dotenv
 export SENTRY_DSN=
 
 ############ Parsed by `structlog-sentry-logger` on logger initialization if not already set in environment ############
+# Enable Sentry integration (https://github.com/TeoZosa/structlog-sentry-logger#outbox_tray-log-custom-context-directly-to-sentry)
+export STRUCTLOG_SENTRY_LOGGER_CLOUD_SENTRY_INTEGRATION_MODE_ON=
+
 # Enable Cloud Logging Compatibility (https://github.com/TeoZosa/structlog-sentry-logger#cloud-cloud-logging-compatibility)
 export STRUCTLOG_SENTRY_LOGGER_CLOUD_LOGGING_COMPATIBILITY_MODE_ON=
 
