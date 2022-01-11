@@ -220,12 +220,19 @@ def set_stdlib_based_structlog_config() -> None:
         _TIMESTAMPER,
         structlog.processors.StackInfoRenderer(),
         add_line_number_and_func_name,
-        add_severity_field_from_level_if_in_cloud_environment,
     ]
 
     if _feature_flags.is_sentry_integration_mode_requested():
         structlog_processors.append(
             SentryBreadcrumbJsonProcessor(level=logging.ERROR, tag_keys="__all__")
+        )
+
+    if (
+        _feature_flags.is_cloud_logging_compatibility_mode_requested()
+        or _feature_flags.is_probably_in_cloud_environment()
+    ):
+        structlog_processors.append(
+            add_severity_field_from_level_if_in_cloud_environment
         )
 
     stdlib_log_compatibility_processors = [
@@ -256,13 +263,18 @@ def set_optimized_structlog_config() -> None:
         structlog.threadlocal.merge_threadlocal,
         structlog.processors.add_log_level,
         add_line_number_and_func_name,
-        add_severity_field_from_level_if_in_cloud_environment,
         _TIMESTAMPER,
     ]
     if _feature_flags.is_sentry_integration_mode_requested():
         processors.append(
             SentryBreadcrumbJsonProcessor(level=logging.ERROR, tag_keys="__all__")
         )
+
+    if (
+        _feature_flags.is_cloud_logging_compatibility_mode_requested()
+        or _feature_flags.is_probably_in_cloud_environment()
+    ):
+        processors.append(add_severity_field_from_level_if_in_cloud_environment)
 
     # Note: MUST come last!
     processors.append(
@@ -313,41 +325,37 @@ def add_severity_field_from_level_if_in_cloud_environment(
     `level` to the `severity` field in the logger's event dictionary.
     """
 
-    if (
-        _feature_flags.is_cloud_logging_compatibility_mode_requested()
-        or _feature_flags.is_probably_in_cloud_environment()
-    ):
-        cloud_logging_log_level_key, python_log_level_key = "severity", "level"
-        if cloud_logging_log_level_key in event_dict:
-            # Warn users that they should fix their application code
-            warnings.warn(
-                f"Existing field "
-                f"{cloud_logging_log_level_key}={event_dict[cloud_logging_log_level_key]} "
-                "being overwritten by log level "
-                f"({python_log_level_key}={event_dict[python_log_level_key]})",
-                RuntimeWarning,
-            )
+    cloud_logging_log_level_key, python_log_level_key = "severity", "level"
+    if cloud_logging_log_level_key in event_dict:
+        # Warn users that they should fix their application code
+        warnings.warn(
+            f"Existing field "
+            f"{cloud_logging_log_level_key}={event_dict[cloud_logging_log_level_key]} "
+            "being overwritten by log level "
+            f"({python_log_level_key}={event_dict[python_log_level_key]})",
+            RuntimeWarning,
+        )
 
-            # Also, redundantly log this warning to users.
-            #
-            # While best practice is to only log warnings which the user isn't expected
-            # to fix (https://docs.python.org/2/howto/logging.html#when-to-use-logging),
-            # many users rely on automated log parsing tools for their alerting and
-            # audit trails.
-            #
-            # Dogfood by instantiating a local logger with own library.
-            # Note: NO infinite loop since the below log message does *NOT* use
-            # `severity` as a key in the emitted event.
-            local_logger = get_logger()
-            local_logger.warning(
-                "Existing log value being overwritten",
-                src_key=python_log_level_key,
-                dest_key=cloud_logging_log_level_key,
-                old_value=event_dict[cloud_logging_log_level_key],
-                new_value=event_dict[python_log_level_key],
-                logger_name=event_dict["logger"],
-            )
-        event_dict[cloud_logging_log_level_key] = event_dict[python_log_level_key]
+        # Also, redundantly log this warning to users.
+        #
+        # While best practice is to only log warnings which the user isn't expected
+        # to fix (https://docs.python.org/2/howto/logging.html#when-to-use-logging),
+        # many users rely on automated log parsing tools for their alerting and
+        # audit trails.
+        #
+        # Dogfood by instantiating a local logger with own library.
+        # Note: NO infinite loop since the below log message does *NOT* use
+        # `severity` as a key in the emitted event.
+        local_logger = get_logger()
+        local_logger.warning(
+            "Existing log value being overwritten",
+            src_key=python_log_level_key,
+            dest_key=cloud_logging_log_level_key,
+            old_value=event_dict[cloud_logging_log_level_key],
+            new_value=event_dict[python_log_level_key],
+            logger_name=event_dict["logger"],
+        )
+    event_dict[cloud_logging_log_level_key] = event_dict[python_log_level_key]
     return event_dict
 
 
