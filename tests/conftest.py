@@ -46,8 +46,8 @@ def set_legacy_for_tests(monkeypatch: MonkeyPatch) -> None:
 
     for env_var in [
         # pylint:disable=protected-access
-        *structlog_sentry_logger._config._ENV_VARS_REQUIRED_BY_LIBRARY.values(),
-        *structlog_sentry_logger._config._CLOUD_ENV_INFERENCE_ENV_VARS,
+        *structlog_sentry_logger._feature_flags._ENV_VARS_REQUIRED_BY_LIBRARY.values(),
+        *structlog_sentry_logger._feature_flags._CLOUD_ENV_INFERENCE_ENV_VARS,
         # pylint:enable=protected-access
     ]:
         monkeypatch.delenv(env_var, raising=False)

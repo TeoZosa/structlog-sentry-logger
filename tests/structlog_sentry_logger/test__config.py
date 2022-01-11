@@ -493,13 +493,13 @@ class TestLoadingDotenv:
         monkeypatch.setattr(dotenv, "find_dotenv", lambda: self.dotenv_file)
 
         self.good_test_env_vars = (
-            structlog_sentry_logger._config._ENV_VARS_REQUIRED_BY_LIBRARY.values()
+            structlog_sentry_logger._feature_flags._ENV_VARS_REQUIRED_BY_LIBRARY.values()
         )
         for env_var in self.good_test_env_vars:
             self._append_var_to_dotenv_file(env_var)
 
     def test__load_library_specific_env_vars_valid(self) -> None:
-        structlog_sentry_logger._config._load_library_specific_env_vars()
+        structlog_sentry_logger._feature_flags._load_library_specific_env_vars()
 
         for env_var in self.good_test_env_vars:
             assert env_var in os.environ
@@ -511,7 +511,7 @@ class TestLoadingDotenv:
         for env_var in self.good_test_env_vars:
             monkeypatch.setenv(env_var, already_set_value)
 
-        structlog_sentry_logger._config._load_library_specific_env_vars()
+        structlog_sentry_logger._feature_flags._load_library_specific_env_vars()
 
         for env_var in self.good_test_env_vars:
             assert os.environ[env_var] == already_set_value
@@ -520,7 +520,7 @@ class TestLoadingDotenv:
         bad_test_env_var = "BAD_TEST_ENV_VAR"
         self._append_var_to_dotenv_file(bad_test_env_var)
 
-        structlog_sentry_logger._config._load_library_specific_env_vars()
+        structlog_sentry_logger._feature_flags._load_library_specific_env_vars()
 
         assert bad_test_env_var not in os.environ
 

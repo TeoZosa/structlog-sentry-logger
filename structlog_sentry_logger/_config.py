@@ -10,13 +10,12 @@ import warnings
 from types import FrameType
 from typing import Any, Callable, List, Optional, Tuple, Union
 
-import dotenv
 import git
 import orjson  # type: ignore
 import sentry_sdk
 import structlog
 
-from structlog_sentry_logger import structlog_sentry
+from structlog_sentry_logger import _feature_flags, structlog_sentry
 
 
 @dataclasses.dataclass
@@ -80,8 +79,8 @@ def get_logger(name: Optional[str] = None) -> Any:
         _CONFIGS.stdlib_logging_config_already_configured = True
     if not structlog.is_configured():
         if (
-            is_prettified_output_formatting_requested()
-            or is_stdlib_based_structlog_configuration_requested()
+            _feature_flags.is_prettified_output_formatting_requested()
+            or _feature_flags.is_stdlib_based_structlog_configuration_requested()
         ):
             set_stdlib_based_structlog_config()
         else:
@@ -155,7 +154,7 @@ def get_handlers(module_name: str) -> dict:
         }
     }
     default_handler = base_handlers[default_key]
-    if is_prettified_output_formatting_requested():
+    if _feature_flags.is_prettified_output_formatting_requested():
         # Add logfile handler
         base_handlers["filename"] = get_dev_local_filename_handler(module_name)
         # Prettify stdout/stderr streams
@@ -303,8 +302,8 @@ def add_severity_field_from_level_if_in_cloud_environment(
     """
 
     if (
-        is_cloud_logging_compatibility_mode_requested()
-        or is_probably_in_cloud_environment()
+        _feature_flags.is_cloud_logging_compatibility_mode_requested()
+        or _feature_flags.is_probably_in_cloud_environment()
     ):
         cloud_logging_log_level_key, python_log_level_key = "severity", "level"
         if cloud_logging_log_level_key in event_dict:
@@ -338,55 +337,6 @@ def add_severity_field_from_level_if_in_cloud_environment(
             )
         event_dict[cloud_logging_log_level_key] = event_dict[python_log_level_key]
     return event_dict
-
-
-def is_probably_in_cloud_environment() -> bool:
-    """Returns True if it is *likely* (but not guaranteed) logging is occurring in the context of a Cloud Logging environment"""
-    for env_var in _CLOUD_ENV_INFERENCE_ENV_VARS:
-        if env_var in os.environ:
-            return True
-    return False
-
-
-_CLOUD_ENV_INFERENCE_ENV_VARS = (
-    # GKE
-    # There are no GKE-specific environment variable that definitively imply we are
-    # running in GKE... Falling back to detecting Kubernetes-injected environment
-    # variables since those are the only ones present in GKE pods that *could* imply
-    # we are running in GKE.
-    # Kubernetes
-    # see: https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/#environment-variables
-    "KUBERNETES_SERVICE_HOST",
-    # Cloud Function
-    # see: https://cloud.google.com/functions/docs/configuring/env-var#runtime_environment_variables_set_automatically
-    "GCP_PROJECT",
-    # GAE
-    # see: https://cloud.google.com/functions/docs/configuring/env-var#runtime_environment_variables_set_automatically
-    "GOOGLE_CLOUD_PROJECT",
-)
-
-
-def is_cloud_logging_compatibility_mode_requested() -> bool:
-    return _is_required_env_var_set(is_cloud_logging_compatibility_mode_requested)
-
-
-def is_prettified_output_formatting_requested() -> bool:
-    return _is_required_env_var_set(is_prettified_output_formatting_requested)
-
-
-def is_stdlib_based_structlog_configuration_requested() -> bool:
-    return _is_required_env_var_set(is_stdlib_based_structlog_configuration_requested)
-
-
-def _is_required_env_var_set(calling_fn: Callable) -> bool:
-    return _ENV_VARS_REQUIRED_BY_LIBRARY[calling_fn] in os.environ
-
-
-_ENV_VARS_REQUIRED_BY_LIBRARY = {
-    is_cloud_logging_compatibility_mode_requested: "STRUCTLOG_SENTRY_LOGGER_CLOUD_LOGGING_COMPATIBILITY_MODE_ON",
-    is_prettified_output_formatting_requested: "STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON",
-    is_stdlib_based_structlog_configuration_requested: "_STRUCTLOG_SENTRY_LOGGER_STDLIB_BASED_LOGGER_MODE_ON",
-}
 
 
 class SentryBreadcrumbJsonProcessor(structlog_sentry.SentryJsonProcessor):
@@ -439,21 +389,3 @@ class SentryBreadcrumbJsonProcessor(structlog_sentry.SentryJsonProcessor):
             self.save_breadcrumb(logger, event_dict)
 
         return super().__call__(logger=logger, method=method, event_dict=event_dict)
-
-
-def _load_library_specific_env_vars() -> None:
-    # Inject into the environment ONLY the env vars required by the library;
-    # we manually update/add to the the environment ONLY the keys in a user's `.env` for
-    # which the library is inspecting (i.e., the set intersection between the
-    # aforementioned), and only if they weren't already defined in the environment.
-    users_dotenv_values = dotenv.dotenv_values(dotenv.find_dotenv())
-    legal_env_vars_keys = (
-        _ENV_VARS_REQUIRED_BY_LIBRARY.values() & users_dotenv_values.keys()
-    )
-
-    for k in legal_env_vars_keys:
-        v = users_dotenv_values[k]
-        # Any env-var-to-add already defined in the environment will take precedent over
-        # what is defined in a user's `.env` file.
-        if k not in os.environ and v is not None:
-            os.environ[k] = v
