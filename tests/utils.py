@@ -1,4 +1,5 @@
 import structlog
+from _pytest.monkeypatch import MonkeyPatch
 
 import structlog_sentry_logger
 
@@ -10,3 +11,11 @@ def reset_logging_configs() -> None:
         False
     )
     # pylint:enable=protected-access
+
+
+def enable_sentry_integration_mode(monkeypatch: MonkeyPatch) -> None:
+    structlog.reset_defaults()
+    monkeypatch.setenv(
+        "STRUCTLOG_SENTRY_LOGGER_CLOUD_SENTRY_INTEGRATION_MODE_ON",
+        "ANY_VALUE",
+    )

@@ -128,7 +128,7 @@ pip install structlog-sentry-logger
 ==============
 :loud_sound: Pure `structlog` Logging (Without Sentry)
 ------------------------------------------------------
-At the top of your Python module, import and instantiate the logger:
+Simply import and instantiate the logger:
 
 ```python
 import structlog_sentry_logger
@@ -136,7 +136,7 @@ import structlog_sentry_logger
 LOGGER = structlog_sentry_logger.get_logger()
 ```
 
-Now anytime you want to print anything, don't. Instead do this:
+Now you can start adding logs as easily as print statements:
 
 ```python
 LOGGER.info("Your log message", extra_field="extra_value")
@@ -157,16 +157,26 @@ Which automatically produces this:
     "level": "info",
     "lineno": 5,
     "logger": "docs_src.pure_structlog_logging_without_sentry",
-    "sentry": "skipped",
-    "timestamp": "2022-01-06T04:48:40.795891Z"
+    "timestamp": "2022-01-11T07:05:37.164744Z"
 }
 ```
+
 
 :outbox_tray: Log Custom Context Directly to Sentry
 ------------------------------------------------
 
 Incorporate custom messages in your exception handling which will automatically be
-reported to Sentry (thanks to the `structlog-sentry` module):
+reported to Sentry (thanks to the `structlog-sentry` module). To enable this behavior,
+export the `STRUCTLOG_SENTRY_LOGGER_CLOUD_SENTRY_INTEGRATION_MODE_ON`
+environment variable.
+
+An easy way to do this is to put it into a local `.env` file[^2]:
+
+```bash
+echo "STRUCTLOG_SENTRY_LOGGER_CLOUD_SENTRY_INTEGRATION_MODE_ON=" >> .env
+```
+
+For a concrete example, given the following Python code:
 
 ```python
 import uuid
@@ -187,6 +197,8 @@ except ZeroDivisionError as err:
     curr_user_logger.exception(ERR_MSG)
     raise RuntimeError(ERR_MSG) from err
 ```
+
+We would get the following output:
 
 ```json lines
 {
@@ -255,19 +267,10 @@ stream [like a proper 12 Factor App](https://12factor.net/logs).
 For local development, it often helps to prettify logging to stdout and save JSON logs
 to a `.logs` folder at the root of your project directory for later debugging. To enable
 this behavior, export the `STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON`
-environment variable.
-
-An easy way to do this is to put it into a local `.env` file[^2]:
+environment variable, e.g., in your local `.env` file[^2]:
 
 ```bash
 echo "STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON=" >> .env
-```
-
-And it will be automatically picked up when the library is first imported:
-
-```python
-# The below automatically sources library-relevant values from your local `.env` file
-import structlog_sentry_logger
 ```
 
 In doing so, with our previous exception handling example we would get:

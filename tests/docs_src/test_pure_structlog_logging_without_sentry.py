@@ -6,10 +6,11 @@ from _pytest.capture import CaptureFixture
 from _pytest.logging import LogCaptureFixture
 from _pytest.monkeypatch import MonkeyPatch
 
+import tests.docs_src.utils
+import tests.utils
 from docs_src import (  # pylint: disable=import-error
     pure_structlog_logging_without_sentry,
 )
-from tests.docs_src import utils  # pylint: disable=import-error
 from tests.docs_src.utils import JSONOutputType
 
 
@@ -32,20 +33,22 @@ def expected_output_truncated() -> List[JSONOutputType]:
 def actual_output(
     capsys: CaptureFixture, caplog: LogCaptureFixture, monkeypatch: MonkeyPatch
 ) -> List[JSONOutputType]:
-    utils.reload_module_non_dev_local_env(
+    tests.utils.enable_sentry_integration_mode(monkeypatch)
+    tests.docs_src.utils.reload_module_non_dev_local_env(
         monkeypatch, pure_structlog_logging_without_sentry
     )
-    utils.redirect_captured_logs_to_stdout(caplog)
-    return utils.get_validated_json_output(capsys)
+    tests.docs_src.utils.redirect_captured_logs_to_stdout(caplog)
+    return tests.docs_src.utils.get_validated_json_output(capsys)
 
 
 def test_dev_local(
     capsys: CaptureFixture, caplog: LogCaptureFixture, monkeypatch: MonkeyPatch
 ) -> None:
-    utils.reload_module_dev_local_env(
+    tests.utils.enable_sentry_integration_mode(monkeypatch)
+    tests.docs_src.utils.reload_module_dev_local_env(
         monkeypatch, pure_structlog_logging_without_sentry
     )
-    utils.redirect_captured_logs_to_stdout(caplog)
+    tests.docs_src.utils.redirect_captured_logs_to_stdout(caplog)
 
     if sys.platform == "win32":
         relevant_expected = (
@@ -78,6 +81,6 @@ def test_pure_structlog_logging_without_sentry(
     expected_output_truncated: List[JSONOutputType],
     actual_output: List[JSONOutputType],
 ) -> None:
-    utils.validate_output(
+    tests.docs_src.utils.validate_output(
         expected_output_truncated, actual_output, dynamic_keys_to_copy=["timestamp"]
     )

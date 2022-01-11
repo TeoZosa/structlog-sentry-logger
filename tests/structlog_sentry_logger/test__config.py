@@ -17,6 +17,9 @@ from pytest_mock import MockerFixture
 
 import structlog_sentry_logger
 
+# pylint: disable=redefined-outer-name
+import tests.utils
+
 # Note: the below methods use `pytest`'s `caplog` fixture to properly capture the
 # logs.
 #
@@ -25,8 +28,6 @@ import structlog_sentry_logger
 # capturing logs via the methods from
 # [Testing](https://www.structlog.org/en/stable/testing.html) requires
 # complicated patching.
-
-# pylint: disable=redefined-outer-name
 
 
 @pytest.fixture(scope="function")
@@ -142,7 +143,11 @@ def test_invalid_git_repository(mocker: MockerFixture) -> None:
 # pylint: enable=protected-access
 
 
-def test_sentry_DSN_integration(caplog: LogCaptureFixture) -> None:
+def test_sentry_DSN_integration(
+    caplog: LogCaptureFixture,
+    monkeypatch: MonkeyPatch,
+) -> None:
+    tests.utils.enable_sentry_integration_mode(monkeypatch)
     TestErrorClass = ConnectionError
     with pytest.raises(TestErrorClass):
         try:
@@ -393,10 +398,24 @@ class TestCloudLogging:  # pylint: disable=too-few-public-methods
 
 class TestLoggerSchema:
     @staticmethod
+    @pytest.mark.parametrize(
+        "is_sentry_integration_mode_requested",
+        [True, False],
+        ids=["Sentry integration enabled", "Sentry integration disabled"],
+    )
     def test_structlog_logger(
         caplog: LogCaptureFixture,
+        monkeypatch: MonkeyPatch,
         random_log_msgs: List[uuid.UUID],
+        is_sentry_integration_mode_requested: bool,
     ) -> None:
+        tests.utils.enable_sentry_integration_mode(monkeypatch)
+        if not is_sentry_integration_mode_requested:
+            monkeypatch.delenv(
+                "STRUCTLOG_SENTRY_LOGGER_CLOUD_SENTRY_INTEGRATION_MODE_ON",
+                raising=False,
+            )
+
         logger = structlog_sentry_logger.get_logger()
         for log_msg in random_log_msgs:
             logger.debug(log_msg)
@@ -412,7 +431,10 @@ class TestLoggerSchema:
                 log["logger"] == logger.name == record.name == module_name == __name__  # type: ignore[index]
             )
             assert log["event"] == log_msg  # type: ignore[index]
-            assert log["sentry"] == "skipped"  # type: ignore[index]
+            if is_sentry_integration_mode_requested:
+                assert log["sentry"] == "skipped"  # type: ignore[index]
+            else:
+                assert "sentry" not in log
             assert "timestamp" in log
 
     @staticmethod
@@ -493,13 +515,13 @@ class TestLoadingDotenv:
         monkeypatch.setattr(dotenv, "find_dotenv", lambda: self.dotenv_file)
 
         self.good_test_env_vars = (
-            structlog_sentry_logger._config._ENV_VARS_REQUIRED_BY_LIBRARY.values()
+            structlog_sentry_logger._feature_flags._ENV_VARS_REQUIRED_BY_LIBRARY.values()
         )
         for env_var in self.good_test_env_vars:
             self._append_var_to_dotenv_file(env_var)
 
     def test__load_library_specific_env_vars_valid(self) -> None:
-        structlog_sentry_logger._config._load_library_specific_env_vars()
+        structlog_sentry_logger._feature_flags._load_library_specific_env_vars()
 
         for env_var in self.good_test_env_vars:
             assert env_var in os.environ
@@ -511,7 +533,7 @@ class TestLoadingDotenv:
         for env_var in self.good_test_env_vars:
             monkeypatch.setenv(env_var, already_set_value)
 
-        structlog_sentry_logger._config._load_library_specific_env_vars()
+        structlog_sentry_logger._feature_flags._load_library_specific_env_vars()
 
         for env_var in self.good_test_env_vars:
             assert os.environ[env_var] == already_set_value
@@ -520,7 +542,7 @@ class TestLoadingDotenv:
         bad_test_env_var = "BAD_TEST_ENV_VAR"
         self._append_var_to_dotenv_file(bad_test_env_var)
 
-        structlog_sentry_logger._config._load_library_specific_env_vars()
+        structlog_sentry_logger._feature_flags._load_library_specific_env_vars()
 
         assert bad_test_env_var not in os.environ
 

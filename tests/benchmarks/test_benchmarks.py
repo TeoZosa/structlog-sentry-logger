@@ -13,6 +13,11 @@ TEST_CASES = TestCases()
 
 
 @pytest.mark.parametrize(
+    "is_sentry_integration_mode_requested",
+    [True, False],
+    ids=["Sentry integration enabled", "Sentry integration disabled"],
+)
+@pytest.mark.parametrize(
     "is_stdlib_based_structlog_config_requested",
     [True, False],
     ids=["stdlib-based config (Legacy)", "structlog-specific config (Optimized)"],
@@ -23,6 +28,7 @@ class TestStructlogSentryLoggerBenchmarks:
     def setup(
         monkeypatch: MonkeyPatch,
         is_stdlib_based_structlog_config_requested: bool,
+        is_sentry_integration_mode_requested: bool,
     ) -> None:
         # Setup
         tests.utils.reset_logging_configs()
@@ -35,6 +41,17 @@ class TestStructlogSentryLoggerBenchmarks:
         else:
             monkeypatch.delenv(
                 "_STRUCTLOG_SENTRY_LOGGER_STDLIB_BASED_LOGGER_MODE_ON",
+                raising=False,
+            )
+
+        if is_sentry_integration_mode_requested:
+            monkeypatch.setenv(
+                "STRUCTLOG_SENTRY_LOGGER_CLOUD_SENTRY_INTEGRATION_MODE_ON",
+                "ANY_VALUE",
+            )
+        else:
+            monkeypatch.delenv(
+                "STRUCTLOG_SENTRY_LOGGER_CLOUD_SENTRY_INTEGRATION_MODE_ON",
                 raising=False,
             )
 
