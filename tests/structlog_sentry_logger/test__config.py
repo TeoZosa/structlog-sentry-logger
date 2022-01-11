@@ -7,8 +7,10 @@ from typing import Any, Dict, List, MutableMapping, Union
 
 import dotenv
 import git
+import orjson
 import pytest
 import structlog
+from _pytest.capture import CaptureFixture
 from _pytest.logging import LogCaptureFixture
 from _pytest.monkeypatch import MonkeyPatch
 from pytest_mock import MockerFixture
@@ -312,6 +314,10 @@ class TestCloudLogging:  # pylint: disable=too-few-public-methods
         cloud_logging_compatibility_mode_env_var: str,
     ) -> None:
         # Enable Cloud Logging compatibility mode
+        structlog.reset_defaults()
+        monkeypatch.setenv(
+            "_STRUCTLOG_SENTRY_LOGGER_STDLIB_BASED_LOGGER_MODE_ON", "ANY_VALUE"
+        )
         monkeypatch.setenv(cloud_logging_compatibility_mode_env_var, "ANY_VALUE")
 
         # Initialize Cloud Logging-compatible logger and perform logging
@@ -527,3 +533,72 @@ class TestLoadingDotenv:
         self.dotenv_file.write_text(
             current_values + f"{env_var}=''\n", encoding=encoding
         )
+
+
+class TestBasicPerfLogging:
+    test_data: Dict[str, Any] = TestBasicLogging.test_data
+    cloud_logging_compatibility_mode_env_vars: List[
+        str
+    ] = TestCloudLogging.cloud_logging_compatibility_mode_env_vars
+
+    @pytest.fixture(scope="function", autouse=True)
+    def setup(self, monkeypatch: MonkeyPatch) -> None:
+        structlog.reset_defaults()
+        monkeypatch.delenv(
+            "STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON", raising=False
+        )
+        monkeypatch.delenv(
+            "_STRUCTLOG_SENTRY_LOGGER_STDLIB_BASED_LOGGER_MODE_ON", raising=False
+        )
+        for env_var in self.cloud_logging_compatibility_mode_env_vars:
+            monkeypatch.delenv(env_var, raising=False)
+
+    @pytest.mark.parametrize(
+        "cloud_logging_compatibility_mode_env_var",
+        cloud_logging_compatibility_mode_env_vars,
+    )
+    @pytest.mark.parametrize(
+        "test_data", [{k: v} for k, v in test_data.items()], ids=test_data.keys()
+    )
+    def test_perf_logging_cloud(
+        self,
+        capsys: CaptureFixture,
+        monkeypatch: MonkeyPatch,
+        test_data: dict,
+        cloud_logging_compatibility_mode_env_var: str,
+    ) -> None:
+        monkeypatch.setenv(cloud_logging_compatibility_mode_env_var, "ANY_VALUE")
+        self._test(capsys, test_data, is_cloud_logging_mode=True)
+
+    @pytest.mark.parametrize(
+        "test_data", [{k: v} for k, v in test_data.items()], ids=test_data.keys()
+    )
+    def test_perf_logging(
+        self,
+        capsys: CaptureFixture,
+        test_data: dict,
+    ) -> None:
+        self._test(capsys, test_data, is_cloud_logging_mode=False)
+
+    @staticmethod
+    def _test(
+        capsys: CaptureFixture,
+        test_data: dict,
+        is_cloud_logging_mode: bool,
+    ) -> None:
+        logger = structlog_sentry_logger.get_logger()
+        logger.debug("Testing main Logger", **test_data)
+
+        test_log = orjson.loads(capsys.readouterr().out)
+        if isinstance(test_log, dict):
+            for k in test_data:
+                actual = structlog_sentry_logger._config.serializer(test_log[k])
+                expected = structlog_sentry_logger._config.serializer(test_data[k])
+                assert actual == expected
+            if is_cloud_logging_mode:
+                assert "severity" in test_log
+                assert test_log["level"] == test_log["severity"]
+            else:
+                assert "severity" not in test_log
+        else:
+            raise NotImplementedError("Captured log message not a supported type")

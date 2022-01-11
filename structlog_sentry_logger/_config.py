@@ -1,3 +1,4 @@
+import dataclasses
 import datetime
 import inspect
 import json
@@ -16,6 +17,12 @@ import sentry_sdk
 import structlog
 
 from structlog_sentry_logger import structlog_sentry
+
+
+@dataclasses.dataclass
+class Config:
+    use_orjson = True
+    stdlib_logging_config_already_configured = False
 
 
 def get_root_dir() -> pathlib.Path:
@@ -38,11 +45,11 @@ ROOT_DIR = get_root_dir()
 LOG_DATA_DIR = ROOT_DIR / ".logs"
 LOG_DATA_DIR.mkdir(exist_ok=True)
 _TIMESTAMPER = structlog.processors.TimeStamper(fmt="iso", utc=True)
-_CONFIGS = {"USE_ORJSON": True}
+_CONFIGS = Config()
 
 
 def _toggle_json_library(use_orjson: bool = True) -> None:
-    _CONFIGS["USE_ORJSON"] = use_orjson
+    _CONFIGS.use_orjson = use_orjson
 
 
 def get_config_dict() -> dict:
@@ -68,11 +75,20 @@ def get_logger(name: Optional[str] = None) -> Any:
     """
     del name
     caller_name = get_caller_name_from_frames()
-    if not structlog.is_configured():
+    if not _CONFIGS.stdlib_logging_config_already_configured:
         set_logging_config(caller_name)
-        set_structlog_config()
+        _CONFIGS.stdlib_logging_config_already_configured = True
+    if not structlog.is_configured():
+        if (
+            is_prettified_output_formatting_requested()
+            or is_stdlib_based_structlog_configuration_requested()
+        ):
+            set_stdlib_based_structlog_config()
+        else:
+            set_optimized_structlog_config()
     logger = structlog.get_logger(caller_name).bind(logger=caller_name)
-    logger.setLevel(_LOG_LEVEL)
+    if hasattr(logger, "setLevel"):  # stdlib-based logger
+        logger.setLevel(_LOG_LEVEL)
     return logger
 
 
@@ -138,25 +154,30 @@ def get_handlers(module_name: str) -> dict:
             "stream": "ext://sys.stdout",
         }
     }
-    if _ENV_VARS_REQUIRED_BY_LIBRARY[get_handlers] in os.environ:
+    default_handler = base_handlers[default_key]
+    if is_prettified_output_formatting_requested():
+        # Add logfile handler
+        base_handlers["filename"] = get_dev_local_filename_handler(module_name)
         # Prettify stdout/stderr streams
-        base_handlers[default_key]["formatter"] = "colored"
-        # Add filename handler
-        file_timestamp = datetime.datetime.utcnow().isoformat().replace(":", "-")
-        log_file_name = f"{file_timestamp}_{module_name}.jsonl"
-        log_file_path = LOG_DATA_DIR / log_file_name
-        base_handlers["filename"] = {
-            "level": "DEBUG",
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": str(log_file_path),
-            # 1 MB
-            "maxBytes": 1 << 20,  # type: ignore[dict-item]
-            "backupCount": 3,  # type: ignore[dict-item]
-            "formatter": "plain",
-        }
+        default_handler["formatter"] = "colored"
     else:
-        base_handlers[default_key]["formatter"] = "plain"
+        default_handler["formatter"] = "plain"
     return base_handlers
+
+
+def get_dev_local_filename_handler(module_name: str) -> dict:
+    file_timestamp = datetime.datetime.utcnow().isoformat().replace(":", "-")
+    log_file_name = f"{file_timestamp}_{module_name}.jsonl"
+    log_file_path = LOG_DATA_DIR / log_file_name
+    return {
+        "level": "DEBUG",
+        "class": "logging.handlers.RotatingFileHandler",
+        "filename": str(log_file_path),
+        # 1 MB
+        "maxBytes": 1 << 20,  # type: ignore[dict-item]
+        "backupCount": 3,  # type: ignore[dict-item]
+        "formatter": "plain",
+    }
 
 
 def get_formatters() -> dict:
@@ -190,12 +211,12 @@ def serializer(
     default: Optional[Callable[[Any], Any]] = None,
     option: Optional[int] = orjson.OPT_NON_STR_KEYS | orjson.OPT_SORT_KEYS,
 ) -> str:
-    if _CONFIGS["USE_ORJSON"]:
+    if _CONFIGS.use_orjson:
         return orjson.dumps(*args, default=default, option=option).decode()  # type: ignore[misc]
     return json.dumps(*args, sort_keys=True)
 
 
-def set_structlog_config() -> None:
+def set_stdlib_based_structlog_config() -> None:
     structlog_processors = [
         _TIMESTAMPER,
         structlog.processors.StackInfoRenderer(),
@@ -224,6 +245,39 @@ def set_structlog_config() -> None:
         wrapper_class=structlog.stdlib.BoundLogger,
         cache_logger_on_first_use=True,
     )
+
+
+def set_optimized_structlog_config() -> None:
+    processors = [
+        structlog.threadlocal.merge_threadlocal,
+        structlog.processors.add_log_level,
+        add_line_number_and_func_name,
+        add_severity_field_from_level_if_in_cloud_environment,
+        _TIMESTAMPER,
+        SentryBreadcrumbJsonProcessor(level=logging.ERROR, tag_keys="__all__"),
+        structlog.processors.JSONRenderer(
+            serializer=serializer_bytes,
+            option=orjson.OPT_NON_STR_KEYS | orjson.OPT_SORT_KEYS,
+        ),
+    ]
+    structlog.configure(
+        processors=processors,  # type: ignore[arg-type]
+        wrapper_class=structlog.make_filtering_bound_logger(_LOG_LEVEL),
+        logger_factory=structlog.BytesLoggerFactory(),
+        cache_logger_on_first_use=True,
+    )
+
+
+def serializer_bytes(
+    *args: Any,
+    default: Optional[Callable[[Any], Any]] = None,
+    option: Optional[int] = orjson.OPT_NON_STR_KEYS | orjson.OPT_SORT_KEYS,
+) -> bytes:
+    if _CONFIGS.use_orjson:
+        return orjson.dumps(*args, default=default, option=option)  # type: ignore[misc]
+    # pylint: disable=no-value-for-parameter
+    return json.dumps(*args, sort_keys=True).encode("utf-8")
+    # pylint: enable=no-value-for-parameter
 
 
 def add_line_number_and_func_name(
@@ -286,39 +340,52 @@ def add_severity_field_from_level_if_in_cloud_environment(
     return event_dict
 
 
-def is_cloud_logging_compatibility_mode_requested() -> bool:
-    return (
-        _ENV_VARS_REQUIRED_BY_LIBRARY[is_cloud_logging_compatibility_mode_requested]
-        in os.environ
-    )
-
-
 def is_probably_in_cloud_environment() -> bool:
     """Returns True if it is *likely* (but not guaranteed) logging is occurring in the context of a Cloud Logging environment"""
-    for env_var in [
-        # GKE
-        # There are no GKE-specific environment variable that definitively imply we are
-        # running in GKE... Falling back to detecting Kubernetes-injected environment
-        # variables since those are the only ones present in GKE pods that *could* imply
-        # we are running in GKE.
-        # Kubernetes
-        # see: https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/#environment-variables
-        "KUBERNETES_SERVICE_HOST",
-        # Cloud Function
-        # see: https://cloud.google.com/functions/docs/configuring/env-var#runtime_environment_variables_set_automatically
-        "GCP_PROJECT",
-        # GAE
-        # see: https://cloud.google.com/functions/docs/configuring/env-var#runtime_environment_variables_set_automatically
-        "GOOGLE_CLOUD_PROJECT",
-    ]:
+    for env_var in _CLOUD_ENV_INFERENCE_ENV_VARS:
         if env_var in os.environ:
             return True
     return False
 
 
+_CLOUD_ENV_INFERENCE_ENV_VARS = (
+    # GKE
+    # There are no GKE-specific environment variable that definitively imply we are
+    # running in GKE... Falling back to detecting Kubernetes-injected environment
+    # variables since those are the only ones present in GKE pods that *could* imply
+    # we are running in GKE.
+    # Kubernetes
+    # see: https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/#environment-variables
+    "KUBERNETES_SERVICE_HOST",
+    # Cloud Function
+    # see: https://cloud.google.com/functions/docs/configuring/env-var#runtime_environment_variables_set_automatically
+    "GCP_PROJECT",
+    # GAE
+    # see: https://cloud.google.com/functions/docs/configuring/env-var#runtime_environment_variables_set_automatically
+    "GOOGLE_CLOUD_PROJECT",
+)
+
+
+def is_cloud_logging_compatibility_mode_requested() -> bool:
+    return _is_required_env_var_set(is_cloud_logging_compatibility_mode_requested)
+
+
+def is_prettified_output_formatting_requested() -> bool:
+    return _is_required_env_var_set(is_prettified_output_formatting_requested)
+
+
+def is_stdlib_based_structlog_configuration_requested() -> bool:
+    return _is_required_env_var_set(is_stdlib_based_structlog_configuration_requested)
+
+
+def _is_required_env_var_set(calling_fn: Callable) -> bool:
+    return _ENV_VARS_REQUIRED_BY_LIBRARY[calling_fn] in os.environ
+
+
 _ENV_VARS_REQUIRED_BY_LIBRARY = {
-    get_handlers: "STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON",
+    is_prettified_output_formatting_requested: "STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON",
     is_cloud_logging_compatibility_mode_requested: "STRUCTLOG_SENTRY_LOGGER_CLOUD_LOGGING_COMPATIBILITY_MODE_ON",
+    is_stdlib_based_structlog_configuration_requested: "_STRUCTLOG_SENTRY_LOGGER_STDLIB_BASED_LOGGER_MODE_ON",
 }
 
 
