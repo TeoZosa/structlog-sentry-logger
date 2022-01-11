@@ -6,7 +6,8 @@ from _pytest.logging import LogCaptureFixture
 from _pytest.monkeypatch import MonkeyPatch
 
 import structlog_sentry_logger
-from tests.docs_src import utils
+import tests.docs_src.utils
+import tests.utils
 from tests.docs_src.utils import JSONOutputType
 
 _ = structlog_sentry_logger.get_logger()
@@ -43,6 +44,7 @@ def expected_output_truncated() -> List[JSONOutputType]:
 def actual_output(
     capsys: CaptureFixture, caplog: LogCaptureFixture, monkeypatch: MonkeyPatch
 ) -> List[JSONOutputType]:
+    tests.utils.enable_sentry_integration_mode(monkeypatch)
     with pytest.raises(RuntimeError):
         with capsys.disabled():
             # must import locally to avoid `NameError: name 'sentry_integration' is not defined` will be thrown
@@ -51,9 +53,11 @@ def actual_output(
             )
         caplog.clear()
         # caplog/capsys reset to prevent duplicate entries
-        utils.reload_module_non_dev_local_env(monkeypatch, sentry_integration)
-    utils.redirect_captured_logs_to_stdout(caplog)
-    return utils.get_validated_json_output(capsys)
+        tests.docs_src.utils.reload_module_non_dev_local_env(
+            monkeypatch, sentry_integration
+        )
+    tests.docs_src.utils.redirect_captured_logs_to_stdout(caplog)
+    return tests.docs_src.utils.get_validated_json_output(capsys)
 
 
 # pylint: disable=redefined-outer-name
@@ -61,7 +65,7 @@ def test_sentry_integration(
     expected_output_truncated: List[JSONOutputType],
     actual_output: List[JSONOutputType],
 ) -> None:
-    utils.validate_output(
+    tests.docs_src.utils.validate_output(
         expected_output_truncated,
         actual_output,
         dynamic_keys_to_copy=["timestamp", "uuid"],

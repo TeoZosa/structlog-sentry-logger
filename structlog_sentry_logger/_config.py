@@ -222,11 +222,16 @@ def set_stdlib_based_structlog_config() -> None:
         add_line_number_and_func_name,
         add_severity_field_from_level_if_in_cloud_environment,
     ]
+
+    if _feature_flags.is_sentry_integration_mode_requested():
+        structlog_processors.append(
+            SentryBreadcrumbJsonProcessor(level=logging.ERROR, tag_keys="__all__")
+        )
+
     stdlib_log_compatibility_processors = [
         structlog.stdlib.filter_by_level,
         structlog.stdlib.add_log_level,
         structlog.stdlib.PositionalArgumentsFormatter(),
-        SentryBreadcrumbJsonProcessor(level=logging.ERROR, tag_keys="__all__"),
     ]
 
     # Note: MUST come last!
@@ -253,12 +258,19 @@ def set_optimized_structlog_config() -> None:
         add_line_number_and_func_name,
         add_severity_field_from_level_if_in_cloud_environment,
         _TIMESTAMPER,
-        SentryBreadcrumbJsonProcessor(level=logging.ERROR, tag_keys="__all__"),
+    ]
+    if _feature_flags.is_sentry_integration_mode_requested():
+        processors.append(
+            SentryBreadcrumbJsonProcessor(level=logging.ERROR, tag_keys="__all__")
+        )
+
+    # Note: MUST come last!
+    processors.append(
         structlog.processors.JSONRenderer(
             serializer=serializer_bytes,
             option=orjson.OPT_NON_STR_KEYS | orjson.OPT_SORT_KEYS,
-        ),
-    ]
+        )
+    )
     structlog.configure(
         processors=processors,  # type: ignore[arg-type]
         wrapper_class=structlog.make_filtering_bound_logger(_LOG_LEVEL),
