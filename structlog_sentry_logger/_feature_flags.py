@@ -4,6 +4,10 @@ from typing import Callable
 import dotenv
 
 
+def is_sentry_integration_mode_requested() -> bool:
+    return _is_required_env_var_set(is_sentry_integration_mode_requested)
+
+
 def is_cloud_logging_compatibility_mode_requested() -> bool:
     return _is_required_env_var_set(is_cloud_logging_compatibility_mode_requested)
 
@@ -23,6 +27,7 @@ def _is_required_env_var_set(calling_fn: Callable) -> bool:
 _ENV_VARS_REQUIRED_BY_LIBRARY = {
     is_cloud_logging_compatibility_mode_requested: "STRUCTLOG_SENTRY_LOGGER_CLOUD_LOGGING_COMPATIBILITY_MODE_ON",
     is_prettified_output_formatting_requested: "STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON",
+    is_sentry_integration_mode_requested: "STRUCTLOG_SENTRY_LOGGER_CLOUD_SENTRY_INTEGRATION_MODE_ON",
     is_stdlib_based_structlog_configuration_requested: "_STRUCTLOG_SENTRY_LOGGER_STDLIB_BASED_LOGGER_MODE_ON",
 }
 
