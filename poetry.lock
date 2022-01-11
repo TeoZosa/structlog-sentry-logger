@@ -1771,7 +1771,7 @@ testing = ["flaky (>=3.4.0)", "freezegun (>=0.3.11)", "pytest (>=4.0.0)", "pytes
 
 [[package]]
 name = "tox-gh-actions"
-version = "2.9.0"
+version = "2.9.1"
 description = "Seamless integration of tox into GitHub Actions"
 category = "dev"
 optional = false
@@ -1974,7 +1974,7 @@ docs = ["emoji", "importlib-metadata", "myst-parser", "pygments", "sphinx", "sph
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "cca16362344a443fb6de3afa6acf2a88fdab1c96b42a4645bb235d7c28fabb0c"
+content-hash = "38c712c0241827cd8bbf386ee8ef142075a08c8485b0c9babcb6566424927624"
 
 [metadata.files]
 alabaster = [
@@ -2950,8 +2950,8 @@ tox = [
     {file = "tox-3.24.5.tar.gz", hash = "sha256:67e0e32c90e278251fea45b696d0fef3879089ccbe979b0c556d35d5a70e2993"},
 ]
 tox-gh-actions = [
-    {file = "tox-gh-actions-2.9.0.tar.gz", hash = "sha256:6f9340ac20af6095665a1ded67b259c4fb87cf162edd05456855345b95a6cf9e"},
-    {file = "tox_gh_actions-2.9.0-py2.py3-none-any.whl", hash = "sha256:3d6cb10fed41957fc67f3f77c87103875018eb466021db4ff0a589e37770b1ad"},
+    {file = "tox-gh-actions-2.9.1.tar.gz", hash = "sha256:2bbb681eccd3fd3573231a05f7acf228caae1e3f12397b5517b404417ab90aba"},
+    {file = "tox_gh_actions-2.9.1-py2.py3-none-any.whl", hash = "sha256:90306a6a04a203e47f861b35dca215fc1f6b7ae80de942a050ace61e2eb2b4ea"},
 ]
 tox-wheel = [
     {file = "tox-wheel-0.7.0.tar.gz", hash = "sha256:bc71d6f5264d495825f5b8b09e1f20e9e4dc1f87ba90fbceb8de681feb261b91"},
