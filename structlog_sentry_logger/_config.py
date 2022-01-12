@@ -41,8 +41,6 @@ def get_git_root() -> pathlib.Path:  # Gratuitous indirection for testing
 
 _LOG_LEVEL = logging.getLevelName(os.environ.get("LOG_LEVEL", "DEBUG"))
 ROOT_DIR = get_root_dir()
-LOG_DATA_DIR = ROOT_DIR / ".logs"
-LOG_DATA_DIR.mkdir(exist_ok=True)
 _TIMESTAMPER = structlog.processors.TimeStamper(fmt="iso", utc=True)
 _CONFIGS = Config()
 
@@ -167,7 +165,10 @@ def get_handlers(module_name: str) -> dict:
 def get_dev_local_filename_handler(module_name: str) -> dict:
     file_timestamp = datetime.datetime.utcnow().isoformat().replace(":", "-")
     log_file_name = f"{file_timestamp}_{module_name}.jsonl"
-    log_file_path = LOG_DATA_DIR / log_file_name
+
+    log_data_dir = ROOT_DIR / ".logs"
+    log_data_dir.mkdir(exist_ok=True)
+    log_file_path = log_data_dir / log_file_name
     return {
         "level": "DEBUG",
         "class": "logging.handlers.RotatingFileHandler",
