@@ -393,7 +393,7 @@ class TestCloudLogging:  # pylint: disable=too-few-public-methods
         assert library_log["dest_key"] == cloud_logging_log_level_key
         assert library_log["old_value"] == orig_cloud_logging_log_key_value
         assert library_log["new_value"] == "debug"
-        assert library_log["logger_name"] == logger.name
+        assert library_log["logger_that_used_reserved_key"] == logger.name
 
 
 class TestLoggerSchema:

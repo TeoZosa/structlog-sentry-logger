@@ -349,7 +349,7 @@ def add_severity_field_from_level_if_in_cloud_environment(
             dest_key=cloud_logging_log_level_key,
             old_value=event_dict[cloud_logging_log_level_key],
             new_value=event_dict[python_log_level_key],
-            logger_name=event_dict["logger"],
+            logger_that_used_reserved_key=event_dict["logger"],
         )
     event_dict[cloud_logging_log_level_key] = event_dict[python_log_level_key]
     return event_dict
