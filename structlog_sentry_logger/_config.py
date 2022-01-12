@@ -343,12 +343,7 @@ def add_severity_field_from_level_if_in_cloud_environment(
         # to fix (https://docs.python.org/2/howto/logging.html#when-to-use-logging),
         # many users rely on automated log parsing tools for their alerting and
         # audit trails.
-        #
-        # Dogfood by instantiating a local logger with own library.
-        # Note: NO infinite loop since the below log message does *NOT* use
-        # `severity` as a key in the emitted event.
-        local_logger = get_logger()
-        local_logger.warning(
+        __LOGGER.warning(
             "Existing log value being overwritten",
             src_key=python_log_level_key,
             dest_key=cloud_logging_log_level_key,
@@ -358,6 +353,17 @@ def add_severity_field_from_level_if_in_cloud_environment(
         )
     event_dict[cloud_logging_log_level_key] = event_dict[python_log_level_key]
     return event_dict
+
+
+def __get_meta_logger() -> Any:
+    """Meta-logger to emit messages generated during logger configuration"""
+    set_optimized_structlog_config()
+    logger = structlog.get_logger("structlog_sentry_logger._config")
+    structlog.reset_defaults()
+    return logger
+
+
+__LOGGER = __get_meta_logger()
 
 
 class SentryBreadcrumbJsonProcessor(structlog_sentry.SentryJsonProcessor):
