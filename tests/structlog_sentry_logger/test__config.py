@@ -7,7 +7,6 @@ from typing import Any, Dict, List, MutableMapping, Union
 
 import dotenv
 import git
-import orjson
 import pytest
 import structlog
 from _pytest.capture import CaptureFixture
@@ -611,7 +610,7 @@ class TestBasicPerfLogging:
         logger = structlog_sentry_logger.get_logger()
         logger.debug("Testing main Logger", **test_data)
 
-        test_log = orjson.loads(capsys.readouterr().out)
+        test_log = tests.utils.read_json_logs_from_stdout(capsys)[0]
         if isinstance(test_log, dict):
             for k in test_data:
                 actual = structlog_sentry_logger._config.serializer(test_log[k])
