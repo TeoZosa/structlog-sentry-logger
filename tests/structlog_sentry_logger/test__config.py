@@ -2,6 +2,7 @@ import datetime
 import enum
 import os
 import stat
+import sys
 import tempfile
 import uuid
 from pathlib import Path
@@ -163,6 +164,10 @@ def test_read_only_filesystem(mocker: MockerFixture, tmp_path: Path) -> None:
     )
 
 
+@pytest.mark.xfail(
+    sys.platform == "win32",
+    reason="chmod to read-only mode does not work on Windows",
+)
 def test_read_only_root_dir(mocker: MockerFixture, tmp_path: Path) -> None:
     tmp_path.chmod(stat.S_IREAD)  # Make temp path read-only
     with pytest.raises(PermissionError):
