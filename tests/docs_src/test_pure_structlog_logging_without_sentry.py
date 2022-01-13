@@ -1,3 +1,4 @@
+import pathlib
 import sys
 from typing import List
 
@@ -57,7 +58,7 @@ def test_dev_local(
             "extra_field=extra_value "
             "funcName=<module> "
             "lineno=5 "
-            "sentry=skipped [in <module>]\n"
+            "sentry=skipped [in <module>]"
         )
     else:
         relevant_expected = (
@@ -67,12 +68,23 @@ def test_dev_local(
             "\x1b[36mextra_field\x1b[0m=\x1b[35mextra_value\x1b[0m "
             "\x1b[36mfuncName\x1b[0m=\x1b[35m<module>\x1b[0m "
             "\x1b[36mlineno\x1b[0m=\x1b[35m5\x1b[0m "
-            "\x1b[36msentry\x1b[0m=\x1b[35mskipped\x1b[0m [in <module>]\n"
+            "\x1b[36msentry\x1b[0m=\x1b[35mskipped\x1b[0m [in <module>]"
         )
 
-    example_timestamp_substr = "\x1b[2m2021-10-25T16:15:30.993152Z\x1b"
     # Ignore timestamped portion
-    relevant_actual = capsys.readouterr().out[len(example_timestamp_substr) :]
+    example_timestamp_substr = "\x1b[2m2021-10-25T16:15:30.993152Z\x1b"
+    library_log, relevant_actual = (
+        log[len(example_timestamp_substr) :]
+        for log in tests.utils.parse_logs_from_stdout(capsys)
+    )
+
+    # Note: library meta-logger log format is slightly different due to the module
+    # reloads/logging re-configurations, so truncating it as in the above call actually
+    # chops off more than the timestamp, but the resulting string so happens to line up
+    # with the below checks.
+    assert library_log.startswith("logs directory created         log_dir=")
+    assert library_log.endswith(str(pathlib.Path("structlog-sentry-logger/.logs")))
+
     assert relevant_actual == relevant_expected
 
 
