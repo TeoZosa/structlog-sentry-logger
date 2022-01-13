@@ -1,13 +1,15 @@
 import datetime
 import enum
 import os
+import stat
+import sys
+import tempfile
 import uuid
 from pathlib import Path
 from typing import Any, Dict, List, MutableMapping, Union
 
 import dotenv
 import git
-import orjson
 import pytest
 import structlog
 from _pytest.capture import CaptureFixture
@@ -138,6 +140,68 @@ def test_invalid_git_repository(mocker: MockerFixture) -> None:
     expected = test_file_dir.with_suffix("").name
     actual = structlog_sentry_logger._config.get_namespaced_module_name(test_file_dir)
     assert actual == expected
+
+
+def test_read_only_filesystem(mocker: MockerFixture, tmp_path: Path) -> None:
+    def mock_read_only_write_err(*args: Any, **kwargs: Any) -> None:
+        del args, kwargs
+        err = OSError(30, "Read-only file system")
+        err.filename = "/SOME_READ_ONLY_ROOT/.logs"
+        raise err
+
+    mocker.patch.object(
+        Path,
+        "mkdir",
+        mock_read_only_write_err,
+    )
+
+    assert structlog_sentry_logger._config.mkdir_logs_dir(tmp_path) is False
+    assert (
+        structlog_sentry_logger._config.get_dev_local_filename_handler(
+            "DUMMY_MODULE_NAME"
+        )
+        is None
+    )
+
+
+@pytest.mark.xfail(
+    sys.platform == "win32",
+    reason="chmod to read-only mode does not work on Windows",
+)
+def test_read_only_root_dir(mocker: MockerFixture, tmp_path: Path) -> None:
+    tmp_path.chmod(stat.S_IREAD)  # Make temp path read-only
+    with pytest.raises(PermissionError):
+        (tmp_path / "impossible.file").touch()
+    mocker.patch.object(
+        structlog_sentry_logger._config,
+        "ROOT_DIR",
+        tmp_path,
+    )
+
+    filename_handler = structlog_sentry_logger._config.get_dev_local_filename_handler(
+        "DUMMY_MODULE.NAME"
+    )
+    assert filename_handler is not None
+
+    filename_path = Path(filename_handler["filename"])
+    # assert `tmp_path` was NOT used (i.e., because we successfully set it to read-only)
+    with pytest.raises(ValueError):
+        _ = tmp_path.relative_to(filename_path)
+    # assert fallback tmp directory was used
+    assert filename_path.relative_to(Path(tempfile.mkdtemp()).parent)
+
+
+def test_no_filename_handler(mocker: MockerFixture, monkeypatch: MonkeyPatch) -> None:
+    mocker.patch.object(
+        structlog_sentry_logger._config,
+        "get_dev_local_filename_handler",
+        lambda _: None,
+    )
+    monkeypatch.setenv(
+        "STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON", "ANY_VALUE"
+    )
+    handlers = structlog_sentry_logger._config.get_handlers("DUMMY_MODULE_NAME")
+    assert "filename" not in handlers
 
 
 # pylint: enable=protected-access
@@ -351,12 +415,13 @@ class TestCloudLogging:  # pylint: disable=too-few-public-methods
         ids=TestBasicLogging.test_data.keys(),
     )
     def test_cloud_logging_log_key_overwritten(
-        caplog: LogCaptureFixture,
+        capsys: CaptureFixture,
         monkeypatch: MonkeyPatch,
         test_data: dict,
         cloud_logging_compatibility_mode_env_var: str,
     ) -> None:
         # Enable Cloud Logging compatibility mode
+        tests.utils.reset_logging_configs()
         monkeypatch.setenv(cloud_logging_compatibility_mode_env_var, "ANY_VALUE")
 
         # Initialize Cloud Logging-compatible logger and perform logging
@@ -371,7 +436,7 @@ class TestCloudLogging:  # pylint: disable=too-few-public-methods
             )
 
         # Parse logs
-        library_log, test_log = (record.msg for record in caplog.records)
+        library_log, test_log = tests.utils.read_json_logs_from_stdout(capsys)
         if not (isinstance(test_log, dict) and isinstance(library_log, dict)):
             raise NotImplementedError("Captured log messages not a supported type")
 
@@ -393,7 +458,7 @@ class TestCloudLogging:  # pylint: disable=too-few-public-methods
         assert library_log["dest_key"] == cloud_logging_log_level_key
         assert library_log["old_value"] == orig_cloud_logging_log_key_value
         assert library_log["new_value"] == "debug"
-        assert library_log["logger_name"] == logger.name
+        assert library_log["logger_that_used_reserved_key"] == logger.name
 
 
 class TestLoggerSchema:
@@ -611,7 +676,7 @@ class TestBasicPerfLogging:
         logger = structlog_sentry_logger.get_logger()
         logger.debug("Testing main Logger", **test_data)
 
-        test_log = orjson.loads(capsys.readouterr().out)
+        test_log = tests.utils.read_json_logs_from_stdout(capsys)[0]
         if isinstance(test_log, dict):
             for k in test_data:
                 actual = structlog_sentry_logger._config.serializer(test_log[k])

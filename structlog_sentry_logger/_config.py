@@ -6,6 +6,7 @@ import logging
 import logging.config
 import os
 import pathlib
+import tempfile
 import warnings
 from types import FrameType
 from typing import Any, Callable, List, Optional, Tuple, Union
@@ -154,7 +155,9 @@ def get_handlers(module_name: str) -> dict:
     default_handler = base_handlers[default_key]
     if _feature_flags.is_prettified_output_formatting_requested():
         # Add logfile handler
-        base_handlers["filename"] = get_dev_local_filename_handler(module_name)
+        filename_handler = get_dev_local_filename_handler(module_name)
+        if filename_handler is not None:
+            base_handlers["filename"] = filename_handler
         # Prettify stdout/stderr streams
         default_handler["formatter"] = "colored"
     else:
@@ -162,22 +165,60 @@ def get_handlers(module_name: str) -> dict:
     return base_handlers
 
 
-def get_dev_local_filename_handler(module_name: str) -> dict:
+def get_dev_local_filename_handler(module_name: str) -> Optional[dict]:
+    """Builds logfile handler configs
+
+    Before building the logfile handler configurations, this function attempts to
+    initialize the log directory in the (inferred) application root directory. If this
+    fails (for example, if the directory is read-only), it will fall back to a
+    platform-specific temp directory. If this too fails, it will exit without creating
+    the logfile handler configuration.
+
+    Args:
+        module_name: the name of the calling module which will be incorporated in the
+        logfile file name to provide better log provenance.
+
+    Returns: logfile handler configurations if log directories are writeable, else None
+
+    """
     file_timestamp = datetime.datetime.utcnow().isoformat().replace(":", "-")
     log_file_name = f"{file_timestamp}_{module_name}.jsonl"
 
-    log_data_dir = ROOT_DIR / ".logs"
-    log_data_dir.mkdir(exist_ok=True)
-    log_file_path = log_data_dir / log_file_name
-    return {
-        "level": "DEBUG",
-        "class": "logging.handlers.RotatingFileHandler",
-        "filename": str(log_file_path),
-        # 1 MB
-        "maxBytes": 1 << 20,  # type: ignore[dict-item]
-        "backupCount": 3,  # type: ignore[dict-item]
-        "formatter": "plain",
-    }
+    fallback_log_data_root_dir = pathlib.Path(tempfile.mkdtemp(prefix=ROOT_DIR.name))
+    for log_data_dir in [
+        ROOT_DIR / ".logs",
+        fallback_log_data_root_dir / ".logs",
+    ]:
+        if mkdir_logs_dir(log_data_dir):
+            __LOGGER.info(
+                "logs directory created",
+                log_dir=str(log_data_dir),
+            )
+
+            log_file_path = log_data_dir / log_file_name
+            return {
+                "level": "DEBUG",
+                "class": "logging.handlers.RotatingFileHandler",
+                "filename": str(log_file_path),
+                # 1 MB
+                "maxBytes": 1 << 20,  # type: ignore[dict-item]
+                "backupCount": 3,  # type: ignore[dict-item]
+                "formatter": "plain",
+            }
+    return None  #
+
+
+def mkdir_logs_dir(log_data_dir: pathlib.Path) -> bool:
+    try:
+        log_data_dir.mkdir(exist_ok=True)
+        return True
+    except OSError as err:
+        __LOGGER.warning(
+            "logs directory creation failed",
+            log_dir=str(log_data_dir),
+            exc_info=err,
+        )
+        return False
 
 
 def get_formatters() -> dict:
@@ -343,21 +384,27 @@ def add_severity_field_from_level_if_in_cloud_environment(
         # to fix (https://docs.python.org/2/howto/logging.html#when-to-use-logging),
         # many users rely on automated log parsing tools for their alerting and
         # audit trails.
-        #
-        # Dogfood by instantiating a local logger with own library.
-        # Note: NO infinite loop since the below log message does *NOT* use
-        # `severity` as a key in the emitted event.
-        local_logger = get_logger()
-        local_logger.warning(
+        __LOGGER.warning(
             "Existing log value being overwritten",
             src_key=python_log_level_key,
             dest_key=cloud_logging_log_level_key,
             old_value=event_dict[cloud_logging_log_level_key],
             new_value=event_dict[python_log_level_key],
-            logger_name=event_dict["logger"],
+            logger_that_used_reserved_key=event_dict["logger"],
         )
     event_dict[cloud_logging_log_level_key] = event_dict[python_log_level_key]
     return event_dict
+
+
+def __get_meta_logger() -> Any:
+    """Meta-logger to emit messages generated during logger configuration"""
+    set_optimized_structlog_config()
+    logger = structlog.get_logger("structlog_sentry_logger._config")
+    structlog.reset_defaults()
+    return logger
+
+
+__LOGGER = __get_meta_logger()
 
 
 class SentryBreadcrumbJsonProcessor(structlog_sentry.SentryJsonProcessor):
