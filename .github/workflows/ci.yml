@@ -59,7 +59,7 @@ jobs:
           export CGO_ENABLED=0 && \
           export GOOS=linux && \
           export GOARCH=amd64 && \
-          export PATH="${PATH}:/usr/local/go/bin"
+          sudo ln -sf /usr/local/go/bin/go /usr/bin/go
 
       - name: Run static analysis
         run: |
