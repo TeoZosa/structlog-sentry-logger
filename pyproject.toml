@@ -70,7 +70,7 @@ pytest = "^6.2.5"
 pytest-benchmark = {extras = ["histogram"], version = "^3.4.1"}
 pytest-cov = "^3.0.0"
 pytest-emoji = "^0.2.0"
-pytest-mock = "^3.6.1"
+pytest-mock = "^3.7.0"
 pytest-sugar = "^0.9.4"
 pytest-xdist = "^2.5.0"
 mutmut = "^2.2.0"
