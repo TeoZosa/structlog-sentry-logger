@@ -11,7 +11,13 @@ import warnings
 from types import FrameType
 from typing import Any, Callable, List, Optional, Tuple, Union
 
-import git
+try:
+    import git
+except ImportError:  # pragma: no cover
+    # Silence errors e.g., when no git executable is found
+    os.environ["GIT_PYTHON_REFRESH"] = "quiet"
+    import git
+
 import orjson  # type: ignore
 import sentry_sdk
 import structlog
