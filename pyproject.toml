@@ -73,7 +73,7 @@ pytest-emoji = "^0.2.0"
 pytest-mock = "^3.7.0"
 pytest-sugar = "^0.9.4"
 pytest-xdist = "^2.5.0"
-mutmut = "^2.2.0"
+mutmut = "^2.4.0"
 xdoctest = {extras = ["all"], version = "^0.15.10"}
 tox = "^3.24.5"
 tox-wheel = "^0.7.0"
