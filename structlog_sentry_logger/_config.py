@@ -46,7 +46,7 @@ def get_git_root() -> pathlib.Path:  # Gratuitous indirection for testing
     return pathlib.Path(git_root)
 
 
-_LOG_LEVEL = logging.getLevelName(os.environ.get("LOG_LEVEL", "DEBUG"))
+_LOG_LEVEL = logging.getLevelName(os.environ.get("LOG_LEVEL", "DEBUG").upper())
 ROOT_DIR = get_root_dir()
 _TIMESTAMPER = structlog.processors.TimeStamper(fmt="iso", utc=True)
 _CONFIGS = Config()
