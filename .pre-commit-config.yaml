@@ -31,10 +31,10 @@ repos:
       - id: detect-secrets
         exclude: ^(poetry\.lock|\.cruft\.json)$
 
-  - repo: https://github.com/KPLauritzen/flakehell
-    rev: d644612
+  - repo: https://github.com/flakeheaven/flakeheaven
+    rev: 0.11.0
     hooks:
-      - id: flakehell
+      - id: flakeheaven
         exclude: ^(docs/source/recommendedbestpractices.rst)$
 
   # Docstring coverage tool
