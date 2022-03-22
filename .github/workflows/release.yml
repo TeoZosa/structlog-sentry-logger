@@ -112,7 +112,7 @@ jobs:
 
       - name: Load cached tox testenv(s) (if they exist)
         id: cached-poetry-dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             .tox
