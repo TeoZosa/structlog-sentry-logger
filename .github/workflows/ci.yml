@@ -134,14 +134,14 @@ jobs:
     strategy:
       matrix:
         os: ["ubuntu-latest", "windows-latest", "macos-latest"]
-        python-version: ["3.7", "3.8", "3.9"]
+        python-version: ["3.7", "3.8", "3.9", "3.10"]
 
     name: Python ${{ matrix.python-version }} (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
 
     env:
       USING_COVERAGE_OS: "ubuntu"
-      USING_COVERAGE_PY_VER: "3.9"
+      USING_COVERAGE_PY_VER: "3.10"
 
     steps:
       - name: Check out the repository
