@@ -31,7 +31,7 @@ generate-setup-file = true
 Changelog = "https://github.com/TeoZosa/structlog-sentry-logger/releases"
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.7,<3.11"
 
 # Documentation
 # Specifying documentation dependencies as optional dependencies
