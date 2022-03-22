@@ -3,13 +3,16 @@
 version: 2
 
 build:
-  image: testing
+  os: ubuntu-20.04
+  tools:
+    # For available versions, see:
+    # https://docs.readthedocs.io/en/stable/config-file/v2.html#build-tools-python
+    python: "3.10"  # Keep in sync with .github/workflows/ci.yml
 
 sphinx:
   configuration: docs/source/conf.py
 
 python:
-  version: 3.9
   install:
     - requirements: docs/requirements.txt
     - method: pip
