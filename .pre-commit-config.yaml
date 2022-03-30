@@ -9,7 +9,7 @@ repos:
   # For IDE-integration outside of the pre-commit hook,
   # see: https://black.readthedocs.io/en/stable/editor_integration.html
   - repo: https://github.com/ambv/black
-    rev: 21.9b0
+    rev: 22.3.0
     hooks:
       - id: black
 
