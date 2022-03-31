@@ -4,11 +4,12 @@ name: Release
 on:  # yamllint disable-line rule:truthy
   workflow_run:
     workflows:
-      # Upstream workflow runs on pushes and always completes;
+      # Upstream workflow runs on pushes/PRs to master and always
       # completes; needed because Dependabot-initiated pushes to master do not
       # have access to repository secrets on which this workflow relies.
       # see: dependabot/dependabot-core/issues/3253
-      - Dependabot Push Check
+      - Dependabot Trunk Push Check
+      - Dependabot PR Check
     types:
       - completed
 

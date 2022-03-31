@@ -4,8 +4,7 @@ name: Labeler
 on:  # yamllint disable-line rule:truthy
   push:
     branches:
-      - main  # forward-compatibility with new GitHub default branch naming
-      - master  # backward-compatibility with old GitHub default branch naming
+      - master
 
 jobs:
   labeler:
