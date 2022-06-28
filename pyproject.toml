@@ -80,7 +80,7 @@ tox-wheel = "^0.7.0"
 
 # Linting
 ## Code formatting
-black = "^22.3" # see: https://black.readthedocs.io/en/stable/editor_integration.html
+black = "^22.6" # see: https://black.readthedocs.io/en/stable/editor_integration.html
 ## Code quality
 pylint = "^2.13.9"
 ## Automation and management
