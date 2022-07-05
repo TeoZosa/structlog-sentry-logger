@@ -1280,7 +1280,7 @@ pytest = ">=3.10"
 
 [[package]]
 name = "pytest-mock"
-version = "3.8.1"
+version = "3.8.2"
 description = "Thin-wrapper around the mock package for easier use with pytest"
 category = "dev"
 optional = false
@@ -1955,7 +1955,7 @@ docs = ["emoji", "importlib-metadata", "myst-parser", "pygments", "sphinx", "sph
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7,<3.11"
-content-hash = "18bad85cad7576a97c5a96c8cdad2f07965bf436c05f1b8e25c1cf1558f0efb5"
+content-hash = "c81c2150a5dfd485e188ac22e339b6fb0ee5ef4202d789f004e23c1824951fa9"
 
 [metadata.files]
 alabaster = [
@@ -2703,8 +2703,8 @@ pytest-forked = [
     {file = "pytest_forked-1.4.0-py3-none-any.whl", hash = "sha256:bbbb6717efc886b9d64537b41fb1497cfaf3c9601276be8da2cccfea5a3c8ad8"},
 ]
 pytest-mock = [
-    {file = "pytest-mock-3.8.1.tar.gz", hash = "sha256:2c6d756d5d3bf98e2e80797a959ca7f81f479e7d1f5f571611b0fdd6d1745240"},
-    {file = "pytest_mock-3.8.1-py3-none-any.whl", hash = "sha256:d989f11ca4a84479e288b0cd1e6769d6ad0d3d7743dcc75e460d1416a5f2135a"},
+    {file = "pytest-mock-3.8.2.tar.gz", hash = "sha256:77f03f4554392558700295e05aed0b1096a20d4a60a4f3ddcde58b0c31c8fca2"},
+    {file = "pytest_mock-3.8.2-py3-none-any.whl", hash = "sha256:8a9e226d6c0ef09fcf20c94eb3405c388af438a90f3e39687f84166da82d5948"},
 ]
 pytest-sugar = [
     {file = "pytest-sugar-0.9.4.tar.gz", hash = "sha256:b1b2186b0a72aada6859bea2a5764145e3aaa2c1cfbb23c3a19b5f7b697563d3"},
