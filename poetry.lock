@@ -1831,7 +1831,7 @@ test = ["shellingham (>=1.3.0,<2.0.0)", "pytest (>=4.4.0,<5.4.0)", "pytest-cov (
 
 [[package]]
 name = "types-emoji"
-version = "1.7.1"
+version = "1.7.2"
 description = "Typing stubs for emoji"
 category = "main"
 optional = true
