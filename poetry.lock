@@ -804,7 +804,7 @@ pytest = ["pytest", "pytest-cov"]
 
 [[package]]
 name = "mypy"
-version = "0.950"
+version = "0.961"
 description = "Optional static typing for Python"
 category = "dev"
 optional = false
@@ -1968,7 +1968,7 @@ docs = ["emoji", "importlib-metadata", "myst-parser", "pygments", "sphinx", "sph
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7,<3.11"
-content-hash = "c940aca90f0e517f66db78c1b558d2d47b46998805ea781b8dd78e42a9bbb5b4"
+content-hash = "61024a76b894cd4768d5e0b510c6188b00ecfb8c68365a67f405000e4b7e3ad7"
 
 [metadata.files]
 alabaster = []
