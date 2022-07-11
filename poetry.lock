@@ -1294,7 +1294,7 @@ dev = ["pre-commit", "tox", "pytest-asyncio"]
 
 [[package]]
 name = "pytest-sugar"
-version = "0.9.4"
+version = "0.9.5"
 description = "pytest-sugar is a plugin for pytest that changes the default look and feel of pytest (e.g. progressbar, show tests that fail instantly)."
 category = "dev"
 optional = false
@@ -1955,7 +1955,7 @@ docs = ["emoji", "importlib-metadata", "myst-parser", "pygments", "sphinx", "sph
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7,<3.11"
-content-hash = "b1d7337d1147bcfddf678dc38ded0567aea6958ab167a75961f83446e7a42ea3"
+content-hash = "a6b9b01fdbcccbd504fc8db76ae5517c1236e85d7b07653fb09c0b3788f915a9"
 
 [metadata.files]
 alabaster = []
