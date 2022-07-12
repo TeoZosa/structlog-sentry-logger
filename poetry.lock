@@ -1455,7 +1455,7 @@ test = ["build (>=0.5)", "codecov (>=2.0.5)", "coverage (>=4.2)", "cython (>=0.2
 
 [[package]]
 name = "sentry-sdk"
-version = "1.6.0"
+version = "1.7.0"
 description = "Python client for Sentry (https://sentry.io)"
 category = "main"
 optional = false
