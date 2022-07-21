@@ -1,4 +1,4 @@
-pip==22.1.2
+pip==22.2
 poetry==1.1.14
 tox==3.25.1
 tox-gh-actions==2.9.1
