@@ -204,7 +204,6 @@ disable = [
   "missing-function-docstring",
   # Black & Flake8 purview
   "line-too-long",
-  "bad-continuation",
   "c-extension-no-member",
 ]
 
