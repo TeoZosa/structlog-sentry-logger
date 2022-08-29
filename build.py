@@ -1,6 +1,10 @@
+import os
 import pathlib
 
 import mypyc.build
+
+_CFLAGS = os.environ.get("CFLAGS", "")
+os.environ["CFLAGS"] = f"{_CFLAGS} -Wno-unused-but-set-variable"
 
 
 def build(setup_kwargs: dict) -> None:
