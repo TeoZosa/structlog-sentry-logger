@@ -10,6 +10,7 @@ from typing import Any, Dict, List, MutableMapping, Union
 
 import dotenv
 import git
+import orjson
 import pytest
 import structlog
 from _pytest.capture import CaptureFixture
@@ -22,6 +23,9 @@ import structlog_sentry_logger
 # pylint: disable=redefined-outer-name
 import tests.utils
 
+JSONOutputType = tests.utils.JSONOutputType
+
+
 # Note: the below methods use `pytest`'s `caplog` fixture to properly capture the
 # logs.
 #
@@ -30,6 +34,14 @@ import tests.utils
 # capturing logs via the methods from
 # [Testing](https://www.structlog.org/en/stable/testing.html) requires
 # complicated patching.
+
+
+def serialized_repr(v: Union[Dict, List]) -> JSONOutputType:
+    return orjson.loads(
+        structlog_sentry_logger._config.serializer(  # pylint: disable=protected-access
+            v, option=orjson.OPT_NON_STR_KEYS
+        )
+    )
 
 
 @pytest.fixture(scope="function")
@@ -679,8 +691,8 @@ class TestBasicPerfLogging:
         test_log = tests.utils.read_json_logs_from_stdout(capsys)[0]
         if isinstance(test_log, dict):
             for k in test_data:
-                actual = structlog_sentry_logger._config.serializer(test_log[k])
-                expected = structlog_sentry_logger._config.serializer(test_data[k])
+                actual = serialized_repr(test_log[k])
+                expected = serialized_repr(test_data[k])
                 assert actual == expected
             if is_cloud_logging_mode:
                 assert "severity" in test_log
