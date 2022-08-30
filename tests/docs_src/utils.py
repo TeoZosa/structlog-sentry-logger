@@ -20,7 +20,7 @@ JSONOutputType = Dict[str, Optional[str]]
 def redirect_captured_logs_to_stdout(caplog: LogCaptureFixture) -> None:
     if caplog.records:
         for record in caplog.records:
-            print(json.dumps(record.msg))
+            print(orjson.dumps(record.msg).decode())
 
 
 def get_validated_json_output(capsys: CaptureFixture) -> List[JSONOutputType]:
