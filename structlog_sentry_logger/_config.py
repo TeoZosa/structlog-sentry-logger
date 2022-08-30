@@ -410,9 +410,6 @@ def __get_meta_logger() -> Any:
     return logger
 
 
-__LOGGER = __get_meta_logger()
-
-
 class SentryBreadcrumbJsonProcessor(structlog_sentry.SentryJsonProcessor):
 
     """
@@ -463,3 +460,6 @@ class SentryBreadcrumbJsonProcessor(structlog_sentry.SentryJsonProcessor):
             self.save_breadcrumb(logger, event_dict)
 
         return super().__call__(logger=logger, method=method, event_dict=event_dict)
+
+
+__LOGGER = __get_meta_logger()
