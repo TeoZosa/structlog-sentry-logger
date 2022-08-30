@@ -7,12 +7,12 @@ from _pytest.capture import CaptureFixture
 from _pytest.logging import LogCaptureFixture
 from _pytest.monkeypatch import MonkeyPatch
 
-import structlog_sentry_logger
-
 JSONOutputType = Dict[str, Any]
 
 
 def reset_logging_configs() -> None:
+    import structlog_sentry_logger  # pylint: disable=import-outside-toplevel
+
     structlog.reset_defaults()
     # pylint:disable=protected-access
     structlog_sentry_logger._config._CONFIGS.stdlib_logging_config_already_configured = (
