@@ -6,7 +6,7 @@ import sys
 import tempfile
 import uuid
 from pathlib import Path
-from typing import Any, Dict, List, MutableMapping, Union
+from typing import Any, Dict, List, Union
 
 import dotenv
 import git
@@ -26,7 +26,7 @@ import tests.utils
 JSONOutputType = tests.utils.JSONOutputType
 
 
-# Note: the below methods use `pytest`'s `caplog` fixture to properly capture the
+# Note: the below methods use `pytest`'s `capsys` fixture to properly capture the
 # logs.
 #
 # Because `cache_logger_on_first_use=True` and we want to capture specific log
@@ -55,31 +55,36 @@ LogType = Dict[str, Union[uuid.UUID, str]]
 
 
 def test_pytest_caplog_and_structlog_patching_equivalence(
-    caplog: LogCaptureFixture, random_log_msgs: List[uuid.UUID]
+    capsys: CaptureFixture, random_log_msgs: List[uuid.UUID]
 ) -> None:
-    def get_pytest_captured_logs() -> Union[List[str], List[LogType]]:
+    def get_pytest_captured_logs() -> List[JSONOutputType]:
         logger = structlog_sentry_logger.get_logger()
         for log_msg in random_log_msgs:
             logger.debug(log_msg)
-        captured_logs = [record.msg for record in caplog.records]
-        assert captured_logs
-        return captured_logs
+        return tests.utils.get_validated_json_output(capsys)
 
     # List[Dict[str,Union[uuid.UUID, str]]]
-    def get_structlog_captured_logs() -> Union[
-        List[MutableMapping[str, Any]], List[LogType]
-    ]:
+    def get_structlog_captured_logs() -> List[JSONOutputType]:
+        # Setup
         structlog_caplog = structlog.testing.LogCapture()
         orig_processors = structlog.get_config()["processors"]
         patched_procs = orig_processors.copy()
         patched_procs.insert(-1, structlog_caplog)
         structlog.configure(processors=patched_procs)
+
+        # Log
+        logger = structlog_sentry_logger.get_logger()
         for log_msg in random_log_msgs:
-            structlog_sentry_logger.get_logger().debug(log_msg)
-        structlog.configure(processors=orig_processors)
+            logger.debug(log_msg)
+
+        # Reformat logs to mirror what would have been captured by stdout
         captured_logs = structlog_caplog.entries
         assert captured_logs
-        return captured_logs
+        serialized_logs = []
+        for captured_log in captured_logs:
+            assert isinstance(captured_log, dict)
+            serialized_logs.append(serialized_repr(captured_log))
+        return serialized_logs
 
     def validate_timestamps_approx_equal(timestamp1: str, timestamp2: str) -> None:
         def convert_time(timestamp: str) -> datetime.datetime:
@@ -101,14 +106,14 @@ def test_pytest_caplog_and_structlog_patching_equivalence(
         # Timestamps not tested for strict equality
         validate_timestamps_approx_equal(
             structlog_captured_log["timestamp"],  # type: ignore[arg-type]
-            pytest_captured_log["timestamp"],  # type: ignore[index]
+            pytest_captured_log["timestamp"],
         )
         del structlog_captured_log["timestamp"]
         del pytest_captured_log["timestamp"]  # type: ignore[attr-defined]
 
         # Validate captured function names and line numbers which WILL differ between logs
         assert structlog_captured_log["funcName"] == "get_structlog_captured_logs"
-        assert pytest_captured_log["funcName"] == "get_pytest_captured_logs"  # type: ignore[index]
+        assert pytest_captured_log["funcName"] == "get_pytest_captured_logs"
         for log in structlog_captured_log, pytest_captured_log:
             del log["lineno"]  # type: ignore[attr-defined]
             del log["funcName"]  # type: ignore[attr-defined]
@@ -220,7 +225,7 @@ def test_no_filename_handler(mocker: MockerFixture, monkeypatch: MonkeyPatch) ->
 
 
 def test_sentry_DSN_integration(
-    caplog: LogCaptureFixture,
+    capsys: CaptureFixture,
     monkeypatch: MonkeyPatch,
 ) -> None:
     tests.utils.enable_sentry_integration_mode(monkeypatch)
@@ -233,18 +238,13 @@ def test_sentry_DSN_integration(
             logger = structlog_sentry_logger.get_logger()
             # This line sends the above exception event to Sentry, with all the breadcrumbs included
             logger.exception("Exception caught and thrown")
-            assert caplog.records
-            for record in caplog.records:
-                log = record.msg
+
+            captured_logs = tests.utils.get_validated_json_output(capsys)
+            for log in captured_logs:
                 if isinstance(log, dict):  # structlog logger
-                    assert log["level"] == "error" == record.levelname.lower()
+                    assert log["level"] == "error"
                     assert log["sentry"] == "sent"
                     assert "sentry_id" in log
-                elif isinstance(log, str):
-                    # other stdlib-based logger initialized BEFORE our structlog logger;
-                    # i.e., Sentry-invoked `urllib3.connectionpool` logger
-                    assert record.name == "urllib3.connectionpool"
-                    assert "sentry" in record.message
                 else:
                     raise NotImplementedError(
                         "Captured log message not a supported type"
@@ -279,15 +279,16 @@ class TestBasicLogging:  # pylint: disable=too-few-public-methods
     @pytest.mark.parametrize(
         "test_data", [{k: v} for k, v in test_data.items()], ids=test_data.keys()
     )
-    def test(caplog: LogCaptureFixture, test_data: dict) -> None:
+    def test(capsys: CaptureFixture, test_data: dict) -> None:
         logger = structlog_sentry_logger.get_logger()
         logger.debug("Testing main Logger", **test_data)
-        assert caplog.records
-        for record in caplog.records:
-            log = record.msg
+
+        captured_logs = tests.utils.get_validated_json_output(capsys)
+        assert captured_logs
+        for log in captured_logs:
             if isinstance(log, dict):  # structlog logger
                 for k in test_data:
-                    assert log[k] == test_data[k]
+                    assert log[k] == serialized_repr(test_data[k])
             else:
                 raise NotImplementedError("Captured log message not a supported type")
 
@@ -321,7 +322,7 @@ class TestBasicLoggingNonStringKeys:  # pylint: disable=too-few-public-methods
         [{k: v} for k, v in test_data.items()],
         ids=(str(k) for k in test_data.keys()),
     )
-    def test(caplog: LogCaptureFixture, test_data: dict) -> None:
+    def test(capsys: CaptureFixture, test_data: dict) -> None:
         if "all test cases simultaneously" in test_data:
             test_data = test_data["all test cases simultaneously"]
 
@@ -329,12 +330,13 @@ class TestBasicLoggingNonStringKeys:  # pylint: disable=too-few-public-methods
         # nest non-str dict under a `test_data` kwarg; orjson can serialize non-str
         # keys, but these are not valid python kwarg keys
         logger.debug("Testing main Logger", test_data=test_data)
-        assert caplog.records
-        for record in caplog.records:
-            log = record.msg
+
+        captured_logs = tests.utils.get_validated_json_output(capsys)
+        assert captured_logs
+        for log in captured_logs:
             if isinstance(log, dict):  # structlog logger
-                for k in test_data:
-                    assert log["test_data"][k] == test_data[k]
+                for k, serialized_k in zip(test_data, serialized_repr(test_data)):
+                    assert log["test_data"][serialized_k] == test_data[k]
             else:
                 raise NotImplementedError("Captured log message not a supported type")
 
@@ -362,7 +364,7 @@ class TestCloudLogging:  # pylint: disable=too-few-public-methods
         ids=TestBasicLogging.test_data.keys(),
     )
     def test_cloud_logging_log_key_not_added_in_normal_logging(
-        caplog: LogCaptureFixture,
+        capsys: CaptureFixture,
         test_data: dict,
     ) -> None:
 
@@ -370,11 +372,12 @@ class TestCloudLogging:  # pylint: disable=too-few-public-methods
         logger = structlog_sentry_logger.get_logger()
         logger.debug("Testing non-Cloud Logging-compatible logger", **test_data)
 
-        assert caplog.records
+        captured_logs = tests.utils.get_validated_json_output(capsys)
+        assert captured_logs
         # Parse logs and validate schema
-        for test_log in [record.msg for record in caplog.records]:
-            if isinstance(test_log, dict):  # structlog logger
-                assert "severity" not in test_log
+        for log in captured_logs:
+            if isinstance(log, dict):  # structlog logger
+                assert "severity" not in log
             else:
                 raise NotImplementedError("Captured log message not a supported type")
 
@@ -388,31 +391,30 @@ class TestCloudLogging:  # pylint: disable=too-few-public-methods
         [{k: v} for k, v in TestBasicLogging.test_data.items()],
         ids=TestBasicLogging.test_data.keys(),
     )
-    def test_cloud_logging_log_key_added(
+    def test_cloud_logging_log_key_added(  # pylint: disable=too-many-arguments
         caplog: LogCaptureFixture,
+        capsys: CaptureFixture,
         monkeypatch: MonkeyPatch,
         test_data: dict,
         cloud_logging_compatibility_mode_env_var: str,
     ) -> None:
         # Enable Cloud Logging compatibility mode
         structlog.reset_defaults()
-        monkeypatch.setenv(
-            "_STRUCTLOG_SENTRY_LOGGER_STDLIB_BASED_LOGGER_MODE_ON", "ANY_VALUE"
-        )
         monkeypatch.setenv(cloud_logging_compatibility_mode_env_var, "ANY_VALUE")
 
         # Initialize Cloud Logging-compatible logger and perform logging
         logger = structlog_sentry_logger.get_logger()
         logger.debug("Testing Cloud Logging-compatible logger", **test_data)
 
-        assert caplog.records
+        captured_logs = tests.utils.get_validated_json_output(capsys)
+        assert captured_logs
         # Parse logs and validate schema
-        for test_log in [record.msg for record in caplog.records]:
-            if isinstance(test_log, dict):  # structlog logger
+        for log in captured_logs:
+            if isinstance(log, dict):  # structlog logger
                 for k in test_data:
-                    assert test_log[k] == test_data[k]
-                assert "severity" in test_log
-                assert test_log["level"] == test_log["severity"]
+                    assert log[k] == serialized_repr(test_data[k])
+                assert "severity" in log
+                assert log["level"] == log["severity"]
             else:
                 raise NotImplementedError("Captured log message not a supported type")
 
@@ -470,7 +472,10 @@ class TestCloudLogging:  # pylint: disable=too-few-public-methods
         assert library_log["dest_key"] == cloud_logging_log_level_key
         assert library_log["old_value"] == orig_cloud_logging_log_key_value
         assert library_log["new_value"] == "debug"
-        assert library_log["logger_that_used_reserved_key"] == logger.name
+        assert (
+            library_log["logger_that_used_reserved_key"]
+            == logger._context["logger"]  # pylint: disable=protected-access
+        )
 
 
 class TestLoggerSchema:
@@ -481,7 +486,7 @@ class TestLoggerSchema:
         ids=["Sentry integration enabled", "Sentry integration disabled"],
     )
     def test_structlog_logger(
-        caplog: LogCaptureFixture,
+        capsys: CaptureFixture,
         monkeypatch: MonkeyPatch,
         random_log_msgs: List[uuid.UUID],
         is_sentry_integration_mode_requested: bool,
@@ -496,44 +501,40 @@ class TestLoggerSchema:
         logger = structlog_sentry_logger.get_logger()
         for log_msg in random_log_msgs:
             logger.debug(log_msg)
-        assert caplog.records
-        structlogged_records = [
-            record for record in caplog.records if isinstance(record.msg, dict)
-        ]
+
+        captured_logs = tests.utils.get_validated_json_output(capsys)
+        assert captured_logs
+        structlogged_records = [log for log in captured_logs if isinstance(log, dict)]
         module_name = structlog_sentry_logger.get_namespaced_module_name(__file__)
-        for record, log_msg in zip(structlogged_records, random_log_msgs):
-            log = record.msg
-            assert log["level"] == "debug" == record.levelname.lower()  # type: ignore[index]
+        for log, payload in zip(structlogged_records, serialized_repr(random_log_msgs)):
+            assert log["level"] == "debug"
             assert (
-                log["logger"] == logger.name == record.name == module_name == __name__  # type: ignore[index]
+                log["logger"]
+                == logger._context["logger"]  # pylint: disable=protected-access
+                == module_name
+                == __name__
             )
-            assert log["event"] == log_msg  # type: ignore[index]
+            assert log["event"] == payload
             if is_sentry_integration_mode_requested:
-                assert log["sentry"] == "skipped"  # type: ignore[index]
+                assert log["sentry"] == "skipped"
             else:
                 assert "sentry" not in log
             assert "timestamp" in log
 
     @staticmethod
     def test_non_structlog_logger(
-        caplog: LogCaptureFixture, random_log_msgs: List[uuid.UUID]
+        capsys: CaptureFixture, random_log_msgs: List[uuid.UUID]
     ) -> None:
         logger = structlog_sentry_logger.get_logger()
         for log_msg in random_log_msgs:
             logger.debug(log_msg)
-        assert caplog.records
+
+        captured_logs = tests.utils.get_validated_json_output(capsys)
+        assert captured_logs
         non_structlogged_records = [
-            record for record in caplog.records if not isinstance(record.msg, dict)
+            log for log in captured_logs if not isinstance(log, dict)
         ]
-        for record in non_structlogged_records:
-            log = record.msg
-            if isinstance(log, str):
-                # other stdlib-based logger initialized BEFORE our structlog logger;
-                # i.e., Sentry-invoked `urllib3.connectionpool` logger
-                assert record.name == "urllib3.connectionpool"
-                assert "sentry" in record.message
-            else:
-                raise NotImplementedError("Captured log message not a supported type")
+        assert not non_structlogged_records
 
 
 class TestCorrectNamespacing:
@@ -549,15 +550,15 @@ class TestCorrectNamespacing:
         assert repr(expected_logger) == repr(actual_logger)
         module_name = structlog_sentry_logger.get_namespaced_module_name(__file__)
         assert (
-            expected_logger.name
-            == actual_logger.name
+            expected_logger._context["logger"]  # pylint: disable=protected-access
+            == actual_logger._context["logger"]  # pylint: disable=protected-access
             == module_name
             == __name__
             != "__main__"
         )
 
     @staticmethod
-    def test_child_loggers(caplog: LogCaptureFixture) -> None:
+    def test_child_loggers(capsys: CaptureFixture) -> None:
         from tests.structlog_sentry_logger import (  # pylint: disable=import-outside-toplevel
             child_module_1,
             child_module_2,
@@ -566,19 +567,19 @@ class TestCorrectNamespacing:
         child_module_1.log_warn()
         # This line sends an error event to Sentry, with all the breadcrumbs included
         child_module_2.log_error()
-        assert caplog.records
-        child_logs = [
-            record for record in caplog.records if isinstance(record.msg, dict)
-        ]
+
+        captured_logs = tests.utils.get_validated_json_output(capsys)
+        assert captured_logs
+        child_logs = [log for log in captured_logs if isinstance(log, dict)]
 
         for child_log, child_module in zip(
             child_logs, [child_module_1, child_module_2]
         ):
             assert (
-                child_log.msg["event"]  # type: ignore[index]
-                == child_log.msg["logger"]  # type: ignore[index]
-                == child_log.msg["name"]  # type: ignore[index]
-                == child_log.name
+                child_log["event"]
+                == child_log["logger"]
+                == child_log["name"]
+                == child_log["logger"]
                 == child_module.MODULE_NAME  # type: ignore[attr-defined]
                 == child_module.__name__
             )
@@ -632,6 +633,9 @@ class TestLoadingDotenv:
         self.dotenv_file.write_text(
             current_values + f"{env_var}=''\n", encoding=encoding
         )
+
+
+# pylint: enable=protected-access
 
 
 class TestBasicPerfLogging:
@@ -688,16 +692,16 @@ class TestBasicPerfLogging:
         logger = structlog_sentry_logger.get_logger()
         logger.debug("Testing main Logger", **test_data)
 
-        test_log = tests.utils.read_json_logs_from_stdout(capsys)[0]
-        if isinstance(test_log, dict):
+        log = tests.utils.read_json_logs_from_stdout(capsys)[0]
+        if isinstance(log, dict):
             for k in test_data:
-                actual = serialized_repr(test_log[k])
+                actual = serialized_repr(log[k])
                 expected = serialized_repr(test_data[k])
                 assert actual == expected
             if is_cloud_logging_mode:
-                assert "severity" in test_log
-                assert test_log["level"] == test_log["severity"]
+                assert "severity" in log
+                assert log["level"] == log["severity"]
             else:
-                assert "severity" not in test_log
+                assert "severity" not in log
         else:
             raise NotImplementedError("Captured log message not a supported type")
