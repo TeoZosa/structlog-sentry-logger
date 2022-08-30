@@ -55,7 +55,7 @@ orjson = "^3.6.4"
 python-dotenv = ">=0.19"
 rich = ">=10.12,<13.0"
 sentry-sdk = ">0.17.0"
-structlog = "^21.1.0"
+structlog = ">=21.1,<23.0"
 
 [tool.poetry.dev-dependencies]
 # Standardized Developer Workflow Orchestration
