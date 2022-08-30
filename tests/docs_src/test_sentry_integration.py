@@ -8,8 +8,8 @@ from _pytest.monkeypatch import MonkeyPatch
 import structlog_sentry_logger
 import tests.docs_src.utils
 import tests.utils
-from tests.docs_src.utils import JSONOutputType
 
+JSONOutputType = tests.utils.JSONOutputType
 _ = structlog_sentry_logger.get_logger()
 
 

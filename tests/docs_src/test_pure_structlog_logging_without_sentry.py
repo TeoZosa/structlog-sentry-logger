@@ -12,7 +12,7 @@ import tests.utils
 from docs_src import (  # pylint: disable=import-error
     pure_structlog_logging_without_sentry,
 )
-from tests.docs_src.utils import JSONOutputType
+from tests.utils import JSONOutputType
 
 
 @pytest.fixture(scope="function")
@@ -38,8 +38,8 @@ def actual_output(
     tests.docs_src.utils.reload_module_non_dev_local_env(
         monkeypatch, pure_structlog_logging_without_sentry
     )
-    tests.docs_src.utils.redirect_captured_logs_to_stdout(caplog)
-    return tests.docs_src.utils.get_validated_json_output(capsys)
+    tests.utils.redirect_captured_logs_to_stdout(caplog)
+    return tests.utils.get_validated_json_output(capsys)
 
 
 def test_dev_local(
@@ -49,7 +49,7 @@ def test_dev_local(
     tests.docs_src.utils.reload_module_dev_local_env(
         monkeypatch, pure_structlog_logging_without_sentry
     )
-    tests.docs_src.utils.redirect_captured_logs_to_stdout(caplog)
+    tests.utils.redirect_captured_logs_to_stdout(caplog)
 
     if sys.platform == "win32":
         relevant_expected = (
