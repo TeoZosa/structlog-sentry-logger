@@ -1,8 +1,6 @@
 from typing import List
 
-import tests.utils
-
-JSONOutputType = tests.utils.JSONOutputType
+from tests.utils import JSONOutputType
 
 
 def validate_output(
