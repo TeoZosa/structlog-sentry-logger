@@ -9,7 +9,7 @@ from _pytest.capture import CaptureFixture
 from _pytest.logging import LogCaptureFixture
 from _pytest.monkeypatch import MonkeyPatch
 
-import tests.docs_src.utils
+import tests.docs_src.validate_output
 import tests.utils
 from docs_src import (  # pylint: disable=import-error
     pure_structlog_logging_without_sentry,
@@ -91,7 +91,7 @@ def test_pure_structlog_logging_without_sentry(
     expected_output_truncated: List[JSONOutputType],
     actual_output: List[JSONOutputType],
 ) -> None:
-    tests.docs_src.utils.validate_output(
+    tests.docs_src.validate_output.validate_output(
         expected_output_truncated, actual_output, dynamic_keys_to_copy=["timestamp"]
     )
 

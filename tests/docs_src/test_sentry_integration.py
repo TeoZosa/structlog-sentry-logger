@@ -4,7 +4,7 @@ import pytest
 from _pytest.capture import CaptureFixture
 from _pytest.monkeypatch import MonkeyPatch
 
-import tests.docs_src.utils
+import tests.docs_src.validate_output
 import tests.utils
 
 JSONOutputType = tests.utils.JSONOutputType
@@ -52,7 +52,7 @@ def test_sentry_integration(
     expected_output_truncated: List[JSONOutputType],
     actual_output: List[JSONOutputType],
 ) -> None:
-    tests.docs_src.utils.validate_output(
+    tests.docs_src.validate_output.validate_output(
         expected_output_truncated,
         actual_output,
         dynamic_keys_to_copy=["timestamp", "uuid"],
