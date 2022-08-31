@@ -1,8 +1,4 @@
-import importlib
-from types import ModuleType
 from typing import List
-
-from _pytest.monkeypatch import MonkeyPatch
 
 import tests.utils
 
@@ -25,21 +21,3 @@ def validate_output(
             },
         }
         assert actual_log == expected_log
-
-
-def reload_module_non_dev_local_env(
-    monkeypatch: MonkeyPatch, module: ModuleType
-) -> None:
-    tests.utils.reset_logging_configs()
-    monkeypatch.delenv(
-        "STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON", raising=False
-    )
-    importlib.reload(module)
-
-
-def reload_module_dev_local_env(monkeypatch: MonkeyPatch, module: ModuleType) -> None:
-    tests.utils.reset_logging_configs()
-    monkeypatch.setenv(
-        "STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON", "ANY_VALUE"
-    )
-    importlib.reload(module)
