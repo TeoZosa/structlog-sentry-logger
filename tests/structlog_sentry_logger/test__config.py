@@ -383,6 +383,11 @@ class TestCloudLogging:  # pylint: disable=too-few-public-methods
 
     @staticmethod
     @pytest.mark.parametrize(
+        "is_stdlib_logger_requested",
+        [True, False],
+        ids=["stdlib-based logger", "structlog-based logger"],
+    )
+    @pytest.mark.parametrize(
         "cloud_logging_compatibility_mode_env_var",
         cloud_logging_compatibility_mode_env_vars,
     )
@@ -397,14 +402,22 @@ class TestCloudLogging:  # pylint: disable=too-few-public-methods
         monkeypatch: MonkeyPatch,
         test_data: dict,
         cloud_logging_compatibility_mode_env_var: str,
+        is_stdlib_logger_requested: bool,
     ) -> None:
         # Enable Cloud Logging compatibility mode
         structlog.reset_defaults()
+        if is_stdlib_logger_requested:
+            monkeypatch.setenv(
+                "_STRUCTLOG_SENTRY_LOGGER_STDLIB_BASED_LOGGER_MODE_ON", "ANY_VALUE"
+            )
         monkeypatch.setenv(cloud_logging_compatibility_mode_env_var, "ANY_VALUE")
 
         # Initialize Cloud Logging-compatible logger and perform logging
         logger = structlog_sentry_logger.get_logger()
         logger.debug("Testing Cloud Logging-compatible logger", **test_data)
+
+        if is_stdlib_logger_requested:
+            tests.utils.redirect_captured_logs_to_stdout(caplog)
 
         captured_logs = tests.utils.get_validated_json_output(capsys)
         assert captured_logs
