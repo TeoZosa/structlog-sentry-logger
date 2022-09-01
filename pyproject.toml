@@ -33,21 +33,6 @@ Changelog = "https://github.com/TeoZosa/structlog-sentry-logger/releases"
 [tool.poetry.dependencies]
 python = "^3.7,<3.11"
 
-# Documentation
-# Specifying documentation dependencies as optional dependencies
-# as a hack until Poetry version >= 1.2 when dependency groups are supported
-# see: python-poetry/poetry#1644
-emoji = { version = ">=1.6.1,<3.0.0", optional = true}
-importlib-metadata = { version = ">=3.4.0", optional = true}
-myst-parser = { version = ">=0.15,<0.19", optional = true}
-pygments = { version = "^2.9.0", optional = true}
-sphinx = { version = ">=4.1.2,<6.0.0", optional = true}
-sphinx-autoapi = { version = "^1.8.1", optional = true}
-sphinx-rtd-theme = { version = ">=0.5.1,<1.1.0", optional = true}
-sphinxcontrib-confluencebuilder = { version = "^1.5.0", optional = true}
-# PEP 561 compliant stub packages for mypy
-types-emoji = { version = ">=1.2.4,<3.0.0", optional = true}
-
 # Project-Specific
 colorama = "^0.4.3"
 gitpython = "^3.1.7"
@@ -92,21 +77,19 @@ tox-gh-actions = "^2.9.1"
 # Documentation
 darglint = "^1.5.8"
 
-# Specifying documentation dependencies as optional dependencies
-# as a hack until Poetry version >= 1.2 when dependency groups are supported
-# see: python-poetry/poetry#1644
-[tool.poetry.extras]
-docs = [
-    "emoji", # Render emoji shortcodes
-    "importlib-metadata",
-    "myst-parser",
-    "pygments",
-    "sphinx",
-    "sphinx-autoapi",
-    "sphinx-rtd-theme",
-    "sphinxcontrib-confluencebuilder",
-    "types-emoji",
-]
+[tool.poetry.group.docs]
+optional = true
+
+[tool.poetry.group.docs.dependencies]
+emoji = ">=1.6.1,<3.0.0"
+importlib-metadata = ">=3.4.0"
+myst-parser = ">=0.15,<0.19"
+pygments = "^2.9.0"
+sphinx = ">=4.1.2,<6.0.0"
+sphinx-autoapi = "^1.8.1"
+sphinx-rtd-theme = ">=0.5.1,<1.1.0"
+sphinxcontrib-confluencebuilder = "^1.5.0"
+types-emoji = ">=1.2.4,<3.0.0" # PEP 561 compliant stub packages for mypy
 
 #################################################################################
 # Tooling configs                                                               #
