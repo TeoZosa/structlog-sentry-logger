@@ -78,7 +78,7 @@ endif
 .PHONY: install-dependencies
 ## Install Python dependencies specified in `poetry.lock`
 install-dependencies:
-	poetry install --no-interaction --no-root --extras docs -vv
+	poetry install --no-interaction --no-root --with docs -vv
 
 .PHONY: install-project
 ## Install structlog-sentry-logger source code (in editable mode)
@@ -89,9 +89,9 @@ install-project:
 .PHONY: generate-requirements
 ## Generate project requirements files from `pyproject.toml`
 generate-requirements:
-	poetry export -f requirements.txt --without-hashes > requirements.txt # subset
-	poetry export --dev -f requirements.txt --without-hashes > requirements-dev.txt # superset w/o docs
-	poetry export --extras docs --dev -f requirements.txt --without-hashes > requirements-all.txt # superset
+	poetry export --format requirements.txt --without-hashes --output requirements.txt # subset
+	poetry export --with dev --format requirements.txt --without-hashes --output requirements-dev.txt # superset w/o docs
+	poetry export --with dev,docs --format requirements.txt --without-hashes --output requirements-all.txt # superset
 
 .PHONY: clean-requirements
 ## Clean generated project requirements files
