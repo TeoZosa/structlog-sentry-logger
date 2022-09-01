@@ -90,8 +90,8 @@ install-project:
 ## Generate project requirements files from `pyproject.toml`
 generate-requirements:
 	poetry export -f requirements.txt --without-hashes > requirements.txt # subset
-	poetry export --dev -f requirements.txt --without-hashes > requirements-dev.txt # superset w/o docs
-	poetry export --with  docs --dev -f requirements.txt --without-hashes > requirements-all.txt # superset
+	poetry export --with dev -f requirements.txt --without-hashes > requirements-dev.txt # superset w/o docs
+	poetry export --with dev,docs -f requirements.txt --without-hashes > requirements-all.txt # superset
 
 .PHONY: clean-requirements
 ## Clean generated project requirements files
