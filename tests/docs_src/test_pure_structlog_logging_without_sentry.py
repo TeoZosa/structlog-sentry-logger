@@ -1,5 +1,7 @@
+import importlib
 import pathlib
 import sys
+from types import ModuleType
 from typing import List
 
 import pytest
@@ -7,12 +9,12 @@ from _pytest.capture import CaptureFixture
 from _pytest.logging import LogCaptureFixture
 from _pytest.monkeypatch import MonkeyPatch
 
-import tests.docs_src.utils
+import tests.docs_src.validate_output
 import tests.utils
 from docs_src import (  # pylint: disable=import-error
     pure_structlog_logging_without_sentry,
 )
-from tests.docs_src.utils import JSONOutputType
+from tests.utils import JSONOutputType
 
 
 @pytest.fixture(scope="function")
@@ -35,21 +37,17 @@ def actual_output(
     capsys: CaptureFixture, caplog: LogCaptureFixture, monkeypatch: MonkeyPatch
 ) -> List[JSONOutputType]:
     tests.utils.enable_sentry_integration_mode(monkeypatch)
-    tests.docs_src.utils.reload_module_non_dev_local_env(
-        monkeypatch, pure_structlog_logging_without_sentry
-    )
-    tests.docs_src.utils.redirect_captured_logs_to_stdout(caplog)
-    return tests.docs_src.utils.get_validated_json_output(capsys)
+    reload_module_non_dev_local_env(monkeypatch, pure_structlog_logging_without_sentry)
+    tests.utils.redirect_captured_logs_to_stdout(caplog)
+    return tests.utils.get_validated_json_output(capsys)
 
 
 def test_dev_local(
     capsys: CaptureFixture, caplog: LogCaptureFixture, monkeypatch: MonkeyPatch
 ) -> None:
     tests.utils.enable_sentry_integration_mode(monkeypatch)
-    tests.docs_src.utils.reload_module_dev_local_env(
-        monkeypatch, pure_structlog_logging_without_sentry
-    )
-    tests.docs_src.utils.redirect_captured_logs_to_stdout(caplog)
+    reload_module_dev_local_env(monkeypatch, pure_structlog_logging_without_sentry)
+    tests.utils.redirect_captured_logs_to_stdout(caplog)
 
     if sys.platform == "win32":
         relevant_expected = (
@@ -93,6 +91,24 @@ def test_pure_structlog_logging_without_sentry(
     expected_output_truncated: List[JSONOutputType],
     actual_output: List[JSONOutputType],
 ) -> None:
-    tests.docs_src.utils.validate_output(
+    tests.docs_src.validate_output.validate_output(
         expected_output_truncated, actual_output, dynamic_keys_to_copy=["timestamp"]
     )
+
+
+def reload_module_non_dev_local_env(
+    monkeypatch: MonkeyPatch, module: ModuleType
+) -> None:
+    tests.utils.reset_logging_configs()
+    monkeypatch.delenv(
+        "STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON", raising=False
+    )
+    importlib.reload(module)
+
+
+def reload_module_dev_local_env(monkeypatch: MonkeyPatch, module: ModuleType) -> None:
+    tests.utils.reset_logging_configs()
+    monkeypatch.setenv(
+        "STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON", "ANY_VALUE"
+    )
+    importlib.reload(module)

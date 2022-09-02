@@ -196,7 +196,7 @@ ignore-imports = "yes"
 min-similarity-lines = 5
 
 [tool.pytest.ini_options]
-addopts = ["-rfsxX", "-l", "--tb=short", "--strict-markers", "-vv", "--emoji", "--xdoctest"]
+addopts = ["-rfsxX", "-l", "--tb=short", "--strict-markers", "-vv", "--forked", "--emoji", "--xdoctest"]
 xfail_strict = true
 testpaths = ["tests",]
 norecursedirs = [".*", "*.egg", "build", "dist",]
