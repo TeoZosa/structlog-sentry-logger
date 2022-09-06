@@ -94,7 +94,7 @@ def test_pytest_caplog_and_structlog_patching_equivalence(
             return datetime.datetime.fromisoformat(datetime_compatible_iso_format)
 
         time_delta = convert_time(timestamp1) - convert_time(timestamp2)
-        assert pytest.approx(time_delta.total_seconds(), 0)
+        assert pytest.approx(time_delta.total_seconds(), rel=1) == 0
 
     for pytest_captured_log, structlog_captured_log in zip(
         get_pytest_captured_logs(), get_structlog_captured_logs()
