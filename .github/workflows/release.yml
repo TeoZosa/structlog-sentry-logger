@@ -70,10 +70,18 @@ jobs:
   package-build:
     strategy:
       matrix:
-        os: ["ubuntu-latest", "windows-2019", "macos-latest"]
-        python-version: ["3.7", "3.8", "3.9", "3.10"]
+        os: ["macos-latest"]
+        cibw_archs_macos: ["x86_64", "universal2", "arm64"]
+        macosx_deployment_target: ["10.9", "11.0", "12.0"]
+        include:
+          - os: ubuntu-latest
+            cibw_archs_linux: aarch64
+          - os: ubuntu-latest
+            cibw_archs_linux: auto64
+          - os: windows-2019
+            cibw_archs_windows: auto64
 
-    name: Package build
+    name: Package build via CI buildwheel
     runs-on: ${{ matrix.os }}
     needs: get-tag-xor-dev-version
     outputs:
@@ -86,7 +94,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.10"
 
       - name: Upgrade pip
         run: |
@@ -97,19 +105,6 @@ jobs:
         run: |
           pip install --constraint=.github/workflows/constraints.txt poetry
           poetry --version
-
-      - name: Install Tox
-        run: |
-          pip install --constraint=.github/workflows/constraints.txt tox
-          tox --version
-
-      - name: Load cached tox testenv(s) (if they exist)
-        id: cached-poetry-dependencies
-        uses: actions/cache@v3
-        with:
-          path: |
-            .tox
-          key: tox-${{ github.workflow }}-${{ github.job }}-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
       # Update the project version number to the dev version that was
       # generated upstream (only used in non-release builds; else project
@@ -130,21 +125,76 @@ jobs:
           echo "::set-output name=version::${VERSION}"
         shell: bash
 
-      - name: Build package
+      - name: Setup QEMU
+        if: ${{ runner.os == 'Linux' }}
+        uses: docker/setup-qemu-action@v1
+
+      - name: Log wheel filename-safe MacOS deployment target identifier
+        if: "startsWith(matrix.os, 'macos')"
         run: |
-          make package
+          echo "macosx_deployment_target_wheel_string=$(echo ${{ matrix.macosx_deployment_target }} | sed 's/\./_/g')" >> $GITHUB_ENV
+
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.9.0
+        env:
+          CIBW_PROJECT_REQUIRES_PYTHON: ">=3.7,<3.11"
+
+          # Disable building PyPy wheels on all platforms
+          # due to orjson maturin wheel build incompatibility
+          CIBW_SKIP: "pp*"
+
+          # On a Windows runner only build 64-bit wheels
+          CIBW_ARCHS_WINDOWS: ${{ matrix.cibw_archs_windows }}
+
+          # Install rust on Linux runners for orjson wheel builds which use maturin
+          # https://github.com/Daggy1234/polaroid/blob/ace9a6eee74ee9c30edd0d350d65e2f3b4d8430c/.github/workflows/publish.yml#L29
+          CIBW_BEFORE_ALL_LINUX: >
+            curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain stable -y &&
+            yum install -y openssl-devel || apk add openssl-dev
+          CIBW_ENVIRONMENT_LINUX: 'PATH="$PATH:$HOME/.cargo/bin"'
+          # On a Linux Intel runner with qemu installed,
+          # build 64-bit Intel and ARM wheels
+          CIBW_ARCHS_LINUX: ${{ matrix.cibw_archs_linux }}
+
+          # On MacOS, explicitly specify (a) target architectures for correct
+          # wheel builds (metadata & file names use x86_64 by default otherwise)
+          # and (b) minimum target OS versions for broader compatibility with
+          # different OS versions
+          CIBW_ENVIRONMENT_MACOS: >
+            MACOSX_DEPLOYMENT_TARGET="${{ matrix.macosx_deployment_target }}"
+            CMAKE_OSX_DEPLOYMENT_TARGET="${{ matrix.macosx_deployment_target }}"
+            CMAKE_OSX_ARCHITECTURES="${{ matrix.cibw_archs_macos }}"
+          # Build `universal2` and `arm64` wheels on an Intel runner.
+          # Note that the `arm64` wheel and the `arm64` part of the `universal2`
+          # wheel cannot be tested in this configuration.
+          CIBW_ARCHS_MACOS: ${{ matrix.cibw_archs_macos }}
+          CIBW_BUILD_VERBOSITY_MACOS: 1
+          # Skip trying to test arm64 builds on Intel Macs
+          CIBW_TEST_SKIP: "*-macosx_arm64 *-macosx_universal2:arm64"
+
+          # Correctly rename MacOS wheels to fix user installs (due to bug w/ cibuildwheel)
+          # - arm64/universal2 builds are incorrectly given the x86_64 suffix
+          # - MACOSX_DEPLOYMENT_TARGET builds are incorrectly given the default
+          #   10_16 & 11_0 platform specifiers
+          CIBW_REPAIR_WHEEL_COMMAND_MACOS: >
+            delocate-listdeps {wheel} &&
+            delocate-wheel --require-archs {delocate_archs} -w {dest_dir} {wheel} &&
+            find {dest_dir} -type f -name '*.whl' -exec bash -c 'mv "$1" "${1//x86_64/${{ matrix.cibw_archs_macos }}}"' bash {} \; &&
+            find {dest_dir} -type f -name '*.whl' -exec bash -c 'mv "$1" "${1//10_16/${{ env.macosx_deployment_target_wheel_string }}}"' bash {} \; &&
+            find {dest_dir} -type f -name '*.whl' -exec bash -c 'mv "$1" "${1//11_0/${{ env.macosx_deployment_target_wheel_string }}}"' bash {} \;
 
       - name: Store the binary wheel
         uses: actions/upload-artifact@v3
         with:
           name: python-package-distributions
-          path: dist
+          path: ./wheelhouse/*.whl
 
   # PyPI/TestPyPI package upload ----------------------
   pypi-packages-upload:
     name: PyPI/TestPyPI package upload
     runs-on: ubuntu-latest
-    needs: package-build
+    needs:
+      - package-build
     outputs:
       package-version: ${{ needs.package-build.outputs.package-version }}
     steps:
@@ -161,7 +211,7 @@ jobs:
           pip install --constraint=.github/workflows/constraints.txt pip
           pip --version
 
-      - name: Download the binary wheels
+      - name: Download the ci build wheel binary wheels
         uses: actions/download-artifact@v3
         with:
           name: python-package-distributions
