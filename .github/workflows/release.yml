@@ -74,12 +74,12 @@ jobs:
         cibw_archs_macos: ["x86_64", "universal2", "arm64"]
         macosx_deployment_target: ["10.9", "11.0", "12.0"]
         include:
-          - os: ubuntu-latest
-            cibw_archs_linux: aarch64
-          - os: ubuntu-latest
-            cibw_archs_linux: auto64
-          - os: windows-2019
-            cibw_archs_windows: auto64
+          - os: "ubuntu-latest"
+            cibw_archs_linux: "aarch64"
+          - os: "ubuntu-latest"
+            cibw_archs_linux: "auto64"
+          - os: "windows-2019"
+            cibw_archs_windows: "auto64"
 
     name: Package build via CI buildwheel
     runs-on: ${{ matrix.os }}
