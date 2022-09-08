@@ -72,6 +72,7 @@ jobs:
       matrix:
         os: ["macos-latest"]
         cibw_archs_macos: ["x86_64"]
+        macosx_deployment_target: ["10.9", "11.0", "12.0"]
         include:
           - os: ubuntu-latest
             cibw_archs_linux: aarch64
@@ -128,6 +129,11 @@ jobs:
         if: ${{ runner.os == 'Linux' }}
         uses: docker/setup-qemu-action@v1
 
+      - name: Log wheel filename-safe MacOS deployment target identifier
+        if: "startsWith(matrix.os, 'macos')"
+        run: |
+          echo "macosx_deployment_target_wheel_string=$(echo ${{ matrix.macosx_deployment_target }} | sed 's/\./_/g')" >> $GITHUB_ENV
+
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.9.0
         env:
@@ -150,8 +156,22 @@ jobs:
           # build 64-bit Intel and ARM wheels
           CIBW_ARCHS_LINUX: ${{ matrix.cibw_archs_linux }}
 
+          # On MacOS, explicitly specify minimum target OS versions for broader
+          # compatibility with different OS versions
+          CIBW_ENVIRONMENT_MACOS: >
+            MACOSX_DEPLOYMENT_TARGET="${{ matrix.macosx_deployment_target }}"
+            CMAKE_OSX_DEPLOYMENT_TARGET="${{ matrix.macosx_deployment_target }}"
           CIBW_ARCHS_MACOS: ${{ matrix.cibw_archs_macos }}
           CIBW_BUILD_VERBOSITY_MACOS: 1
+
+          # Correctly rename MacOS wheels to fix user installs (due to bug w/ cibuildwheel)
+          # - MACOSX_DEPLOYMENT_TARGET builds are incorrectly given the default
+          #   10_16 & 11_0 platform specifiers
+          CIBW_REPAIR_WHEEL_COMMAND_MACOS: >
+            delocate-listdeps {wheel} &&
+            delocate-wheel --require-archs {delocate_archs} -w {dest_dir} {wheel} &&
+            find {dest_dir} -type f -name '*.whl' -exec bash -c 'mv "$1" "${1//10_16/${{ env.macosx_deployment_target_wheel_string }}}"' bash {} \; &&
+            find {dest_dir} -type f -name '*.whl' -exec bash -c 'mv "$1" "${1//11_0/${{ env.macosx_deployment_target_wheel_string }}}"' bash {} \;
 
       - name: Store the binary wheel
         uses: actions/upload-artifact@v3
