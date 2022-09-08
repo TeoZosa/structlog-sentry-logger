@@ -60,7 +60,7 @@ pytest-sugar = "^0.9.5"
 pytest-xdist = "^2.5.0"
 mutmut = "^2.4.1"
 xdoctest = {extras = ["all"], version = "^1.1.0"}
-tox = "^3.25.1"
+tox = "^3.26.0"
 tox-wheel = "^0.7.0"
 
 # Linting
