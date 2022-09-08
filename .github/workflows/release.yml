@@ -71,7 +71,7 @@ jobs:
     strategy:
       matrix:
         os: ["macos-latest"]
-        cibw_archs_macos: ["x86_64"]
+        cibw_archs_macos: ["x86_64", "universal2", "arm64"]
         macosx_deployment_target: ["10.9", "11.0", "12.0"]
         include:
           - os: ubuntu-latest
@@ -156,20 +156,30 @@ jobs:
           # build 64-bit Intel and ARM wheels
           CIBW_ARCHS_LINUX: ${{ matrix.cibw_archs_linux }}
 
-          # On MacOS, explicitly specify minimum target OS versions for broader
-          # compatibility with different OS versions
+          # On MacOS, explicitly specify (a) target architectures for correct
+          # wheel builds (metadata & file names use x86_64 by default otherwise)
+          # and (b) minimum target OS versions for broader compatibility with
+          # different OS versions
           CIBW_ENVIRONMENT_MACOS: >
             MACOSX_DEPLOYMENT_TARGET="${{ matrix.macosx_deployment_target }}"
             CMAKE_OSX_DEPLOYMENT_TARGET="${{ matrix.macosx_deployment_target }}"
+            CMAKE_OSX_ARCHITECTURES="${{ matrix.cibw_archs_macos }}"
+          # Build `universal2` and `arm64` wheels on an Intel runner.
+          # Note that the `arm64` wheel and the `arm64` part of the `universal2`
+          # wheel cannot be tested in this configuration.
           CIBW_ARCHS_MACOS: ${{ matrix.cibw_archs_macos }}
           CIBW_BUILD_VERBOSITY_MACOS: 1
+          # Skip trying to test arm64 builds on Intel Macs
+          CIBW_TEST_SKIP: "*-macosx_arm64 *-macosx_universal2:arm64"
 
           # Correctly rename MacOS wheels to fix user installs (due to bug w/ cibuildwheel)
+          # - arm64/universal2 builds are incorrectly given the x86_64 suffix
           # - MACOSX_DEPLOYMENT_TARGET builds are incorrectly given the default
           #   10_16 & 11_0 platform specifiers
           CIBW_REPAIR_WHEEL_COMMAND_MACOS: >
             delocate-listdeps {wheel} &&
             delocate-wheel --require-archs {delocate_archs} -w {dest_dir} {wheel} &&
+            find {dest_dir} -type f -name '*.whl' -exec bash -c 'mv "$1" "${1//x86_64/${{ matrix.cibw_archs_macos }}}"' bash {} \; &&
             find {dest_dir} -type f -name '*.whl' -exec bash -c 'mv "$1" "${1//10_16/${{ env.macosx_deployment_target_wheel_string }}}"' bash {} \; &&
             find {dest_dir} -type f -name '*.whl' -exec bash -c 'mv "$1" "${1//11_0/${{ env.macosx_deployment_target_wheel_string }}}"' bash {} \;
 
