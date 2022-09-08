@@ -252,7 +252,7 @@ jobs:
         python-version: ["3.10"]
 
     name: Mutation testing
-    runs-on: "macos-latest"
+    runs-on: "ubuntu-latest"
 
     steps:
       - name: Check out the repository
@@ -292,3 +292,9 @@ jobs:
       - name: Run mutation testing
         run: |
           make test-mutations
+
+      - name: Store the updated mutation testing cache
+        uses: actions/upload-artifact@v3
+        with:
+          name: mutmut-cache
+          path: ./.mutmut-cache
