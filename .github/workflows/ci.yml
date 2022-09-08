@@ -292,3 +292,9 @@ jobs:
       - name: Run mutation testing
         run: |
           make test-mutations
+
+      - name: Store the updated mutation testing cache
+        uses: actions/upload-artifact@v3
+        with:
+          name: mutmut-cache
+          path: ./.mutmut-cache
