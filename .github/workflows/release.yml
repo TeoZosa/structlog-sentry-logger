@@ -77,9 +77,19 @@ jobs:
         # build all wheels against the below deployment targets
         macosx_deployment_target: ["10.9", "11.0", "12.0"]
         include:
-          # All Linux aarch64 CPython wheel builds
+          # Parallelize all Linux aarch64 CPython wheel builds across major versions
           - os: "ubuntu-latest"
             cibw_archs_linux: "aarch64"
+            cibw_skip_linux_aarch64_cpython_versions: "cp3{8,9,10}-*"
+          - os: "ubuntu-latest"
+            cibw_archs_linux: "aarch64"
+            cibw_skip_linux_aarch64_cpython_versions: "cp3{7,9,10}-*"
+          - os: "ubuntu-latest"
+            cibw_archs_linux: "aarch64"
+            cibw_skip_linux_aarch64_cpython_versions: "cp3{7,8,10}-*"
+          - os: "ubuntu-latest"
+            cibw_archs_linux: "aarch64"
+            cibw_skip_linux_aarch64_cpython_versions: "cp3{7,8,9}-*"
           # All Linux x86_64 CPython wheel builds
           - os: "ubuntu-latest"
             cibw_archs_linux: "auto64"
@@ -145,9 +155,10 @@ jobs:
         env:
           CIBW_PROJECT_REQUIRES_PYTHON: ">=3.7,<3.11"
 
-          # Disable building PyPy wheels on all platforms
-          # due to orjson maturin wheel build incompatibility
-          CIBW_SKIP: "pp*"
+          # Disable building
+          # - PyPy wheels on all platforms due to orjson maturin wheel build incompatibility
+          # - redundant Linux aarch64 builds (already handled by other jobs)
+          CIBW_SKIP: "pp* ${{ matrix.cibw_skip_linux_aarch64_cpython_versions }}"
 
           # On a Windows runner only build 64-bit wheels
           CIBW_ARCHS_WINDOWS: ${{ matrix.cibw_archs_windows }}
