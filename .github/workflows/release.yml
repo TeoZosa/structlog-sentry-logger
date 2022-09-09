@@ -70,16 +70,32 @@ jobs:
   package-build:
     strategy:
       matrix:
+        # Parallelize all MacOS CPython wheel builds
         os: ["macos-latest"]
         cibw_archs_macos: ["x86_64", "universal2", "arm64"]
+        # For broader MacOS major version compatibility,
+        # build all wheels against the below deployment targets
         macosx_deployment_target: ["10.9", "11.0", "12.0"]
         include:
-          - os: ubuntu-latest
-            cibw_archs_linux: aarch64
-          - os: ubuntu-latest
-            cibw_archs_linux: auto64
-          - os: windows-2019
-            cibw_archs_windows: auto64
+          # Parallelize all Linux aarch64 CPython wheel builds across major versions
+          - os: "ubuntu-latest"
+            cibw_archs_linux: "aarch64"
+            cibw_skip_linux_aarch64_cpython_versions: "cp3{8,9,10}-*"
+          - os: "ubuntu-latest"
+            cibw_archs_linux: "aarch64"
+            cibw_skip_linux_aarch64_cpython_versions: "cp3{7,9,10}-*"
+          - os: "ubuntu-latest"
+            cibw_archs_linux: "aarch64"
+            cibw_skip_linux_aarch64_cpython_versions: "cp3{7,8,10}-*"
+          - os: "ubuntu-latest"
+            cibw_archs_linux: "aarch64"
+            cibw_skip_linux_aarch64_cpython_versions: "cp3{7,8,9}-*"
+          # All Linux x86_64 CPython wheel builds
+          - os: "ubuntu-latest"
+            cibw_archs_linux: "auto64"
+          # All Windows AMD64 CPython wheel builds
+          - os: "windows-2019"
+            cibw_archs_windows: "auto64"
 
     name: Package build via CI buildwheel
     runs-on: ${{ matrix.os }}
@@ -139,9 +155,10 @@ jobs:
         env:
           CIBW_PROJECT_REQUIRES_PYTHON: ">=3.7,<3.11"
 
-          # Disable building PyPy wheels on all platforms
-          # due to orjson maturin wheel build incompatibility
-          CIBW_SKIP: "pp*"
+          # Disable building
+          # - PyPy wheels on all platforms due to orjson maturin wheel build incompatibility
+          # - redundant Linux aarch64 builds (already handled by other jobs)
+          CIBW_SKIP: "pp* ${{ matrix.cibw_skip_linux_aarch64_cpython_versions }}"
 
           # On a Windows runner only build 64-bit wheels
           CIBW_ARCHS_WINDOWS: ${{ matrix.cibw_archs_windows }}
