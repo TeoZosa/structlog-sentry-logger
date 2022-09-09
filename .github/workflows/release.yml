@@ -70,14 +70,20 @@ jobs:
   package-build:
     strategy:
       matrix:
+        # Parallelize all MacOS CPython wheel builds
         os: ["macos-latest"]
         cibw_archs_macos: ["x86_64", "universal2", "arm64"]
+        # For broader MacOS major version compatibility,
+        # build all wheels against the below deployment targets
         macosx_deployment_target: ["10.9", "11.0", "12.0"]
         include:
+          # All Linux aarch64 CPython wheel builds
           - os: "ubuntu-latest"
             cibw_archs_linux: "aarch64"
+          # All Linux x86_64 CPython wheel builds
           - os: "ubuntu-latest"
             cibw_archs_linux: "auto64"
+          # All Windows AMD64 CPython wheel builds
           - os: "windows-2019"
             cibw_archs_windows: "auto64"
 
