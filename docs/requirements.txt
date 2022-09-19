@@ -1,2 +1,2 @@
-poetry==1.2.0
+poetry==1.2.1
 orjson==3.8.0
