@@ -52,7 +52,7 @@ typeguard = "^2.13.3" # Runtime type checker; Note: Mypyc-compiled C-extensions 
 
 # Testing
 pytest = "^7.2.0"
-pytest-benchmark = {extras = ["histogram"], version = "^3.4.1"}
+pytest-benchmark = {extras = ["histogram"], version = "^4.0.0"}
 pytest-cov = "^4.0.0"
 pytest-emoji = "^0.2.0"
 pytest-mock = "^3.10.0"
