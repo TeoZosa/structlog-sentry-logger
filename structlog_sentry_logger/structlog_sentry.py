@@ -30,7 +30,7 @@ class SentryProcessor:  # pylint: disable=too-few-public-methods
         level: int = logging.WARNING,
         active: bool = True,
         as_extra: bool = True,
-        tag_keys: Union[List[str], str] = None,
+        tag_keys: Optional[Union[List[str], str]] = None,
         ignore_loggers: Optional[Iterable[str]] = None,
     ) -> None:
         """
@@ -152,7 +152,7 @@ class SentryJsonProcessor(SentryProcessor):  # pylint: disable=too-few-public-me
         level: int = logging.WARNING,
         active: bool = True,
         as_extra: bool = True,
-        tag_keys: Union[List[str], str] = None,
+        tag_keys: Optional[Union[List[str], str]] = None,
     ) -> None:
         super().__init__(
             level=level, active=active, as_extra=as_extra, tag_keys=tag_keys
