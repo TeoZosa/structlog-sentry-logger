@@ -308,7 +308,7 @@ def set_stdlib_based_structlog_config() -> None:
 
 def set_optimized_structlog_config() -> None:
     processors = [
-        structlog.threadlocal.merge_threadlocal,
+        structlog.contextvars.merge_contextvars,
         structlog.processors.add_log_level,
         add_line_number_and_func_name,
         _TIMESTAMPER,
