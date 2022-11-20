@@ -45,8 +45,8 @@ def serialized_repr(v: Union[Dict, List]) -> JSONOutputType:
 
 
 @pytest.fixture(scope="function")
-def random_log_msgs(iters: int = 10) -> List[uuid.UUID]:
-    return [uuid.uuid4() for _ in range(iters)]
+def random_log_msgs(iters: int = 10) -> List[str]:
+    return [str(uuid.uuid4()) for _ in range(iters)]
 
 
 # Demonstrates/validates `pytest`-captured logs are functionally identical to
@@ -55,7 +55,7 @@ LogType = Dict[str, Union[uuid.UUID, str]]
 
 
 def test_pytest_caplog_and_structlog_patching_equivalence(
-    capsys: CaptureFixture, random_log_msgs: List[uuid.UUID]
+    capsys: CaptureFixture, random_log_msgs: List[str]
 ) -> None:
     def get_pytest_captured_logs() -> List[JSONOutputType]:
         logger = structlog_sentry_logger.get_logger()
@@ -501,7 +501,7 @@ class TestLoggerSchema:
     def test_structlog_logger(
         capsys: CaptureFixture,
         monkeypatch: MonkeyPatch,
-        random_log_msgs: List[uuid.UUID],
+        random_log_msgs: List[str],
         is_sentry_integration_mode_requested: bool,
     ) -> None:
         tests.utils.enable_sentry_integration_mode(monkeypatch)
@@ -536,7 +536,7 @@ class TestLoggerSchema:
 
     @staticmethod
     def test_non_structlog_logger(
-        capsys: CaptureFixture, random_log_msgs: List[uuid.UUID]
+        capsys: CaptureFixture, random_log_msgs: List[str]
     ) -> None:
         logger = structlog_sentry_logger.get_logger()
         for log_msg in random_log_msgs:
