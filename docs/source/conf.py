@@ -121,7 +121,7 @@ def convert_emoji_shortcodes(app: Sphinx, exception: Exception) -> None:
 
     def emojize_match(match: Match) -> str:
         """Convert emoji shortcodes in match to corresponding emoji characters"""
-        return emoji.emojize(match.group(), variant="emoji_type")
+        return emoji.emojize(match.group(), variant="emoji_type", language="alias")
 
     def emojize_all(text: str) -> str:
         """Convert all emoji shortcodes in text to corresponding emoji characters"""
