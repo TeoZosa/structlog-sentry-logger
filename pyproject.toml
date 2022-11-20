@@ -55,6 +55,7 @@ pytest = "^7.2.0"
 pytest-benchmark = {extras = ["histogram"], version = "^4.0.0"}
 pytest-cov = "^4.0.0"
 pytest-emoji = "^0.2.0"
+pytest-forked = "^1.4.0"
 pytest-mock = "^3.10.0"
 pytest-sugar = "^0.9.6"
 pytest-xdist = "^3.0.2"
