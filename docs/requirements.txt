@@ -1,2 +1,10 @@
 poetry==1.2.2
 orjson==3.8.1
+# Documentation building
+emoji==2.2.0
+importlib-metadata==5.0.0
+myst-parser==0.18.1
+pygments==2.13.0
+sphinx==5.3.0
+sphinx-autoapi==1.9.0
+sphinx-rtd-theme==1.0.0
