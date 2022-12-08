@@ -28,12 +28,25 @@ clean:
 
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
+%: LAUNCH_DOCS_PREVIEW ?=false
 %: Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 ifneq ($(filter html,$(MAKECMDGOALS)),)
+ifneq ($(LAUNCH_DOCS_PREVIEW),false)
+	$(MAKE) launch-docs-in-browser
+endif
+endif
+
+.PHONY: launch-docs-in-browser
+launch-docs-in-browser: PRINTF_RED_TEXT_FORMAT_STR := \033[0;31m%s\033[0m\n
+launch-docs-in-browser: PRINTF_GREEN_TEXT_FORMAT_STR := \033[0;32m%s\033[0m\n
+launch-docs-in-browser:
 ifneq ($(shell command -v open),)
 	@echo
-	@echo "Launching docs browser preview."
+	@printf "$(PRINTF_GREEN_TEXT_FORMAT_STR)" "Launching docs browser preview."
 	@open -a "Google Chrome" "$(BUILDDIR)/html/index.html"
-endif
+else
+	@echo
+	@printf "$(PRINTF_RED_TEXT_FORMAT_STR)"  "Can't launch docs preview in browser."
+	@echo "To view the docs, you may manually open the home page in your browser: $(BUILDDIR)/html/index.html"
 endif
