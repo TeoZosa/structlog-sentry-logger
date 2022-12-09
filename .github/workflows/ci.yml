@@ -194,6 +194,7 @@ jobs:
         uses: "codecov/codecov-action@v3.1.1"
         with:
           file: ./.tox/coverage.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true
 
   # Documentation build testing jobs ------------------------
@@ -243,7 +244,8 @@ jobs:
 
       - name: Build Documentation
         run: |
-          make docs-html
+          make docs-html \
+            LAUNCH_DOCS_PREVIEW=false
 
   # Mutation testing jobs ------------------------
   test-mutations:
