@@ -2,6 +2,7 @@ Structlog-Sentry-Logger
 ==============================
 ![CI](https://github.com/TeoZosa/structlog-sentry-logger/workflows/CI/badge.svg)
 ![codecov](https://codecov.io/gh/TeoZosa/structlog-sentry-logger/branch/master/graph/badge.svg?token=3HF21UWY82)
+[![Documentation Status](https://readthedocs.org/projects/structlog-sentry-logger/badge/?version=latest)](https://structlog-sentry-logger.readthedocs.io/en/latest/?badge=latest)
 ![License](https://img.shields.io/github/license/TeoZosa/structlog-sentry-logger?style=plastic)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/structlog-sentry-logger?style=plastic)
 ![PyPI](https://img.shields.io/pypi/v/structlog-sentry-logger?color=informational&style=plastic)
