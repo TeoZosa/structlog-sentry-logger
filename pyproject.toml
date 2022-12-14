@@ -75,7 +75,7 @@ pylint = "^2.13.9"
 pre-commit = "^2.20.0"
 
 # CI/CD
-tox-gh-actions = "^2.10.0"
+tox-gh-actions = "^2.12.0"
 
 # Documentation
 darglint = "^1.5.8"
