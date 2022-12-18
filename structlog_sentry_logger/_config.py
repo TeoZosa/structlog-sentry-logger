@@ -160,6 +160,8 @@ def get_handlers(module_name: str) -> dict:
     }
     default_handler = base_handlers[default_key]
     if _feature_flags.is_prettified_output_formatting_requested():
+        __LOGGER.debug("initializing rich formatting logger")
+
         # Add logfile handler
         filename_handler = get_dev_local_filename_handler(module_name)
         if filename_handler is not None:

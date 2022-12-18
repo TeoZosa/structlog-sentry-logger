@@ -67,7 +67,7 @@ def test_dev_local(capsys: CaptureFixture, caplog: LogCaptureFixture, monkeypatc
 
     # Ignore timestamped portion
     example_timestamp_substr = "\x1b[2m2021-10-25T16:15:30.993152Z\x1b"
-    library_log, relevant_actual = (
+    init_log, library_log, relevant_actual = (
         log[len(example_timestamp_substr) :] for log in tests.utils.parse_logs_from_stdout(capsys)
     )
 
@@ -75,6 +75,7 @@ def test_dev_local(capsys: CaptureFixture, caplog: LogCaptureFixture, monkeypatc
     # reloads/logging re-configurations, so truncating it as in the above call actually
     # chops off more than the timestamp, but the resulting string so happens to line up
     # with the below checks.
+    assert init_log == "initializing rich formatting logger"
     assert library_log.startswith("saving JSON logs to local log directory log_dir=")
     assert library_log.endswith(str(pathlib.Path("structlog-sentry-logger/.logs")))
 
