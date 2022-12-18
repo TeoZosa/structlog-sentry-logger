@@ -75,7 +75,7 @@ def test_dev_local(capsys: CaptureFixture, caplog: LogCaptureFixture, monkeypatc
     # reloads/logging re-configurations, so truncating it as in the above call actually
     # chops off more than the timestamp, but the resulting string so happens to line up
     # with the below checks.
-    assert library_log.startswith("logs directory created         log_dir=")
+    assert library_log.startswith("saving JSON logs to local log directory log_dir=")
     assert library_log.endswith(str(pathlib.Path("structlog-sentry-logger/.logs")))
 
     assert relevant_actual == relevant_expected
