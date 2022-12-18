@@ -96,6 +96,9 @@ types-emoji = ">=1.2.4,<3.0.0" # PEP 561 compliant stub packages for mypy
 #################################################################################
 # Tooling configs                                                               #
 #################################################################################
+[tool.black]
+line-length = 120
+
 [tool.coverage.run]
 branch = true
 concurrency = ["multiprocessing"]
