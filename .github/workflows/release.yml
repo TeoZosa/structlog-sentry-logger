@@ -97,9 +97,7 @@ jobs:
           # 3.11
           - os: "ubuntu-latest"
             cibw_archs_linux: "aarch64"
-            # TODO(teo): re-enable cp311-musllinux_aarch64 builds once wheel builds are fixed (orjson maturin wheel build failures)
-            # https://github.com/TeoZosa/structlog-sentry-logger/actions/runs/3493715841/jobs/5848845688
-            cibw_skip_linux_aarch64_cpython_versions: "cp3{7,8,9,10}-* cp311-musllinux_aarch64"
+            cibw_skip_linux_aarch64_cpython_versions: "cp3{7,8,9,10}-*"
 
           # All Linux x86_64 CPython wheel builds
           - os: "ubuntu-latest"
@@ -168,6 +166,7 @@ jobs:
 
           # Disable building
           # - PyPy wheels on all platforms due to orjson maturin wheel build incompatibility
+          #   see: https://github.com/ijl/orjson/issues/177
           # - redundant Linux aarch64 builds (already handled by other jobs)
           CIBW_SKIP: "pp* ${{ matrix.cibw_skip_linux_aarch64_cpython_versions }}"
 
@@ -179,7 +178,10 @@ jobs:
           CIBW_BEFORE_ALL_LINUX: >
             curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain stable -y &&
             yum install -y openssl-devel || apk add openssl-dev
-          CIBW_ENVIRONMENT_LINUX: 'PATH="$PATH:$HOME/.cargo/bin"'
+          CIBW_ENVIRONMENT_LINUX: >
+            PATH="$PATH:$HOME/.cargo/bin"
+            CARGO_NET_GIT_FETCH_WITH_CLI="true"
+
           # On a Linux Intel runner with qemu installed,
           # build 64-bit Intel and ARM wheels
           CIBW_ARCHS_LINUX: ${{ matrix.cibw_archs_linux }}
