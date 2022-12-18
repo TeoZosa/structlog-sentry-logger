@@ -196,7 +196,7 @@ def get_dev_local_filename_handler(module_name: str) -> Optional[dict]:
         fallback_log_data_root_dir / ".logs",
     ]:
         if mkdir_logs_dir(log_data_dir):
-            __LOGGER.info(
+            __LOGGER.debug(
                 "saving JSON logs to local log directory",
                 log_dir=str(log_data_dir),
             )
