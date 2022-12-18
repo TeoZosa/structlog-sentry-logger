@@ -176,11 +176,18 @@ jobs:
           # Install rust on Linux runners for orjson wheel builds which use maturin
           # https://github.com/Daggy1234/polaroid/blob/ace9a6eee74ee9c30edd0d350d65e2f3b4d8430c/.github/workflows/publish.yml#L29
           CIBW_BEFORE_ALL_LINUX: >
-            curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain stable -y &&
+            curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain nightly -y &&
             yum install -y openssl-devel || apk add openssl-dev
           CIBW_ENVIRONMENT_LINUX: >
             PATH="$PATH:$HOME/.cargo/bin"
             CARGO_NET_GIT_FETCH_WITH_CLI="true"
+
+          # Pass orjson build args to maturin
+          #
+          # Note: this is global to *all* maturin wheel builds which may be
+          # problematic if, in the future, multiple build dependencies use
+          # maturin and must be built from source
+          MATURIN_PEP517_ARGS: "--strip --out dist --features=unstable-simd,yyjson"
 
           # On a Linux Intel runner with qemu installed,
           # build 64-bit Intel and ARM wheels
