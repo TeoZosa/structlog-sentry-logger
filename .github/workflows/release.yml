@@ -168,6 +168,7 @@ jobs:
 
           # Disable building
           # - PyPy wheels on all platforms due to orjson maturin wheel build incompatibility
+          #   see: https://github.com/ijl/orjson/issues/177
           # - redundant Linux aarch64 builds (already handled by other jobs)
           CIBW_SKIP: "pp* ${{ matrix.cibw_skip_linux_aarch64_cpython_versions }}"
 
