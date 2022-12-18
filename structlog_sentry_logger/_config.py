@@ -271,17 +271,13 @@ def set_stdlib_based_structlog_config() -> None:
     ]
 
     if _feature_flags.is_sentry_integration_mode_requested():
-        structlog_processors.append(
-            SentryBreadcrumbJsonProcessor(level=logging.ERROR, tag_keys="__all__")
-        )
+        structlog_processors.append(SentryBreadcrumbJsonProcessor(level=logging.ERROR, tag_keys="__all__"))
 
     if (
         _feature_flags.is_cloud_logging_compatibility_mode_requested()
         or _feature_flags.is_probably_in_cloud_environment()
     ):
-        structlog_processors.append(
-            add_severity_field_from_level_if_in_cloud_environment
-        )
+        structlog_processors.append(add_severity_field_from_level_if_in_cloud_environment)
 
     stdlib_log_compatibility_processors = [
         structlog.stdlib.filter_by_level,
@@ -314,9 +310,7 @@ def set_optimized_structlog_config() -> None:
         _TIMESTAMPER,
     ]
     if _feature_flags.is_sentry_integration_mode_requested():
-        processors.append(
-            SentryBreadcrumbJsonProcessor(level=logging.ERROR, tag_keys="__all__")
-        )
+        processors.append(SentryBreadcrumbJsonProcessor(level=logging.ERROR, tag_keys="__all__"))
 
     if (
         _feature_flags.is_cloud_logging_compatibility_mode_requested()
@@ -429,9 +423,7 @@ class SentryBreadcrumbJsonProcessor(structlog_sentry.SentryJsonProcessor):
         tag_keys: Optional[Union[List[str], str]] = None,
     ) -> None:
         self.breadcrumb_level = breadcrumb_level
-        super().__init__(
-            level=level, active=active, as_extra=as_extra, tag_keys=tag_keys
-        )
+        super().__init__(level=level, active=active, as_extra=as_extra, tag_keys=tag_keys)
 
     @staticmethod
     def save_breadcrumb(logger: Any, event_dict: structlog.types.EventDict) -> None:
@@ -449,12 +441,8 @@ class SentryBreadcrumbJsonProcessor(structlog_sentry.SentryJsonProcessor):
         }
         sentry_sdk.add_breadcrumb(breadcrumb, hint={"event_dict": event_dict})
 
-    def __call__(
-        self, logger: Any, method: str, event_dict: structlog.types.EventDict
-    ) -> structlog.types.EventDict:
-        do_breadcrumb = (
-            getattr(logging, event_dict["level"].upper()) >= self.breadcrumb_level
-        )
+    def __call__(self, logger: Any, method: str, event_dict: structlog.types.EventDict) -> structlog.types.EventDict:
+        do_breadcrumb = getattr(logging, event_dict["level"].upper()) >= self.breadcrumb_level
 
         if do_breadcrumb:
             self.save_breadcrumb(logger, event_dict)

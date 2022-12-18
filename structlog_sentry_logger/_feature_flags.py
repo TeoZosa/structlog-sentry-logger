@@ -38,9 +38,7 @@ def _load_library_specific_env_vars() -> None:
     # which the library is inspecting (i.e., the set intersection between the
     # aforementioned), and only if they weren't already defined in the environment.
     users_dotenv_values = dotenv.dotenv_values(dotenv.find_dotenv())
-    legal_env_vars_keys = (
-        _ENV_VARS_REQUIRED_BY_LIBRARY.values() & users_dotenv_values.keys()
-    )
+    legal_env_vars_keys = _ENV_VARS_REQUIRED_BY_LIBRARY.values() & users_dotenv_values.keys()
 
     for k in legal_env_vars_keys:
         v = users_dotenv_values[k]

@@ -52,9 +52,7 @@ class SentryProcessor:  # pylint: disable=too-few-public-methods
             self._ignored_loggers.update(set(ignore_loggers))
 
     @staticmethod
-    def _get_logger_name(
-        logger: Any, event_dict: structlog.types.EventDict
-    ) -> Optional[str]:
+    def _get_logger_name(logger: Any, event_dict: structlog.types.EventDict) -> Optional[str]:
         """Get logger name from event_dict with a fallbacks to logger.name and record.name
 
         :param logger: logger instance
@@ -74,9 +72,7 @@ class SentryProcessor:  # pylint: disable=too-few-public-methods
 
         return logger_name
 
-    def _get_event_and_hint(
-        self, event_dict: structlog.types.EventDict
-    ) -> Tuple[dict, Optional[Dict[str, Any]]]:
+    def _get_event_and_hint(self, event_dict: structlog.types.EventDict) -> Tuple[dict, Optional[Dict[str, Any]]]:
         """Create a sentry event and hint from structlog `event_dict` and sys.exc_info.
 
         :param event_dict: structlog event_dict
@@ -103,9 +99,7 @@ class SentryProcessor:  # pylint: disable=too-few-public-methods
         if self.tag_keys == "__all__":
             event["tags"] = self._original_event_dict.copy()  # type: ignore[attr-defined]
         elif isinstance(self.tag_keys, list):
-            event["tags"] = {
-                key: event_dict[key] for key in self.tag_keys if key in event_dict
-            }
+            event["tags"] = {key: event_dict[key] for key in self.tag_keys if key in event_dict}
 
         return event, hint
 
@@ -117,9 +111,7 @@ class SentryProcessor:  # pylint: disable=too-few-public-methods
         event, hint = self._get_event_and_hint(event_dict)
         return capture_event(event, hint=hint)
 
-    def __call__(
-        self, logger: Any, method: Any, event_dict: structlog.types.EventDict
-    ) -> structlog.types.EventDict:
+    def __call__(self, logger: Any, method: Any, event_dict: structlog.types.EventDict) -> structlog.types.EventDict:
         """A middleware to process structlog `event_dict` and send it to Sentry."""
         logger_name = self._get_logger_name(logger=logger, event_dict=event_dict)
         if logger_name in self._ignored_loggers:
@@ -154,24 +146,18 @@ class SentryJsonProcessor(SentryProcessor):  # pylint: disable=too-few-public-me
         as_extra: bool = True,
         tag_keys: Optional[Union[List[str], str]] = None,
     ) -> None:
-        super().__init__(
-            level=level, active=active, as_extra=as_extra, tag_keys=tag_keys
-        )
+        super().__init__(level=level, active=active, as_extra=as_extra, tag_keys=tag_keys)
         # A set of all encountered structured logger names. If an application uses
         # multiple loggers with different names (eg. different qualnames), then each of
         # those loggers needs to be ignored in Sentry's logging integration so that this
         # processor will be the only thing reporting the events.
         self._ignored: set = set()
 
-    def __call__(
-        self, logger: Any, method: Any, event_dict: structlog.types.EventDict
-    ) -> structlog.types.EventDict:
+    def __call__(self, logger: Any, method: Any, event_dict: structlog.types.EventDict) -> structlog.types.EventDict:
         self._ignore_logger(logger, event_dict)
         return super().__call__(logger, method, event_dict)
 
-    def _ignore_logger(
-        self, logger: Any, event_dict: structlog.types.EventDict
-    ) -> None:
+    def _ignore_logger(self, logger: Any, event_dict: structlog.types.EventDict) -> None:
         """Tell Sentry to ignore logger, if we haven't already.
 
         This is temporary workaround to prevent duplication of a JSON event in Sentry.

@@ -28,9 +28,7 @@ def _benchmark_runner(benchmark: BenchmarkFixture, test_cases: dict) -> None:
             structlog.processors.add_log_level,
             structlog.processors.format_exc_info,
             structlog.processors.TimeStamper(fmt="iso", utc=True),
-            structlog.processors.JSONRenderer(
-                serializer=orjson.dumps, option=orjson.OPT_NON_STR_KEYS
-            ),
+            structlog.processors.JSONRenderer(serializer=orjson.dumps, option=orjson.OPT_NON_STR_KEYS),
         ],
         logger_factory=structlog.BytesLoggerFactory(),
     )

@@ -32,9 +32,7 @@ except importlib_metadata.PackageNotFoundError as err:
 # -- Project information -----------------------------------------------------
 project = project_metadata["Name"]
 author = project_metadata["Author"]
-copyright = (  # pylint: disable=redefined-builtin
-    f"{datetime.datetime.now().year}, {author}"
-)
+copyright = f"{datetime.datetime.now().year}, {author}"  # pylint: disable=redefined-builtin
 version = release = project_metadata["Version"]
 
 # -- General configuration ---------------------------------------------------
@@ -66,9 +64,7 @@ exclude_patterns: List[str] = [
 
 # Sphinx configs
 html_theme = "sphinx_rtd_theme"
-html_show_sourcelink = (
-    False  # Remove 'view source code' from top of page (for html, not python)
-)
+html_show_sourcelink = False  # Remove 'view source code' from top of page (for html, not python)
 
 # -- Extension configurations ---------------------------------------------------
 
