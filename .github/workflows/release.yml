@@ -180,7 +180,10 @@ jobs:
           CIBW_BEFORE_ALL_LINUX: >
             curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain stable -y &&
             yum install -y openssl-devel || apk add openssl-dev
-          CIBW_ENVIRONMENT_LINUX: 'PATH="$PATH:$HOME/.cargo/bin"'
+          CIBW_ENVIRONMENT_LINUX: >
+            PATH="$PATH:$HOME/.cargo/bin"
+            CARGO_NET_GIT_FETCH_WITH_CLI="true"
+
           # On a Linux Intel runner with qemu installed,
           # build 64-bit Intel and ARM wheels
           CIBW_ARCHS_LINUX: ${{ matrix.cibw_archs_linux }}
