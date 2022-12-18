@@ -160,6 +160,8 @@ def get_handlers(module_name: str) -> dict:
     }
     default_handler = base_handlers[default_key]
     if _feature_flags.is_prettified_output_formatting_requested():
+        __LOGGER.debug("initializing rich formatting logger")
+
         # Add logfile handler
         filename_handler = get_dev_local_filename_handler(module_name)
         if filename_handler is not None:
@@ -196,8 +198,8 @@ def get_dev_local_filename_handler(module_name: str) -> Optional[dict]:
         fallback_log_data_root_dir / ".logs",
     ]:
         if mkdir_logs_dir(log_data_dir):
-            __LOGGER.info(
-                "logs directory created",
+            __LOGGER.debug(
+                "saving JSON logs to local log directory",
                 log_dir=str(log_data_dir),
             )
 
