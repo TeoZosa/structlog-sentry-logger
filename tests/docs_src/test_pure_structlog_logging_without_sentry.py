@@ -33,18 +33,14 @@ def expected_output_truncated() -> List[JSONOutputType]:
 
 
 @pytest.fixture(scope="function")
-def actual_output(
-    capsys: CaptureFixture, caplog: LogCaptureFixture, monkeypatch: MonkeyPatch
-) -> List[JSONOutputType]:
+def actual_output(capsys: CaptureFixture, caplog: LogCaptureFixture, monkeypatch: MonkeyPatch) -> List[JSONOutputType]:
     tests.utils.enable_sentry_integration_mode(monkeypatch)
     reload_module_non_dev_local_env(monkeypatch, pure_structlog_logging_without_sentry)
     tests.utils.redirect_captured_logs_to_stdout(caplog)
     return tests.utils.get_validated_json_output(capsys)
 
 
-def test_dev_local(
-    capsys: CaptureFixture, caplog: LogCaptureFixture, monkeypatch: MonkeyPatch
-) -> None:
+def test_dev_local(capsys: CaptureFixture, caplog: LogCaptureFixture, monkeypatch: MonkeyPatch) -> None:
     tests.utils.enable_sentry_integration_mode(monkeypatch)
     reload_module_dev_local_env(monkeypatch, pure_structlog_logging_without_sentry)
     tests.utils.redirect_captured_logs_to_stdout(caplog)
@@ -72,8 +68,7 @@ def test_dev_local(
     # Ignore timestamped portion
     example_timestamp_substr = "\x1b[2m2021-10-25T16:15:30.993152Z\x1b"
     library_log, relevant_actual = (
-        log[len(example_timestamp_substr) :]
-        for log in tests.utils.parse_logs_from_stdout(capsys)
+        log[len(example_timestamp_substr) :] for log in tests.utils.parse_logs_from_stdout(capsys)
     )
 
     # Note: library meta-logger log format is slightly different due to the module
@@ -96,19 +91,13 @@ def test_pure_structlog_logging_without_sentry(
     )
 
 
-def reload_module_non_dev_local_env(
-    monkeypatch: MonkeyPatch, module: ModuleType
-) -> None:
+def reload_module_non_dev_local_env(monkeypatch: MonkeyPatch, module: ModuleType) -> None:
     tests.utils.reset_logging_configs()
-    monkeypatch.delenv(
-        "STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON", raising=False
-    )
+    monkeypatch.delenv("STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON", raising=False)
     importlib.reload(module)
 
 
 def reload_module_dev_local_env(monkeypatch: MonkeyPatch, module: ModuleType) -> None:
     tests.utils.reset_logging_configs()
-    monkeypatch.setenv(
-        "STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON", "ANY_VALUE"
-    )
+    monkeypatch.setenv("STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON", "ANY_VALUE")
     importlib.reload(module)

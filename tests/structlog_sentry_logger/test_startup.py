@@ -8,11 +8,7 @@ from pytest_mock import MockerFixture
 
 
 def powerset(iterable: List[str]) -> List[Tuple[str, ...]]:
-    return list(
-        itertools.chain.from_iterable(
-            itertools.combinations(iterable, x) for x in range(len(iterable) + 1)
-        )
-    )
+    return list(itertools.chain.from_iterable(itertools.combinations(iterable, x) for x in range(len(iterable) + 1)))
 
 
 _ENV_VAR_FEATURE_FLAGS = [

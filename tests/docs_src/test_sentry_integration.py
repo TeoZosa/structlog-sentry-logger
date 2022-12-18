@@ -38,9 +38,7 @@ def expected_output_truncated() -> List[JSONOutputType]:
 
 
 @pytest.fixture(scope="function")
-def actual_output(
-    capsys: CaptureFixture, monkeypatch: MonkeyPatch
-) -> List[JSONOutputType]:
+def actual_output(capsys: CaptureFixture, monkeypatch: MonkeyPatch) -> List[JSONOutputType]:
     tests.utils.enable_sentry_integration_mode(monkeypatch)
     with pytest.raises(RuntimeError):
         import docs_src.sentry_integration  # pylint: disable=import-outside-toplevel,unused-import
