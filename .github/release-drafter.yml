@@ -14,9 +14,9 @@ categories:
     label: "testing"
   - title: ":construction_worker: Continuous Integration Build System"
     labels:
+      - "build"
       - "ci"
       - "github_actions"
-      - "build"
   - title: ":memo: Documentation"
     label: "documentation"
   - title: ":recycle: Refactoring"
