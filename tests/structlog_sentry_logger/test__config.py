@@ -444,25 +444,14 @@ class TestCloudLogging:  # pylint: disable=too-few-public-methods
             )
 
         # Parse logs
-        library_log, test_log = tests.utils.read_json_logs_from_stdout(capsys)
-        if not (isinstance(test_log, dict) and isinstance(library_log, dict)):
-            raise NotImplementedError("Captured log messages not a supported type")
+        test_log = tests.utils.read_json_logs_from_stdout(capsys)[0]
+        if not isinstance(test_log, dict):
+            raise NotImplementedError("Captured log message not a supported type")
 
         cloud_logging_log_level_key, python_log_level_key = "severity", "level"
         # Validate Cloud Logging key correctly overwritten
         assert (
             test_log[python_log_level_key] == test_log[cloud_logging_log_level_key] != orig_cloud_logging_log_key_value
-        )
-
-        # Validate debug log schema
-        assert library_log[python_log_level_key] == "warning" != orig_cloud_logging_log_key_value
-        assert library_log["src_key"] == python_log_level_key
-        assert library_log["dest_key"] == cloud_logging_log_level_key
-        assert library_log["old_value"] == orig_cloud_logging_log_key_value
-        assert library_log["new_value"] == "debug"
-        assert (
-            library_log["logger_that_used_reserved_key"]
-            == logger._context["logger"]  # pylint: disable=protected-access
         )
 
 
