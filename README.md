@@ -38,6 +38,9 @@ via [`structlog-sentry`](https://github.com/kiwicom/structlog-sentry).
    favorite log analysis tools!
 4. [Cloud Logging compatible](#cloud-cloud-logging-compatibility)!
 
+<img width="1900" alt="basic logging example for user documentation"
+src="https://user-images.githubusercontent.com/13070236/208804053-aea8f0b8-8f67-47bd-a8da-ee1fbccf17ff.png">
+
 :confetti_ball: What You Get
 ----------------------------
 
