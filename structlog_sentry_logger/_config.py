@@ -399,7 +399,12 @@ def add_severity_field_from_level_if_in_cloud_environment(
 
 def __get_meta_logger() -> Any:
     """Meta-logger to emit messages generated during logger configuration"""
-    set_optimized_structlog_config()
+    if _feature_flags.is_prettified_output_formatting_requested():
+        # The following line is covered by unit tests but coverage doesn't get picked up
+        # for some reason
+        set_stdlib_based_structlog_config()  # pragma: no cover
+    else:
+        set_optimized_structlog_config()
     logger_name = "structlog_sentry_logger._config"
     logger = structlog.get_logger(logger_name).bind(logger=logger_name)
     structlog.reset_defaults()
