@@ -1087,7 +1087,7 @@ python-versions = "*"
 
 [[package]]
 name = "pre-commit"
-version = "2.20.0"
+version = "2.21.0"
 description = "A framework for managing and maintaining multi-language pre-commit hooks."
 category = "dev"
 optional = false
@@ -1099,8 +1099,7 @@ identify = ">=1.0.0"
 importlib-metadata = {version = "*", markers = "python_version < \"3.8\""}
 nodeenv = ">=0.11.1"
 pyyaml = ">=5.1"
-toml = "*"
-virtualenv = ">=20.0.8"
+virtualenv = ">=20.10.0"
 
 [[package]]
 name = "prompt-toolkit"
@@ -2025,7 +2024,7 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7,<3.12"
-content-hash = "2d0faca8e5b33c6f2b46352c9d28701a8d8d145b355ff5f89cc8d91a36c0eb17"
+content-hash = "9dad234756778089c890ada605fc498a315a44539266d7c598a4da7c8284e2a0"
 
 [metadata.files]
 alabaster = [
@@ -2671,8 +2670,8 @@ pony = [
     {file = "pony-0.7.16.tar.gz", hash = "sha256:5f45fc67587f4520c560a57148cc573b097d42f82f5cb200d72c957b5708198d"},
 ]
 pre-commit = [
-    {file = "pre_commit-2.20.0-py2.py3-none-any.whl", hash = "sha256:51a5ba7c480ae8072ecdb6933df22d2f812dc897d5fe848778116129a681aac7"},
-    {file = "pre_commit-2.20.0.tar.gz", hash = "sha256:a978dac7bc9ec0bcee55c18a277d553b0f419d259dadb4b9418ff2d00eb43959"},
+    {file = "pre_commit-2.21.0-py2.py3-none-any.whl", hash = "sha256:e2f91727039fc39a92f58a588a25b87f936de6567eed4f0e673e0507edc75bad"},
+    {file = "pre_commit-2.21.0.tar.gz", hash = "sha256:31ef31af7e474a8d8995027fefdfcf509b5c913ff31f2015b4ec4beb26a6f658"},
 ]
 prompt-toolkit = [
     {file = "prompt_toolkit-3.0.32-py3-none-any.whl", hash = "sha256:24becda58d49ceac4dc26232eb179ef2b21f133fecda7eed6018d341766ed76e"},
