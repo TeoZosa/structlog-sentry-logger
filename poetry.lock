@@ -2026,7 +2026,7 @@ sentry = ["sentry-sdk"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7,<3.12"
-content-hash = "b8fe1bf11e5fa9b2bf1ab6951007a6e0dd94b579b54f6803d447c5d9b04061fc"
+content-hash = "09dfcaecff95d763d06b43bc67cb79d74224a6d989a6f26607310e914da93a4d"
 
 [metadata.files]
 alabaster = [
