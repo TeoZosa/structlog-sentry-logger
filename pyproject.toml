@@ -36,7 +36,7 @@ Changelog = "https://github.com/TeoZosa/structlog-sentry-logger/releases"
 python = "^3.7,<3.12"
 
 # Project-Specific
-colorama = "^0.4.3"
+colorama = { version = "^0.4.3", markers = "platform_system == 'Windows'" }
 gitpython = "^3.1.7"
 orjson = "^3.6.4"
 python-dotenv = ">=0.19"
