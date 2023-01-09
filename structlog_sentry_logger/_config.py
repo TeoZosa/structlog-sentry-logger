@@ -22,7 +22,11 @@ import orjson  # type: ignore
 import structlog
 
 from structlog_sentry_logger import _feature_flags
-from structlog_sentry_logger.structlog_sentry import SentryBreadcrumbJsonProcessor
+
+try:
+    from structlog_sentry_logger.structlog_sentry import SentryBreadcrumbJsonProcessor
+except ImportError:
+    SentryBreadcrumbJsonProcessor = None  # type: ignore
 
 
 @dataclasses.dataclass
@@ -271,7 +275,7 @@ def set_stdlib_based_structlog_config() -> None:
         add_line_number_and_func_name,
     ]
 
-    if _feature_flags.is_sentry_integration_mode_requested():
+    if SentryBreadcrumbJsonProcessor is not None and _feature_flags.is_sentry_integration_mode_requested():
         structlog_processors.append(SentryBreadcrumbJsonProcessor(level=logging.ERROR, tag_keys="__all__"))
 
     if (
@@ -310,7 +314,7 @@ def set_optimized_structlog_config() -> None:
         add_line_number_and_func_name,
         _TIMESTAMPER,
     ]
-    if _feature_flags.is_sentry_integration_mode_requested():
+    if SentryBreadcrumbJsonProcessor is not None and _feature_flags.is_sentry_integration_mode_requested():
         processors.append(SentryBreadcrumbJsonProcessor(level=logging.ERROR, tag_keys="__all__"))
 
     if (

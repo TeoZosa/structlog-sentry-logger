@@ -100,7 +100,7 @@ Table of Contents
 - [:tada: Installation](#tada-installation)
 - [:rocket: Usage](#rocket-usage)
   * [:loud_sound: Pure `structlog` Logging (Without Sentry)](#loud_sound-pure-structlog-logging-without-sentry)
-  * [:outbox_tray: Log Custom Context Directly to Sentry](#outbox_tray-log-custom-context-directly-to-sentry)
+  * [:outbox_tray: Log Custom Context Directly to Sentry (optional)](#outbox_tray-log-custom-context-directly-to-sentry-optional)
   * [:cloud: Cloud Logging Compatibility](#cloud-cloud-logging-compatibility)
 - [:chart_with_downwards_trend: Output: Formatting & Storage](#chart_with_downwards_trend-output-formatting--storage)
 - [:clipboard: Summary](#clipboard-summary)
@@ -126,6 +126,12 @@ Table of Contents
 
  ```shell script
 pip install structlog-sentry-logger
+```
+
+Optionally, install Sentry integration with
+
+ ```shell script
+pip install "structlog-sentry-logger[sentry]"
 ```
 
 :rocket: Usage
@@ -166,13 +172,14 @@ Which automatically produces this:
 ```
 
 
-:outbox_tray: Log Custom Context Directly to Sentry
+:outbox_tray: Log Custom Context Directly to Sentry (optional)
 ------------------------------------------------
 
-Incorporate custom messages in your exception handling which will automatically be
-reported to Sentry (thanks to the `structlog-sentry` module). To enable this behavior,
-export the `STRUCTLOG_SENTRY_LOGGER_CLOUD_SENTRY_INTEGRATION_MODE_ON`
-environment variable.
+If you installed the library with the optional Sentry integration you can incorporate
+custom messages in your exception handling which will automatically be
+reported to Sentry (thanks to the [`structlog-sentry`](https://github.com/kiwicom/structlog-sentry)
+module). To enable this behavior, export the
+`STRUCTLOG_SENTRY_LOGGER_CLOUD_SENTRY_INTEGRATION_MODE_ON` environment variable.
 
 An easy way to do this is to put it into a local `.env` file[^2]:
 
