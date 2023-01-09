@@ -1,5 +1,6 @@
 import datetime
 import enum
+import importlib
 import os
 import stat
 import sys
@@ -458,27 +459,56 @@ class TestCloudLogging:  # pylint: disable=too-few-public-methods
 class TestLoggerSchema:
     @staticmethod
     @pytest.mark.parametrize(
-        "is_sentry_integration_mode_requested",
-        [True, False],
-        ids=["Sentry integration enabled", "Sentry integration disabled"],
+        "is_sentry_integration_mode_requested, is_sentry_integration_installed",
+        (
+            [True, True],
+            [True, False],
+            [False, True],
+            [False, False],
+        ),
+        ids=[
+            "Sentry integration requested (installed)",
+            "Sentry integration requested (not installed)",
+            "Sentry integration not requested (installed)",
+            "Sentry integration not requested (not installed)",
+        ],
     )
     def test_structlog_logger(
         capsys: CaptureFixture,
         monkeypatch: MonkeyPatch,
         random_log_msgs: List[str],
         is_sentry_integration_mode_requested: bool,
+        is_sentry_integration_installed: bool,
     ) -> None:
-        tests.utils.enable_sentry_integration_mode(monkeypatch)
+
+        # Configure test environment
+        tests.utils.enable_sentry_integration_mode(monkeypatch)  # Default: Sentry integration activated
+        if not is_sentry_integration_installed:
+            # Mock the optional `sentry_sdk` module not being importable
+            # (e.g., if it wasn't installed) by nulling it in the environment's dict
+            # of imported modules.
+            monkeypatch.setitem(sys.modules, "sentry_sdk", None)  # type: ignore
+            # Unload the vendored `structlog_sentry` package containing the `sentry_sdk` import
+            monkeypatch.delitem(sys.modules, "structlog_sentry_logger.structlog_sentry", raising=True)
+            # Unload the library module containing the top-level imports of 3rd-party
+            # dependencies and reload it to trigger a new import attempt of the
+            # now-un-importable `sentry_sdk` package (through the vendored `structlog_sentry`
+            # package) to trigger associated code paths.
+            monkeypatch.delitem(sys.modules, "structlog_sentry_logger._config", raising=True)
+            importlib.reload(structlog_sentry_logger)
         if not is_sentry_integration_mode_requested:
+            # Switch Sentry integration mode off
             monkeypatch.delenv(
                 "STRUCTLOG_SENTRY_LOGGER_CLOUD_SENTRY_INTEGRATION_MODE_ON",
                 raising=False,
             )
 
+        # Perform the operations under test
         logger = structlog_sentry_logger.get_logger()
         for log_msg in random_log_msgs:
             logger.debug(log_msg)
 
+        # Validate correctness of captured logs
         captured_logs = tests.utils.get_validated_json_output(capsys)
         assert captured_logs
         structlogged_records = [log for log in captured_logs if isinstance(log, dict)]
@@ -492,7 +522,7 @@ class TestLoggerSchema:
                 == __name__
             )
             assert log["event"] == payload
-            if is_sentry_integration_mode_requested:
+            if is_sentry_integration_mode_requested and is_sentry_integration_installed:
                 assert log["sentry"] == "skipped"
             else:
                 assert "sentry" not in log

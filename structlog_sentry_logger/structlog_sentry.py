@@ -14,7 +14,7 @@ import sys
 from typing import Any, Dict, Iterable, List, Optional, Set, Tuple, Union
 
 import structlog
-from sentry_sdk import capture_event
+from sentry_sdk import add_breadcrumb, capture_event
 from sentry_sdk.integrations.logging import ignore_logger as logging_int_ignore_logger
 from sentry_sdk.utils import event_from_exception
 
@@ -173,3 +173,49 @@ class SentryJsonProcessor(SentryProcessor):  # pylint: disable=too-few-public-me
         if logger_name not in self._ignored:
             logging_int_ignore_logger(logger_name)
             self._ignored.add(logger_name)
+
+
+# Extension to the vendored `structlog-sentry` package
+class SentryBreadcrumbJsonProcessor(SentryJsonProcessor):
+    """
+    Addresses: `SentryJsonProcessor breaks logging breadcrumbs #25`_
+    (source_)
+
+    .. _`SentryJsonProcessor breaks logging breadcrumbs #25`: https://github.com/kiwicom/structlog-sentry/issues/25
+    .. _`source`: https://github.com/kiwicom/structlog-sentry/issues/25#issuecomment-660292563
+    """
+
+    def __init__(  # pylint: disable=too-many-arguments
+        self,
+        breadcrumb_level: int = logging.INFO,
+        level: int = logging.WARNING,
+        active: bool = True,
+        as_extra: bool = True,
+        tag_keys: Optional[Union[List[str], str]] = None,
+    ) -> None:
+        self.breadcrumb_level = breadcrumb_level
+        super().__init__(level=level, active=active, as_extra=as_extra, tag_keys=tag_keys)
+
+    @staticmethod
+    def save_breadcrumb(logger: Any, event_dict: structlog.types.EventDict) -> None:
+        data = event_dict.copy()  # type: ignore[attr-defined]
+        data.pop("event")
+        data.pop("logger", None)
+        data.pop("level", None)
+        data.pop("timestamp", None)
+        breadcrumb = {
+            "ty": "log",
+            "level": event_dict["level"].lower(),
+            "category": event_dict.get("logger") or logger.name,
+            "message": event_dict["event"],
+            "data": data,
+        }
+        add_breadcrumb(breadcrumb, hint={"event_dict": event_dict})
+
+    def __call__(self, logger: Any, method: str, event_dict: structlog.types.EventDict) -> structlog.types.EventDict:
+        do_breadcrumb = getattr(logging, event_dict["level"].upper()) >= self.breadcrumb_level
+
+        if do_breadcrumb:
+            self.save_breadcrumb(logger, event_dict)
+
+        return super().__call__(logger=logger, method=method, event_dict=event_dict)
