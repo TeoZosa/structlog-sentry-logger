@@ -9,7 +9,7 @@ import pathlib
 import tempfile
 import warnings
 from types import FrameType
-from typing import Any, Callable, List, Optional, Tuple, Union
+from typing import Any, Callable, Optional, Tuple, Union
 
 try:
     import git
@@ -19,10 +19,10 @@ except ImportError:  # pragma: no cover
     import git
 
 import orjson  # type: ignore
-import sentry_sdk
 import structlog
 
-from structlog_sentry_logger import _feature_flags, structlog_sentry
+from structlog_sentry_logger import _feature_flags
+from structlog_sentry_logger.structlog_sentry import SentryBreadcrumbJsonProcessor
 
 
 @dataclasses.dataclass
@@ -409,52 +409,6 @@ def __get_meta_logger() -> Any:
     logger = structlog.get_logger(logger_name).bind(logger=logger_name)
     structlog.reset_defaults()
     return logger
-
-
-class SentryBreadcrumbJsonProcessor(structlog_sentry.SentryJsonProcessor):
-
-    """
-    Addresses: `SentryJsonProcessor breaks logging breadcrumbs #25`_
-    (source_)
-
-    .. _`SentryJsonProcessor breaks logging breadcrumbs #25`: https://github.com/kiwicom/structlog-sentry/issues/25
-    .. _`source`: https://github.com/kiwicom/structlog-sentry/issues/25#issuecomment-660292563
-    """
-
-    def __init__(  # pylint: disable=too-many-arguments
-        self,
-        breadcrumb_level: int = logging.INFO,
-        level: int = logging.WARNING,
-        active: bool = True,
-        as_extra: bool = True,
-        tag_keys: Optional[Union[List[str], str]] = None,
-    ) -> None:
-        self.breadcrumb_level = breadcrumb_level
-        super().__init__(level=level, active=active, as_extra=as_extra, tag_keys=tag_keys)
-
-    @staticmethod
-    def save_breadcrumb(logger: Any, event_dict: structlog.types.EventDict) -> None:
-        data = event_dict.copy()  # type: ignore[attr-defined]
-        data.pop("event")
-        data.pop("logger", None)
-        data.pop("level", None)
-        data.pop("timestamp", None)
-        breadcrumb = {
-            "ty": "log",
-            "level": event_dict["level"].lower(),
-            "category": event_dict.get("logger") or logger.name,
-            "message": event_dict["event"],
-            "data": data,
-        }
-        sentry_sdk.add_breadcrumb(breadcrumb, hint={"event_dict": event_dict})
-
-    def __call__(self, logger: Any, method: str, event_dict: structlog.types.EventDict) -> structlog.types.EventDict:
-        do_breadcrumb = getattr(logging, event_dict["level"].upper()) >= self.breadcrumb_level
-
-        if do_breadcrumb:
-            self.save_breadcrumb(logger, event_dict)
-
-        return super().__call__(logger=logger, method=method, event_dict=event_dict)
 
 
 __LOGGER = __get_meta_logger()
