@@ -13,10 +13,8 @@ from typing import Any, Callable, Optional, Tuple, Union
 
 try:
     import git
-except ImportError:  # pragma: no cover
-    # Silence errors e.g., when no git executable is found
-    os.environ["GIT_PYTHON_REFRESH"] = "quiet"
-    import git
+except ImportError:  # Namely, when a git executable is not found
+    git = None  # type: ignore
 
 import orjson  # type: ignore
 import structlog
@@ -36,12 +34,19 @@ class Config:
 
 
 def get_root_dir() -> pathlib.Path:
-    try:
-        return get_git_root()
-    except git.InvalidGitRepositoryError as err:
-        # the __str__() method on err returns the root descendant path, e.g., `/app`
-        root_dir = pathlib.Path(str(err)).resolve(strict=True)
-        return root_dir
+    if git is not None:
+        try:
+            return get_git_root()
+        except git.InvalidGitRepositoryError as err:
+            # the __str__() method on err returns the root descendant path, e.g., `/app`
+            root_dir = pathlib.Path(str(err)).resolve(strict=True)
+            return root_dir
+    else:
+        # If we couldn't import the git module, we have no way of automatically
+        # determining the application root directory. In that case, fallback to the
+        # system root directory for module namespacing
+        system_root_dir = pathlib.Path(pathlib.Path.cwd().resolve().root)
+        return system_root_dir
 
 
 def get_git_root() -> pathlib.Path:  # Gratuitous indirection for testing

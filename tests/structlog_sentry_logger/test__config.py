@@ -156,6 +156,30 @@ def test_invalid_git_repository(mocker: MockerFixture) -> None:
     assert actual == expected
 
 
+def test_invalid_git_executable(monkeypatch: MonkeyPatch, tmp_path: Path) -> None:
+    # Configure test environment
+    #
+    # Unload the `gitpython` package
+    monkeypatch.delitem(sys.modules, "git", raising=True)
+    # Unload the library module containing the top-level imports of 3rd-party
+    # dependencies and reload it to trigger a new import attempt of the
+    # `gitpython` package to trigger associated code paths (i.e., testing for a usable
+    # `git` executable available to the library).
+    monkeypatch.delitem(sys.modules, "structlog_sentry_logger._config", raising=True)
+    # Reset system executable search path to a location without a `git` executable
+    monkeypatch.setenv("PATH", str(tmp_path))
+    importlib.reload(structlog_sentry_logger)
+
+    # Perform the operations under test & validate correctness
+    test_file_dir = Path(__file__)
+    prefix_dir = test_file_dir.root
+    namespaces = test_file_dir.with_suffix("").relative_to(prefix_dir).parts
+    expected = ".".join(namespaces)
+
+    actual = structlog_sentry_logger._config.get_namespaced_module_name(test_file_dir)
+    assert actual == expected
+
+
 def test_read_only_filesystem(mocker: MockerFixture, tmp_path: Path) -> None:
     def mock_read_only_write_err(*args: Any, **kwargs: Any) -> None:
         del args, kwargs
