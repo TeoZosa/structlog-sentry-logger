@@ -9,9 +9,11 @@
 
 """
 # pylint: disable=unsubscriptable-object
+from __future__ import annotations
+
 import logging
 import sys
-from typing import Any, Dict, Iterable, List, Optional, Set, Tuple, Union
+from typing import Any, Iterable
 
 import structlog
 from sentry_sdk import add_breadcrumb, capture_event
@@ -30,8 +32,8 @@ class SentryProcessor:  # pylint: disable=too-few-public-methods
         level: int = logging.WARNING,
         active: bool = True,
         as_extra: bool = True,
-        tag_keys: Optional[Union[List[str], str]] = None,
-        ignore_loggers: Optional[Iterable[str]] = None,
+        tag_keys: list[str] | str | None = None,
+        ignore_loggers: Iterable[str] | None = None,
     ) -> None:
         """
         :param level: events of this or higher levels will be reported to Sentry.
@@ -47,12 +49,12 @@ class SentryProcessor:  # pylint: disable=too-few-public-methods
         self.tag_keys = tag_keys
         self._as_extra = as_extra
         self._original_event_dict: structlog.types.EventDict = {}
-        self._ignored_loggers: Set[str] = set()
+        self._ignored_loggers: set[str] = set()
         if ignore_loggers is not None:
             self._ignored_loggers.update(set(ignore_loggers))
 
     @staticmethod
-    def _get_logger_name(logger: Any, event_dict: structlog.types.EventDict) -> Optional[str]:
+    def _get_logger_name(logger: Any, event_dict: structlog.types.EventDict) -> str | None:
         """Get logger name from event_dict with a fallbacks to logger.name and record.name
 
         :param logger: logger instance
@@ -72,7 +74,7 @@ class SentryProcessor:  # pylint: disable=too-few-public-methods
 
         return logger_name
 
-    def _get_event_and_hint(self, event_dict: structlog.types.EventDict) -> Tuple[dict, Optional[Dict[str, Any]]]:
+    def _get_event_and_hint(self, event_dict: structlog.types.EventDict) -> tuple[dict, dict[str, Any] | None]:
         """Create a sentry event and hint from structlog `event_dict` and sys.exc_info.
 
         :param event_dict: structlog event_dict
@@ -83,7 +85,7 @@ class SentryProcessor:  # pylint: disable=too-few-public-methods
             exc_info = sys.exc_info()
         has_exc_info = exc_info and exc_info != (None, None, None)
 
-        hint: Optional[Dict[str, Any]]
+        hint: dict[str, Any] | None
         if has_exc_info:
             event, hint = event_from_exception(exc_info)
         else:
@@ -103,7 +105,7 @@ class SentryProcessor:  # pylint: disable=too-few-public-methods
 
         return event, hint
 
-    def _log(self, event_dict: structlog.types.EventDict) -> Optional[str]:
+    def _log(self, event_dict: structlog.types.EventDict) -> str | None:
         """Send an event to Sentry and return sentry event id.
 
         :param event_dict: structlog event_dict
@@ -144,7 +146,7 @@ class SentryJsonProcessor(SentryProcessor):  # pylint: disable=too-few-public-me
         level: int = logging.WARNING,
         active: bool = True,
         as_extra: bool = True,
-        tag_keys: Optional[Union[List[str], str]] = None,
+        tag_keys: list[str] | str | None = None,
     ) -> None:
         super().__init__(level=level, active=active, as_extra=as_extra, tag_keys=tag_keys)
         # A set of all encountered structured logger names. If an application uses
@@ -191,7 +193,7 @@ class SentryBreadcrumbJsonProcessor(SentryJsonProcessor):
         level: int = logging.WARNING,
         active: bool = True,
         as_extra: bool = True,
-        tag_keys: Optional[Union[List[str], str]] = None,
+        tag_keys: list[str] | str | None = None,
     ) -> None:
         self.breadcrumb_level = breadcrumb_level
         super().__init__(level=level, active=active, as_extra=as_extra, tag_keys=tag_keys)

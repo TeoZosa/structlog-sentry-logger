@@ -1,7 +1,8 @@
+from __future__ import annotations
+
 import importlib
 import sys
 from types import ModuleType
-from typing import List
 
 import pytest
 from _pytest.capture import CaptureFixture
@@ -17,7 +18,7 @@ from tests.utils import JSONOutputType
 
 
 @pytest.fixture(scope="function")
-def expected_output_truncated() -> List[JSONOutputType]:
+def expected_output_truncated() -> list[JSONOutputType]:
     return [
         {
             "event": "Your log message",
@@ -32,7 +33,7 @@ def expected_output_truncated() -> List[JSONOutputType]:
 
 
 @pytest.fixture(scope="function")
-def actual_output(capsys: CaptureFixture, caplog: LogCaptureFixture, monkeypatch: MonkeyPatch) -> List[JSONOutputType]:
+def actual_output(capsys: CaptureFixture, caplog: LogCaptureFixture, monkeypatch: MonkeyPatch) -> list[JSONOutputType]:
     tests.utils.enable_sentry_integration_mode(monkeypatch)
     reload_module_non_dev_local_env(monkeypatch, pure_structlog_logging_without_sentry)
     tests.utils.redirect_captured_logs_to_stdout(caplog)
@@ -74,8 +75,8 @@ def test_dev_local(capsys: CaptureFixture, caplog: LogCaptureFixture, monkeypatc
 
 # pylint: disable=redefined-outer-name
 def test_pure_structlog_logging_without_sentry(
-    expected_output_truncated: List[JSONOutputType],
-    actual_output: List[JSONOutputType],
+    expected_output_truncated: list[JSONOutputType],
+    actual_output: list[JSONOutputType],
 ) -> None:
     tests.docs_src.validate_output.validate_output(
         expected_output_truncated, actual_output, dynamic_keys_to_copy=["timestamp"]

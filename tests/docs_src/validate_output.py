@@ -1,12 +1,12 @@
-from typing import List
+from __future__ import annotations
 
 from tests.utils import JSONOutputType
 
 
 def validate_output(
-    expected_output_truncated: List[JSONOutputType],
-    actual_output: List[JSONOutputType],
-    dynamic_keys_to_copy: List[str],
+    expected_output_truncated: list[JSONOutputType],
+    actual_output: list[JSONOutputType],
+    dynamic_keys_to_copy: list[str],
 ) -> None:
     for expected_log_truncated, actual_log in zip(expected_output_truncated, actual_output):
         expected_log = {

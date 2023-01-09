@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 import json
-from typing import Any, Dict, List
+from typing import Any, Dict
 
 import orjson
 import structlog
@@ -36,7 +38,7 @@ def redirect_captured_logs_to_stdout(caplog: LogCaptureFixture) -> None:
             print(orjson.dumps(record.msg).decode())
 
 
-def get_validated_json_output(capsys: CaptureFixture) -> List[JSONOutputType]:
+def get_validated_json_output(capsys: CaptureFixture) -> list[JSONOutputType]:
     captured = capsys.readouterr()
     assert captured.out
     assert not captured.err
@@ -47,9 +49,9 @@ def get_validated_json_output(capsys: CaptureFixture) -> List[JSONOutputType]:
     return orjson_lib_ver
 
 
-def read_json_logs_from_stdout(capsys: CaptureFixture) -> List[dict]:
+def read_json_logs_from_stdout(capsys: CaptureFixture) -> list[dict]:
     return [orjson.loads(log) for log in parse_logs_from_stdout(capsys)]
 
 
-def parse_logs_from_stdout(capsys: CaptureFixture) -> List[str]:
+def parse_logs_from_stdout(capsys: CaptureFixture) -> list[str]:
     return capsys.readouterr().out.strip().split("\n")
