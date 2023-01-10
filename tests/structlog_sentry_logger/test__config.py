@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import datetime
 import enum
 import importlib
@@ -7,7 +9,7 @@ import sys
 import tempfile
 import uuid
 from pathlib import Path
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, Union
 
 import dotenv
 import git
@@ -37,7 +39,7 @@ JSONOutputType = tests.utils.JSONOutputType
 # complicated patching.
 
 
-def serialized_repr(v: Union[Dict, List]) -> JSONOutputType:
+def serialized_repr(v: dict | list) -> JSONOutputType:
     return orjson.loads(
         structlog_sentry_logger._config.serializer(  # pylint: disable=protected-access
             v, option=orjson.OPT_NON_STR_KEYS
@@ -46,7 +48,7 @@ def serialized_repr(v: Union[Dict, List]) -> JSONOutputType:
 
 
 @pytest.fixture(scope="function")
-def random_log_msgs(iters: int = 10) -> List[str]:
+def random_log_msgs(iters: int = 10) -> list[str]:
     return [str(uuid.uuid4()) for _ in range(iters)]
 
 
@@ -55,15 +57,15 @@ def random_log_msgs(iters: int = 10) -> List[str]:
 LogType = Dict[str, Union[uuid.UUID, str]]
 
 
-def test_pytest_caplog_and_structlog_patching_equivalence(capsys: CaptureFixture, random_log_msgs: List[str]) -> None:
-    def get_pytest_captured_logs() -> List[JSONOutputType]:
+def test_pytest_caplog_and_structlog_patching_equivalence(capsys: CaptureFixture, random_log_msgs: list[str]) -> None:
+    def get_pytest_captured_logs() -> list[JSONOutputType]:
         logger = structlog_sentry_logger.get_logger()
         for log_msg in random_log_msgs:
             logger.debug(log_msg)
         return tests.utils.get_validated_json_output(capsys)
 
     # List[Dict[str,Union[uuid.UUID, str]]]
-    def get_structlog_captured_logs() -> List[JSONOutputType]:
+    def get_structlog_captured_logs() -> list[JSONOutputType]:
         # Setup
         structlog_caplog = structlog.testing.LogCapture()
         orig_processors = structlog.get_config()["processors"]
@@ -280,7 +282,7 @@ class TestBasicLogging:  # pylint: disable=too-few-public-methods
         "emoji hat (🎩)": "emoji cat (🐈)",
     }
 
-    test_data: Dict[str, Any] = {
+    test_data: dict[str, Any] = {
         **test_cases,
         "all test cases simultaneously": test_cases,
     }
@@ -319,7 +321,7 @@ class TestBasicLoggingNonStringKeys:  # pylint: disable=too-few-public-methods
         uuid.UUID("7202d115-7ff3-4c81-a7c1-2a1f067b1ece"): "uuid.UUID key",
     }
 
-    test_data: Dict[Any, Union[str, dict]] = {
+    test_data: dict[Any, str | dict] = {
         **test_cases,
         "all test cases simultaneously": test_cases,
     }
@@ -500,7 +502,7 @@ class TestLoggerSchema:
     def test_structlog_logger(
         capsys: CaptureFixture,
         monkeypatch: MonkeyPatch,
-        random_log_msgs: List[str],
+        random_log_msgs: list[str],
         is_sentry_integration_mode_requested: bool,
         is_sentry_integration_installed: bool,
     ) -> None:
@@ -553,7 +555,7 @@ class TestLoggerSchema:
             assert "timestamp" in log
 
     @staticmethod
-    def test_non_structlog_logger(capsys: CaptureFixture, random_log_msgs: List[str]) -> None:
+    def test_non_structlog_logger(capsys: CaptureFixture, random_log_msgs: list[str]) -> None:
         logger = structlog_sentry_logger.get_logger()
         for log_msg in random_log_msgs:
             logger.debug(log_msg)
@@ -656,8 +658,8 @@ class TestLoadingDotenv:
 
 
 class TestBasicPerfLogging:
-    test_data: Dict[str, Any] = TestBasicLogging.test_data
-    cloud_logging_compatibility_mode_env_vars: List[str] = TestCloudLogging.cloud_logging_compatibility_mode_env_vars
+    test_data: dict[str, Any] = TestBasicLogging.test_data
+    cloud_logging_compatibility_mode_env_vars: list[str] = TestCloudLogging.cloud_logging_compatibility_mode_env_vars
 
     @pytest.fixture(scope="function", autouse=True)
     def setup(self, monkeypatch: MonkeyPatch) -> None:

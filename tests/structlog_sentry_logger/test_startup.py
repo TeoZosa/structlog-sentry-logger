@@ -1,13 +1,14 @@
+from __future__ import annotations
+
 import itertools
 import sys
-from typing import List, Tuple
 
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
 from pytest_mock import MockerFixture
 
 
-def powerset(iterable: List[str]) -> List[Tuple[str, ...]]:
+def powerset(iterable: list[str]) -> list[tuple[str, ...]]:
     return list(itertools.chain.from_iterable(itertools.combinations(iterable, x) for x in range(len(iterable) + 1)))
 
 
@@ -29,7 +30,7 @@ test_cases = {str(v): v for v in (powerset(_ENV_VAR_FEATURE_FLAGS))}
 def test_feat_flags(
     monkeypatch: MonkeyPatch,
     mocker: MockerFixture,
-    feature_flag_combination: List[str],
+    feature_flag_combination: list[str],
 ) -> None:
     # Ensure test isolation by pre-patching sys modules to prevent side effects from
     # library import affecting other tests

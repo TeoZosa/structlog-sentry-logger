@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import dataclasses
 import datetime
 import inspect
@@ -9,7 +11,7 @@ import pathlib
 import tempfile
 import warnings
 from types import FrameType
-from typing import Any, Callable, Optional, Tuple, Union
+from typing import Any, Callable
 
 try:
     import git
@@ -78,7 +80,7 @@ def get_config_dict() -> dict:
     return get_logging_config(caller_name)
 
 
-def get_logger(name: Optional[str] = None) -> Any:
+def get_logger(name: str | None = None) -> Any:
     """
     Convenience function that returns a logger
 
@@ -119,7 +121,7 @@ def get_caller_name_from_frames() -> str:
     return caller_name
 
 
-def _get_caller_stack_frame_and_name() -> Tuple[FrameType, str]:
+def _get_caller_stack_frame_and_name() -> tuple[FrameType, str]:
     return structlog._frames._find_first_app_frame_and_name(  # pylint:disable=protected-access
         additional_ignores=["structlog_sentry_logger"]
     )
@@ -129,7 +131,7 @@ def is_caller_main(caller_name: str) -> bool:  # Gratuitous indirection for test
     return caller_name == "__main__"
 
 
-def get_namespaced_module_name(__file__: Union[pathlib.Path, str]) -> str:
+def get_namespaced_module_name(__file__: pathlib.Path | str) -> str:
     fully_qualified_path = pathlib.Path(__file__).resolve()
     prefix_dir = str(ROOT_DIR) if str(ROOT_DIR) in str(fully_qualified_path) else "/"
     namespaces = fully_qualified_path.relative_to(prefix_dir).with_suffix("").parts
@@ -181,7 +183,7 @@ def get_handlers(module_name: str) -> dict:
     return base_handlers
 
 
-def get_dev_local_filename_handler(module_name: str) -> Optional[dict]:
+def get_dev_local_filename_handler(module_name: str) -> dict | None:
     """Builds logfile handler configs
 
     Before building the logfile handler configurations, this function attempts to
@@ -265,8 +267,8 @@ def get_formatters() -> dict:
 
 def serializer(
     *args: Any,
-    default: Optional[Callable[[Any], Any]] = None,
-    option: Optional[int] = orjson.OPT_NON_STR_KEYS | orjson.OPT_SORT_KEYS,
+    default: Callable[[Any], Any] | None = None,
+    option: int | None = orjson.OPT_NON_STR_KEYS | orjson.OPT_SORT_KEYS,
 ) -> str:
     if _CONFIGS.use_orjson:
         return orjson.dumps(*args, default=default, option=option).decode()  # type: ignore[misc]
@@ -345,8 +347,8 @@ def set_optimized_structlog_config() -> None:
 
 def serializer_bytes(
     *args: Any,
-    default: Optional[Callable[[Any], Any]] = None,
-    option: Optional[int] = orjson.OPT_NON_STR_KEYS | orjson.OPT_SORT_KEYS,
+    default: Callable[[Any], Any] | None = None,
+    option: int | None = orjson.OPT_NON_STR_KEYS | orjson.OPT_SORT_KEYS,
 ) -> bytes:
     if _CONFIGS.use_orjson:
         return orjson.dumps(*args, default=default, option=option)  # type: ignore[misc]
