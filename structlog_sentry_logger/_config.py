@@ -121,7 +121,7 @@ def get_caller_name_from_frames() -> str:
 
 def _get_caller_stack_frame_and_name() -> Tuple[FrameType, str]:
     return structlog._frames._find_first_app_frame_and_name(  # pylint:disable=protected-access
-        additional_ignores=["structlog_sentry_logger", "typeguard"]
+        additional_ignores=["structlog_sentry_logger"]
     )
 
 
