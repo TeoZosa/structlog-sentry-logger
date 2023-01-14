@@ -162,11 +162,6 @@ fail-under = 0 # adjust `fail-under` value as quality standards permit
 whitelist-regex = []
 color = true
 
-[tool.isort]
-profile = "black"
-atomic = true
-combine_as_imports = true
-
 [tool.mypy]
 disallow_untyped_defs = true
 files = "**/*.py"
@@ -211,6 +206,11 @@ norecursedirs = [".*", "*.egg", "build", "dist",]
 [tool.ruff]
 line-length = 120
 
+select = [
+    "I", # isort
+]
+
+
 ignore = [
     # pycodestyle:
     "E501", # Line too long (covered by Black)
@@ -223,6 +223,10 @@ format = "grouped"
 
 # By default, always show source code snippets.
 show-source = true
+
+[tool.ruff.isort]
+# Note: Ruff implicitly uses `profile = "black"`
+combine-as-imports = true
 
 [build-system]
 requires = ["poetry-core>=1.0.0", "mypy>=0.910", "setuptools>=58.1.0", "orjson>=3.6.4"]
