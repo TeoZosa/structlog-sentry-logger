@@ -137,8 +137,6 @@ show_source = true
 
 # list of plugins and rules for them
 [tool.flakeheaven.plugins]
-# include everything in pyflakes except F401
-pyflakes = ["+*", "-F401"]
 # include everything in pycodestyle except what Black covers
 pycodestyle = ["+*",
     "-E203", # Whitespace before ":"
@@ -177,6 +175,7 @@ norecursedirs = [".*", "*.egg", "build", "dist",]
 line-length = 120
 
 select = [
+    "F", # Pyflakes
     "C90", # McCabe
     "I", # isort
     "PLC", "PLE", "PLR", "PLW", # Pylint
