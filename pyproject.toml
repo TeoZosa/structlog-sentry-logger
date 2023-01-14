@@ -135,15 +135,6 @@ format = "grouped"
 # show line of source code in output
 show_source = true
 
-# list of plugins and rules for them
-[tool.flakeheaven.plugins]
-# include everything in pycodestyle except what Black covers
-pycodestyle = ["+*",
-    "-E203", # Whitespace before ":"
-    "-E501", # Line too long (82 > 78 characters)
-    "-W503"  # Line break occurred before a binary operator <- this is now considered best practice by PEP 8
-]
-
 [tool.interrogate]
 ignore-init-method = true
 ignore-init-module = true
@@ -176,6 +167,7 @@ line-length = 120
 
 select = [
     "F", # Pyflakes
+    "E", "W", # pycodestyle
     "C90", # McCabe
     "I", # isort
     "PLC", "PLE", "PLR", "PLW", # Pylint
