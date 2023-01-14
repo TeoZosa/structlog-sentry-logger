@@ -137,8 +137,6 @@ show_source = true
 
 # list of plugins and rules for them
 [tool.flakeheaven.plugins]
-# cyclomatic complexity (https://github.com/PyCQA/mccabe)
-mccabe = ["+*"]
 # include everything in pyflakes except F401
 pyflakes = ["+*", "-F401"]
 # include everything in pycodestyle except what Black covers
@@ -179,6 +177,7 @@ norecursedirs = [".*", "*.egg", "build", "dist",]
 line-length = 120
 
 select = [
+    "C90", # McCabe
     "I", # isort
     "PLC", "PLE", "PLR", "PLW", # Pylint
 ]
@@ -200,6 +199,10 @@ show-source = true
 [tool.ruff.isort]
 # Note: Ruff implicitly uses `profile = "black"`
 combine-as-imports = true
+
+[tool.ruff.mccabe]
+## cyclomatic complexity (https://github.com/PyCQA/mccabe)
+max-complexity = 10
 
 [build-system]
 requires = ["poetry-core>=1.0.0", "mypy>=0.910", "setuptools>=58.1.0", "orjson>=3.6.4"]
