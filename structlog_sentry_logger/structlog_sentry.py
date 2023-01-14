@@ -1,4 +1,4 @@
-"""Fork of `structlog-sentry`_ which adds full type information
+"""Fork of `structlog-sentry`_ which adds full type information.
 
 - Necessary for proper Mypyc C extension compilation.
 - Will directly depend on `structlog-sentry`_ once associated PR is merged upstream
@@ -55,7 +55,7 @@ class SentryProcessor:  # pylint: disable=too-few-public-methods
 
     @staticmethod
     def _get_logger_name(logger: Any, event_dict: structlog.types.EventDict) -> str | None:
-        """Get logger name from event_dict with a fallbacks to logger.name and record.name
+        """Get logger name from event_dict with a fallbacks to logger.name and record.name.
 
         :param logger: logger instance
         :param event_dict: structlog event_dict
@@ -181,7 +181,7 @@ class SentryJsonProcessor(SentryProcessor):  # pylint: disable=too-few-public-me
 class SentryBreadcrumbJsonProcessor(SentryJsonProcessor):
     """
     Addresses: `SentryJsonProcessor breaks logging breadcrumbs #25`_
-    (source_)
+    (source_).
 
     .. _`SentryJsonProcessor breaks logging breadcrumbs #25`: https://github.com/kiwicom/structlog-sentry/issues/25
     .. _`source`: https://github.com/kiwicom/structlog-sentry/issues/25#issuecomment-660292563

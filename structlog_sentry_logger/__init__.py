@@ -1,4 +1,4 @@
-"""Structlog Sentry Logger"""
+"""Structlog Sentry Logger."""
 from __future__ import annotations
 
 from structlog_sentry_logger._config import (

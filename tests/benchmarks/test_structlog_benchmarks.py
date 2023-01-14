@@ -3,7 +3,6 @@ import logging
 import orjson
 import structlog
 from pytest_benchmark.fixture import BenchmarkFixture
-
 from tests.benchmarks import utils
 from tests.benchmarks.utils import TestCases
 

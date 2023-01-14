@@ -5,16 +5,16 @@ import sys
 from types import ModuleType
 
 import pytest
+import tests.docs_src.validate_output
+import tests.utils
 from _pytest.capture import CaptureFixture
 from _pytest.logging import LogCaptureFixture
 from _pytest.monkeypatch import MonkeyPatch
+from tests.utils import JSONOutputType
 
-import tests.docs_src.validate_output
-import tests.utils
 from docs_src import (  # pylint: disable=import-error
     pure_structlog_logging_without_sentry,
 )
-from tests.utils import JSONOutputType
 
 
 @pytest.fixture(scope="function")

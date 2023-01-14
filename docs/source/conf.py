@@ -103,18 +103,18 @@ myst_heading_anchors = 3
 
 
 def convert_emoji_shortcodes(app: Sphinx, exception: Exception) -> None:
-    """Convert emoji shortcodes in HTML files to corresponding emoji characters
+    """Convert emoji shortcodes in HTML files to corresponding emoji characters.
 
     Running separately to support Read The Docs builds.
     Adapted from: https://bitbucket.org/lbesson/bin/src/master/emojize.py
     """
 
     def emojize_match(match: Match) -> str:
-        """Convert emoji shortcodes in match to corresponding emoji characters"""
+        """Convert emoji shortcodes in match to corresponding emoji characters."""
         return emoji.emojize(match.group(), variant="emoji_type", language="alias")
 
     def emojize_all(text: str) -> str:
-        """Convert all emoji shortcodes in text to corresponding emoji characters"""
+        """Convert all emoji shortcodes in text to corresponding emoji characters."""
         return re.sub(r":([a-z0-9_-]+):", emojize_match, text)
 
     if exception is None:
@@ -123,7 +123,7 @@ def convert_emoji_shortcodes(app: Sphinx, exception: Exception) -> None:
 
 
 def setup(app: Sphinx) -> None:
-    """Connects bespoke emoji shortcode conversion functions"""
+    """Connects bespoke emoji shortcode conversion functions."""
     app.connect("build-finished", convert_emoji_shortcodes)
 
 
