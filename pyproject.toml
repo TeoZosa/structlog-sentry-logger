@@ -208,6 +208,22 @@ xfail_strict = true
 testpaths = ["tests",]
 norecursedirs = [".*", "*.egg", "build", "dist",]
 
+[tool.ruff]
+line-length = 120
+
+ignore = [
+    # pycodestyle:
+    "E501", # Line too long (covered by Black)
+]
+
+fix = true
+
+# Group violations by containing file.
+format = "grouped"
+
+# By default, always show source code snippets.
+show-source = true
+
 [build-system]
 requires = ["poetry-core>=1.0.0", "mypy>=0.910", "setuptools>=58.1.0", "orjson>=3.6.4"]
 build-backend = "poetry.core.masonry.api"
