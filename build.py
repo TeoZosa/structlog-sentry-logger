@@ -1,3 +1,4 @@
+"""Poetry build script via Mypyc."""
 import os
 import pathlib
 
