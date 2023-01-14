@@ -68,8 +68,8 @@ def _toggle_json_library(use_orjson: bool = True) -> None:
 
 
 def get_config_dict() -> dict:
-    """
-    Convenience function to get the local logging configuration dictionary,
+    """Convenience function to get the local logging configuration dictionary,.
+
     e.g., to help configure loggers from other libraries.
 
     Returns: The logging configuration dictionary that would be used to
@@ -81,8 +81,7 @@ def get_config_dict() -> dict:
 
 
 def get_logger(name: str | None = None) -> Any:
-    """
-    Convenience function that returns a logger.
+    """Convenience function that returns a logger.
 
     Returns: A proxy that creates a correctly configured logger bound to
     the __name__ of the calling module
