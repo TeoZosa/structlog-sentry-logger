@@ -71,8 +71,6 @@ tox-wheel = "^1.0.0"
 # Linting
 ## Code formatting
 black = "^22.12" # see: https://black.readthedocs.io/en/stable/editor_integration.html
-## Code quality
-pylint = "^2.13.9"
 ## Automation and management
 pre-commit = "^2.21.0"
 
@@ -171,32 +169,6 @@ show_column_numbers = true
 show_error_context = true
 show_error_codes = true
 
-[tool.pylint.basic]
-extension-pkg-allow-list = ["orjson"]
-good-names = [
-    # default `pylint` values
-    "i", "j", "k", "ex", "Run", "_",
-    # project-added values
-    "v"
-]
-good-names-rgxs = ["^Test_.*$", "^.*DSN.*$"]
-
-[tool.pylint.messages_control]
-disable = [
-  # Explicitly document only as needed
-  "missing-module-docstring",
-  "missing-class-docstring",
-  "missing-function-docstring",
-  # Black & Flake8 purview
-  "line-too-long",
-  "c-extension-no-member",
-]
-
-[tool.pylint.similarities]
-# Ignore imports when computing similarities.
-ignore-imports = "yes"
-min-similarity-lines = 5
-
 [tool.pytest.ini_options]
 addopts = ["-rfsxX", "-l", "--tb=short", "--strict-markers", "-vv", "--emoji", "--xdoctest"]
 xfail_strict = true
@@ -208,6 +180,7 @@ line-length = 120
 
 select = [
     "I", # isort
+    "PLC", "PLE", "PLR", "PLW", # Pylint
 ]
 
 

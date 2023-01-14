@@ -62,15 +62,6 @@ repos:
         args: [--cache-dir=/dev/null, --config-file=pyproject.toml]
         types: [python]
 
-  - repo: local
-    hooks:
-      - id: pylint
-        name: pylint
-        language: system
-        entry: .tox/precommit/bin/pylint
-        args: [--rcfile=pyproject.toml]
-        types: [python]
-
   - repo: https://github.com/jumanjihouse/pre-commit-hooks
     rev: 2.1.6
     hooks:
