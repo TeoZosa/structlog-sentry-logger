@@ -162,6 +162,7 @@ select = [
     "E", "W", # pycodestyle
     "C90", # McCabe
     "I", # isort
+    "UP", # pyupgrade
     "PLC", "PLE", "PLR", "PLW", # Pylint
 ]
 
@@ -178,6 +179,10 @@ format = "grouped"
 
 # By default, always show source code snippets.
 show-source = true
+
+# Assume Python 3.7
+# Note: helps prevent breaking autofixes from, e.g., pyupgrade
+target-version = "py37"
 
 [tool.ruff.isort]
 # Note: Ruff implicitly uses `profile = "black"`
