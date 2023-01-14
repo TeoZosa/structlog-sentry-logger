@@ -127,14 +127,6 @@ skip = [
     "docs/source/.env",
 ]
 
-[tool.flakeheaven]
-# specify any flake8 options
-exclude = [".*"] # Ignore dotfiles
-# make output nice
-format = "grouped"
-# show line of source code in output
-show_source = true
-
 [tool.interrogate]
 ignore-init-method = true
 ignore-init-module = true

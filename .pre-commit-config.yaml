@@ -31,12 +31,6 @@ repos:
       - id: detect-secrets
         exclude: ^(poetry\.lock|\.cruft\.json)$
 
-  - repo: https://github.com/flakeheaven/flakeheaven
-    rev: 3.0.0
-    hooks:
-      - id: flakeheaven
-        exclude: ^(docs/source/recommendedbestpractices.rst)$
-
   # Docstring coverage tool
   - repo: https://github.com/econchick/interrogate
     rev: 1.5.0
