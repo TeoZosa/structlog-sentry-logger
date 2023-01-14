@@ -1,0 +1,9 @@
+[tool.ruff]
+# Extend the `pyproject.toml` file in the parent directory.
+extend = "../pyproject.toml"
+
+ignore = [
+    # pydocstyle:
+    "D100", #  Missing docstring in public module
+    "D104", #  Missing docstring in public package
+]
