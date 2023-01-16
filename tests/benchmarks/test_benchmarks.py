@@ -1,13 +1,13 @@
 from typing import Generator
 
 import pytest
+import tests.utils
 from _pytest.monkeypatch import MonkeyPatch
 from pytest_benchmark.fixture import BenchmarkFixture
-
-import structlog_sentry_logger
-import tests.utils
 from tests.benchmarks import utils
 from tests.benchmarks.utils import TestCases
+
+import structlog_sentry_logger
 
 TEST_CASES = TestCases()
 

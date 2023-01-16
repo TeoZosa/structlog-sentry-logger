@@ -68,8 +68,8 @@ def _toggle_json_library(use_orjson: bool = True) -> None:
 
 
 def get_config_dict() -> dict:
-    """
-    Convenience function to get the local logging configuration dictionary,
+    """Convenience function to get the local logging configuration dictionary,.
+
     e.g., to help configure loggers from other libraries.
 
     Returns: The logging configuration dictionary that would be used to
@@ -81,8 +81,7 @@ def get_config_dict() -> dict:
 
 
 def get_logger(name: str | None = None) -> Any:
-    """
-    Convenience function that returns a logger
+    """Convenience function that returns a logger.
 
     Returns: A proxy that creates a correctly configured logger bound to
     the __name__ of the calling module
@@ -184,7 +183,7 @@ def get_handlers(module_name: str) -> dict:
 
 
 def get_dev_local_filename_handler(module_name: str) -> dict | None:
-    """Builds logfile handler configs
+    """Builds logfile handler configs.
 
     Before building the logfile handler configurations, this function attempts to
     initialize the log directory in the (inferred) application root directory. If this
@@ -373,12 +372,11 @@ def add_severity_field_from_level_if_in_cloud_environment(
     method: str,  # pylint: disable=unused-argument
     event_dict: structlog.types.EventDict,
 ) -> structlog.types.EventDict:
-    """A custom processor for structlog for Cloud Logging compatibility
+    """A custom processor for structlog for Cloud Logging compatibility.
 
     Since Cloud Logging infers log levels from the `severity` key, simply duplicates
     `level` to the `severity` field in the logger's event dictionary.
     """
-
     cloud_logging_log_level_key, python_log_level_key = "severity", "level"
     if cloud_logging_log_level_key in event_dict:
         # Warn users that they should fix their application code
@@ -409,7 +407,7 @@ def add_severity_field_from_level_if_in_cloud_environment(
 
 
 def __get_meta_logger() -> Any:
-    """Meta-logger to emit messages generated during logger configuration"""
+    """Meta-logger to emit messages generated during logger configuration."""
     if _feature_flags.is_prettified_output_formatting_requested():
         # The following line is covered by unit tests but coverage doesn't get picked up
         # for some reason

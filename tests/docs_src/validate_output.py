@@ -1,6 +1,8 @@
 from __future__ import annotations
 
-from tests.utils import JSONOutputType
+import tests.utils
+
+JSONOutputType = tests.utils.JSONOutputType
 
 
 def validate_output(

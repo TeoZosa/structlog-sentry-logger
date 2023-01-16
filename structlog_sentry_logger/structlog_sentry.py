@@ -1,4 +1,4 @@
-"""Fork of `structlog-sentry`_ which adds full type information
+"""Fork of `structlog-sentry`_ which adds full type information.
 
 - Necessary for proper Mypyc C extension compilation.
 - Will directly depend on `structlog-sentry`_ once associated PR is merged upstream
@@ -35,7 +35,8 @@ class SentryProcessor:  # pylint: disable=too-few-public-methods
         tag_keys: list[str] | str | None = None,
         ignore_loggers: Iterable[str] | None = None,
     ) -> None:
-        """
+        """Initializes a structlog processor to handle Sentry events.
+
         :param level: events of this or higher levels will be reported to Sentry.
         :param active: a flag to make this processor enabled/disabled.
         :param as_extra: send `event_dict` as extra info to Sentry.
@@ -55,7 +56,7 @@ class SentryProcessor:  # pylint: disable=too-few-public-methods
 
     @staticmethod
     def _get_logger_name(logger: Any, event_dict: structlog.types.EventDict) -> str | None:
-        """Get logger name from event_dict with a fallbacks to logger.name and record.name
+        """Get logger name from event_dict with a fallbacks to logger.name and record.name.
 
         :param logger: logger instance
         :param event_dict: structlog event_dict
@@ -148,6 +149,7 @@ class SentryJsonProcessor(SentryProcessor):  # pylint: disable=too-few-public-me
         as_extra: bool = True,
         tag_keys: list[str] | str | None = None,
     ) -> None:
+        """Initializes a structlog processor to handle Sentry events in JSON logs."""
         super().__init__(level=level, active=active, as_extra=as_extra, tag_keys=tag_keys)
         # A set of all encountered structured logger names. If an application uses
         # multiple loggers with different names (eg. different qualnames), then each of
@@ -156,6 +158,7 @@ class SentryJsonProcessor(SentryProcessor):  # pylint: disable=too-few-public-me
         self._ignored: set = set()
 
     def __call__(self, logger: Any, method: Any, event_dict: structlog.types.EventDict) -> structlog.types.EventDict:
+        """Adds logger to Sentry's list of ignored loggers to prevent sending duplicate events."""
         self._ignore_logger(logger, event_dict)
         return super().__call__(logger, method, event_dict)
 
@@ -179,9 +182,10 @@ class SentryJsonProcessor(SentryProcessor):  # pylint: disable=too-few-public-me
 
 # Extension to the vendored `structlog-sentry` package
 class SentryBreadcrumbJsonProcessor(SentryJsonProcessor):
-    """
+    """JSON Processor which logs breadcrumbs to Sentry.
+
     Addresses: `SentryJsonProcessor breaks logging breadcrumbs #25`_
-    (source_)
+    (source_).
 
     .. _`SentryJsonProcessor breaks logging breadcrumbs #25`: https://github.com/kiwicom/structlog-sentry/issues/25
     .. _`source`: https://github.com/kiwicom/structlog-sentry/issues/25#issuecomment-660292563
@@ -195,11 +199,13 @@ class SentryBreadcrumbJsonProcessor(SentryJsonProcessor):
         as_extra: bool = True,
         tag_keys: list[str] | str | None = None,
     ) -> None:
+        """Initializes a structlog processor to handle Sentry events in JSON logs and include breadcrumbs."""
         self.breadcrumb_level = breadcrumb_level
         super().__init__(level=level, active=active, as_extra=as_extra, tag_keys=tag_keys)
 
     @staticmethod
     def save_breadcrumb(logger: Any, event_dict: structlog.types.EventDict) -> None:
+        """Saves logging breadcrumbs for Sentry events."""
         data = event_dict.copy()  # type: ignore[attr-defined]
         data.pop("event")
         data.pop("logger", None)
@@ -215,6 +221,7 @@ class SentryBreadcrumbJsonProcessor(SentryJsonProcessor):
         add_breadcrumb(breadcrumb, hint={"event_dict": event_dict})
 
     def __call__(self, logger: Any, method: str, event_dict: structlog.types.EventDict) -> structlog.types.EventDict:
+        """Saves logging breadcrumbs for Sentry reporting (if enabled)."""
         do_breadcrumb = getattr(logging, event_dict["level"].upper()) >= self.breadcrumb_level
 
         if do_breadcrumb:

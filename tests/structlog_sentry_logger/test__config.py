@@ -304,9 +304,9 @@ class TestBasicLogging:  # pylint: disable=too-few-public-methods
 
 
 class TestBasicLoggingNonStringKeys:  # pylint: disable=too-few-public-methods
-    """Non-str orjson-serializable keys"""
+    """Non-str orjson-serializable keys."""
 
-    class DummyEnum(enum.Enum):
+    class DummyEnum(enum.Enum):  # noqa: D106
         DUMMY_ENUM_KEY = "DUMMY_ENUM_VALUE"
 
     test_cases = {

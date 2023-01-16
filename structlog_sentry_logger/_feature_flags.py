@@ -49,7 +49,7 @@ def _load_library_specific_env_vars() -> None:
 
 
 def is_probably_in_cloud_environment() -> bool:
-    """Returns True if it is *likely* (but not guaranteed) logging is occurring in the context of a Cloud Logging environment"""
+    """Returns True if it is *likely* (but not guaranteed) logging is occurring in the context of a Cloud Logging environment."""
     for env_var in _CLOUD_ENV_INFERENCE_ENV_VARS:
         if env_var in os.environ:
             return True

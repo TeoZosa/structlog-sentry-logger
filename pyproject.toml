@@ -162,6 +162,7 @@ select = [
     "E", "W", # pycodestyle
     "C90", # McCabe
     "I", # isort
+    "D", # pydocstyle
     "UP", # pyupgrade
     "PLC", "PLE", "PLR", "PLW", # Pylint
 ]
@@ -191,6 +192,9 @@ combine-as-imports = true
 [tool.ruff.mccabe]
 ## cyclomatic complexity (https://github.com/PyCQA/mccabe)
 max-complexity = 10
+
+[tool.ruff.pydocstyle]
+convention = "google"
 
 [build-system]
 requires = ["poetry-core>=1.0.0", "mypy>=0.910", "setuptools>=58.1.0", "orjson>=3.6.4"]

@@ -1,11 +1,10 @@
 from __future__ import annotations
 
 import pytest
-from _pytest.capture import CaptureFixture
-from _pytest.monkeypatch import MonkeyPatch
-
 import tests.docs_src.validate_output
 import tests.utils
+from _pytest.capture import CaptureFixture
+from _pytest.monkeypatch import MonkeyPatch
 
 JSONOutputType = tests.utils.JSONOutputType
 
