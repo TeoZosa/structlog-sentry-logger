@@ -6,5 +6,5 @@ importlib-metadata==6.0.0
 myst-parser==0.18.1
 pygments==2.14.0
 sphinx==5.3.0
-sphinx-autoapi==2.0.0
+sphinx-autoapi==2.0.1
 sphinx-rtd-theme==1.1.1
