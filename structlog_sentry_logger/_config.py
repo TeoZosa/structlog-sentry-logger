@@ -53,7 +53,11 @@ def get_root_dir() -> pathlib.Path:
 
 def get_git_root() -> pathlib.Path:  # Gratuitous indirection for testing
     git_repo = git.Repo(pathlib.Path.cwd(), search_parent_directories=True)
-    git_root = git_repo.git.rev_parse("--show-toplevel")
+
+    # Note: `working_dir` should never be None, but mypy complains and there may be some
+    # unknown corner case, so falling back to the system root directory for module
+    # namespacing (this might be better merged with the logic in `get_root_dir`).
+    git_root = git_repo.working_dir or pathlib.Path.cwd().resolve().root
     return pathlib.Path(git_root)
 
 

@@ -253,10 +253,9 @@ def test_mock_read_bad_git_ownership_root_dir(monkeypatch: MonkeyPatch, tmp_path
     # git command error out with the "dubious ownership" error
     monkeypatch.setattr(git.Git, "_call_process", mock_err)
 
-    # Validate a "dubious ownership" error is raised when attempting to infer the
+    # Validate a "dubious ownership" error is *not* raised when attempting to infer the
     # project root directory
-    with pytest.raises(git.GitCommandError):
-        _ = structlog_sentry_logger._config.get_git_root()
+    assert tmp_path == structlog_sentry_logger._config.get_git_root()
 
 
 def test_no_filename_handler(mocker: MockerFixture, monkeypatch: MonkeyPatch) -> None:
