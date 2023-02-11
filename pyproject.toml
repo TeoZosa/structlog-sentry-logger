@@ -197,5 +197,5 @@ max-complexity = 10
 convention = "google"
 
 [build-system]
-requires = ["poetry-core>=1.0.0", "mypy>=0.910", "setuptools>=58.1.0", "orjson>=3.6.4"]
+requires = ["poetry-core>=1.0.0", "mypy>=0.910,<1.0.0", "setuptools>=58.1.0", "orjson>=3.6.4"]
 build-backend = "poetry.core.masonry.api"
