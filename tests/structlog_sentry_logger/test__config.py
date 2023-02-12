@@ -246,15 +246,20 @@ def test_mock_read_bad_git_ownership_root_dir(monkeypatch: MonkeyPatch, tmp_path
         raise git.GitCommandError(redacted_command, status, stderr_value, stdout_value)
 
     # Initialize and cd into a dummy Git repo
-    git.Repo.init(tmp_path, bare=False)
+    git_repo = git.Repo.init(tmp_path, bare=False)
     os.chdir(tmp_path)
 
     # Patch the underlying method which executes git commands. This will make any
     # git command error out with the "dubious ownership" error
     monkeypatch.setattr(git.Git, "_call_process", mock_err)
 
+    # Demonstrate that the "dubious ownership" error is raised with the library's
+    # previous method of inferring the git repo root dir
+    with pytest.raises(git.CommandError):
+        _ = git_repo.git.rev_parse("--show-toplevel")
+
     # Validate a "dubious ownership" error is *not* raised when attempting to infer the
-    # project root directory
+    # project root directory via the current library method
     assert tmp_path == structlog_sentry_logger._config.get_git_root()
 
 
