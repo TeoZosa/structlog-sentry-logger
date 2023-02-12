@@ -224,6 +224,40 @@ def test_read_only_root_dir(mocker: MockerFixture, tmp_path: Path) -> None:
     assert filename_path.relative_to(Path(tempfile.mkdtemp()).parent)
 
 
+def test_mock_read_bad_git_ownership_root_dir(monkeypatch: MonkeyPatch, tmp_path: Path) -> None:
+    """Test the case where a git root directory tries to be inferred by a user who is not the owner.
+
+    This returns the same error as if `git.Repo(dir).git.rev_parse("--show-toplevel")` was
+    executed in a git directory not owned by the current user. Ideally we would like to
+    replicate behavior by `chown`-ing `tmp_path` to a different user, but this is not possible
+    with the default user's permissions.
+    """
+
+    def mock_err(*args: Any, **kwargs: Any) -> None:
+        del args, kwargs
+        redacted_command = ["git", "rev-parse", "--show-toplevel"]
+        status = 128
+        stderr_value = (
+            b"fatal: detected dubious ownership in repository at '/src'\n"
+            b"To add an exception for this directory, call:\n\n"
+            b"\tgit config --global --add safe.directory /src"
+        )
+        stdout_value = b""
+        raise git.GitCommandError(redacted_command, status, stderr_value, stdout_value)
+
+    # Initialize and cd into a dummy Git repo
+    git.Repo.init(tmp_path, bare=False)
+    os.chdir(tmp_path)
+
+    # Patch the underlying method which executes git commands. This will make any
+    # git command error out with the "dubious ownership" error
+    monkeypatch.setattr(git.Git, "_call_process", mock_err)
+
+    # Validate a "dubious ownership" error is *not* raised when attempting to infer the
+    # project root directory
+    assert tmp_path == structlog_sentry_logger._config.get_git_root()
+
+
 def test_no_filename_handler(mocker: MockerFixture, monkeypatch: MonkeyPatch) -> None:
     mocker.patch.object(
         structlog_sentry_logger._config,
