@@ -215,21 +215,25 @@ jobs:
           #   10_16 & 11_0 platform specifiers
           CIBW_REPAIR_WHEEL_COMMAND_MACOS: |
             echo "**************************************************************" &&
+            echo "Rename wheels to correct MacOS CPU architecture & deployment target: " &&
+            src_dir="$(dirname {wheel})" &&
+            echo "src_dir=${src_dir}" &&
+            find "${src_dir}" -type f -name '*.whl' -exec bash -c 'mv "$1" "${1//x86_64/${{ matrix.cibw_archs_macos }}}"' bash {} \; &&
+            find "${src_dir}" -type f -name '*.whl' -exec bash -c 'mv "$1" "${1//10_16/${{ env.macosx_deployment_target_wheel_string }}}"' bash {} \; &&
+            find "${src_dir}" -type f -name '*.whl' -exec bash -c 'mv "$1" "${1//11_0/${{ env.macosx_deployment_target_wheel_string }}}"' bash {} \; &&
+            find "${src_dir}" -type f -name '*.whl' -exec bash -c 'mv "$1" "${1//12_0/${{ env.macosx_deployment_target_wheel_string }}}"' bash {} \; &&
+            renamed_whl="$(find ${src_dir} -type f -name '*.whl')"
+            echo "renamed_whl=${renamed_whl}" &&
+            echo "**************************************************************" &&
             echo "Deps needed: " &&
-            delocate-listdeps {wheel} &&
+            delocate-listdeps "${renamed_whl}" &&
             echo "**************************************************************" &&
             echo "Fix wheel: " &&
             delocate-wheel \
               --wheel-dir={dest_dir} \
               --require-archs={delocate_archs} \
               --verbose \
-                {wheel} &&
-            echo "**************************************************************" &&
-            echo "Rename wheels to correct MacOS CPU architecture & deployment target: " &&
-            find {dest_dir} -type f -name '*.whl' -exec bash -c 'mv "$1" "${1//x86_64/${{ matrix.cibw_archs_macos }}}"' bash {} \; &&
-            find {dest_dir} -type f -name '*.whl' -exec bash -c 'mv "$1" "${1//10_16/${{ env.macosx_deployment_target_wheel_string }}}"' bash {} \; &&
-            find {dest_dir} -type f -name '*.whl' -exec bash -c 'mv "$1" "${1//11_0/${{ env.macosx_deployment_target_wheel_string }}}"' bash {} \; &&
-            find {dest_dir} -type f -name '*.whl' -exec bash -c 'mv "$1" "${1//12_0/${{ env.macosx_deployment_target_wheel_string }}}"' bash {} \; &&
+                "${renamed_whl}" &&
             echo "**************************************************************"
 
       - name: Store the binary wheel
