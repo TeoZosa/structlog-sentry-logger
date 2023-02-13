@@ -222,6 +222,7 @@ jobs:
             delocate-wheel \
               --wheel-dir={dest_dir} \
               --require-archs={delocate_archs} \
+              --verbose \
                 {wheel} &&
             echo "**************************************************************" &&
             echo "Rename wheels to correct MacOS CPU architecture & deployment target: " &&
