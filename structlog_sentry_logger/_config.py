@@ -255,7 +255,7 @@ def get_formatters() -> dict:
             "()": structlog.stdlib.ProcessorFormatter,
             "processor": structlog.processors.JSONRenderer(
                 serializer=serializer,
-                option=orjson.OPT_NON_STR_KEYS | orjson.OPT_SORT_KEYS,
+                option=orjson.OPT_NON_STR_KEYS,
             ),
             "foreign_pre_chain": pre_chain,
         },
@@ -271,11 +271,11 @@ def get_formatters() -> dict:
 def serializer(
     *args: Any,
     default: Callable[[Any], Any] | None = None,
-    option: int | None = orjson.OPT_NON_STR_KEYS | orjson.OPT_SORT_KEYS,
+    option: int | None = orjson.OPT_NON_STR_KEYS,
 ) -> str:
     if _CONFIGS.use_orjson:
         return orjson.dumps(*args, default=default, option=option).decode()  # type: ignore[misc]
-    return json.dumps(*args, sort_keys=True)
+    return json.dumps(*args)
 
 
 def set_stdlib_based_structlog_config() -> None:
@@ -337,7 +337,7 @@ def set_optimized_structlog_config() -> None:
     processors.append(
         structlog.processors.JSONRenderer(
             serializer=serializer_bytes,
-            option=orjson.OPT_NON_STR_KEYS | orjson.OPT_SORT_KEYS,
+            option=orjson.OPT_NON_STR_KEYS,
         )
     )
     structlog.configure(
@@ -351,12 +351,12 @@ def set_optimized_structlog_config() -> None:
 def serializer_bytes(
     *args: Any,
     default: Callable[[Any], Any] | None = None,
-    option: int | None = orjson.OPT_NON_STR_KEYS | orjson.OPT_SORT_KEYS,
+    option: int | None = orjson.OPT_NON_STR_KEYS,
 ) -> bytes:
     if _CONFIGS.use_orjson:
         return orjson.dumps(*args, default=default, option=option)  # type: ignore[misc]
     # pylint: disable=no-value-for-parameter
-    return json.dumps(*args, sort_keys=True).encode("utf-8")
+    return json.dumps(*args).encode("utf-8")
     # pylint: enable=no-value-for-parameter
 
 

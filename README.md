@@ -61,8 +61,6 @@ The pre-configured options include:
           named `docs_src.sentry_integration`
 4. :mag_right: Function names and line numbers where logging calls were made
 
-With fields sorted by key for easier at-a-glance analysis.
-
 ### :zap: Performance
 
 `structlog-sentry-logger` is C-compiled and fully-tuned,
