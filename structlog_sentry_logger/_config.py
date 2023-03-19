@@ -34,6 +34,7 @@ class Config:
     use_orjson = True
     orjson_configs = orjson.OPT_NON_STR_KEYS | orjson.OPT_SORT_KEYS
     stdlib_logging_config_already_configured = False
+    stdlib_logging_sort_keys = True
 
 
 def get_root_dir() -> pathlib.Path:
@@ -276,7 +277,7 @@ def serializer(
 ) -> str:
     if _CONFIGS.use_orjson:
         return orjson.dumps(*args, default=default, option=option).decode()  # type: ignore[misc]
-    return json.dumps(*args, sort_keys=True)
+    return json.dumps(*args, sort_keys=_CONFIGS.stdlib_logging_sort_keys)
 
 
 def set_stdlib_based_structlog_config() -> None:
@@ -357,7 +358,7 @@ def serializer_bytes(
     if _CONFIGS.use_orjson:
         return orjson.dumps(*args, default=default, option=option)  # type: ignore[misc]
     # pylint: disable=no-value-for-parameter
-    return json.dumps(*args, sort_keys=True).encode("utf-8")
+    return json.dumps(*args, sort_keys=_CONFIGS.stdlib_logging_sort_keys).encode("utf-8")
     # pylint: enable=no-value-for-parameter
 
 
