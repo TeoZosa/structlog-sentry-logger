@@ -342,6 +342,38 @@ class TestBasicLogging:  # pylint: disable=too-few-public-methods
                 raise NotImplementedError("Captured log message not a supported type")
 
 
+class TestSortedLogKeys:  # pylint: disable=too-few-public-methods
+    test_data: dict = TestBasicLogging.test_cases
+    enable_key_sorting_env_var: str = "STRUCTLOG_SENTRY_LOGGER_KEY_SORTING_ON"
+
+    @pytest.fixture(scope="function", autouse=True)
+    def setup(self, monkeypatch: MonkeyPatch) -> None:
+        structlog.reset_defaults()
+        monkeypatch.delenv(self.enable_key_sorting_env_var, raising=False)
+
+    @pytest.mark.parametrize("sort_keys", [False, True])
+    def test_sort_keys(
+        self,
+        capsys: CaptureFixture,
+        monkeypatch: MonkeyPatch,
+        sort_keys: bool,
+    ) -> None:
+        if sort_keys:
+            monkeypatch.setenv(self.enable_key_sorting_env_var, "ANY_VALUE")
+        logger = structlog_sentry_logger.get_logger()
+        logger.debug("Testing main Logger", **self.test_data)
+
+        captured_logs = tests.utils.get_validated_json_output(capsys)
+        assert captured_logs
+        for log in captured_logs:
+            log_keys = list(log.keys())
+            log_keys_sorted = sorted(log_keys)
+            if sort_keys:
+                assert log_keys_sorted == log_keys
+            else:
+                assert log_keys_sorted != log_keys
+
+
 class TestBasicLoggingNonStringKeys:  # pylint: disable=too-few-public-methods
     """Non-str orjson-serializable keys."""
 

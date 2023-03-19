@@ -32,9 +32,9 @@ except ImportError:
 @dataclasses.dataclass
 class Config:
     use_orjson = True
-    orjson_configs = orjson.OPT_NON_STR_KEYS | orjson.OPT_SORT_KEYS
+    orjson_configs = orjson.OPT_NON_STR_KEYS
     stdlib_logging_config_already_configured = False
-    stdlib_logging_sort_keys = True
+    stdlib_logging_sort_keys = False
 
 
 def get_root_dir() -> pathlib.Path:
@@ -95,6 +95,12 @@ def get_logger(name: str | None = None) -> Any:
     """
     del name
     caller_name = get_caller_name_from_frames()
+
+    # Conditionally enable key sorting (off by default due to performance penalty)
+    if _feature_flags.is_log_key_sorting_requested():
+        _CONFIGS.orjson_configs |= orjson.OPT_SORT_KEYS
+        _CONFIGS.stdlib_logging_sort_keys = True
+
     if not _CONFIGS.stdlib_logging_config_already_configured:
         set_logging_config(caller_name)
         _CONFIGS.stdlib_logging_config_already_configured = True
