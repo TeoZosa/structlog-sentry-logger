@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1679421765018,
+  "lastUpdate": 1679426353084,
   "repoUrl": "https://github.com/TeoZosa/structlog-sentry-logger",
   "entries": {
     "Benchmark": [
@@ -14518,6 +14518,128 @@ window.BENCHMARK_DATA = {
             "unit": "iter/sec",
             "range": "stddev: 0.00035655978789026545",
             "extra": "mean: 1.5375933847850916 msec\nrounds: 907"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "49699333+dependabot[bot]@users.noreply.github.com",
+            "name": "dependabot[bot]",
+            "username": "dependabot[bot]"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "e2bfd8aa0a7c289164b8062a1dfcf1c3ed7ac44e",
+          "message": "Merge pull request #865 from TeoZosa/dependabot/pip/orjson-3.8.8",
+          "timestamp": "2023-03-21T19:15:42Z",
+          "tree_id": "99732c88f8d5e02bc8d8b3db3636be2347694343",
+          "url": "https://github.com/TeoZosa/structlog-sentry-logger/commit/e2bfd8aa0a7c289164b8062a1dfcf1c3ed7ac44e"
+        },
+        "date": 1679426341073,
+        "tool": "pytest",
+        "benches": [
+          {
+            "name": "tests/benchmarks/test_benchmarks.py::TestStructlogSentryLoggerBenchmarks::test_orjson_serializer_non_str_keys[stdlib-based config (Legacy)-Sentry integration enabled]",
+            "value": 224.64532541684423,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00016325645230901232",
+            "extra": "mean: 4.451461423220955 msec\nrounds: 267"
+          },
+          {
+            "name": "tests/benchmarks/test_benchmarks.py::TestStructlogSentryLoggerBenchmarks::test_orjson_serializer_non_str_keys[stdlib-based config (Legacy)-Sentry integration disabled]",
+            "value": 296.7003682321299,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00012386775789154016",
+            "extra": "mean: 3.3704036363636343 msec\nrounds: 385"
+          },
+          {
+            "name": "tests/benchmarks/test_benchmarks.py::TestStructlogSentryLoggerBenchmarks::test_orjson_serializer_non_str_keys[structlog-specific config (Optimized)-Sentry integration enabled]",
+            "value": 435.3673713075397,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00009011955522213661",
+            "extra": "mean: 2.296910760667934 msec\nrounds: 539"
+          },
+          {
+            "name": "tests/benchmarks/test_benchmarks.py::TestStructlogSentryLoggerBenchmarks::test_orjson_serializer_non_str_keys[structlog-specific config (Optimized)-Sentry integration disabled]",
+            "value": 819.4198326727933,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00004695915044318443",
+            "extra": "mean: 1.2203756366723368 msec\nrounds: 1178"
+          },
+          {
+            "name": "tests/benchmarks/test_benchmarks.py::TestStructlogSentryLoggerBenchmarks::test_orjson_serializer[stdlib-based config (Legacy)-Sentry integration enabled]",
+            "value": 207.6255396898051,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00010967846530183951",
+            "extra": "mean: 4.816363157894791 msec\nrounds: 247"
+          },
+          {
+            "name": "tests/benchmarks/test_benchmarks.py::TestStructlogSentryLoggerBenchmarks::test_orjson_serializer[stdlib-based config (Legacy)-Sentry integration disabled]",
+            "value": 270.9638736797711,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00011943330029167941",
+            "extra": "mean: 3.6905288753799486 msec\nrounds: 329"
+          },
+          {
+            "name": "tests/benchmarks/test_benchmarks.py::TestStructlogSentryLoggerBenchmarks::test_orjson_serializer[structlog-specific config (Optimized)-Sentry integration enabled]",
+            "value": 417.69276692066944,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00008004226252053514",
+            "extra": "mean: 2.3941041818182254 msec\nrounds: 550"
+          },
+          {
+            "name": "tests/benchmarks/test_benchmarks.py::TestStructlogSentryLoggerBenchmarks::test_orjson_serializer[structlog-specific config (Optimized)-Sentry integration disabled]",
+            "value": 749.8826197250635,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00005415203893559431",
+            "extra": "mean: 1.3335420420420456 msec\nrounds: 999"
+          },
+          {
+            "name": "tests/benchmarks/test_benchmarks.py::TestStructlogSentryLoggerBenchmarks::test_stdlib_json_serializer[stdlib-based config (Legacy)-Sentry integration enabled]",
+            "value": 16.152818586079054,
+            "unit": "iter/sec",
+            "range": "stddev: 0.0005313371308930275",
+            "extra": "mean: 61.90870000000048 msec\nrounds: 16"
+          },
+          {
+            "name": "tests/benchmarks/test_benchmarks.py::TestStructlogSentryLoggerBenchmarks::test_stdlib_json_serializer[stdlib-based config (Legacy)-Sentry integration disabled]",
+            "value": 16.929334699718826,
+            "unit": "iter/sec",
+            "range": "stddev: 0.000662248864719522",
+            "extra": "mean: 59.0690666666664 msec\nrounds: 18"
+          },
+          {
+            "name": "tests/benchmarks/test_benchmarks.py::TestStructlogSentryLoggerBenchmarks::test_stdlib_json_serializer[structlog-specific config (Optimized)-Sentry integration enabled]",
+            "value": 298.56044380929455,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00007436975692454055",
+            "extra": "mean: 3.3494055248616585 msec\nrounds: 362"
+          },
+          {
+            "name": "tests/benchmarks/test_benchmarks.py::TestStructlogSentryLoggerBenchmarks::test_stdlib_json_serializer[structlog-specific config (Optimized)-Sentry integration disabled]",
+            "value": 490.3894509556862,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00008797354419284943",
+            "extra": "mean: 2.0391955782310753 msec\nrounds: 588"
+          },
+          {
+            "name": "tests/benchmarks/test_structlog_benchmarks.py::test_gold_standard_structlog_non_str_keys",
+            "value": 1013.0602480332745,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00007178972335764336",
+            "extra": "mean: 987.1081230769548 usec\nrounds: 1625"
+          },
+          {
+            "name": "tests/benchmarks/test_structlog_benchmarks.py::test_gold_standard_structlog",
+            "value": 898.235415611375,
+            "unit": "iter/sec",
+            "range": "stddev: 0.00004809145474722513",
+            "extra": "mean: 1.1132938900203129 msec\nrounds: 1473"
           }
         ]
       }
