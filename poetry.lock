@@ -2767,14 +2767,14 @@ test = ["black (>=22.3.0,<23.0.0)", "coverage (>=5.2,<6.0)", "isort (>=5.0.6,<6.
 
 [[package]]
 name = "types-emoji"
-version = "2.1.0.2"
+version = "2.1.0.3"
 description = "Typing stubs for emoji"
 category = "dev"
 optional = false
 python-versions = "*"
 files = [
-    {file = "types-emoji-2.1.0.2.tar.gz", hash = "sha256:16cdb38ef1eff0ceddab3fd74738a713ebc5f1fa4580468dc8b8f3cadc735b1a"},
-    {file = "types_emoji-2.1.0.2-py3-none-any.whl", hash = "sha256:aeea0da9322b2f7c8543aaa5da2a7e3f77f66627aa6b3afa4993dc6c3df1c898"},
+    {file = "types-emoji-2.1.0.3.tar.gz", hash = "sha256:98ddb0ff5f48622550c431206e4dbfcbde8ca8bc03fcfbb9962a778d2049aa13"},
+    {file = "types_emoji-2.1.0.3-py3-none-any.whl", hash = "sha256:32fe5cf02c4834bb59579380f600a89d1471571fb56e36465cbd0c7d95f669ca"},
 ]
 
 [[package]]
