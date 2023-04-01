@@ -213,6 +213,14 @@ jobs:
           poetry config virtualenvs.in-project true
           poetry config --list
 
+      # Temporary patch for https://github.com/microsoft/debugpy/issues/1246
+      # FIXME(teo): Remove this once the aforementioned issue is resolved
+      - run: |
+          if [[ "$(poetry --version)" == *"1.4.1"* ]]; then
+            poetry config installer.modern-installation false
+          fi
+        shell: bash
+
       - name: Load cached venv(s) (if they exist)
         id: cached-poetry-dependencies
         uses: actions/cache@v3
