@@ -2367,21 +2367,21 @@ test = ["cython", "html5lib", "pytest (>=4.6)", "typed_ast"]
 
 [[package]]
 name = "sphinx-autoapi"
-version = "1.9.0"
+version = "2.1.0"
 description = "Sphinx API documentation generator"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "sphinx-autoapi-1.9.0.tar.gz", hash = "sha256:c897ea337df16ad0cde307cbdfe2bece207788dde1587fa4fc8b857d1fc5dcba"},
-    {file = "sphinx_autoapi-1.9.0-py2.py3-none-any.whl", hash = "sha256:d217953273b359b699d8cb81a5a72985a3e6e15cfe3f703d9a3c201ffc30849b"},
+    {file = "sphinx-autoapi-2.1.0.tar.gz", hash = "sha256:5b5c58064214d5a846c9c81d23f00990a64654b9bca10213231db54a241bc50f"},
+    {file = "sphinx_autoapi-2.1.0-py2.py3-none-any.whl", hash = "sha256:b25c7b2cda379447b8c36b6a0e3bdf76e02fd64f7ca99d41c6cbdf130a01768f"},
 ]
 
 [package.dependencies]
 astroid = ">=2.7"
 Jinja2 = "*"
 PyYAML = "*"
-sphinx = ">=3.0"
+sphinx = ">=5.2.0"
 unidecode = "*"
 
 [package.extras]
@@ -3020,4 +3020,4 @@ sentry = ["sentry-sdk"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.7,<3.12"
-content-hash = "417c8e5ab2106f9219b5fcfb4ae1ff841e3f7d175fae284809dc8100731a21d6"
+content-hash = "877ad03815318bdfad98f2ae59018cdfdb7870a8d21c226727ed30cdf451d194"
