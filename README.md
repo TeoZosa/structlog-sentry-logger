@@ -61,7 +61,12 @@ The pre-configured options include:
           named `docs_src.sentry_integration`
 4. :mag_right: Function names and line numbers where logging calls were made
 
-With fields sorted by key for easier at-a-glance analysis.
+> :fire: **Tip**  
+> For easier at-a-glance analysis, you can also sort log fields by key by exporting
+> the `STRUCTLOG_SENTRY_LOGGER_KEY_SORTING_ON` environment variable. Note, however, that
+> this has a substantial (`~1.6x`) performance penalty.
+> - See [`orjson`'s `OPT_SORT_KEYS` documentation](https://github.com/ijl/orjson#opt_sort_keys)
+>   for more information.
 
 ### :zap: Performance
 
