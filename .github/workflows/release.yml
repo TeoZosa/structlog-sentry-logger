@@ -78,26 +78,22 @@ jobs:
         macosx_deployment_target: ["10.9", "11.0", "12.0"]
         include:
           # Parallelize all Linux aarch64 CPython wheel builds across major versions
-          # 3.7
-          - os: "ubuntu-latest"
-            cibw_archs_linux: "aarch64"
-            cibw_skip_linux_aarch64_cpython_versions: "cp3{8,9,10,11}-*"
           # 3.8
           - os: "ubuntu-latest"
             cibw_archs_linux: "aarch64"
-            cibw_skip_linux_aarch64_cpython_versions: "cp3{7,9,10,11}-*"
+            cibw_skip_linux_aarch64_cpython_versions: "cp3{9,10,11}-*"
           # 3.9
           - os: "ubuntu-latest"
             cibw_archs_linux: "aarch64"
-            cibw_skip_linux_aarch64_cpython_versions: "cp3{7,8,10,11}-*"
+            cibw_skip_linux_aarch64_cpython_versions: "cp3{8,10,11}-*"
           # 3.10
           - os: "ubuntu-latest"
             cibw_archs_linux: "aarch64"
-            cibw_skip_linux_aarch64_cpython_versions: "cp3{7,8,9,11}-*"
+            cibw_skip_linux_aarch64_cpython_versions: "cp3{8,9,11}-*"
           # 3.11
           - os: "ubuntu-latest"
             cibw_archs_linux: "aarch64"
-            cibw_skip_linux_aarch64_cpython_versions: "cp3{7,8,9,10}-*"
+            cibw_skip_linux_aarch64_cpython_versions: "cp3{8,9,10}-*"
 
           # All Linux x86_64 CPython wheel builds
           - os: "ubuntu-latest"
@@ -162,7 +158,7 @@ jobs:
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.12.1
         env:
-          CIBW_PROJECT_REQUIRES_PYTHON: ">=3.7,<3.12"
+          CIBW_PROJECT_REQUIRES_PYTHON: ">=3.8,<3.12"
 
           # Disable building
           # - PyPy wheels on all platforms due to orjson maturin wheel build incompatibility
@@ -275,7 +271,7 @@ jobs:
     strategy:
       matrix:
         os: ["ubuntu-latest", "windows-latest", "macos-latest"]
-        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.8", "3.9", "3.10", "3.11"]
 
     name: Verify package install as user
     runs-on: ${{ matrix.os }}
