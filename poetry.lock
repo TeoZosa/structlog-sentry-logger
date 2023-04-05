@@ -484,14 +484,14 @@ toml = ["tomli"]
 
 [[package]]
 name = "cruft"
-version = "2.12.0"
+version = "2.14.0"
 description = "Allows you to maintain all the necessary cruft for packaging and building projects separate from the code you intentionally write. Built on-top of CookieCutter."
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "cruft-2.12.0-py3-none-any.whl", hash = "sha256:29c46b34e518412c905bc41eb9812d122e7f2ca0173b584df85b05929adfc1be"},
-    {file = "cruft-2.12.0.tar.gz", hash = "sha256:57455d33a60684c945d501dcea2b1c57dc0fb200a0090f07c83da1603382cbb1"},
+    {file = "cruft-2.14.0-py3-none-any.whl", hash = "sha256:c3888897f38b91938509b74446e902ba6cd38169138ff2516fb04b0f01e6386f"},
+    {file = "cruft-2.14.0.tar.gz", hash = "sha256:ba3d976de1cad437b6a92239b6ec844ea8547e09de796ef505d320c356c45de5"},
 ]
 
 [package.dependencies]
@@ -3033,4 +3033,4 @@ sentry = ["sentry-sdk"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8,<3.12"
-content-hash = "44201c100bf7989a3ea806e9b8520f35684b377cc52669ca5076c9740359a2fb"
+content-hash = "f38d2d9eb7aab804172281f13bc50e4c4863d1043129fd8326f4e3d13df1f421"
