@@ -41,7 +41,7 @@ orjson = "^3.6.4"
 python-dotenv = ">=0.19"
 rich = ">=10.12,<14.0"
 sentry-sdk = { version = ">0.17.0", optional = true }
-structlog = ">=21.1,<23.0"
+structlog = ">=21.1,<24.0"
 
 [tool.poetry.extras]
 sentry = ["sentry-sdk"]
