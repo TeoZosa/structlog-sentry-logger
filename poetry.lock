@@ -1145,18 +1145,18 @@ files = [
 
 [[package]]
 name = "mutmut"
-version = "2.4.3"
+version = "2.4.4"
 description = "mutation testing for Python 3"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "mutmut-2.4.3.tar.gz", hash = "sha256:676c253ee4c87d4aa32e257827b3f6fdb4343925b29fa17aa3456ed9be5d93d4"},
+    {file = "mutmut-2.4.4.tar.gz", hash = "sha256:babd1ac579a817f94d5b944af70f1c5fee5ed117775be0a13c99b96b96841b23"},
 ]
 
 [package.dependencies]
 click = "*"
 glob2 = "*"
-junit-xml = "1.8"
+junit-xml = ">=1.8,<2"
 parso = "*"
 pony = "*"
 toml = "*"
@@ -2875,4 +2875,4 @@ sentry = ["sentry-sdk"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8,<3.12"
-content-hash = "77acbff2b7ac9611b3066ca4e188cd1f19238085f3bf3f6713971c32cf4bfcd9"
+content-hash = "0a72a1c21d8c22cb4bde1a83c504d1df050e6e80c65385a7a162432cdf90a041"
