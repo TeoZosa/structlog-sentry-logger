@@ -69,7 +69,7 @@ tox-wheel = "^1.0.0"
 
 # Linting
 ## Code formatting
-black = "^23.9" # see: https://black.readthedocs.io/en/stable/editor_integration.html
+black = "^23.10" # see: https://black.readthedocs.io/en/stable/editor_integration.html
 ## Automation and management
 pre-commit = "^3.4.0"
 
