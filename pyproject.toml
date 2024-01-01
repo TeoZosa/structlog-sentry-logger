@@ -54,7 +54,7 @@ cruft = "^2.15.0" # Automated Cookiecutter template synchronization
 mypy = "^1.5" # Static type checker (includes Mypyc Python module to C-Extension compiler, enabled by standard Python type annotations)
 
 # Testing
-pytest = "^7.4.2"
+pytest = "^7.4.4"
 pytest-benchmark = {extras = ["histogram"], version = "^4.0.0"}
 pytest-cov = "^4.1.0"
 pytest-emoji = "^0.2.0"
