@@ -45,7 +45,7 @@ jobs:
 
       - name: Load cached tox testenv(s) (if they exist)
         id: cached-poetry-dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             .tox
@@ -91,7 +91,7 @@ jobs:
 
       - name: Load cached tox testenv(s) (if they exist)
         id: cached-poetry-dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             .tox
@@ -160,7 +160,7 @@ jobs:
 
       - name: Load cached tox testenv(s) (if they exist)
         id: cached-poetry-dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             .tox
@@ -223,7 +223,7 @@ jobs:
 
       - name: Load cached venv(s) (if they exist)
         id: cached-poetry-dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             .venv
@@ -280,7 +280,7 @@ jobs:
 
       - name: Load cached tox testenv(s) (if they exist)
         id: cached-poetry-dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             .tox
