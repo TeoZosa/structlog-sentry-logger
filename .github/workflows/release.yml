@@ -19,7 +19,7 @@ jobs:
       dev-version: ${{ steps.bump-dev-version.outputs.version }}
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 2
 
@@ -110,7 +110,7 @@ jobs:
       package-version: ${{ steps.log-package-version.outputs.version }}
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -233,7 +233,7 @@ jobs:
       package-version: ${{ needs.package-build.outputs.package-version }}
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -285,7 +285,7 @@ jobs:
 
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -335,7 +335,7 @@ jobs:
 
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Publish the release notes
         uses: release-drafter/release-drafter@v5.24.0
