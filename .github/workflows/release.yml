@@ -172,7 +172,7 @@ jobs:
           # Install rust on Linux runners for orjson wheel builds which use maturin
           # https://github.com/Daggy1234/polaroid/blob/ace9a6eee74ee9c30edd0d350d65e2f3b4d8430c/.github/workflows/publish.yml#L29
           CIBW_BEFORE_ALL_LINUX: >
-            curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain nightly -y &&
+            curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain stable -y &&
             yum install -y openssl-devel || apk add openssl-dev
           CIBW_ENVIRONMENT_LINUX: >
             PATH="$PATH:$HOME/.cargo/bin"
