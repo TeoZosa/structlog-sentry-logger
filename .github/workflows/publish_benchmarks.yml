@@ -59,7 +59,7 @@ jobs:
 
       - name: Run benchmarks for ${{ matrix.python-version }}
         id: performance-testing
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         with:
           timeout_minutes: 20
           max_attempts: 3
