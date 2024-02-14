@@ -258,13 +258,15 @@ jobs:
           user: __token__
           password: ${{ secrets.PYPI_TOKEN }}  # pragma: allowlist secret
 
-      - name: Publish packages on TestPyPI
-        if: "needs.package-build.outputs.is-test-package"
-        uses: pypa/gh-action-pypi-publish@v1.8.10
-        with:
-          user: __token__
-          password: ${{ secrets.TEST_PYPI_TOKEN }}  # pragma: allowlist secret
-          repository_url: https://test.pypi.org/legacy/
+#        # FIXME(teo): Re-enable this step once the following issue is resolved:
+#        # https://github.com/pypi/warehouse/issues/15149
+#      - name: Publish packages on TestPyPI
+#        if: "needs.package-build.outputs.is-test-package"
+#        uses: pypa/gh-action-pypi-publish@v1.8.10
+#        with:
+#          user: __token__
+#          password: ${{ secrets.TEST_PYPI_TOKEN }}  # pragma: allowlist secret
+#          repository_url: https://test.pypi.org/legacy/
 
   # Install Verification ----------------------
   verify-user-install:
@@ -274,6 +276,10 @@ jobs:
         python-version: ["3.8", "3.9", "3.10", "3.11"]
 
     name: Verify package install as user
+    # FIXME(teo): Remove this conditional once the following issue is resolved:
+    # https://github.com/pypi/warehouse/issues/15149
+    if: "! needs.package-build.outputs.is-test-package"
+    # end FIXME(teo)
     runs-on: ${{ matrix.os }}
     needs: pypi-packages-upload
 
