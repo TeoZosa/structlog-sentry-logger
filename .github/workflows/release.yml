@@ -148,7 +148,7 @@ jobs:
 
       - name: Setup QEMU
         if: ${{ runner.os == 'Linux' }}
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
 
       - name: Log wheel filename-safe MacOS deployment target identifier
         if: "startsWith(matrix.os, 'macos')"
