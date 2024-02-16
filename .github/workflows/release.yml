@@ -246,7 +246,7 @@ jobs:
           pip --version
 
       - name: Download the ci build wheel binary wheels
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: python-package-distributions
           path: dist
