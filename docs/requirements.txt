@@ -1,4 +1,4 @@
-poetry==1.6.1
+poetry==1.7.1
 orjson==3.9.14
 # Documentation building
 emoji==2.10.1
