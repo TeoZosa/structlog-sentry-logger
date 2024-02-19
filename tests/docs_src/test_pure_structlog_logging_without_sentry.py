@@ -59,7 +59,7 @@ def test_dev_local(capsys: CaptureFixture, caplog: LogCaptureFixture, monkeypatc
         relevant_expected = (
             "[0m [\x1b[32m\x1b[1minfo     \x1b[0m] "
             "\x1b[1mYour log message              \x1b[0m ["
-            "\x1b[34m\x1b[1mdocs_src.pure_structlog_logging_without_sentry\x1b[0m] "
+            "\x1b[0m\x1b[1m\x1b[34mdocs_src.pure_structlog_logging_without_sentry\x1b[0m]\x1b[0m "
             "\x1b[36mextra_field\x1b[0m=\x1b[35mextra_value\x1b[0m "
             "\x1b[36mfuncName\x1b[0m=\x1b[35m<module>\x1b[0m "
             "\x1b[36mlineno\x1b[0m=\x1b[35m5\x1b[0m "
