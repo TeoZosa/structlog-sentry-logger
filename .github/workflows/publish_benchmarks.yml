@@ -79,7 +79,7 @@ jobs:
       - name: Store the environment-specific benchmarks
         uses: actions/upload-artifact@v4
         with:
-          name: benchmark-data-files
+          name: benchmark-data-files-${{ matrix.python-version }}-${{ matrix.os }}-${{ matrix.library-type }}
           path: .benchmarks
 
       - name: Reset Poetry lockfile for Checkout
@@ -129,8 +129,9 @@ jobs:
       - name: Download the benchmarks
         uses: actions/download-artifact@v4
         with:
-          name: benchmark-data-files
+          pattern: benchmark-data-files*
           path: .benchmarks
+          merge-multiple: true
 
       - name: List benchmark data files
         run: |
