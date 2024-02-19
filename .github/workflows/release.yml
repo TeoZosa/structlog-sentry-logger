@@ -218,7 +218,7 @@ jobs:
             find {dest_dir} -type f -name '*.whl' -exec bash -c 'mv "$1" "${1//12_0/${{ env.macosx_deployment_target_wheel_string }}}"' bash {} \;
 
       - name: Store the binary wheel
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: python-package-distributions
           path: ./wheelhouse/*.whl

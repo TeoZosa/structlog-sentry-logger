@@ -77,7 +77,7 @@ jobs:
             echo "target_output_dir=${NAMESPACED_TARGET_OUTPUT_DIR}" >> $GITHUB_OUTPUT
 
       - name: Store the environment-specific benchmarks
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: benchmark-data-files
           path: .benchmarks
