@@ -217,10 +217,25 @@ jobs:
             find {dest_dir} -type f -name '*.whl' -exec bash -c 'mv "$1" "${1//11_0/${{ env.macosx_deployment_target_wheel_string }}}"' bash {} \; &&
             find {dest_dir} -type f -name '*.whl' -exec bash -c 'mv "$1" "${1//12_0/${{ env.macosx_deployment_target_wheel_string }}}"' bash {} \;
 
+      - name: Log unique benchmark file suffix (MacOS)
+        if: "startsWith(matrix.os, 'macos')"
+        run: |
+          echo "benchmark_file_suffix=$(echo ${{ matrix.cibw_archs_macos }}-${{ matrix.macosx_deployment_target }} )" >> $GITHUB_ENV
+
+      - name: Log unique benchmark file suffix (Ubuntu)
+        if: "startsWith(matrix.os, 'ubuntu')"
+        run: |
+          echo "benchmark_file_suffix=$(echo ${{ matrix.cibw_archs_linux }}-skip-versions-${{ matrix.cibw_skip_linux_aarch64_cpython_versions }} | sed 's/\*\s\{0,1\}//g' )" >> $GITHUB_ENV
+
+      - name: Log unique benchmark file suffix (Windows)
+        if: "startsWith(matrix.os, 'windows')"
+        run: |
+          echo "benchmark_file_suffix=$(echo ${{ matrix.cibw_archs_windows }} )" >> $GITHUB_ENV
+
       - name: Store the binary wheel
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: python-package-distributions
+          name: python-package-distributions-${{ matrix.os }}-${{ env.benchmark_file_suffix }}
           path: ./wheelhouse/*.whl
 
   # PyPI/TestPyPI package upload ----------------------
@@ -246,10 +261,11 @@ jobs:
           pip --version
 
       - name: Download the ci build wheel binary wheels
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
-          name: python-package-distributions
+          pattern: python-package-distributions*
           path: dist
+          merge-multiple: true
 
       - name: Publish packages on PyPI
         if: "! needs.package-build.outputs.is-test-package"
