@@ -193,6 +193,15 @@ An easy way to do this is to put it into a local `.env` file[^2]:
 echo "STRUCTLOG_SENTRY_LOGGER_CLOUD_SENTRY_INTEGRATION_MODE_ON=" >> .env
 ```
 
+> :memo: **️Note**  
+> By default, only logs at error-level or above are sent to Sentry. If you want to set a
+> different minimum log level, you can specify
+> [a valid Python log level](https://docs.python.org/3/library/logging.html#logging-levels)
+> via the `STRUCTLOG_SENTRY_LOGGER_SENTRY_LOG_LEVEL` environment variable.
+>
+> For example, to send all logs at warning-level or above to Sentry you would simply set
+> `STRUCTLOG_SENTRY_LOGGER_SENTRY_LOG_LEVEL=WARNING`
+
 For a concrete example, given the following Python code:
 
 ```python
