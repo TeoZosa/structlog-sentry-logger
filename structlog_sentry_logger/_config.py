@@ -64,7 +64,7 @@ def get_git_root() -> pathlib.Path:  # Gratuitous indirection for testing
 
 
 _LOG_LEVEL = logging.getLevelName(os.environ.get("LOG_LEVEL", "DEBUG").upper())
-_SENTRY_LOG_LEVEL = logging.ERROR
+_SENTRY_LOG_LEVEL = logging.getLevelName(os.environ.get("STRUCTLOG_SENTRY_LOGGER_SENTRY_LOG_LEVEL", "ERROR").upper())
 
 ROOT_DIR = get_root_dir()
 _TIMESTAMPER = structlog.processors.TimeStamper(fmt="iso", utc=True)
