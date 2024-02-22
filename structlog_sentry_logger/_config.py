@@ -64,6 +64,8 @@ def get_git_root() -> pathlib.Path:  # Gratuitous indirection for testing
 
 
 _LOG_LEVEL = logging.getLevelName(os.environ.get("LOG_LEVEL", "DEBUG").upper())
+_SENTRY_LOG_LEVEL = logging.getLevelName(os.environ.get("STRUCTLOG_SENTRY_LOGGER_SENTRY_LOG_LEVEL", "ERROR").upper())
+
 ROOT_DIR = get_root_dir()
 _TIMESTAMPER = structlog.processors.TimeStamper(fmt="iso", utc=True)
 _CONFIGS = Config()
@@ -294,7 +296,7 @@ def set_stdlib_based_structlog_config() -> None:
     ]
 
     if SentryBreadcrumbJsonProcessor is not None and _feature_flags.is_sentry_integration_mode_requested():
-        structlog_processors.append(SentryBreadcrumbJsonProcessor(level=logging.ERROR, tag_keys="__all__"))
+        structlog_processors.append(SentryBreadcrumbJsonProcessor(level=_SENTRY_LOG_LEVEL, tag_keys="__all__"))
 
     if (
         _feature_flags.is_cloud_logging_compatibility_mode_requested()
@@ -333,7 +335,7 @@ def set_optimized_structlog_config() -> None:
         _TIMESTAMPER,
     ]
     if SentryBreadcrumbJsonProcessor is not None and _feature_flags.is_sentry_integration_mode_requested():
-        processors.append(SentryBreadcrumbJsonProcessor(level=logging.ERROR, tag_keys="__all__"))
+        processors.append(SentryBreadcrumbJsonProcessor(level=_SENTRY_LOG_LEVEL, tag_keys="__all__"))
 
     if (
         _feature_flags.is_cloud_logging_compatibility_mode_requested()
