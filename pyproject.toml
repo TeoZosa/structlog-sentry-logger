@@ -38,10 +38,10 @@ python = "^3.8,<3.12"
 colorama = { version = "*", markers = "platform_system == 'Windows'" }
 gitpython = "*"
 orjson = "*"
-python-dotenv = ">=0.19"
-rich = ">=10.12"
-sentry-sdk = { version = ">0.17.0", optional = true }
-structlog = ">=21.1"
+python-dotenv = "*"
+rich = "*"
+sentry-sdk = { version = "*", optional = true }
+structlog = "*"
 
 [tool.poetry.extras]
 sentry = ["sentry-sdk"]
