@@ -51,7 +51,7 @@ sentry = ["sentry-sdk"]
 cruft = "^2.15.0" # Automated Cookiecutter template synchronization
 
 # Type Checking and Data Validation
-mypy = "^1.9" # Static type checker (includes Mypyc Python module to C-Extension compiler, enabled by standard Python type annotations)
+mypy = "^1.10" # Static type checker (includes Mypyc Python module to C-Extension compiler, enabled by standard Python type annotations)
 
 # Testing
 pytest = "^8.1.1"
