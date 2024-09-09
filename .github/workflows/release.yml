@@ -209,13 +209,7 @@ jobs:
           # - arm64/universal2 builds are incorrectly given the x86_64 suffix
           # - MACOSX_DEPLOYMENT_TARGET builds are incorrectly given the default
           #   10_16 & 11_0 platform specifiers
-          CIBW_REPAIR_WHEEL_COMMAND_MACOS: >
-            delocate-listdeps {wheel} &&
-            delocate-wheel --require-archs {delocate_archs} -w {dest_dir} {wheel} &&
-            find {dest_dir} -type f -name '*.whl' -exec bash -c 'mv "$1" "${1//x86_64/${{ matrix.cibw_archs_macos }}}"' bash {} \; &&
-            find {dest_dir} -type f -name '*.whl' -exec bash -c 'mv "$1" "${1//10_16/${{ env.macosx_deployment_target_wheel_string }}}"' bash {} \; &&
-            find {dest_dir} -type f -name '*.whl' -exec bash -c 'mv "$1" "${1//11_0/${{ env.macosx_deployment_target_wheel_string }}}"' bash {} \; &&
-            find {dest_dir} -type f -name '*.whl' -exec bash -c 'mv "$1" "${1//12_0/${{ env.macosx_deployment_target_wheel_string }}}"' bash {} \;
+          CIBW_REPAIR_WHEEL_COMMAND_MACOS: ""
 
       - name: Log unique benchmark file suffix (MacOS)
         if: "startsWith(matrix.os, 'macos')"
