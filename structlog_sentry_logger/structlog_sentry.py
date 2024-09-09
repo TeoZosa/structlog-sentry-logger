@@ -15,6 +15,7 @@ import logging
 import sys
 from typing import Any, Iterable
 
+import sentry_sdk.types
 import structlog
 from sentry_sdk import add_breadcrumb, capture_event
 from sentry_sdk.integrations.logging import ignore_logger as logging_int_ignore_logger
@@ -75,7 +76,9 @@ class SentryProcessor:  # pylint: disable=too-few-public-methods
 
         return logger_name
 
-    def _get_event_and_hint(self, event_dict: structlog.types.EventDict) -> tuple[dict, dict[str, Any] | None]:
+    def _get_event_and_hint(
+        self, event_dict: structlog.types.EventDict
+    ) -> tuple[sentry_sdk.types.Event, dict[str, Any] | None]:
         """Create a sentry event and hint from structlog `event_dict` and sys.exc_info.
 
         :param event_dict: structlog event_dict
@@ -92,8 +95,8 @@ class SentryProcessor:  # pylint: disable=too-few-public-methods
         else:
             event, hint = {}, None
 
-        event["message"] = event_dict.get("event")
-        event["level"] = event_dict.get("level")
+        event["message"] = event_dict.get("event")  # type: ignore[typeddict-item]
+        event["level"] = event_dict.get("level")  # type: ignore[typeddict-item]
         if "logger" in event_dict:
             event["logger"] = event_dict["logger"]
 
