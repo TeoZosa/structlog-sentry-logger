@@ -70,12 +70,21 @@ jobs:
   package-build:
     strategy:
       matrix:
-        # Parallelize all MacOS CPython wheel builds
-        os: ["macos-latest"]
+        # Parallelize all macOS CPython wheel builds
+        os: ["macos-13", "macos-latest"]
         cibw_archs_macos: ["x86_64", "universal2", "arm64"]
-        # For broader MacOS major version compatibility,
+        # For broader macOS major version compatibility,
         # build all wheels against the below deployment targets
         macosx_deployment_target: ["11.0", "12.0", "13.0", "14.0"]
+        exclude:
+          # Exclude macOS universal2 & arm64 CPython wheel builds on Intel runners
+          - os: "macos-13"
+            cibw_archs_macos: "universal2"
+          - os: "macos-13"
+            cibw_archs_macos: "arm64"
+          # Exclude macOS x86_64 CPython wheel builds on Apple Silicon runners
+          - os: "macos-latest"
+            cibw_archs_macos: "x86_64"
         include:
           # Parallelize all Linux aarch64 CPython wheel builds across major versions
           # 3.9
@@ -185,7 +194,7 @@ jobs:
           # build 64-bit Intel and ARM wheels
           CIBW_ARCHS_LINUX: ${{ matrix.cibw_archs_linux }}
 
-          # On MacOS, explicitly specify (a) target architectures for correct
+          # On macOS, explicitly specify (a) target architectures for correct
           # wheel builds (metadata & file names use x86_64 by default otherwise)
           # and (b) minimum target OS versions for broader compatibility with
           # different OS versions
@@ -193,13 +202,8 @@ jobs:
             MACOSX_DEPLOYMENT_TARGET="${{ matrix.macosx_deployment_target }}"
             CMAKE_OSX_DEPLOYMENT_TARGET="${{ matrix.macosx_deployment_target }}"
             CMAKE_OSX_ARCHITECTURES="${{ matrix.cibw_archs_macos }}"
-          # Build `universal2` and `arm64` wheels on an Intel runner.
-          # Note that the `arm64` wheel and the `arm64` part of the `universal2`
-          # wheel cannot be tested in this configuration.
           CIBW_ARCHS_MACOS: ${{ matrix.cibw_archs_macos }}
           CIBW_BUILD_VERBOSITY_MACOS: 1
-          # Skip trying to test arm64 builds on Intel Macs
-          CIBW_TEST_SKIP: "*-macosx_arm64 *-macosx_universal2:arm64"
 
           # Correctly rename MacOS wheels to fix user installs (due to bug w/ cibuildwheel)
           # - MACOSX_DEPLOYMENT_TARGET builds are incorrectly given the default
