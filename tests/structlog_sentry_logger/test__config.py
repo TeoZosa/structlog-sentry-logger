@@ -58,7 +58,8 @@ LogType = dict[str, Union[uuid.UUID, str]]
 
 
 def test_pytest_caplog_and_structlog_patching_equivalence(
-    capsys: CaptureFixture, random_log_msgs: list[str]
+    capsys: CaptureFixture,
+    random_log_msgs: list[str],
 ) -> None:
     def get_pytest_captured_logs() -> list[JSONOutputType]:
         logger = structlog_sentry_logger.get_logger()
@@ -99,9 +100,7 @@ def test_pytest_caplog_and_structlog_patching_equivalence(
         time_delta = convert_time(timestamp1) - convert_time(timestamp2)
         assert pytest.approx(time_delta.total_seconds(), rel=1) == 0
 
-    for pytest_captured_log, structlog_captured_log in zip(
-        get_pytest_captured_logs(), get_structlog_captured_logs()
-    ):
+    for pytest_captured_log, structlog_captured_log in zip(get_pytest_captured_logs(), get_structlog_captured_logs()):
         # Redundant information solely for better UX;
         # from `structlog.stdlib.add_log_level`
         del structlog_captured_log["log_level"]
@@ -200,12 +199,7 @@ def test_read_only_filesystem(mocker: MockerFixture, tmp_path: Path) -> None:
     )
 
     assert structlog_sentry_logger._config.mkdir_logs_dir(tmp_path) is False
-    assert (
-        structlog_sentry_logger._config.get_dev_local_filename_handler(
-            "DUMMY_MODULE_NAME"
-        )
-        is None
-    )
+    assert structlog_sentry_logger._config.get_dev_local_filename_handler("DUMMY_MODULE_NAME") is None
 
 
 @pytest.mark.xfail(
@@ -222,9 +216,7 @@ def test_read_only_root_dir(mocker: MockerFixture, tmp_path: Path) -> None:
         tmp_path,
     )
 
-    filename_handler = structlog_sentry_logger._config.get_dev_local_filename_handler(
-        "DUMMY_MODULE.NAME"
-    )
+    filename_handler = structlog_sentry_logger._config.get_dev_local_filename_handler("DUMMY_MODULE.NAME")
     assert filename_handler is not None
 
     filename_path = Path(filename_handler["filename"])
@@ -235,9 +227,7 @@ def test_read_only_root_dir(mocker: MockerFixture, tmp_path: Path) -> None:
     assert filename_path.relative_to(Path(tempfile.mkdtemp()).parent)
 
 
-def test_mock_read_bad_git_ownership_root_dir(
-    monkeypatch: MonkeyPatch, tmp_path: Path
-) -> None:
+def test_mock_read_bad_git_ownership_root_dir(monkeypatch: MonkeyPatch, tmp_path: Path) -> None:
     """Test the case where a git root directory tries to be inferred by a user who is not the owner.
 
     This returns the same error as if `git.Repo(dir).git.rev_parse("--show-toplevel")` was
@@ -282,9 +272,7 @@ def test_no_filename_handler(mocker: MockerFixture, monkeypatch: MonkeyPatch) ->
         "get_dev_local_filename_handler",
         lambda _: None,
     )
-    monkeypatch.setenv(
-        "STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON", "ANY_VALUE"
-    )
+    monkeypatch.setenv("STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON", "ANY_VALUE")
     handlers = structlog_sentry_logger._config.get_handlers("DUMMY_MODULE_NAME")
     assert "filename" not in handlers
 
@@ -314,9 +302,7 @@ def test_sentry_DSN_integration(
                     assert log["sentry"] == "sent"
                     assert "sentry_id" in log
                 else:
-                    raise NotImplementedError(
-                        "Captured log message not a supported type"
-                    ) from err
+                    raise NotImplementedError("Captured log message not a supported type") from err
             raise err
 
 
@@ -344,9 +330,7 @@ class TestBasicLogging:  # pylint: disable=too-few-public-methods
     }
 
     @staticmethod
-    @pytest.mark.parametrize(
-        "test_data", [{k: v} for k, v in test_data.items()], ids=test_data.keys()
-    )
+    @pytest.mark.parametrize("test_data", [{k: v} for k, v in test_data.items()], ids=test_data.keys())
     def test(capsys: CaptureFixture, test_data: dict) -> None:
         logger = structlog_sentry_logger.get_logger()
         logger.debug("Testing main Logger", **test_data)
@@ -507,9 +491,7 @@ class TestCloudLogging:  # pylint: disable=too-few-public-methods
         # Enable Cloud Logging compatibility mode
         structlog.reset_defaults()
         if is_stdlib_logger_requested:
-            monkeypatch.setenv(
-                "_STRUCTLOG_SENTRY_LOGGER_STDLIB_BASED_LOGGER_MODE_ON", "ANY_VALUE"
-            )
+            monkeypatch.setenv("_STRUCTLOG_SENTRY_LOGGER_STDLIB_BASED_LOGGER_MODE_ON", "ANY_VALUE")
         monkeypatch.setenv(cloud_logging_compatibility_mode_env_var, "ANY_VALUE")
 
         # Initialize Cloud Logging-compatible logger and perform logging
@@ -570,9 +552,7 @@ class TestCloudLogging:  # pylint: disable=too-few-public-methods
         cloud_logging_log_level_key, python_log_level_key = "severity", "level"
         # Validate Cloud Logging key correctly overwritten
         assert (
-            test_log[python_log_level_key]
-            == test_log[cloud_logging_log_level_key]
-            != orig_cloud_logging_log_key_value
+            test_log[python_log_level_key] == test_log[cloud_logging_log_level_key] != orig_cloud_logging_log_key_value
         )
 
 
@@ -602,25 +582,19 @@ class TestLoggerSchema:
     ) -> None:
 
         # Configure test environment
-        tests.utils.enable_sentry_integration_mode(
-            monkeypatch
-        )  # Default: Sentry integration activated
+        tests.utils.enable_sentry_integration_mode(monkeypatch)  # Default: Sentry integration activated
         if not is_sentry_integration_installed:
             # Mock the optional `sentry_sdk` module not being importable
             # (e.g., if it wasn't installed) by nulling it in the environment's dict
             # of imported modules.
             monkeypatch.setitem(sys.modules, "sentry_sdk", None)  # type: ignore
             # Unload the vendored `structlog_sentry` package containing the `sentry_sdk` import
-            monkeypatch.delitem(
-                sys.modules, "structlog_sentry_logger.structlog_sentry", raising=True
-            )
+            monkeypatch.delitem(sys.modules, "structlog_sentry_logger.structlog_sentry", raising=True)
             # Unload the library module containing the top-level imports of 3rd-party
             # dependencies and reload it to trigger a new import attempt of the
             # now-un-importable `sentry_sdk` package (through the vendored `structlog_sentry`
             # package) to trigger associated code paths.
-            monkeypatch.delitem(
-                sys.modules, "structlog_sentry_logger._config", raising=True
-            )
+            monkeypatch.delitem(sys.modules, "structlog_sentry_logger._config", raising=True)
             importlib.reload(structlog_sentry_logger)
         if not is_sentry_integration_mode_requested:
             # Switch Sentry integration mode off
@@ -655,18 +629,14 @@ class TestLoggerSchema:
             assert "timestamp" in log
 
     @staticmethod
-    def test_non_structlog_logger(
-        capsys: CaptureFixture, random_log_msgs: list[str]
-    ) -> None:
+    def test_non_structlog_logger(capsys: CaptureFixture, random_log_msgs: list[str]) -> None:
         logger = structlog_sentry_logger.get_logger()
         for log_msg in random_log_msgs:
             logger.debug(log_msg)
 
         captured_logs = tests.utils.get_validated_json_output(capsys)
         assert captured_logs
-        non_structlogged_records = [
-            log for log in captured_logs if not isinstance(log, dict)
-        ]
+        non_structlogged_records = [log for log in captured_logs if not isinstance(log, dict)]
         assert not non_structlogged_records
 
 
@@ -675,9 +645,7 @@ class TestCorrectNamespacing:
     def test_main_module(mocker: MockerFixture) -> None:
         expected_logger = structlog_sentry_logger.get_logger()
         # pylint: disable=protected-access
-        mocker.patch.object(
-            structlog_sentry_logger._config, "is_caller_main", lambda _: True
-        )
+        mocker.patch.object(structlog_sentry_logger._config, "is_caller_main", lambda _: True)
         # pylint: enable=protected-access
         actual_logger = structlog_sentry_logger.get_logger()
         assert repr(expected_logger) == repr(actual_logger)
@@ -705,9 +673,7 @@ class TestCorrectNamespacing:
         assert captured_logs
         child_logs = [log for log in captured_logs if isinstance(log, dict)]
 
-        for child_log, child_module in zip(
-            child_logs, [child_module_1, child_module_2]
-        ):
+        for child_log, child_module in zip(child_logs, [child_module_1, child_module_2]):
             assert (
                 child_log["event"]
                 == child_log["logger"]
@@ -725,9 +691,7 @@ class TestLoadingDotenv:
         self.dotenv_file = tmp_path / ".env"
         monkeypatch.setattr(dotenv, "find_dotenv", lambda: self.dotenv_file)
 
-        self.good_test_env_vars = (
-            structlog_sentry_logger._feature_flags._ENV_VARS_REQUIRED_BY_LIBRARY.values()
-        )
+        self.good_test_env_vars = structlog_sentry_logger._feature_flags._ENV_VARS_REQUIRED_BY_LIBRARY.values()
         for env_var in self.good_test_env_vars:
             self._append_var_to_dotenv_file(env_var)
 
@@ -737,9 +701,7 @@ class TestLoadingDotenv:
         for env_var in self.good_test_env_vars:
             assert env_var in os.environ
 
-    def test__load_library_specific_env_vars_already_set(
-        self, monkeypatch: MonkeyPatch
-    ) -> None:
+    def test__load_library_specific_env_vars_already_set(self, monkeypatch: MonkeyPatch) -> None:
         already_set_value = "ALREADY SET"
         for env_var in self.good_test_env_vars:
             monkeypatch.setenv(env_var, already_set_value)
@@ -763,9 +725,7 @@ class TestLoadingDotenv:
         except FileNotFoundError:
             current_values = ""
 
-        self.dotenv_file.write_text(
-            current_values + f"{env_var}=''\n", encoding=encoding
-        )
+        self.dotenv_file.write_text(current_values + f"{env_var}=''\n", encoding=encoding)
 
 
 # pylint: enable=protected-access
@@ -773,19 +733,13 @@ class TestLoadingDotenv:
 
 class TestBasicPerfLogging:
     test_data: dict[str, Any] = TestBasicLogging.test_data
-    cloud_logging_compatibility_mode_env_vars: list[
-        str
-    ] = TestCloudLogging.cloud_logging_compatibility_mode_env_vars
+    cloud_logging_compatibility_mode_env_vars: list[str] = TestCloudLogging.cloud_logging_compatibility_mode_env_vars
 
     @pytest.fixture(scope="function", autouse=True)
     def setup(self, monkeypatch: MonkeyPatch) -> None:
         structlog.reset_defaults()
-        monkeypatch.delenv(
-            "STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON", raising=False
-        )
-        monkeypatch.delenv(
-            "_STRUCTLOG_SENTRY_LOGGER_STDLIB_BASED_LOGGER_MODE_ON", raising=False
-        )
+        monkeypatch.delenv("STRUCTLOG_SENTRY_LOGGER_LOCAL_DEVELOPMENT_LOGGING_MODE_ON", raising=False)
+        monkeypatch.delenv("_STRUCTLOG_SENTRY_LOGGER_STDLIB_BASED_LOGGER_MODE_ON", raising=False)
         for env_var in self.cloud_logging_compatibility_mode_env_vars:
             monkeypatch.delenv(env_var, raising=False)
 
@@ -793,9 +747,7 @@ class TestBasicPerfLogging:
         "cloud_logging_compatibility_mode_env_var",
         cloud_logging_compatibility_mode_env_vars,
     )
-    @pytest.mark.parametrize(
-        "test_data", [{k: v} for k, v in test_data.items()], ids=test_data.keys()
-    )
+    @pytest.mark.parametrize("test_data", [{k: v} for k, v in test_data.items()], ids=test_data.keys())
     def test_perf_logging_cloud(
         self,
         capsys: CaptureFixture,
@@ -806,9 +758,7 @@ class TestBasicPerfLogging:
         monkeypatch.setenv(cloud_logging_compatibility_mode_env_var, "ANY_VALUE")
         self._test(capsys, test_data, is_cloud_logging_mode=True)
 
-    @pytest.mark.parametrize(
-        "test_data", [{k: v} for k, v in test_data.items()], ids=test_data.keys()
-    )
+    @pytest.mark.parametrize("test_data", [{k: v} for k, v in test_data.items()], ids=test_data.keys())
     def test_perf_logging(
         self,
         capsys: CaptureFixture,
