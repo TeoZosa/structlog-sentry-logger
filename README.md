@@ -353,7 +353,7 @@ encapsulated in single [Make](https://www.gnu.org/software/make/) targets.
 :building_construction: Package and Dependencies Installation
 -------------------------------------------------------------
 
-Make sure you have Python 3.8+ and [`poetry`](https://python-poetry.org/)
+Make sure you have Python 3.9+ and [`poetry`](https://python-poetry.org/)
 installed and configured.
 
 To install the package and all dev dependencies, run:

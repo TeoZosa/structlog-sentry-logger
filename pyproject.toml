@@ -15,7 +15,6 @@ classifiers = [
     "Natural Language :: English",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
@@ -32,7 +31,7 @@ generate-setup-file = true
 Changelog = "https://github.com/TeoZosa/structlog-sentry-logger/releases"
 
 [tool.poetry.dependencies]
-python = "^3.8,<3.12"
+python = "^3.9,<3.12"
 
 # Project-Specific
 colorama = { version = "*", markers = "platform_system == 'Windows'" }
@@ -180,9 +179,9 @@ format = "grouped"
 # By default, always show source code snippets.
 show-source = true
 
-# Assume Python 3.8
+# Assume Python 3.9
 # Note: helps prevent breaking autofixes from, e.g., pyupgrade
-target-version = "py38"
+target-version = "py39"
 
 [tool.ruff.isort]
 # Note: Ruff implicitly uses `profile = "black"`
