@@ -203,13 +203,11 @@ jobs:
 
           # Correctly rename MacOS wheels to fix user installs (due to bug w/ cibuildwheel)
           # - MACOSX_DEPLOYMENT_TARGET builds are incorrectly given the default
-          #   10_16 & 11_0 platform specifiers
+          #   14_0 platform specifiers
           CIBW_REPAIR_WHEEL_COMMAND_MACOS: >
             delocate-listdeps {wheel} &&
             delocate-wheel --require-archs {delocate_archs} -w {dest_dir} {wheel} &&
-            find {dest_dir} -type f -name '*.whl' -exec bash -c 'mv "$1" "${1//10_16/${{ env.macosx_deployment_target_wheel_string }}}"' bash {} \; &&
-            find {dest_dir} -type f -name '*.whl' -exec bash -c 'mv "$1" "${1//11_0/${{ env.macosx_deployment_target_wheel_string }}}"' bash {} \; &&
-            find {dest_dir} -type f -name '*.whl' -exec bash -c 'mv "$1" "${1//12_0/${{ env.macosx_deployment_target_wheel_string }}}"' bash {} \;
+            find {dest_dir} -type f -name '*.whl' -exec bash -c 'mv "$1" "${1//14_0/${{ env.macosx_deployment_target_wheel_string }}}"' bash {} \;
 
       - name: Log unique benchmark file suffix (MacOS)
         if: "startsWith(matrix.os, 'macos')"
