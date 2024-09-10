@@ -75,7 +75,7 @@ jobs:
         cibw_archs_macos: ["x86_64", "universal2", "arm64"]
         # For broader MacOS major version compatibility,
         # build all wheels against the below deployment targets
-        macosx_deployment_target: ["11.0", "12.0"]
+        macosx_deployment_target: ["11.0", "12.0", "13.0"]
         include:
           # Parallelize all Linux aarch64 CPython wheel builds across major versions
           # 3.9
