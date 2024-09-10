@@ -65,11 +65,13 @@ jobs:
           max_attempts: 3
           shell: bash
           command: |
+            set -x
             TOX_COMPATIBLE_VERSION=$(echo ${{ matrix.python-version }} | tr -d '.')
             TOX_TESTENV="py${TOX_COMPATIBLE_VERSION}-benchmark-${{ matrix.library-type }}"
             make "tox-${TOX_TESTENV}"
+            mv .benchmarks benchmarks
 
-            BENCHMARK_FILE=$(find .benchmarks -maxdepth 2 -type f -name "*.json" | sort  --version-sort --reverse | tail -n 1)
+            BENCHMARK_FILE=$(find benchmarks -maxdepth 2 -type f -name "*.json" | sort  --version-sort --reverse | tail -n 1)
             echo "benchmark_file_path=${BENCHMARK_FILE}" >> $GITHUB_OUTPUT
 
             ENV_DIR_NAME=$(basename "${BENCHMARK_FILE%/*}" | tr '-' '/')
@@ -80,7 +82,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: benchmark-data-files-${{ matrix.python-version }}-${{ matrix.os }}-${{ matrix.library-type }}
-          path: .benchmarks
+          path: benchmarks
 
       - name: Reset Poetry lockfile for Checkout
         run: |
@@ -130,18 +132,18 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           pattern: benchmark-data-files*
-          path: .benchmarks
+          path: benchmarks
           merge-multiple: true
 
       - name: List benchmark data files
         run: |
-          find .benchmarks
+          find benchmarks
 
       - name: Plot aggregate results tables (by Python interpreter)
         run: |
           # Disable '\n' field splitting for proper downstream command substitutions
           IFS=' '
-          BENCHMARK_DATA_DIRS=$(ls .benchmarks | grep -v "^.*bit$" | sed 's/\(.*\)/\1\/*/')
+          BENCHMARK_DATA_DIRS=$(ls benchmarks | grep -v "^.*bit$" | sed 's/\(.*\)/\1\/*/')
 
           echo "**By Python versions**"
           for MINOR_VER in 7 8 9;
@@ -157,7 +159,7 @@ jobs:
         run: |
           # Disable '\n' field splitting for proper downstream command substitutions
           IFS=' '
-          BENCHMARK_DATA_DIRS=$(ls .benchmarks | grep -v "^.*bit$" | sed 's/\(.*\)/\1\/*/')
+          BENCHMARK_DATA_DIRS=$(ls benchmarks | grep -v "^.*bit$" | sed 's/\(.*\)/\1\/*/')
 
           for SYS_PLATFORM in Linux Darwin Win32;
           do
@@ -171,7 +173,7 @@ jobs:
         run: |
           # Disable '\n' field splitting for proper downstream command substitutions
           IFS=' '
-          BENCHMARK_DATA_DIRS=$(ls .benchmarks | grep -v "^.*bit$" | sed 's/\(.*\)/\1\/*/')
+          BENCHMARK_DATA_DIRS=$(ls benchmarks | grep -v "^.*bit$" | sed 's/\(.*\)/\1\/*/')
 
           echo "**Pure Python vs C Library (platform x Python interpreter)**"
           for DIR in $(echo ${BENCHMARK_DATA_DIRS} | tr '\n' ' ');
@@ -184,7 +186,7 @@ jobs:
         run: |
           # Disable '\n' field splitting for proper downstream command substitutions
           IFS=' '
-          BENCHMARK_DATA_DIRS=$(ls .benchmarks | grep -v "^.*bit$" | sed 's/\(.*\)/\1\/*/')
+          BENCHMARK_DATA_DIRS=$(ls benchmarks | grep -v "^.*bit$" | sed 's/\(.*\)/\1\/*/')
 
           echo "**Pure Python (All)**"
           pytest-benchmark compare pure_python ${{ env.BENCHMARK_OPTS }}
