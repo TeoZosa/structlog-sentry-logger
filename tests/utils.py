@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import json
-from typing import Any, Dict
+from typing import Any
 
 import orjson
 import structlog
@@ -9,7 +9,7 @@ from _pytest.capture import CaptureFixture
 from _pytest.logging import LogCaptureFixture
 from _pytest.monkeypatch import MonkeyPatch
 
-JSONOutputType = Dict[str, Any]
+JSONOutputType = dict[str, Any]
 
 
 def reset_logging_configs() -> None:

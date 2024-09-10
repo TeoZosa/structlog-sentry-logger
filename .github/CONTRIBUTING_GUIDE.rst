@@ -51,7 +51,7 @@ How to set up your development environment
    Invoking ``make`` without any arguments will display
    auto-generated documentation on available commands.
 
-Make sure you have Python 3.8+ and Poetry_ installed and configured.
+Make sure you have Python 3.9+ and Poetry_ installed and configured.
 
 Install the package with development requirements:
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -110,7 +110,7 @@ Lint the code:
    prior to every commit that is pushed.
 
 You can also run a specific Python ``tox`` testenv.
-For example, invoke the Python3.8 unit test suite like this:
+For example, invoke the Python3.9 unit test suite like this:
 
 .. highlight:: bash
 .. code-block:: bash

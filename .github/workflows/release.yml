@@ -78,22 +78,18 @@ jobs:
         macosx_deployment_target: ["10.9", "11.0", "12.0"]
         include:
           # Parallelize all Linux aarch64 CPython wheel builds across major versions
-          # 3.8
-          - os: "ubuntu-latest"
-            cibw_archs_linux: "aarch64"
-            cibw_skip_linux_aarch64_cpython_versions: "cp3{9,10,11}-*"
           # 3.9
           - os: "ubuntu-latest"
             cibw_archs_linux: "aarch64"
-            cibw_skip_linux_aarch64_cpython_versions: "cp3{8,10,11}-*"
+            cibw_skip_linux_aarch64_cpython_versions: "cp3{10,11}-*"
           # 3.10
           - os: "ubuntu-latest"
             cibw_archs_linux: "aarch64"
-            cibw_skip_linux_aarch64_cpython_versions: "cp3{8,9,11}-*"
+            cibw_skip_linux_aarch64_cpython_versions: "cp3{9,11}-*"
           # 3.11
           - os: "ubuntu-latest"
             cibw_archs_linux: "aarch64"
-            cibw_skip_linux_aarch64_cpython_versions: "cp3{8,9,10}-*"
+            cibw_skip_linux_aarch64_cpython_versions: "cp3{9,10}-*"
 
           # All Linux x86_64 CPython wheel builds
           - os: "ubuntu-latest"
@@ -158,7 +154,7 @@ jobs:
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.20.0
         env:
-          CIBW_PROJECT_REQUIRES_PYTHON: ">=3.8,<3.12"
+          CIBW_PROJECT_REQUIRES_PYTHON: ">=3.9,<3.12"
 
           # Disable building
           # - PyPy wheels on all platforms due to orjson maturin wheel build incompatibility
@@ -206,13 +202,11 @@ jobs:
           CIBW_TEST_SKIP: "*-macosx_arm64 *-macosx_universal2:arm64"
 
           # Correctly rename MacOS wheels to fix user installs (due to bug w/ cibuildwheel)
-          # - arm64/universal2 builds are incorrectly given the x86_64 suffix
           # - MACOSX_DEPLOYMENT_TARGET builds are incorrectly given the default
           #   10_16 & 11_0 platform specifiers
           CIBW_REPAIR_WHEEL_COMMAND_MACOS: >
             delocate-listdeps {wheel} &&
             delocate-wheel --require-archs {delocate_archs} -w {dest_dir} {wheel} &&
-            find {dest_dir} -type f -name '*.whl' -exec bash -c 'mv "$1" "${1//x86_64/${{ matrix.cibw_archs_macos }}}"' bash {} \; &&
             find {dest_dir} -type f -name '*.whl' -exec bash -c 'mv "$1" "${1//10_16/${{ env.macosx_deployment_target_wheel_string }}}"' bash {} \; &&
             find {dest_dir} -type f -name '*.whl' -exec bash -c 'mv "$1" "${1//11_0/${{ env.macosx_deployment_target_wheel_string }}}"' bash {} \; &&
             find {dest_dir} -type f -name '*.whl' -exec bash -c 'mv "$1" "${1//12_0/${{ env.macosx_deployment_target_wheel_string }}}"' bash {} \;
@@ -289,7 +283,7 @@ jobs:
     strategy:
       matrix:
         os: ["ubuntu-latest", "windows-latest", "macos-latest"]
-        python-version: ["3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.9", "3.10", "3.11"]
 
     name: Verify package install as user
     # FIXME(teo): Remove this conditional once the following issue is resolved:

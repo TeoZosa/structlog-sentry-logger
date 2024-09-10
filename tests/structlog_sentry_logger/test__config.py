@@ -9,7 +9,7 @@ import sys
 import tempfile
 import uuid
 from pathlib import Path
-from typing import Any, Dict, Union
+from typing import Any, Union
 
 import dotenv
 import git
@@ -54,10 +54,13 @@ def random_log_msgs(iters: int = 10) -> list[str]:
 
 # Demonstrates/validates `pytest`-captured logs are functionally identical to
 # `structlog.testing`-captured logs
-LogType = Dict[str, Union[uuid.UUID, str]]
+LogType = dict[str, Union[uuid.UUID, str]]
 
 
-def test_pytest_caplog_and_structlog_patching_equivalence(capsys: CaptureFixture, random_log_msgs: list[str]) -> None:
+def test_pytest_caplog_and_structlog_patching_equivalence(
+    capsys: CaptureFixture,
+    random_log_msgs: list[str],
+) -> None:
     def get_pytest_captured_logs() -> list[JSONOutputType]:
         logger = structlog_sentry_logger.get_logger()
         for log_msg in random_log_msgs:
