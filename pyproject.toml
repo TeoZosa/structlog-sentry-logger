@@ -19,6 +19,7 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python",
     "Topic :: Software Development :: Libraries :: Python Modules",
@@ -32,7 +33,7 @@ generate-setup-file = true
 Changelog = "https://github.com/TeoZosa/structlog-sentry-logger/releases"
 
 [tool.poetry.dependencies]
-python = "^3.9,<3.13"
+python = "^3.9,<3.14"
 
 # Project-Specific
 colorama = { version = "*", markers = "platform_system == 'Windows'" }
