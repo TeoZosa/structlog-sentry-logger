@@ -295,3 +295,4 @@ jobs:
         with:
           name: mutmut-cache
           path: ./.mutmut-cache
+          include-hidden-files: true
