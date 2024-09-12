@@ -7,7 +7,7 @@ build:
   tools:
     # For available versions, see:
     # https://docs.readthedocs.io/en/stable/config-file/v2.html#build-tools-python
-    python: "3.12"  # Keep in sync with .github/workflows/ci.yml
+    python: "3.13"  # Keep in sync with .github/workflows/ci.yml
   apt_packages:
     - graphviz
 
