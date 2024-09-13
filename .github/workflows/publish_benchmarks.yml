@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         os: ["ubuntu-latest", "macos-latest"]
-        python-version: ["3.9", "3.10", "3.11"]
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
         library-type: ["pure_python", "c_library"]
 
     name: Performance testing for Python ${{ matrix.python-version }} (${{ matrix.os }}) [${{ matrix.library-type }}]
@@ -117,7 +117,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.12"
 
       - name: Upgrade pip
         run: |

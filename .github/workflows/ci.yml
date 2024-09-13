@@ -14,7 +14,7 @@ jobs:
   code-quality:
     strategy:
       matrix:
-        python-version: ["3.11"]
+        python-version: ["3.12"]
 
     name: Code Quality
     runs-on: "ubuntu-latest"
@@ -60,7 +60,7 @@ jobs:
   dependency-security-vulnerability-analysis:
     strategy:
       matrix:
-        python-version: ["3.11"]
+        python-version: ["3.12"]
 
     name: Dependency Security Vulnerability Analysis
     runs-on: "ubuntu-latest"
@@ -124,14 +124,14 @@ jobs:
     strategy:
       matrix:
         os: ["ubuntu-latest", "macos-latest"]
-        python-version: ["3.9", "3.10", "3.11"]
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
 
     name: Python ${{ matrix.python-version }} (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
 
     env:
       USING_COVERAGE_OS: "ubuntu"
-      USING_COVERAGE_PY_VER: "3.11"
+      USING_COVERAGE_PY_VER: "3.12"
 
     steps:
       - name: Check out the repository
@@ -189,7 +189,7 @@ jobs:
   test-documentation-building:
     strategy:
       matrix:
-        python-version: ["3.11"]
+        python-version: ["3.12"]
 
     name: Documentation build testing
     runs-on: "ubuntu-latest"
@@ -246,7 +246,7 @@ jobs:
   test-mutations:
     strategy:
       matrix:
-        python-version: ["3.10"]
+        python-version: ["3.12"]
 
     name: Mutation testing
     runs-on: "ubuntu-latest"

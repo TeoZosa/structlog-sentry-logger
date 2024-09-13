@@ -18,6 +18,7 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python",
     "Topic :: Software Development :: Libraries :: Python Modules",
@@ -31,7 +32,7 @@ generate-setup-file = true
 Changelog = "https://github.com/TeoZosa/structlog-sentry-logger/releases"
 
 [tool.poetry.dependencies]
-python = "^3.9,<3.12"
+python = "^3.9,<3.13"
 
 # Project-Specific
 colorama = { version = "*", markers = "platform_system == 'Windows'" }
@@ -195,5 +196,5 @@ max-complexity = 10
 convention = "google"
 
 [build-system]
-requires = ["poetry-core>=1.0.0", "mypy>=0.910,<1.0.0", "setuptools>=58.1.0", "orjson>=3.6.4"]
+requires = ["poetry-core>=1.0.0", "mypy>=1.11.2", "setuptools>=58.1.0", "orjson>=3.6.4"]
 build-backend = "poetry.core.masonry.api"
