@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "structlog-sentry-logger"
-version = "1.5.1"
+version = "1.5.2"
 description = "Log without the setup via a pre-configured structlog logger with optional Sentry integration"
 authors = ["Teo Zosa <erinzosa@ucla.com>"]
 license = "Apache-2.0"
