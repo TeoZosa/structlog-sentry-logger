@@ -29,7 +29,7 @@ except ImportError:
     SentryBreadcrumbJsonProcessor = None  # type: ignore
 
 
-@dataclasses.dataclass(init=False)
+@dataclasses.dataclass
 class Config:
     use_orjson: bool = True
     orjson_configs: int = orjson.OPT_NON_STR_KEYS
@@ -68,7 +68,12 @@ _SENTRY_LOG_LEVEL = logging.getLevelName(os.environ.get("STRUCTLOG_SENTRY_LOGGER
 
 ROOT_DIR = get_root_dir()
 _TIMESTAMPER = structlog.processors.TimeStamper(fmt="iso", utc=True)
-_CONFIGS = Config()
+_CONFIGS = Config(
+    use_orjson=True,
+    orjson_configs=orjson.OPT_NON_STR_KEYS,
+    stdlib_logging_config_already_configured=False,
+    stdlib_logging_sort_keys=False,
+)
 
 
 def _toggle_json_library(use_orjson: bool = True) -> None:
