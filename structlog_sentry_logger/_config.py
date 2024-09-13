@@ -29,7 +29,7 @@ except ImportError:
     SentryBreadcrumbJsonProcessor = None  # type: ignore
 
 
-@dataclasses.dataclass
+@dataclasses.dataclass(init=False)
 class Config:
     use_orjson: bool = True
     orjson_configs: int = orjson.OPT_NON_STR_KEYS
