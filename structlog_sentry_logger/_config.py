@@ -31,10 +31,10 @@ except ImportError:
 
 @dataclasses.dataclass
 class Config:
-    use_orjson = True
-    orjson_configs = orjson.OPT_NON_STR_KEYS
-    stdlib_logging_config_already_configured = False
-    stdlib_logging_sort_keys = False
+    use_orjson: bool = True
+    orjson_configs: int = orjson.OPT_NON_STR_KEYS
+    stdlib_logging_config_already_configured: bool = False
+    stdlib_logging_sort_keys: bool = False
 
 
 def get_root_dir() -> pathlib.Path:
