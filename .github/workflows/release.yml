@@ -276,7 +276,7 @@ jobs:
 
       - name: Publish packages on PyPI
         if: "! needs.package-build.outputs.is-test-package"
-        uses: pypa/gh-action-pypi-publish@v1.10.1
+        uses: pypa/gh-action-pypi-publish@v1.10.2
         with:
           user: __token__
           password: ${{ secrets.PYPI_TOKEN }}  # pragma: allowlist secret
@@ -285,7 +285,7 @@ jobs:
 #        # https://github.com/pypi/warehouse/issues/15149
 #      - name: Publish packages on TestPyPI
 #        if: "needs.package-build.outputs.is-test-package"
-#        uses: pypa/gh-action-pypi-publish@v1.10.1
+#        uses: pypa/gh-action-pypi-publish@v1.10.2
 #        with:
 #          user: __token__
 #          password: ${{ secrets.TEST_PYPI_TOKEN }}  # pragma: allowlist secret
