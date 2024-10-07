@@ -7,4 +7,4 @@ myst-parser==3.0.1
 pygments==2.18.0
 sphinx==7.4.7
 sphinx-autoapi==3.3.2
-sphinx-rtd-theme==2.0.0
+sphinx-rtd-theme==3.0.0
