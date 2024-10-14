@@ -246,7 +246,7 @@ jobs:
   test-mutations:
     strategy:
       matrix:
-        python-version: ["3.13"]
+        python-version: ["3.12"]
 
     name: Mutation testing
     runs-on: "ubuntu-latest"
