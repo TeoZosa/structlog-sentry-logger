@@ -90,19 +90,23 @@ jobs:
           # 3.9
           - os: "ubuntu-latest"
             cibw_archs_linux: "aarch64"
-            cibw_skip_linux_aarch64_cpython_versions: "cp3{10,11,12}-*"
+            cibw_skip_linux_aarch64_cpython_versions: "cp3{10,11,12,13}-*"
           # 3.10
           - os: "ubuntu-latest"
             cibw_archs_linux: "aarch64"
-            cibw_skip_linux_aarch64_cpython_versions: "cp3{9,11,12}-*"
+            cibw_skip_linux_aarch64_cpython_versions: "cp3{9,11,12,13}-*"
           # 3.11
           - os: "ubuntu-latest"
             cibw_archs_linux: "aarch64"
-            cibw_skip_linux_aarch64_cpython_versions: "cp3{9,10,12}-*"
+            cibw_skip_linux_aarch64_cpython_versions: "cp3{9,10,12,13}-*"
           # 3.12
           - os: "ubuntu-latest"
             cibw_archs_linux: "aarch64"
-            cibw_skip_linux_aarch64_cpython_versions: "cp3{9,10,11}-*"
+            cibw_skip_linux_aarch64_cpython_versions: "cp3{9,10,11,13}-*"
+          # 3.13
+          - os: "ubuntu-latest"
+            cibw_archs_linux: "aarch64"
+            cibw_skip_linux_aarch64_cpython_versions: "cp3{9,10,11,12}-*"
 
           # All Linux x86_64 CPython wheel builds
           - os: "ubuntu-latest"
@@ -167,7 +171,7 @@ jobs:
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.21.3
         env:
-          CIBW_PROJECT_REQUIRES_PYTHON: ">=3.9,<3.13"
+          CIBW_PROJECT_REQUIRES_PYTHON: ">=3.9,<3.14"
 
           # Disable building
           # - PyPy wheels on all platforms due to orjson maturin wheel build incompatibility
