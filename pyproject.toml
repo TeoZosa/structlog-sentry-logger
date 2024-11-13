@@ -63,7 +63,7 @@ pytest-forked = "^1.6.0"
 pytest-mock = "^3.14.0"
 pytest-sugar = "^1.0.0"
 pytest-xdist = "^3.6.1"
-mutmut = "^2.5.1"
+mutmut = "^3.2.1"
 xdoctest = {extras = ["optional"], version = "^1.2.0"}
 tox = "^3.28.0"
 tox-wheel = "^1.0.0"
