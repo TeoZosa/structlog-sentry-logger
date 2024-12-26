@@ -49,7 +49,7 @@ sentry = ["sentry-sdk"]
 
 [tool.poetry.dev-dependencies]
 # Standardized Developer Workflow Orchestration
-cruft = "^2.15.0" # Automated Cookiecutter template synchronization
+cruft = "^2.16.0" # Automated Cookiecutter template synchronization
 
 # Type Checking and Data Validation
 mypy = "^1.14" # Static type checker (includes Mypyc Python module to C-Extension compiler, enabled by standard Python type annotations)
