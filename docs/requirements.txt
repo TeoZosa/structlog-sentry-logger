@@ -1,5 +1,5 @@
 poetry==1.8.5
-orjson==3.10.13
+orjson==3.10.14
 # Documentation building
 emoji==2.14.0
 importlib-metadata==8.5.0
