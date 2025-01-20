@@ -365,7 +365,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Publish the release notes
-        uses: release-drafter/release-drafter@v6.0.0
+        uses: release-drafter/release-drafter@v6.1.0
         with:
           publish: ${{ needs.get-tag-xor-dev-version.outputs.tag != '' }}
           # Annotated tag to associate with the current commit
