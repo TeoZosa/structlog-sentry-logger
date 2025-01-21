@@ -2,7 +2,7 @@ poetry==1.8.5
 orjson==3.10.15
 # Documentation building
 emoji==2.14.1
-importlib-metadata==8.5.0
+importlib-metadata==8.6.1
 myst-parser==3.0.1
 pygments==2.19.1
 sphinx==7.4.7
