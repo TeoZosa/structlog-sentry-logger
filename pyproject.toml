@@ -72,7 +72,7 @@ tox-wheel = "^1.0.0"
 ## Code formatting
 black = "^24.10" # see: https://black.readthedocs.io/en/stable/editor_integration.html
 ## Automation and management
-pre-commit = "^4.0.1"
+pre-commit = "^4.1.0"
 
 # CI/CD
 tox-gh-actions = "^2.12.0"
