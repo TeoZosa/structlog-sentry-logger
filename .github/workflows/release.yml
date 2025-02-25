@@ -47,10 +47,10 @@ jobs:
         id: detect-new-version-tag
         if: "steps.check-parent-commit.outputs.sha"
         run: |
-          BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+          CURRENT_GIT_REV=$(git rev-parse HEAD)
           git checkout HEAD~
           PARENT_COMMIT_VER=$(make get-project-version-number)
-          git checkout "${BRANCH_NAME}"
+          git checkout "${CURRENT_GIT_REV}"
           CURRENT_COMMIT_VER=$(make get-project-version-number)
           if [[ "${PARENT_COMMIT_VER}" != "${CURRENT_COMMIT_VER}" ]]; then
             echo "tag=${CURRENT_COMMIT_VER}" >> $GITHUB_OUTPUT
