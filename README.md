@@ -353,8 +353,7 @@ encapsulated in single [Make](https://www.gnu.org/software/make/) targets.
 :building_construction: Package and Dependencies Installation
 -------------------------------------------------------------
 
-Make sure you have Python 3.9+ and [`poetry`](https://python-poetry.org/)
-installed and configured.
+Make sure you have [uv](https://github.com/astral-sh/uv) installed and configured.
 
 To install the package and all dev dependencies, run:
 
@@ -363,8 +362,8 @@ make provision-environment
 ```
 
 > :fire: **Tip**  
-> Invoking the above without `poetry` installed will emit a
-> helpful error message letting you know how you can install poetry.
+> Invoking the above without `uv` installed will emit a
+> helpful error message letting you know how you can install uv.
 
 :package: Python Module to C-Extension Compilation
 --------------------------------------------------

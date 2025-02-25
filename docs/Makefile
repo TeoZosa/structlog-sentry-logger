@@ -7,7 +7,7 @@ SPHINXOPTS    ?=
 ifneq ($(shell command -v sphinx-build),)
 SPHINXBUILD   ?= sphinx-build
 else
-SPHINXBUILD   ?= poetry run sphinx-build
+SPHINXBUILD   ?= uv run sphinx-build
 endif
 SOURCEDIR     = source
 BUILDDIR      = _build

@@ -46,52 +46,44 @@ strong-version-tag-dateless: get-make-var-GIT_VERSION
 get-make-var-%:
 	@echo $($*)
 
-.PHONY: _validate-poetry-installation
-_validate-poetry-installation:
-ifeq ($(shell command -v poetry),)
-	@echo "poetry could not be found!"
-	@echo "Please install poetry!"
-	@echo "Ex.: 'curl -sSL \
-	https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py  | python - \
-	&& source $$HOME/.local/env'"
+.PHONY: _validate-uv-installation
+_validate-uv-installation:
+ifeq ($(shell command -v uv),)
+	@echo "uv could not be found!"
+	@echo "Please install uv!"
+	@echo "Ex.: 'curl -LsSf \
+	https://astral.sh/uv/install.sh | sh'"
 	@echo "see:"
-	@echo "- https://python-poetry.org/docs/#installation"
-	@echo "Note: 'pyenv' recommended for Python version management"
-	@echo "see:"
-	@echo "- https://github.com/pyenv/pyenv"
-	@echo "- https://python-poetry.org/docs/managing-environments/"
+	@echo "- https://github.com/astral-sh/uv?tab=readme-ov-file#installation"
 	false
 else
-	@echo "Using $(shell poetry --version) in $(shell which poetry)"
+	@echo "Using $(shell uv --version) in $(shell which uv)"
 endif
 
 .PHONY: update-dependencies
 ## Update and install Python dependencies,
-## updating packages in `poetry.lock` with any newer versions
+## updating packages in `uv.lock` with any newer versions
 ## that adhere to `pyproject.toml` version range constraints
 update-dependencies:
-	poetry update --lock
+	uv sync --all-packages
 ifneq (${CI}, true)
-	$(MAKE) install-dependencies
+	$(MAKE) install
 endif
 
-.PHONY: install-dependencies
-## Install Python dependencies specified in `poetry.lock`
-install-dependencies:
-	poetry install --all-extras --no-root --with=docs --no-interaction -vv
-
-.PHONY: install-project
-## Install structlog-sentry-logger source code (in editable mode)
-install-project:
-	poetry install --all-extras --no-interaction -vv
+.PHONY: install
+## Install Python dependencies specified in `uv.lock`
+install:
+	uv sync --all-extras
 	$(MAKE) clean
 
 .PHONY: generate-requirements
 ## Generate project requirements files from `pyproject.toml`
+## Creates three files:
+## - requirements.txt: base dependencies with sentry
+## - requirements-dev.txt: adds development dependencies
+## - requirements-all.txt: adds documentation dependencies
 generate-requirements:
-	poetry export --extras=sentry --format requirements.txt --without-hashes --output requirements.txt # subset
-	poetry export --extras=sentry --with=dev --format requirements.txt --without-hashes --output requirements-dev.txt # superset w/o docs
-	poetry export --extras=sentry --with=dev,docs --format requirements.txt --without-hashes --output requirements-all.txt # superset
+	uv pip compile pyproject.toml -o requirements-all.txt --extra sentry --extra dev --extra docs
 
 .PHONY: clean-requirements
 ## Clean generated project requirements files
@@ -113,17 +105,20 @@ clean:
 
 .PHONY: provision-environment
 ## Set up a Python virtual environment with installed project dependencies
-provision-environment: _validate-poetry-installation install-dependencies install-project
+provision-environment: _validate-uv-installation install install-project
 
 .PHONY: install-pre-commit-hooks
 ## Install git pre-commit hooks locally
 install-pre-commit-hooks:
-	poetry run pre-commit install
+	uvx pre-commit install
 
 .PHONY: get-project-version-number
 ## Echo project's canonical version number
 get-project-version-number:
-	@poetry version --short
+	@echo \
+		"from tomli import load; \
+		print(load(open('pyproject.toml', 'rb'))['project']['version'])" \
+		| uv run --with tomli -
 
 #  Note: The new version should ideally be a valid semver string or a valid bump rule:
 #  "patch", "minor", "major", "prepatch", "preminor", "premajor", "prerelease".
@@ -139,24 +134,47 @@ get-project-version-number:
 ##  etc.)
 bump-commit-and-push-project-version-number-%: VERSION_NUM_FILE:=pyproject.toml
 bump-commit-and-push-project-version-number-%:
-	# shell out to ensure next line gets updated version number;
-	# directly running `poetry version $*` will cause next line to NOT pick up the version bump
-	@echo "$(shell poetry version $*)"
-	@export NEW_VER_NUM=$(shell $(MAKE) get-project-version-number) && \
+	# shell out to ensure the updated version number propagates to the downstream commands;
+	NEW_VER_NUM="$(shell $(MAKE) _get_bumped-project-version-$*)" && \
+	$(MAKE) _bump-project-version-$${NEW_VER_NUM} && \
 		export COMMIT_MSG=":bookmark: Bump version number to \`$${NEW_VER_NUM}\`" && \
 		git commit $(VERSION_NUM_FILE) -m "$${COMMIT_MSG}" && \
 		git push \
 	|| git checkout HEAD -- $(VERSION_NUM_FILE) # Rollback `VERSION_NUM_FILE` file on failure
 
+_get_bumped-project-version-%: VERSION_NUM_FILE:=pyproject.toml
+_get_bumped-project-version-%:
+	@echo \
+		"import tomli; \
+		data=tomli.load(open('${VERSION_NUM_FILE}', 'rb')); \
+		from packaging.version import Version; \
+		v=Version(data['project']['version']); \
+		bump_type='$*'; \
+		bumped_project_version=str(Version\
+			(bump_type if '.' in bump_type else \
+			f'{v.major+1 if bump_type==\"major\" else v.major}.{v.minor+1 if bump_type==\"minor\" else v.minor}.{v.micro+1 if bump_type==\"patch\" else v.micro}')); \
+		print(bumped_project_version)" \
+		| uv run --with tomli --with packaging -
+
+_bump-project-version-%: VERSION_NUM_FILE:=pyproject.toml
+_bump-project-version-%:
+	echo \
+		"import tomli, tomli_w; \
+		data=tomli.load(open('${VERSION_NUM_FILE}', 'rb')); \
+		data['project']['version']='$*'; \
+		tomli_w.dump(data, open('${VERSION_NUM_FILE}', 'wb'))" \
+			| uv run --with tomli --with tomli-w -
+
 .PHONY: package
 ## Build project package(s)
 package:
-	tox -e package
+	uvx --with tox-uv tox -e package
 
 .PHONY: tox-%
 ## Run specified tox testenvs
+# Note: generating requirements since at least one test environment needs them (viz. `security` as of 2025/02/25)
 tox-%: generate-requirements
-	poetry run tox -e "$*" -- $(POSARGS)
+	uvx --with tox-uv tox -e "$*" -- $(POSARGS)
 	$(MAKE) clean-requirements
 
 .PHONY: test
@@ -164,9 +182,8 @@ ifeq (${CI}, true)
 test: export TOX_PARALLEL_NO_SPINNER=1
 endif
 ## Run pre-defined test suite via tox
-test: generate-requirements
-	poetry run tox run-parallel
-	$(MAKE) clean-requirements
+test:
+	uvx --with tox-uv tox run-parallel
 
 .PHONY: test-%
 ## Run Python version-specific tests (e.g., `make test-py39`)
@@ -231,7 +248,7 @@ docs-%:
 .PHONY: test-docs
 ## Test documentation format/syntax
 test-docs:
-	poetry run tox -e docs
+	uvx --with tox-uv tox -e docs
 
 #################################################################################
 # Self Documenting Commands                                                     #

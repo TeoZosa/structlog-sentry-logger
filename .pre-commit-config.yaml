@@ -29,7 +29,7 @@ repos:
     rev: v1.2.0
     hooks:
       - id: detect-secrets
-        exclude: ^(poetry\.lock|\.cruft\.json)$
+        exclude: ^(uv\.lock|\.cruft\.json)$
 
   # Docstring coverage tool
   - repo: https://github.com/econchick/interrogate

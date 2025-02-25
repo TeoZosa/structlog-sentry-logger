@@ -22,34 +22,23 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Install uv and set the python version
+        uses: astral-sh/setup-uv@v5
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install Poetry
-        run: |
-          pip install --constraint=.github/workflows/constraints.txt poetry
-          poetry --version
-
-      - name: Configure Poetry
-        run: |
-          poetry config cache-dir "${GITHUB_WORKSPACE}/.cache/pypoetry"
-          poetry config virtualenvs.in-project true
-          poetry config --list
-
       - name: Install Tox
         run: |
-          pip install --constraint=.github/workflows/constraints.txt tox
+          uv pip install --constraint=.github/workflows/constraints.txt tox
           tox --version
 
       - name: Load cached tox testenv(s) (if they exist)
-        id: cached-poetry-dependencies
+        id: cached-dependencies
         uses: actions/cache@v4
         with:
           path: |
             .tox
-          key: tox-${{ github.workflow }}-${{ github.job }}-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+          key: tox-${{ github.workflow }}-${{ github.job }}-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/uv.lock') }}
 
       - name: Run static analysis
         run: |
@@ -68,34 +57,23 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Install uv and set the python version
+        uses: astral-sh/setup-uv@v5
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install Poetry
-        run: |
-          pip install --constraint=.github/workflows/constraints.txt poetry
-          poetry --version
-
-      - name: Configure Poetry
-        run: |
-          poetry config cache-dir "${GITHUB_WORKSPACE}/.cache/pypoetry"
-          poetry config virtualenvs.in-project true
-          poetry config --list
-
       - name: Install Tox
         run: |
-          pip install --constraint=.github/workflows/constraints.txt tox
+          uv pip install --constraint=.github/workflows/constraints.txt tox
           tox --version
 
       - name: Load cached tox testenv(s) (if they exist)
-        id: cached-poetry-dependencies
+        id: cached-dependencies
         uses: actions/cache@v4
         with:
           path: |
             .tox
-          key: tox-${{ github.workflow }}-${{ github.job }}-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+          key: tox-${{ github.workflow }}-${{ github.job }}-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/uv.lock') }}
 
       - name: Run dependency security vulnerability analysis
         run: |
@@ -137,34 +115,23 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Install uv and set the python version
+        uses: astral-sh/setup-uv@v5
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install Poetry
-        run: |
-          pip install --constraint=.github/workflows/constraints.txt poetry
-          poetry --version
-
-      - name: Configure Poetry
-        run: |
-          poetry config cache-dir "${GITHUB_WORKSPACE}/.cache/pypoetry"
-          poetry config virtualenvs.in-project true
-          poetry config --list
-
       - name: Install Tox & Tox GH Actions Plugin
         run: |
-          pip install --constraint=.github/workflows/constraints.txt tox tox-gh-actions
+          uv pip install --constraint=.github/workflows/constraints.txt tox tox-gh-actions
           tox --version
 
       - name: Load cached tox testenv(s) (if they exist)
-        id: cached-poetry-dependencies
+        id: cached-dependencies
         uses: actions/cache@v4
         with:
           path: |
             .tox
-          key: tox-${{ github.workflow }}-${{ github.job }}-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+          key: tox-${{ github.workflow }}-${{ github.job }}-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/uv.lock') }}
 
       - name: Run tox targets for ${{ matrix.python-version }}
         uses: nick-invision/retry@v3
@@ -197,45 +164,22 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Install uv and set the python version
+        uses: astral-sh/setup-uv@v5
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install Poetry
-        run: |
-          pip install --constraint=.github/workflows/constraints.txt poetry
-          poetry --version
-
-      - name: Configure Poetry
-        run: |
-          poetry config cache-dir "${GITHUB_WORKSPACE}/.cache/pypoetry"
-          poetry config virtualenvs.in-project true
-          poetry config --list
-
-      # Temporary patch for https://github.com/microsoft/debugpy/issues/1246
-      # FIXME(teo): Remove this once the aforementioned issue is resolved
-      - run: |
-          if [[ "$(poetry --version)" == *"1.4.1"* ]]; then
-            poetry config installer.modern-installation false
-          fi
-        shell: bash
-
       - name: Load cached venv(s) (if they exist)
-        id: cached-poetry-dependencies
+        id: cached-dependencies
         uses: actions/cache@v4
         with:
           path: |
             .venv
-          key: venv-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+          key: venv-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/uv.lock') }}
 
       - name: Install dependencies
         run: |
-          make install-dependencies
-
-      - name: Install project
-        run: |
-          make install-project
+          make install
 
       - name: Build Documentation
         run: |
@@ -257,34 +201,23 @@ jobs:
         with:
           lfs: true
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Install uv and set the python version
+        uses: astral-sh/setup-uv@v5
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install Poetry
-        run: |
-          pip install --constraint=.github/workflows/constraints.txt poetry
-          poetry --version
-
-      - name: Configure Poetry
-        run: |
-          poetry config cache-dir "${GITHUB_WORKSPACE}/.cache/pypoetry"
-          poetry config virtualenvs.in-project true
-          poetry config --list
-
       - name: Install Tox
         run: |
-          pip install --constraint=.github/workflows/constraints.txt tox
+          uv pip install --constraint=.github/workflows/constraints.txt tox
           tox --version
 
       - name: Load cached tox testenv(s) (if they exist)
-        id: cached-poetry-dependencies
+        id: cached-dependencies
         uses: actions/cache@v4
         with:
           path: |
             .tox
-          key: tox-${{ github.workflow }}-${{ github.job }}-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+          key: tox-${{ github.workflow }}-${{ github.job }}-${{ runner.os }}-CPython${{ matrix.python-version }}-${{ hashFiles('**/uv.lock') }}
 
       - name: Run mutation testing
         run: |
