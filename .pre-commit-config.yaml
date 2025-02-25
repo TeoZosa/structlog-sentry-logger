@@ -33,7 +33,7 @@ repos:
 
   # Docstring coverage tool
   - repo: https://github.com/econchick/interrogate
-    rev: 1.5.0
+    rev: 1.7.0
     hooks:
       - id: interrogate
         name: interrogate
