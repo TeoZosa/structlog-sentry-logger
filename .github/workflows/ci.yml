@@ -128,7 +128,7 @@ jobs:
 
       - name: Install Tox & Tox GH Actions Plugin
         run: |
-          uv pip install --constraint=.github/workflows/constraints.txt tox tox-gh-actions
+          uv pip install --constraint=.github/workflows/constraints.txt tox
           tox --version
 
       - name: Load cached tox testenv(s) (if they exist)

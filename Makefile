@@ -183,7 +183,7 @@ test: export TOX_PARALLEL_NO_SPINNER=1
 endif
 ## Run pre-defined test suite via tox
 test:
-	uvx --with tox-uv tox run-parallel
+	uvx --with tox-uv --with tox-gh tox run-parallel
 
 .PHONY: test-%
 ## Run Python version-specific tests (e.g., `make test-py39`)

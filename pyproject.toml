@@ -54,7 +54,7 @@ dev = [
     "tox-wheel>=1.0.0",
     "black>=25.1",
     "pre-commit>=4.1.0",
-    "tox-gh-actions>=2.12.0",
+    "tox-gh>=1.5.0",
     "darglint>=1.5.8",
 ]
 docs = [
