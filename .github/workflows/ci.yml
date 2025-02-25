@@ -148,6 +148,8 @@ jobs:
           command: |
             git fetch origin master:refs/remotes/origin/master
             make test
+        env:
+          TOX_GH_MAJOR_MINOR: ${{ matrix.python-version }}
 
       - name: Upload coverage to Codecov
         if: "contains(matrix.os, env.USING_COVERAGE_OS) &&
