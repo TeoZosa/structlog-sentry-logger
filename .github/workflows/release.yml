@@ -27,6 +27,8 @@ jobs:
         uses: astral-sh/setup-uv@v5
         with:
           python-version: "3.13"
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
 
       - name: Check if there is a parent commit
         id: check-parent-commit
@@ -118,6 +120,8 @@ jobs:
         uses: astral-sh/setup-uv@v5
         with:
           python-version: "3.13"
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
 
       # Update the project version number to the dev version that was
       # generated upstream (only used in non-release builds; else project
