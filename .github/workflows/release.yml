@@ -30,6 +30,13 @@ jobs:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
 
+      # FIXME(teo): Temporarily keep Poetry installation for workflow
+      # backwards-compatibility until the trunk has been fully migrated to uv
+      - name: Install Poetry
+        run: |
+          uv pip install poetry
+          poetry --version
+
       - name: Check if there is a parent commit
         id: check-parent-commit
         run: |
