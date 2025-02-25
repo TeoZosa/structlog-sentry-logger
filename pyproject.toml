@@ -3,7 +3,7 @@ name = "structlog-sentry-logger"
 version = "1.6.1"
 description = "Log without the setup via a pre-configured structlog logger with optional Sentry integration"
 authors = [
-    { name = "Teo Zosa", email = "erinzosa@ucla.com" },
+    { name = "Teo Zosa"},
 ]
 license = "Apache-2.0"
 readme = "README.md"
