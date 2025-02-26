@@ -1,14 +1,23 @@
 [project]
 name = "structlog-sentry-logger"
-version = "1.6.1"
+version = "1.6.2"
 description = "Log without the setup via a pre-configured structlog logger with optional Sentry integration"
 authors = [
-    { name = "Teo Zosa"},
+    { name = "Teo Zosa" },
 ]
 license = "Apache-2.0"
 readme = "README.md"
 requires-python = ">=3.9,<3.14"
-keywords = ["logging", "structured", "structure", "log", "structured logging", "sentry", "structlog", "structlog-sentry"]
+keywords = [
+    "logging",
+    "structured",
+    "structure",
+    "log",
+    "structured logging",
+    "sentry",
+    "structlog",
+    "structlog-sentry",
+]
 classifiers = [
     "Intended Audience :: Developers",
     "License :: OSI Approved :: Apache Software License",
@@ -65,7 +74,7 @@ docs = [
     "sphinx>=4.1.2",
     "sphinx-autoapi>=1.8.1,<4.0.0",
     "sphinx-rtd-theme>=0.5.1,<3.1.0",
-    "types-emoji>=1.2.4,<3.0.0", # PEP 561 compliant stub packages for mypy
+    "types-emoji>=1.2.4,<3.0.0",
 ]
 
 [project.urls]
@@ -73,27 +82,28 @@ Homepage = "https://github.com/TeoZosa/structlog-sentry-logger"
 Repository = "https://github.com/TeoZosa/structlog-sentry-logger"
 Changelog = "https://github.com/TeoZosa/structlog-sentry-logger/releases"
 
-#################################################################################
-# Tooling configs                                                               #
-#################################################################################
 [tool.black]
 line-length = 120
 
 [tool.coverage.run]
 branch = true
-concurrency = ["multiprocessing"]
+concurrency = [
+    "multiprocessing",
+]
 parallel = true
-source = ["structlog_sentry_logger"]
+source = [
+    "structlog_sentry_logger",
+]
 
 [tool.coverage.report]
-exclude_lines =[
+exclude_lines = [
     "pragma: no cover",
     "raise AssertionError",
     "raise NotImplementedError",
     "if __name__ == .__main__.:",
 ]
 fail_under = 100
-omit =[
+omit = [
     "structlog_sentry_logger/structlog_sentry.py",
 ]
 show_missing = true
@@ -115,7 +125,7 @@ ignore-semiprivate = false
 ignore-private = false
 ignore-property-decorators = false
 ignore-module = false
-fail-under = 0 # adjust `fail-under` value as quality standards permit
+fail-under = 0
 whitelist-regex = []
 color = true
 
@@ -129,48 +139,53 @@ show_error_context = true
 show_error_codes = true
 
 [tool.pytest.ini_options]
-addopts = ["-rfsxX", "-l", "--tb=short", "--strict-markers", "-vv", "--emoji", "--xdoctest"]
+addopts = [
+    "-rfsxX",
+    "-l",
+    "--tb=short",
+    "--strict-markers",
+    "-vv",
+    "--emoji",
+    "--xdoctest",
+]
 xfail_strict = true
-testpaths = ["tests",]
-norecursedirs = [".*", "*.egg", "build", "dist",]
+testpaths = [
+    "tests",
+]
+norecursedirs = [
+    ".*",
+    "*.egg",
+    "build",
+    "dist",
+]
 
 [tool.ruff]
 line-length = 120
-
 select = [
-    "F", # Pyflakes
-    "E", "W", # pycodestyle
-    "C90", # McCabe
-    "I", # isort
-    "D", # pydocstyle
-    "UP", # pyupgrade
-    "PLC", "PLE", "PLR", "PLW", # Pylint
+    "F",
+    "E",
+    "W",
+    "C90",
+    "I",
+    "D",
+    "UP",
+    "PLC",
+    "PLE",
+    "PLR",
+    "PLW",
 ]
-
-
 ignore = [
-    # pycodestyle:
-    "E501", # Line too long (covered by Black)
+    "E501",
 ]
-
 fix = true
-
-# Group violations by containing file.
 format = "grouped"
-
-# By default, always show source code snippets.
 show-source = true
-
-# Assume Python 3.9
-# Note: helps prevent breaking autofixes from, e.g., pyupgrade
 target-version = "py39"
 
 [tool.ruff.isort]
-# Note: Ruff implicitly uses `profile = "black"`
 combine-as-imports = true
 
 [tool.ruff.mccabe]
-## cyclomatic complexity (https://github.com/PyCQA/mccabe)
 max-complexity = 10
 
 [tool.ruff.pydocstyle]
@@ -179,17 +194,17 @@ convention = "google"
 [tool.uv]
 python-preference = "only-managed"
 
-[build-system]
-requires = ["hatchling>=1.27.0"]
-build-backend = "hatchling.build"
-
 [tool.hatch.build.targets.wheel.hooks.mypyc]
 dependencies = [
     "hatch-mypyc",
-
-    # For Mypyc type annotations
     "structlog",
     "sentry-sdk",
     "dotenv",
-    "gitpython"
+    "gitpython",
 ]
+
+[build-system]
+requires = [
+    "hatchling>=1.27.0",
+]
+build-backend = "hatchling.build"
