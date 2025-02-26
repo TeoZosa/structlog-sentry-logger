@@ -77,13 +77,9 @@ install:
 	$(MAKE) clean
 
 .PHONY: generate-requirements
-## Generate project requirements files from `pyproject.toml`
-## Creates three files:
-## - requirements.txt: base dependencies with sentry
-## - requirements-dev.txt: adds development dependencies
-## - requirements-all.txt: adds documentation dependencies
+## Generate project requirements file with all extras
 generate-requirements:
-	uv pip compile pyproject.toml -o requirements-all.txt --extra sentry --extra dev --extra docs
+	uv pip compile pyproject.toml -o requirements-all.txt --all-extras
 
 .PHONY: clean-requirements
 ## Clean generated project requirements files
@@ -121,7 +117,7 @@ get-project-version-number:
 		| uv run --with tomli -
 
 #  Note: The new version should ideally be a valid semver string or a valid bump rule:
-#  "patch", "minor", "major", "prepatch", "preminor", "premajor", "prerelease".
+#  "patch", "minor", "major".
 .PHONY: bump-commit-and-push-project-version-number-%
 ##  *ATOMICALLY*:
 ##  1.) Bump the version of the project
