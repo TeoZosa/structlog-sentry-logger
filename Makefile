@@ -79,7 +79,7 @@ install:
 .PHONY: generate-requirements
 ## Generate project requirements file with all extras
 generate-requirements:
-	uv pip compile pyproject.toml -o requirements-all.txt --extra sentry --extra dev --extra docs
+	uv pip compile pyproject.toml -o requirements-all.txt --all-extras
 
 .PHONY: clean-requirements
 ## Clean generated project requirements files
