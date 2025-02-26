@@ -51,7 +51,7 @@ How to set up your development environment
    Invoking ``make`` without any arguments will display
    auto-generated documentation on available commands.
 
-Make sure you have Python 3.9+ and Poetry_ installed and configured.
+Make sure you have Python 3.9+ and uv_ installed and configured.
 
 Install the package with development requirements:
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -62,10 +62,10 @@ Install the package with development requirements:
    $ make provision-environment
 
 .. tip::
-   Invoking the above without ``poetry`` installed will emit a
-   helpful error message letting you know how you can install poetry.
+   Invoking the above without ``uv`` installed will emit a
+   helpful error message letting you know how you can install uv.
 
-.. _Poetry: https://python-poetry.org/
+.. _UV: https://github.com/astral-sh/uv
 
 
 How to test the project

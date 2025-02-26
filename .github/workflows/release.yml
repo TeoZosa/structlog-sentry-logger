@@ -23,19 +23,18 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Install uv and set the python version
+        uses: astral-sh/setup-uv@v5
         with:
           python-version: "3.13"
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
 
-      - name: Upgrade pip
-        run: |
-          pip install --constraint=.github/workflows/constraints.txt pip
-          pip --version
-
+      # FIXME(teo): Temporarily keep Poetry installation for workflow
+      # backwards-compatibility until the trunk has been fully migrated to uv
       - name: Install Poetry
         run: |
-          pip install --constraint=.github/workflows/constraints.txt poetry
+          uv pip install poetry
           poetry --version
 
       - name: Check if there is a parent commit
@@ -60,10 +59,9 @@ jobs:
         id: bump-dev-version
         if: "! steps.detect-new-version-tag.outputs.tag"
         run: |
-          poetry version patch &&
-          VERSION=$(make get-project-version-number) &&
+          VERSION=$(make _get_bumped-project-version-patch) &&
           DEV_VERSION="${VERSION}.dev.$(date +%s)" &&
-          poetry version "${DEV_VERSION}" &&
+          make _bump-project-version-"${DEV_VERSION}" &&
           echo "version=${DEV_VERSION}" >> $GITHUB_OUTPUT
 
   # Package build ----------------------
@@ -125,20 +123,12 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Install uv and set the python version
+        uses: astral-sh/setup-uv@v5
         with:
           python-version: "3.13"
-
-      - name: Upgrade pip
-        run: |
-          pip install --constraint=.github/workflows/constraints.txt pip
-          pip --version
-
-      - name: Install Poetry
-        run: |
-          pip install --constraint=.github/workflows/constraints.txt poetry
-          poetry --version
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
 
       # Update the project version number to the dev version that was
       # generated upstream (only used in non-release builds; else project
@@ -148,7 +138,7 @@ jobs:
         if: "needs.get-tag-xor-dev-version.outputs.dev-version"
         run: |
           VERSION="${{ needs.get-tag-xor-dev-version.outputs.dev-version }}"
-          poetry version "${VERSION}"
+          make _bump-project-version-"${VERSION}"
           echo "is_testing=true" >> $GITHUB_OUTPUT
         shell: bash
 
