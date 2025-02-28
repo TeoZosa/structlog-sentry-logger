@@ -4,6 +4,6 @@ emoji==2.14.1
 importlib-metadata==8.6.1
 myst-parser==4.0.1
 pygments==2.19.1
-sphinx==7.4.7
+sphinx==8.2.1
 sphinx-autoapi==3.6.0
 sphinx-rtd-theme==3.0.2
