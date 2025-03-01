@@ -129,6 +129,10 @@ fail-under = 0
 whitelist-regex = []
 color = true
 
+[tool.mutmut]
+paths_to_mutate = [ "structlog_sentry_logger/" ]
+tests_dir = [ "tests/" ]
+
 [tool.mypy]
 disallow_untyped_defs = true
 files = "**/*.py"
