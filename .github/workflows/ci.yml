@@ -156,7 +156,8 @@ jobs:
              contains(matrix.python-version, env.USING_COVERAGE_PY_VER)"
         uses: "codecov/codecov-action@v5.4.0"
         with:
-          file: ./.tox/coverage.xml
+          files: ./.tox/coverage.xml
+          disable_search: true
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true
 
