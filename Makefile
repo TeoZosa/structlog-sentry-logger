@@ -170,7 +170,7 @@ package:
 ## Run specified tox testenvs
 # Note: generating requirements since at least one test environment needs them (viz. `security` as of 2025/02/25)
 tox-%: generate-requirements
-	uvx --with tox-uv tox -e "$*" -- $(POSARGS)
+	uvx --with tox-uv --with tox-gh tox -e "$*" -- $(POSARGS)
 	$(MAKE) clean-requirements
 
 .PHONY: test
