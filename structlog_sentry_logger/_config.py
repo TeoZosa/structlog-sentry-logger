@@ -15,7 +15,8 @@ from typing import Any, Callable
 
 try:
     import git
-except ImportError:  # Namely, when a git executable is not found
+except ImportError as exc:  # Namely, when a git executable is not found
+    logging.getLogger(__name__).warning("Failed to import git", exc_info=exc)
     git = None  # type: ignore
 
 import orjson  # type: ignore
