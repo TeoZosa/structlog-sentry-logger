@@ -1,5 +1,6 @@
 ---
 version: 2
+enable-beta-ecosystems: true
 updates:
   # Sphinx (documentation)
   - package-ecosystem: pip
