@@ -1,5 +1,6 @@
 ---
 version: 2
+enable-beta-ecosystems: true
 updates:
   # Sphinx (documentation)
   - package-ecosystem: pip
@@ -35,7 +36,7 @@ updates:
       - "python"
     open-pull-requests-limit: 99
   # Project dependencies
-  - package-ecosystem: pip
+  - package-ecosystem: uv
     directory: "/"
     schedule:
       interval: daily
