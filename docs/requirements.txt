@@ -1,4 +1,4 @@
-orjson==3.10.15
+orjson==3.10.16
 # Documentation building
 emoji==2.14.1
 importlib-metadata==8.6.1
