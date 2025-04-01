@@ -1487,15 +1487,15 @@ histogram = [
 
 [[package]]
 name = "pytest-cov"
-version = "6.0.0"
+version = "6.1.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "coverage", extra = ["toml"] },
     { name = "pytest" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/be/45/9b538de8cef30e17c7b45ef42f538a94889ed6a16f2387a6c89e73220651/pytest-cov-6.0.0.tar.gz", hash = "sha256:fde0b595ca248bb8e2d76f020b465f3b107c9632e6a1d1705f17834c89dcadc0", size = 66945 }
+sdist = { url = "https://files.pythonhosted.org/packages/34/8c/039a7793f23f5cb666c834da9e944123f498ccc0753bed5fbfb2e2c11f87/pytest_cov-6.1.0.tar.gz", hash = "sha256:ec55e828c66755e5b74a21bd7cc03c303a9f928389c0563e50ba454a6dbe71db", size = 66651 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/36/3b/48e79f2cd6a61dbbd4807b4ed46cb564b4fd50a76166b1c4ea5c1d9e2371/pytest_cov-6.0.0-py3-none-any.whl", hash = "sha256:eee6f1b9e61008bd34975a4d5bab25801eb31898b032dd55addc93e96fcaaa35", size = 22949 },
+    { url = "https://files.pythonhosted.org/packages/e1/c5/8d6ffe9fc8f7f57b3662156ae8a34f2b8e7a754c73b48e689ce43145e98c/pytest_cov-6.1.0-py3-none-any.whl", hash = "sha256:cd7e1d54981d5185ef2b8d64b50172ce97e6f357e6df5cb103e828c7f993e201", size = 23743 },
 ]
 
 [[package]]
@@ -2194,12 +2194,12 @@ requires-dist = [
     { name = "cruft", marker = "extra == 'dev'", specifier = ">=2.16.0" },
     { name = "darglint", marker = "extra == 'dev'", specifier = ">=1.5.8" },
     { name = "emoji", marker = "extra == 'docs'", specifier = ">=1.6.1,<3.0.0" },
-    { name = "gitpython" },
+    { name = "gitpython", specifier = "==3.1.44" },
     { name = "importlib-metadata", marker = "extra == 'docs'", specifier = ">=3.4.0" },
     { name = "mutmut", marker = "extra == 'dev'", specifier = ">=2.5.1,<3.0.0" },
     { name = "mypy", marker = "extra == 'dev'", specifier = ">=1.14" },
     { name = "myst-parser", marker = "extra == 'docs'", specifier = ">=0.15,<4.1" },
-    { name = "orjson" },
+    { name = "orjson", specifier = "==3.10.15" },
     { name = "pre-commit", marker = "extra == 'dev'", specifier = ">=4.1.0" },
     { name = "pygments", marker = "extra == 'docs'", specifier = ">=2.9.0" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.3.4" },
@@ -2210,20 +2210,20 @@ requires-dist = [
     { name = "pytest-mock", marker = "extra == 'dev'", specifier = ">=3.14.0" },
     { name = "pytest-sugar", marker = "extra == 'dev'", specifier = ">=1.0.0" },
     { name = "pytest-xdist", marker = "extra == 'dev'", specifier = ">=3.6.1" },
-    { name = "python-dotenv" },
-    { name = "rich" },
+    { name = "python-dotenv", specifier = "==1.0.1" },
+    { name = "rich", specifier = "==13.9.4" },
     { name = "sentry-sdk", marker = "extra == 'sentry'" },
     { name = "sphinx", marker = "extra == 'docs'", specifier = ">=4.1.2" },
     { name = "sphinx-autoapi", marker = "extra == 'docs'", specifier = ">=1.8.1,<4.0.0" },
     { name = "sphinx-rtd-theme", marker = "extra == 'docs'", specifier = ">=0.5.1,<3.1.0" },
-    { name = "structlog" },
+    { name = "structlog", specifier = "==25.1.0" },
     { name = "tox", marker = "extra == 'dev'", specifier = ">=3.28.0" },
     { name = "tox-gh", marker = "extra == 'dev'", specifier = ">=1.5.0" },
     { name = "tox-wheel", marker = "extra == 'dev'", specifier = ">=1.0.0" },
     { name = "types-emoji", marker = "extra == 'docs'", specifier = ">=1.2.4,<3.0.0" },
     { name = "xdoctest", extras = ["optional"], marker = "extra == 'dev'", specifier = ">=1.2.0" },
 ]
-provides-extras = ["sentry", "dev", "docs"]
+provides-extras = ["dev", "docs", "sentry"]
 
 [[package]]
 name = "termcolor"
