@@ -114,7 +114,7 @@ get-project-version-number:
 	@echo \
 		"from tomli import load; \
 		print(load(open('pyproject.toml', 'rb'))['project']['version'])" \
-		| uv run --with tomli -
+		| uv run --no-project --with tomli -
 
 #  Note: The new version should ideally be a valid semver string or a valid bump rule:
 #  "patch", "minor", "major".
@@ -150,7 +150,7 @@ _get_bumped-project-version-%:
 			(bump_type if '.' in bump_type else \
 			f'{v.major+1 if bump_type==\"major\" else v.major}.{v.minor+1 if bump_type==\"minor\" else v.minor}.{v.micro+1 if bump_type==\"patch\" else v.micro}')); \
 		print(bumped_project_version)" \
-		| uv run --with tomli --with packaging -
+		| uv run --no-project --with tomli --with packaging -
 
 _bump-project-version-%: VERSION_NUM_FILE:=pyproject.toml
 _bump-project-version-%:
@@ -159,7 +159,7 @@ _bump-project-version-%:
 		data=tomli.load(open('${VERSION_NUM_FILE}', 'rb')); \
 		data['project']['version']='$*'; \
 		tomli_w.dump(data, open('${VERSION_NUM_FILE}', 'wb'))" \
-			| uv run --with tomli --with tomli-w -
+			| uv run --no-project --with tomli --with tomli-w -
 
 .PHONY: package
 ## Build project package(s)
