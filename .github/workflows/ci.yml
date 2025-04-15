@@ -154,7 +154,7 @@ jobs:
       - name: Upload coverage to Codecov
         if: "contains(matrix.os, env.USING_COVERAGE_OS) &&
              contains(matrix.python-version, env.USING_COVERAGE_PY_VER)"
-        uses: "codecov/codecov-action@v5.4.0"
+        uses: "codecov/codecov-action@v5.4.2"
         with:
           files: ./.tox/coverage.xml
           disable_search: true
