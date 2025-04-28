@@ -670,14 +670,14 @@ wheels = [
 
 [[package]]
 name = "importlib-metadata"
-version = "8.6.1"
+version = "8.7.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "zipp" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/33/08/c1395a292bb23fd03bdf572a1357c5a733d3eecbab877641ceacab23db6e/importlib_metadata-8.6.1.tar.gz", hash = "sha256:310b41d755445d74569f993ccfc22838295d9fe005425094fad953d7f15c8580", size = 55767 }
+sdist = { url = "https://files.pythonhosted.org/packages/76/66/650a33bd90f786193e4de4b3ad86ea60b53c89b669a5c7be931fac31cdb0/importlib_metadata-8.7.0.tar.gz", hash = "sha256:d13b81ad223b890aa16c5471f2ac3056cf76c5f10f82d6f9292f0b415f389000", size = 56641 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/79/9d/0fb148dc4d6fa4a7dd1d8378168d9b4cd8d4560a6fbf6f0121c5fc34eb68/importlib_metadata-8.6.1-py3-none-any.whl", hash = "sha256:02a89390c1e15fdfdc0d7c6b25cb3e62650d0494005c97d6f148bf5b9787525e", size = 26971 },
+    { url = "https://files.pythonhosted.org/packages/20/b0/36bd937216ec521246249be3bf9855081de4c5e06a0c9b4219dbeda50373/importlib_metadata-8.7.0-py3-none-any.whl", hash = "sha256:e5dd1551894c77868a30651cef00984d50e1002d06942a7101d34870c5f02afd", size = 27656 },
 ]
 
 [[package]]
@@ -2194,12 +2194,12 @@ requires-dist = [
     { name = "cruft", marker = "extra == 'dev'", specifier = ">=2.16.0" },
     { name = "darglint", marker = "extra == 'dev'", specifier = ">=1.5.8" },
     { name = "emoji", marker = "extra == 'docs'", specifier = ">=1.6.1,<3.0.0" },
-    { name = "gitpython", specifier = "==3.1.44" },
+    { name = "gitpython" },
     { name = "importlib-metadata", marker = "extra == 'docs'", specifier = ">=3.4.0" },
     { name = "mutmut", marker = "extra == 'dev'", specifier = ">=2.5.1,<3.0.0" },
     { name = "mypy", marker = "extra == 'dev'", specifier = ">=1.14" },
     { name = "myst-parser", marker = "extra == 'docs'", specifier = ">=0.15,<4.1" },
-    { name = "orjson", specifier = "==3.10.15" },
+    { name = "orjson" },
     { name = "pre-commit", marker = "extra == 'dev'", specifier = ">=4.1.0" },
     { name = "pygments", marker = "extra == 'docs'", specifier = ">=2.9.0" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.3.4" },
@@ -2210,20 +2210,20 @@ requires-dist = [
     { name = "pytest-mock", marker = "extra == 'dev'", specifier = ">=3.14.0" },
     { name = "pytest-sugar", marker = "extra == 'dev'", specifier = ">=1.0.0" },
     { name = "pytest-xdist", marker = "extra == 'dev'", specifier = ">=3.6.1" },
-    { name = "python-dotenv", specifier = "==1.0.1" },
-    { name = "rich", specifier = "==13.9.4" },
+    { name = "python-dotenv" },
+    { name = "rich" },
     { name = "sentry-sdk", marker = "extra == 'sentry'" },
     { name = "sphinx", marker = "extra == 'docs'", specifier = ">=4.1.2" },
     { name = "sphinx-autoapi", marker = "extra == 'docs'", specifier = ">=1.8.1,<4.0.0" },
     { name = "sphinx-rtd-theme", marker = "extra == 'docs'", specifier = ">=0.5.1,<3.1.0" },
-    { name = "structlog", specifier = "==25.1.0" },
+    { name = "structlog" },
     { name = "tox", marker = "extra == 'dev'", specifier = ">=3.28.0" },
     { name = "tox-gh", marker = "extra == 'dev'", specifier = ">=1.5.0" },
     { name = "tox-wheel", marker = "extra == 'dev'", specifier = ">=1.0.0" },
     { name = "types-emoji", marker = "extra == 'docs'", specifier = ">=1.2.4,<3.0.0" },
     { name = "xdoctest", extras = ["optional"], marker = "extra == 'dev'", specifier = ">=1.2.0" },
 ]
-provides-extras = ["dev", "docs", "sentry"]
+provides-extras = ["sentry", "dev", "docs"]
 
 [[package]]
 name = "termcolor"
