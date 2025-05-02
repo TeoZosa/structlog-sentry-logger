@@ -239,6 +239,7 @@ jobs:
 
       - name: Run mutation testing
         run: |
+          which git
           make test-mutations
 
       - name: Store the updated mutation testing cache
