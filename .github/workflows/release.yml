@@ -154,7 +154,7 @@ jobs:
           echo "macosx_deployment_target_wheel_string=$(echo ${{ matrix.macosx_deployment_target }} | sed 's/\./_/g')" >> $GITHUB_ENV
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.23.3
+        uses: pypa/cibuildwheel@v3.0.0
         env:
           CIBW_PROJECT_REQUIRES_PYTHON: ">=3.9,<3.14"
 
