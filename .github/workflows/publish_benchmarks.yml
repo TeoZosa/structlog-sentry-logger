@@ -25,7 +25,7 @@ jobs:
 
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Install uv and set the python version
         uses: astral-sh/setup-uv@v6
@@ -103,7 +103,7 @@ jobs:
       PY_COLORS: 1
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Python
         uses: actions/setup-python@v5
