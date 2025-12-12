@@ -37,7 +37,7 @@ jobs:
 
       - name: Load cached tox testenv(s) (if they exist)
         id: cached-dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             .tox
@@ -75,7 +75,7 @@ jobs:
 
       - name: Load cached tox testenv(s) (if they exist)
         id: cached-dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             .tox
@@ -136,7 +136,7 @@ jobs:
 
       - name: Load cached tox testenv(s) (if they exist)
         id: cached-dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             .tox
@@ -186,7 +186,7 @@ jobs:
 
       - name: Load cached venv(s) (if they exist)
         id: cached-dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             .venv
@@ -231,7 +231,7 @@ jobs:
 
       - name: Load cached tox testenv(s) (if they exist)
         id: cached-dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             .tox
