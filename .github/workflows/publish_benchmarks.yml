@@ -70,7 +70,7 @@ jobs:
             echo "target_output_dir=${NAMESPACED_TARGET_OUTPUT_DIR}" >> $GITHUB_OUTPUT
 
       - name: Store the environment-specific benchmarks
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: benchmark-data-files-${{ matrix.python-version }}-${{ matrix.os }}-${{ matrix.library-type }}
           path: benchmarks

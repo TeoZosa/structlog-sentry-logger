@@ -229,7 +229,7 @@ jobs:
           echo "benchmark_file_suffix=$(echo ${{ matrix.cibw_archs_windows }} )" >> $GITHUB_ENV
 
       - name: Store the binary wheel
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: python-package-distributions-${{ matrix.os }}-${{ env.benchmark_file_suffix }}
           path: ./wheelhouse/*.whl
