@@ -1,7 +1,7 @@
 orjson==3.10.18
 # Documentation building
 emoji==2.14.1
-importlib-metadata==8.7.0
+importlib-metadata==8.7.1
 myst-parser==4.0.1
 pygments==2.19.2
 sphinx==8.2.3
